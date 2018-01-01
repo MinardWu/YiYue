@@ -1,5 +1,9 @@
 package com.minardwu.yiyue.activity;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -10,9 +14,11 @@ import android.os.Build;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.DrawerItemAdapter;
+import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
+import com.minardwu.yiyue.service.PlayService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +59,10 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initData();
         initView();
+
+
     }
+
 
     private void initData() {
         drawerItemBeanList = new ArrayList<DrawerItemBean>();
@@ -124,5 +133,4 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
 }

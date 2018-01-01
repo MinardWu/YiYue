@@ -62,22 +62,19 @@ public class FileUtils {
     }
 
     /**
-     * 获取歌词路径
-     * 先从已下载文件夹中查找，如果不存在，则从歌曲文件所在文件夹查找。
+     * 获取歌词路径,从已下载lrc文件夹中查找
      * @return 如果存在返回路径，否则返回null
      */
     public static String getLrcFilePath(MusicBean music) {
         if (music == null) {
             return null;
         }
-        String lrcFilePath = getLrcDir() + getLrcFileName(music.getArtist(), music.getTitle());//先从已下载文件夹中查找
+        String lrcFilePath = getLrcDir() + getLrcFileName(music.getArtist(), music.getTitle());
         if (!exists(lrcFilePath)) {
-            lrcFilePath = music.getPath().replace(MP3, LRC);//不存在，则从歌曲文件所在文件夹查找。
-            if (!exists(lrcFilePath)) {
-                lrcFilePath = null;
-            }
+            lrcFilePath = null;
         }
         return lrcFilePath;
+
     }
 
     private static String mkdirs(String dir) {

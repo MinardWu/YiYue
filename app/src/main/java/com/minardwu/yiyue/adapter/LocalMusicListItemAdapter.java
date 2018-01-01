@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.FileUtils;
 
@@ -93,6 +94,14 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
+        }
+    }
+
+    public void updatePlayingPosition(PlayService playService) {
+        if (playService.getPlayingMusic() != null && playService.getPlayingMusic().getType() == MusicBean.Type.LOCAL) {
+            mPlayingPosition = playService.getPlayingPosition();
+        } else {
+            mPlayingPosition = -1;
         }
     }
 }

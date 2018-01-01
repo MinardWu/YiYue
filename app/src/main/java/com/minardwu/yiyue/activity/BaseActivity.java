@@ -6,6 +6,8 @@ import android.view.WindowManager;
 import android.os.Build;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.service.PlayService;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -18,5 +20,13 @@ public class BaseActivity extends AppCompatActivity {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
+    }
+
+    public PlayService getPlayService() {
+        PlayService playService = AppCache.getPlayService();
+        if (playService == null) {
+            throw new NullPointerException("play service is null");
+        }
+        return playService;
     }
 }

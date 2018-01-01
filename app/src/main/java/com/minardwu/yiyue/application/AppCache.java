@@ -1,8 +1,7 @@
 package com.minardwu.yiyue.application;
 
-import android.app.Application;
-
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.service.PlayService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ import java.util.List;
 public class AppCache {
 
     private List<MusicBean> LocalMusicList = new ArrayList<MusicBean>();
+    private PlayService playService;
 
     private AppCache(){}
 
@@ -27,5 +27,13 @@ public class AppCache {
 
     public static List<MusicBean> getLocalMusicList() {
         return getInstance().LocalMusicList;
+    }
+
+    public static PlayService getPlayService() {
+        return getInstance().playService;
+    }
+
+    public static void setPlayService(PlayService service) {
+        getInstance().playService = service;
     }
 }
