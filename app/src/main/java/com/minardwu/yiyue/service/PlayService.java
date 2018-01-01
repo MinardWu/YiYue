@@ -50,7 +50,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
     private OnPlayerEventListener onPlayerEventListener;
 
     private MusicBean playingMusic;//正在播放的歌曲[本地|网络]
-    private int playingPosition = -1;//正在播放的本地歌曲的序号
+    private int playingPosition = 0;//正在播放的本地歌曲的序号
     private int playState = STATE_IDLE;//状态
 
     @Override
@@ -60,8 +60,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         audioFocusManager = new AudioFocusManager(this);
         mediaSessionManager = new MediaSessionManager(this);
         mediaPlayer.setOnCompletionListener(this);
-
-        playingPosition = Preferences.getCurrentSongPosition();
+        playingPosition = Preferences.getCurrentSongPosition();//初始化时获取上次最后播放的位置
 //        Notifier.init(this);
 //        QuitTimer.getInstance().init(this, handler, new EventCallback<Long>() {
 //            @Override
@@ -182,7 +181,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
 
         playingPosition = position;
         MusicBean music = AppCache.getLocalMusicList().get(playingPosition);
-        Preferences.saveCurrentSongId(music.getId());
+        Preferences.saveCurrentSongId(music.getId());//保存当前播放的音乐id和位置
         Preferences.saveCurrentSongPosition(playingPosition);
         play(music);
     }
