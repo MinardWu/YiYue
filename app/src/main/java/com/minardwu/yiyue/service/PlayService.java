@@ -27,7 +27,6 @@ import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
 
 
-
 /**
  * 音乐播放后台服务
  */
@@ -62,6 +61,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mediaSessionManager = new MediaSessionManager(this);
         mediaPlayer.setOnCompletionListener(this);
 
+        playingPosition = Preferences.getCurrentSongPosition();
 //        Notifier.init(this);
 //        QuitTimer.getInstance().init(this, handler, new EventCallback<Long>() {
 //            @Override
@@ -183,6 +183,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         playingPosition = position;
         MusicBean music = AppCache.getLocalMusicList().get(playingPosition);
         Preferences.saveCurrentSongId(music.getId());
+        Preferences.saveCurrentSongPosition(playingPosition);
         play(music);
     }
 
