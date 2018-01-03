@@ -1,12 +1,9 @@
 package com.minardwu.yiyue.fragment;
 
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +15,9 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.LocalMusicListActivity;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.enums.PlayModeEnum;
+import com.minardwu.yiyue.http.DownloadLrc;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayerEventListener;
 import com.minardwu.yiyue.service.PlayService;
@@ -34,11 +33,10 @@ import butterknife.ButterKnife;
 import me.wcy.lrcview.LrcView;
 
 
-public class LocalMusicFragment extends Fragment implements View.OnClickListener,OnPlayerEventListener, SeekBar.OnSeekBarChangeListener, LrcView.OnPlayClickListener {
+public class LocalMusicFragment extends Fragment implements View.OnClickListener,OnPlayerEventListener, SeekBar.OnSeekBarChangeListener, LrcView.OnPlayClickListener{
 
     private int lastProgress;
     private boolean isDraggingProgress;
-    private AudioManager mAudioManager;
 
     @BindView(R.id.iv_local_music_player_playmode) ImageView iv_local_music_player_playmode;
     @BindView(R.id.iv_local_music_player_pre) ImageView iv_local_music_player_pre;
@@ -78,6 +76,11 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         lrc_localmusic.setOnPlayClickListener(this);
 
         iv_local_music_player_playmode.setImageLevel(Preferences.getPlayMode());
+
+        String lrcPath = FileUtils.getLrcFilePath(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+        if (lrcPath!=null) {
+            loadLrc(lrcPath);
+        }
     }
 
     @Override
@@ -125,7 +128,19 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         tv_total_time.setText(ParseUtils.formatTime("mm:ss",music.getDuration()));
 //        ac_albumcover.start();
 //        setCoverAndBg(music);
-        setLrc(music);
+        //如果是刚刚进入app而且没有点击过播放按钮或是上下一首，而且此时该文件已有歌词文件，则不需要加载歌词，因为在onCreate已经加载过了
+        //其他情况就都要重新获取歌词
+        if(YiYueApplication.isJustIntoAppAndNotPlay){
+            String lrcPath = FileUtils.getLrcFilePath(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+            if(lrcPath!=null){
+                //这种情况就不用加载了
+            }else {
+                setLrc(music);
+            }
+            YiYueApplication.isJustIntoAppAndNotPlay = false;
+        }else {
+            setLrc(music);
+        }
 //        if (getPlayService().isPlaying() || getPlayService().isPreparing()) {
 //            iv_local_music_player_play.setSelected(true);
 //            ac_albumcover.start();
@@ -223,42 +238,38 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
 
     private void setLrc(final MusicBean music) {
         if (music.getType() == MusicBean.Type.LOCAL) {
-            String lrcPath;
+            final String lrcPath;
             lrcPath = FileUtils.getLrcFilePath(music);
             if (lrcPath!=null) {
                 loadLrc(lrcPath);
             } else {
-//                new SearchLrc(music.getArtist(), music.getTitle()) {
-//                    @Override
-//                    public void onPrepare() {
-//                        // 设置tag防止歌词下载完成后已切换歌曲
-//                        //vpPlay.setTag(music);
-                        loadLrc("");
-                        setLrcLabel("正在搜索歌词");
-//                    }
-//
-//                    @Override
-//                    public void onExecuteSuccess(@NonNull String lrcPath) {
-////                        if (vpPlay.getTag() != music) {
-////                            return;
-////                        }
-////
-////                        // 清除tag
-////                        vpPlay.setTag(null);
-//                        loadLrc(lrcPath);
-//                    }
-//
-//                    @Override
-//                    public void onExecuteFail(Exception e) {
-////                        if (vpPlay.getTag() != music) {
-////                            return;
-////                        }
-////
-////                        // 清除tag
-////                        vpPlay.setTag(null);
-//                        setLrcLabel("暂无歌词");
-//                    }
-//                }.execute();
+                loadLrc("");
+                setLrcLabel("正在搜索歌词...");
+                new DownloadLrc(music.getArtist(),music.getTitle()){
+                    @Override
+                    public void downloadLrcPrepare() {
+                        iv_local_music_player_play.setTag(music);//设置tag防止歌词下载完成后已切换歌曲
+                    }
+
+                    @Override
+                    public void downloadLrcSuccess() {
+                        if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
+                            return;
+                        }
+                        iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
+                        String lrc = FileUtils.getLrcFilePath(music);//下载成功后重新获取路径
+                        loadLrc(lrc);
+                    }
+
+                    @Override
+                    public void downloadLrcFail(String e) {
+                        if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
+                            return;
+                        }
+                        iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
+                        setLrcLabel("找不到歌词");
+                    }
+                }.execute();
             }
         } else {
             String lrcPath = FileUtils.getLrcDir() + FileUtils.getLrcFileName(music.getArtist(), music.getTitle());
@@ -286,4 +297,5 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         }
         return false;
     }
+
 }

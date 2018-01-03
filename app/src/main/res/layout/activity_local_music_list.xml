@@ -24,15 +24,15 @@
                 android:id="@+id/iv_back"
                 android:layout_marginLeft="16dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/delete"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:src="@drawable/icon_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
 
             <TextView
                 android:layout_centerVertical="true"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_toRightOf="@+id/iv_back"
-                android:layout_marginLeft="24dp"
+                android:layout_marginLeft="16dp"
                 android:text="本地音乐"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -43,8 +43,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/search12"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
 
         </RelativeLayout>
 

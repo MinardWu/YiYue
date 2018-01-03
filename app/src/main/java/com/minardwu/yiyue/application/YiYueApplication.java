@@ -15,6 +15,7 @@ import com.minardwu.yiyue.utils.ToastUtils;
 public class YiYueApplication extends Application{
 
     private static Context context;
+    public static boolean isJustIntoAppAndNotPlay;
 
     @Override
     public void onCreate() {
@@ -25,6 +26,8 @@ public class YiYueApplication extends Application{
         CoverLoader.getInstance().init(getApplicationContext());
         AppCache.getLocalMusicList().clear();
         AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(getApplicationContext()));
+
+        isJustIntoAppAndNotPlay = true;
     }
 
     public static Context getAppContext(){
