@@ -8,6 +8,7 @@ public interface DownloadLrcListener {
 
     void execute();
 
+
     void downloadLrcPrepare();
 
     void downloadLrcSuccess();
