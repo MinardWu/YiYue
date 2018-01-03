@@ -15,6 +15,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <dimen name="toolbar_marginTop_top">0dp</dimen>
+    <!--4.4以下系统不支持沉浸栏，所以也就不需要加上paddingTop-->
+    <dimen name="toolbar_paddingTop_top">0dp</dimen>
 
 </resources>

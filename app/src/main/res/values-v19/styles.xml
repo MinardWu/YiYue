@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--4.4以上系统支持沉浸栏所以要加上marginTop-->
-    <dimen name="toolbar_marginTop_top">25dp</dimen>
+    <!--4.4以上系统支持沉浸栏所以要加上paddingTop-->
+    <dimen name="toolbar_paddingTop_top">25dp</dimen>
 </resources>

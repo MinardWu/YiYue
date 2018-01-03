@@ -8,10 +8,10 @@
     tools:context="com.minardwu.yiyue.activity.LocalMusicListActivity">
 
     <android.support.v7.widget.Toolbar
-        android:layout_marginTop="@dimen/toolbar_marginTop_top"
+        android:paddingTop="@dimen/toolbar_paddingTop_top"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@drawable/toolbar_style"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
