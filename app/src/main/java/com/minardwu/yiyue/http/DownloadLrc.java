@@ -56,7 +56,6 @@ public abstract class DownloadLrc implements DownloadLrcListener{
 //        this.downloadLrcListener = downloadLrcListener;
 //    }
 
-
     private String artist;
     private String title;
 
