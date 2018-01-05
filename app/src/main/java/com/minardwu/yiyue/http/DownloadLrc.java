@@ -1,6 +1,5 @@
 package com.minardwu.yiyue.http;
 
-import android.net.Uri;
 import android.util.Log;
 
 import com.minardwu.yiyue.model.MusicBean;
