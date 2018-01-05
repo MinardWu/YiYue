@@ -59,9 +59,14 @@ public abstract class DownloadLrc implements DownloadLrcListener{
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     JSONObject root = new JSONObject(response.body().string());
-                    JSONArray jsonArray = root.getJSONArray("result");
-                    String lrcUrl = jsonArray.getJSONObject(0).getString("lrc");
-                    downloadLrc(lrcUrl,FileUtils.getLrcDir());
+                    if(root.getInt("count")==0){
+                        downloadLrcFail("0 result");
+                        return;
+                    }else {
+                        JSONArray jsonArray = root.getJSONArray("result");
+                        String lrcUrl = jsonArray.getJSONObject(0).getString("lrc");
+                        downloadLrc(lrcUrl,FileUtils.getLrcDir());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     downloadLrcFail(e.toString());
