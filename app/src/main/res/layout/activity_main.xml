@@ -102,6 +102,15 @@
         android:layout_gravity="start"
         android:layout_height="match_parent">
 
+
+        <ImageView
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/icon_logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
         <ListView
             android:id="@+id/lv_drawer"
             android:layout_width="match_parent"

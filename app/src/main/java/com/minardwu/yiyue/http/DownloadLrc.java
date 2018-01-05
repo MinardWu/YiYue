@@ -30,32 +30,6 @@ import okhttp3.Response;
 
 public abstract class DownloadLrc implements DownloadLrcListener{
 
-//    private static DownloadLrc myOkHttp;
-//    private static DownloadLrcListener downloadLrcListener;
-
-//    private DownloadLrc(){}
-//
-//    public static DownloadLrc getInstance(){
-//        synchronized (DownloadLrc.class){
-//            if (myOkHttp==null){
-//                synchronized (DownloadLrc.class){
-//                    if(myOkHttp==null){
-//                        myOkHttp = new DownloadLrc();
-//                    }
-//                }
-//            }
-//        }
-//        return myOkHttp;
-//    }
-
-//    public DownloadLrcListener getDownloadLrcListener() {
-//        return downloadLrcListener;
-//    }
-//
-//    public void setDownloadLrcListener(DownloadLrcListener downloadLrcListener) {
-//        this.downloadLrcListener = downloadLrcListener;
-//    }
-
     private String artist;
     private String title;
 

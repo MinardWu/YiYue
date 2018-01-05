@@ -5,6 +5,9 @@ import android.app.Service;
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.WindowManager;
+
+import com.minardwu.yiyue.application.YiYueApplication;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -50,6 +53,16 @@ public class SystemUtils {
             th.printStackTrace();
         }
         return null;
+    }
+
+    public static int getScreenWidth() {
+        WindowManager wm = (WindowManager) YiYueApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getWidth();
+    }
+
+    public static int getScreenHeight() {
+        WindowManager wm = (WindowManager) YiYueApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getHeight();
     }
 
 }

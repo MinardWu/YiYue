@@ -81,15 +81,16 @@ public class CoverLoader {
     private Bitmap loadCover(MusicBean music, Type type) {
         Bitmap bitmap;
         String key = getKey(music, type);
+        //
         if (TextUtils.isEmpty(key)) {
             bitmap = coverCache.get(KEY_NULL.concat(type.value));
             if (bitmap != null) {
                 return bitmap;
+            }else {
+                bitmap = getDefaultCover(type);
+                coverCache.put(KEY_NULL.concat(type.value), bitmap);
+                return bitmap;
             }
-
-            bitmap = getDefaultCover(type);
-            coverCache.put(KEY_NULL.concat(type.value), bitmap);
-            return bitmap;
         }
 
         bitmap = coverCache.get(key);
@@ -125,9 +126,9 @@ public class CoverLoader {
             case BLUR:
                 return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play_page_default_bg);
             case ROUND:
-//                Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play_page_default_cover);
-//                bitmap = ImageUtils.resizeImage(bitmap, ScreenUtils.getScreenWidth() / 2, ScreenUtils.getScreenWidth() / 2);
-//                return bitmap;
+                Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play_page_default_cover);
+                bitmap = ImageUtils.resizeImage(bitmap, SystemUtils.getScreenWidth() / 2, SystemUtils.getScreenWidth() / 2);
+                return bitmap;
             default:
                 return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_cover);
         }
@@ -141,15 +142,15 @@ public class CoverLoader {
             bitmap = loadCoverFromFile(music.getCoverPath());
         }
 
-//        switch (type) {
-//            case BLUR:
-//                return ImageUtils.blur(bitmap);
-//            case ROUND:
-//                bitmap = ImageUtils.resizeImage(bitmap, ScreenUtils.getScreenWidth() / 2, ScreenUtils.getScreenWidth() / 2);
-//                return ImageUtils.createCircleImage(bitmap);
-//            default:
+        switch (type) {
+            case BLUR:
+                return ImageUtils.blur(bitmap);
+            case ROUND:
+                bitmap = ImageUtils.resizeImage(bitmap, SystemUtils.getScreenWidth() / 2, SystemUtils.getScreenWidth() / 2);
+                return ImageUtils.createCircleImage(bitmap);
+            default:
                 return bitmap;
-//        }
+        }
     }
 
     /**

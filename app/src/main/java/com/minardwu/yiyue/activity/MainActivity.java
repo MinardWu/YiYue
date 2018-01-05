@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity {
 
     private void initData() {
         drawerItemBeanList = new ArrayList<DrawerItemBean>();
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_night,"夜间模式"));
+        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_night,"夜间模式                     开"));
         drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_clock,"定时停止播放"));
         drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_balancer,"音效调节"));
         drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_mobiledata,"移动网络下载"));

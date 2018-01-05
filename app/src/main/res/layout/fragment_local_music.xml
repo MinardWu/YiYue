@@ -11,60 +11,82 @@
         android:layout_height="match_parent"
         android:background="#ffffff">
 
-        <me.wcy.lrcview.LrcView
-            android:id="@+id/lrc_localmusic"
+        <!--<me.wcy.lrcview.LrcView-->
+            <!--android:id="@+id/lrc_localmusic"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:layout_marginBottom="24dp"-->
+            <!--lrc:lrcAnimationDuration="1000"-->
+            <!--lrc:lrcCurrentTextColor="@color/black"-->
+            <!--lrc:lrcDividerHeight="24dp"-->
+            <!--lrc:lrcNormalTextColor="@color/black_50p"-->
+            <!--lrc:lrcPadding="40dp"-->
+            <!--lrc:lrcTextSize="16sp"-->
+            <!--lrc:lrcTimelineColor="#464646"-->
+            <!--lrc:lrcTimelineTextColor="#131313" />-->
+
+        <RelativeLayout
+            android:id="@+id/rl_lrc_and_cover"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            lrc:lrcAnimationDuration="1000"
-            lrc:lrcCurrentTextColor="@color/black"
-            lrc:lrcDividerHeight="24dp"
-            lrc:lrcNormalTextColor="@color/black_50p"
-            lrc:lrcPadding="40dp"
-            lrc:lrcTextSize="16sp"
-            lrc:lrcTimelineColor="#464646"
-            lrc:lrcTimelineTextColor="#131313" />
+            android:layout_weight="1">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
+            <com.minardwu.yiyue.widget.LrcView
+                android:id="@+id/lrc_localmusic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                lrc:lrcAnimationDuration="1000"
+                lrc:lrcCurrentTextColor="@color/black"
+                lrc:lrcDividerHeight="24dp"
+                lrc:lrcNormalTextColor="@color/black_50p"
+                lrc:lrcPadding="40dp"
+                lrc:lrcTextSize="16sp"
+                lrc:lrcTimelineColor="#464646"
+                lrc:lrcTimelineTextColor="#131313" />
 
-            <!--<com.minardwu.yiyue.widget.AlbumCoverView-->
-                <!--android:visibility="gone"-->
-                <!--android:id="@+id/ac_albumcover"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="48dp" />-->
+            <RelativeLayout
+                android:id="@+id/rl_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <!--<TextView-->
-                <!--android:visibility="gone"-->
-                <!--android:layout_below="@id/lrc_localmusic"-->
-                <!--android:id="@+id/tv_local_music__song"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="16dp"-->
-                <!--android:text="免费教学录音带"-->
-                <!--android:singleLine="true"-->
-                <!--android:ellipsize="marquee"-->
-                <!--android:marqueeRepeatLimit="marquee_forever"-->
-                <!--android:textSize="24sp" />-->
+                <com.minardwu.yiyue.widget.AlbumCoverView
+                    android:id="@+id/ac_albumcover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="48dp" />
 
-            <!--<TextView-->
-                <!--android:visibility="gone"-->
-                <!--android:id="@+id/tv_local_music__singer"-->
-                <!--android:layout_below="@+id/tv_song"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:text="周杰伦"-->
-                <!--android:textSize="16sp" />-->
-            <!---->
-        <!--</LinearLayout>-->
+                <TextView
+                    android:layout_below="@id/ac_albumcover"
+                    android:id="@+id/tv_local_music_song"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:text="未知"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_local_music_singer"
+                    android:layout_below="@+id/tv_local_music_song"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:text="未知"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
 
         <LinearLayout

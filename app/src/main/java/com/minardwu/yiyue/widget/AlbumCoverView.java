@@ -14,7 +14,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.minardwu.yiyue.R;
-
+import com.minardwu.yiyue.utils.CoverLoader;
+import com.minardwu.yiyue.utils.ImageUtils;
 
 
 public class AlbumCoverView extends View implements ValueAnimator.AnimatorUpdateListener {
@@ -65,12 +66,12 @@ public class AlbumCoverView extends View implements ValueAnimator.AnimatorUpdate
         mTopLine = getResources().getDrawable(R.drawable.play_page_cover_top_line_shape);
         mCoverBorder = getResources().getDrawable(R.drawable.play_page_cover_border_shape);
         mDiscBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.play_page_disc);
-//        mDiscBitmap = ImageUtils.resizeImage(mDiscBitmap, (int) (getScreenWidth() * 0.75),
-//                (int) (getScreenWidth() * 0.75));
-//        mCoverBitmap = CoverLoader.getInstance().loadRound(null);
-//        mNeedleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.play_page_needle);
-//        mNeedleBitmap = ImageUtils.resizeImage(mNeedleBitmap, (int) (getScreenWidth() * 0.25),
-//                (int) (getScreenWidth() * 0.375));
+        mDiscBitmap = ImageUtils.resizeImage(mDiscBitmap, (int) (getScreenWidth() * 0.75),
+                (int) (getScreenWidth() * 0.75));
+        mCoverBitmap = CoverLoader.getInstance().loadRound(null);
+        mNeedleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.play_page_needle);
+        mNeedleBitmap = ImageUtils.resizeImage(mNeedleBitmap, (int) (getScreenWidth() * 0.25),
+                (int) (getScreenWidth() * 0.375));
         mTopLineHeight = dp2px(1);
         mCoverBorderWidth = dp2px(1);
 
