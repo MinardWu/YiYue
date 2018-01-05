@@ -1,8 +1,6 @@
 package com.minardwu.yiyue.http;
 
-import android.util.Log;
 
-import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 
