@@ -24,7 +24,7 @@ public class CoverLoader {
 
     // 封面缓存
     private LruCache<String, Bitmap> coverCache;
-    private Context mContext;
+    private Context context;
 
     private enum Type {
         THUMBNAIL(""),
@@ -63,7 +63,7 @@ public class CoverLoader {
     }
 
     public void init(Context context) {
-        mContext = context.getApplicationContext();
+        this.context = context.getApplicationContext();
     }
 
     public Bitmap loadThumbnail(MusicBean music) {
@@ -81,7 +81,7 @@ public class CoverLoader {
     private Bitmap loadCover(MusicBean music, Type type) {
         Bitmap bitmap;
         String key = getKey(music, type);
-        //
+        //若找不到缓存则载入默认图，若默认图已缓存则返回，若还没添加进缓存则添加进缓存后返回
         if (TextUtils.isEmpty(key)) {
             bitmap = coverCache.get(KEY_NULL.concat(type.value));
             if (bitmap != null) {
@@ -92,16 +92,16 @@ public class CoverLoader {
                 return bitmap;
             }
         }
-
+        //找到缓存，如果Bitmap不为null则返回，若为null则从媒体库获取并加入缓存，最后返回
         bitmap = coverCache.get(key);
         if (bitmap != null) {
             return bitmap;
-        }
-
-        bitmap = loadCoverByType(music, type);
-        if (bitmap != null) {
-            coverCache.put(key, bitmap);
-            return bitmap;
+        }else {
+            bitmap = loadCoverByType(music, type);
+            if (bitmap != null) {
+                coverCache.put(key, bitmap);
+                return bitmap;
+            }
         }
 
         return loadCover(null, type);
@@ -124,13 +124,13 @@ public class CoverLoader {
     private Bitmap getDefaultCover(Type type) {
         switch (type) {
             case BLUR:
-                return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play_page_default_bg);
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.play_page_default_bg);
             case ROUND:
-                Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play_page_default_cover);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.play_page_default_cover);
                 bitmap = ImageUtils.resizeImage(bitmap, SystemUtils.getScreenWidth() / 2, SystemUtils.getScreenWidth() / 2);
                 return bitmap;
             default:
-                return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_cover);
+                return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_cover);
         }
     }
 
@@ -158,7 +158,7 @@ public class CoverLoader {
      * 本地音乐
      */
     private Bitmap loadCoverFromMediaStore(long albumId) {
-        ContentResolver resolver = mContext.getContentResolver();
+        ContentResolver resolver = context.getContentResolver();
         Uri uri = MusicUtils.getMediaStoreAlbumCoverUri(albumId);
         InputStream is;
         try {
@@ -166,7 +166,6 @@ public class CoverLoader {
         } catch (FileNotFoundException ignored) {
             return null;
         }
-
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         return BitmapFactory.decodeStream(is, null, options);
