@@ -5,6 +5,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,7 +71,6 @@ class LrcEntry implements Comparable<LrcEntry> {
         if (lrcFile == null || !lrcFile.exists()) {
             return null;
         }
-
         List<LrcEntry> entryList = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(lrcFile), "utf-8"));

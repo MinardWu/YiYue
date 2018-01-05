@@ -153,7 +153,6 @@ public class LrcView extends View {
 
     /**
      * 设置播放按钮点击监听器
-     *
      * @param onPlayClickListener 如果为非 null ，则激活歌词拖动功能，否则将将禁用歌词拖动功能
      */
     public void setOnPlayClickListener(OnPlayClickListener onPlayClickListener) {
@@ -167,6 +166,7 @@ public class LrcView extends View {
         runOnUi(new Runnable() {
             @Override
             public void run() {
+                reset();
                 defaultLabel = label;
                 invalidate();
             }
@@ -201,6 +201,7 @@ public class LrcView extends View {
         });
     }
 
+
     /**
      * 加载歌词文件
      * @param lrcText 歌词文本
@@ -229,6 +230,25 @@ public class LrcView extends View {
         });
     }
 
+    private void onLrcLoaded(List<LrcEntry> entryList) {
+        if (entryList != null && !entryList.isEmpty()) {
+            lrcEntries.addAll(entryList);
+        }
+        initEntryList();
+        invalidate();
+    }
+
+    private void initEntryList() {
+        if (!hasLrc() || getWidth() == 0) {
+            return;
+        }
+        Collections.sort(lrcEntries);
+        for (LrcEntry lrcEntry : lrcEntries) {
+            lrcEntry.init(lrcTextPaint, (int) getLrcWidth());
+        }
+        offset = getHeight() / 2;
+    }
+
     /**
      * 歌词是否有效
      * @return 如果歌词有效返回true
@@ -248,7 +268,6 @@ public class LrcView extends View {
                 if (!hasLrc()) {
                     return;
                 }
-
                 int line = findShowLine(time);
                 if (line != currentLine) {
                     currentLine = line;
@@ -368,7 +387,7 @@ public class LrcView extends View {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            Log.v("sdafhuihf","ccccccccccccccccccccccccc");
+            Log.e("sdafhuihf","ccccccccccccccccccccccccc");
             if(distanceY>50){
                 isShowTimeline = true;
             }
@@ -450,30 +469,7 @@ public class LrcView extends View {
         super.onDetachedFromWindow();
     }
 
-    private void onLrcLoaded(List<LrcEntry> entryList) {
-        if (entryList != null && !entryList.isEmpty()) {
-            lrcEntries.addAll(entryList);
-        }
-
-        initEntryList();
-        invalidate();
-    }
-
-    private void initEntryList() {
-        if (!hasLrc() || getWidth() == 0) {
-            return;
-        }
-
-        Collections.sort(lrcEntries);
-
-        for (LrcEntry lrcEntry : lrcEntries) {
-            lrcEntry.init(lrcTextPaint, (int) getLrcWidth());
-        }
-
-        offset = getHeight() / 2;
-    }
-
-    private void reset() {
+    public void reset() {
         endAnimation();
         mScroller.forceFinished(true);
         isShowTimeline = false;

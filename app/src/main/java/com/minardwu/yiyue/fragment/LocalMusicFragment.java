@@ -45,7 +45,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     private int lastProgress;
     private boolean isDraggingProgress;
 
-
     @BindView(R.id.iv_local_music_player_playmode) ImageView iv_local_music_player_playmode;
     @BindView(R.id.iv_local_music_player_pre) ImageView iv_local_music_player_pre;
     @BindView(R.id.iv_local_music_player_play) ImageView iv_local_music_player_play;
@@ -60,7 +59,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     @BindView(R.id.sb_local_music_progress)  SeekBar sb_progress;
     @BindView(R.id.rl_lrc_and_cover) RelativeLayout rl_lrc_and_cover;
     @BindView(R.id.rl_cover)  RelativeLayout rl_cover;;
-    private boolean isShowLrc = false;
 
 
     @Override
@@ -108,10 +106,14 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                     case MotionEvent.ACTION_UP:
                         upY[0] = motionEvent.getY();
                         if(Math.abs(upY[0]-downY[0])>50){
+//                            Log.e("sdafhuihf","111111111111111111");
                             return false;//拖动的时候onTouch不捕获事件,传递到onTouchEvent中
                         }else if(lrc_localmusic.getPlayDarwableBounds().contains((int)downX[0],(int)downY[0])){
+//                            Log.e("sdafhuihf","2222222222222222222");
+
                             return false;//点击三角播放按钮的时候onTouch不捕获事件,也传递到onTouchEvent中
                         }else {
+//                            Log.e("sdafhuihf","aaaaaaaaaaaaaaaaa");
                             lrc_localmusic.setVisibility(View.GONE);
                             rl_cover.setVisibility(View.VISIBLE);
                             return true;
@@ -187,20 +189,22 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         tv_total_time.setText(ParseUtils.formatTime("mm:ss",music.getDuration()));
         ac_albumcover.setCoverBitmap(CoverLoader.getInstance().loadRound(music));
         ac_albumcover.start();
-//        setCoverAndBg(music);
+        setLrc(music);
+
         //如果是刚刚进入app而且没有点击过播放按钮或是上下一首，而且此时该文件已有歌词文件，则不需要加载歌词，因为在onCreate已经加载过了
         //其他情况就都要重新获取歌词
-        if(YiYueApplication.isJustIntoAppAndNotPlay){
-            String lrcPath = FileUtils.getLrcFilePath(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
-            if(lrcPath!=null){
-                //这种情况就不用加载了
-            }else {
-                setLrc(music);
-            }
-            YiYueApplication.isJustIntoAppAndNotPlay = false;
-        }else {
-            setLrc(music);
-        }
+//        if(YiYueApplication.isJustIntoAppAndNotPlay){
+//            String lrcPath = FileUtils.getLrcFilePath(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+//            if(lrcPath!=null){
+//                //这种情况就不用加载了
+//            }else {
+//                setLrc(music);
+//            }
+//            YiYueApplication.isJustIntoAppAndNotPlay = false;
+//        }else {
+//            setLrc(music);
+//        }
+
 //        if (getPlayService().isPlaying() || getPlayService().isPreparing()) {
 //            iv_local_music_player_play.setSelected(true);
 //            ac_albumcover.start();
@@ -301,10 +305,9 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             final String lrcPath;
             lrcPath = FileUtils.getLrcFilePath(music);
             if (lrcPath!=null) {
-                loadLrc(lrcPath);
+                lrc_localmusic.loadLrc(new File(lrcPath));
             } else {
-                loadLrc("");
-                setLrcLabel("正在搜索歌词...");
+                lrc_localmusic.setLabel("正在搜索歌词...");
                 new DownloadLrc(music.getArtist(),music.getTitle()){
                     @Override
                     public void downloadLrcPrepare() {
@@ -318,7 +321,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                         }
                         iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
                         String lrc = FileUtils.getLrcFilePath(music);//下载成功后重新获取路径
-                        loadLrc(lrc);
+                        lrc_localmusic.loadLrc(new File(lrc));
                     }
 
                     @Override
@@ -327,7 +330,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                             return;
                         }
                         iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
-                        setLrcLabel("找不到歌词");
+                        lrc_localmusic.setLabel("找不到歌词");
                     }
                 }.execute();
             }
@@ -342,9 +345,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         lrc_localmusic.loadLrc(file);
     }
 
-    private void setLrcLabel(String label) {
-        lrc_localmusic.setLabel(label);
-    }
 
     @Override
     public boolean onPlayClick(long time) {
