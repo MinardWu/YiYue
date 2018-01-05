@@ -16,7 +16,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +35,7 @@ import java.util.List;
  */
 public class LrcView extends View {
     private static final long ADJUST_DURATION = 100;
-    private static final long TIMELINE_KEEP_TIME = 4 * DateUtils.SECOND_IN_MILLIS;
+    private static final long TIMELINE_KEEP_TIME = 2 * DateUtils.SECOND_IN_MILLIS;
 
     private List<LrcEntry> lrcEntries = new ArrayList<>();
     private TextPaint lrcTextPaint = new TextPaint();
@@ -210,7 +209,6 @@ public class LrcView extends View {
             @Override
             public void run() {
                 reset();
-
                 setFlag(lrcText);
                 new AsyncTask<String, Integer, List<LrcEntry>>() {
                     @Override
@@ -265,7 +263,6 @@ public class LrcView extends View {
 
     /**
      * 将歌词滚动到指定时间
-     *
      * @param time 指定的时间
      * @deprecated 请使用 {@link #updateTime(long)} 代替
      */
@@ -290,10 +287,8 @@ public class LrcView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         int centerY = getHeight() / 2;
-
-        // 无歌词文件
+        // 无歌词文件，则只绘制中间的label
         if (!hasLrc()) {
             lrcTextPaint.setColor(currentTextColor);
             @SuppressLint("DrawAllocation")
@@ -302,15 +297,12 @@ public class LrcView extends View {
             drawText(canvas, staticLayout, centerY);
             return;
         }
-
         int centerLine = getCenterLine();
-
+        //如果要显示时间线则开始绘制
         if (isShowTimeline) {
             playDrawable.draw(canvas);
-
             timeTextPaint.setColor(timelineColor);
             canvas.drawLine(timeTextWidth, centerY, getWidth() - timeTextWidth, centerY, timeTextPaint);
-
             timeTextPaint.setColor(timeTextColor);
             String timeText = LrcUtils.formatTime(lrcEntries.get(centerLine).getTime());
             float timeX = getWidth() - timeTextWidth / 2;
@@ -318,8 +310,8 @@ public class LrcView extends View {
             canvas.drawText(timeText, timeX, timeY, timeTextPaint);
         }
 
+        //canvas绘制每一行歌词
         canvas.translate(0, offset);
-
         float y = 0;
         for (int i = 0; i < lrcEntries.size(); i++) {
             if (i > 0) {
@@ -366,7 +358,6 @@ public class LrcView extends View {
                 mScroller.forceFinished(true);
                 removeCallbacks(hideTimelineRunnable);
                 isTouching = true;
-//                isShowTimeline = true;
                 invalidate();
                 return true;
             }

@@ -177,6 +177,8 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         if (music == null) {
             return;
         }
+        tv_song.setText(music.getTitle());
+        tv_singer.setText(music.getArtist());
         sb_progress.setProgress((int) getPlayService().getCurrentPosition());
         sb_progress.setSecondaryProgress(0);
         sb_progress.setMax((int) music.getDuration());
@@ -197,8 +199,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             }
             YiYueApplication.isJustIntoAppAndNotPlay = false;
         }else {
-            tv_song.setText(music.getTitle());
-            tv_singer.setText(music.getArtist());
             setLrc(music);
         }
 //        if (getPlayService().isPlaying() || getPlayService().isPreparing()) {
