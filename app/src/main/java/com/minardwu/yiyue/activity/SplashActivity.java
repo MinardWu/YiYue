@@ -47,4 +47,10 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
     public void onServiceDisconnected(ComponentName componentName) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(this);
+    }
 }

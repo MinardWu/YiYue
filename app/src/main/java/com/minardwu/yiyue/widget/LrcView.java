@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -354,6 +355,7 @@ public class LrcView extends View {
     private GestureDetector.SimpleOnGestureListener mSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDown(MotionEvent e) {
+            Log.v("sdafhuihf","onDownbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
             if (hasLrc() && mOnPlayClickListener != null) {
                 mScroller.forceFinished(true);
                 removeCallbacks(hideTimelineRunnable);
@@ -366,6 +368,7 @@ public class LrcView extends View {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            Log.v("sdafhuihf","ccccccccccccccccccccccccc");
             if(distanceY>50){
                 isShowTimeline = true;
             }
