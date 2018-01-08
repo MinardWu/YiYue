@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.os.Build;
@@ -19,6 +22,8 @@ import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
 import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.service.QuitTimer;
+import com.minardwu.yiyue.widget.StopTimeDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +54,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick(R.id.iv_menu) void openDrawer(){
-
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 
     @Override
@@ -92,6 +97,18 @@ public class MainActivity extends BaseActivity {
         //初始化侧边栏
         drawerItemAdapter = new DrawerItemAdapter(this,R.layout.list_drawer,drawerItemBeanList);
         listView.setAdapter(drawerItemAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 1:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        StopTimeDialog stopTimeDialog = new StopTimeDialog(MainActivity.this,R.style.StopTimeDialog);
+                        stopTimeDialog.show();
+                        break;
+                }
+            }
+        });
         //初始化ViewPaper
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

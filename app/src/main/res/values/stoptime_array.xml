@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="stoptime">
+        <item>不开启</item>
+        <item>10分钟后</item>
+        <item>20分钟后</item>
+        <item>30分钟后</item>
+        <item>40分钟后</item>
+        <item>50分钟后</item>
+        <item>60分钟后</item>
+    </string-array>
+</resources>

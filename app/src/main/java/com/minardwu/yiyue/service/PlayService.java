@@ -62,14 +62,15 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mediaPlayer.setOnCompletionListener(this);
         playingPosition = Preferences.getCurrentSongPosition();//初始化时获取上次最后播放的位置
 //        Notifier.init(this);
-//        QuitTimer.getInstance().init(this, handler, new EventCallback<Long>() {
-//            @Override
-//            public void onEvent(Long aLong) {
-//                if (onPlayerEventListener != null) {
-//                    onPlayerEventListener.onTimer(aLong);
-//                }
-//            }
-//        });
+        QuitTimer.getInstance().init(this, handler, new EventCallback<Long>() {
+            //利用onEvent将剩余时间传递回PlayService中，然后利用OnTimer传回Activity更新UI
+            @Override
+            public void onEvent(Long aLong) {
+                if (onPlayerEventListener != null) {
+                    onPlayerEventListener.onTimer(aLong);
+                }
+            }
+        });
     }
 
     @Nullable
@@ -420,8 +421,9 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
 
     public void quit() {
         stop();
-//        QuitTimer.getInstance().stop();
-        stopSelf();
+        QuitTimer.getInstance().stop();
+        Preferences.saveStopTime(0);
+        //stopSelf();
     }
 
     public class PlayBinder extends Binder {

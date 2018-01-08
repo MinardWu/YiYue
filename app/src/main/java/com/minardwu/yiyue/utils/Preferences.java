@@ -17,6 +17,7 @@ public class Preferences {
     private static final String PLAY_MODE = "play_mode";
     private static final String SPLASH_URL = "splash_url";
     private static final String NIGHT_MODE = "night_mode";
+    private static final String STOP_TIME = "stop_time";
 
     private static Context sContext;
 
@@ -85,6 +86,14 @@ public class Preferences {
 
     public static void savePlayMode(int mode) {
         saveInt(PLAY_MODE, mode);
+    }
+
+    public static int getStopTime() {
+        return getInt(STOP_TIME, 0);
+    }
+
+    public static void saveStopTime(int time) {
+        saveInt(STOP_TIME, time);
     }
 
     public static String getSplashUrl() {
