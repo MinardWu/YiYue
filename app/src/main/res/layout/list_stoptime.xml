@@ -7,8 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:textSize="16sp"
-        android:textColor="#0b0b0b"
+        android:textColor="#232323"
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
         android:text="时间"
