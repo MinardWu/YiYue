@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.LocalMusicListActivity;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.enums.PlayModeEnum;
+import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.http.DownloadLrc;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayerEventListener;
@@ -32,6 +32,8 @@ import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.AlbumCoverView;
 import com.minardwu.yiyue.widget.LrcView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -45,6 +47,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     private int lastProgress;
     private boolean isDraggingProgress;
 
+    @BindView(R.id.tv_local_music_artist) TextView tv_local_music_artist;
     @BindView(R.id.iv_local_music_player_playmode) ImageView iv_local_music_player_playmode;
     @BindView(R.id.iv_local_music_player_pre) ImageView iv_local_music_player_pre;
     @BindView(R.id.iv_local_music_player_play) ImageView iv_local_music_player_play;
@@ -52,13 +55,12 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     @BindView(R.id.iv_local_music_player_musiclist) ImageView iv_local_music_player_musiclist;
     @BindView(R.id.tv_local_music_current_time) TextView tv_current_time;
     @BindView(R.id.tv_local_music_total_time) TextView tv_total_time;
-    @BindView(R.id.tv_local_music_song)  TextView tv_song;
-    @BindView(R.id.tv_local_music_singer)  TextView tv_singer;
     @BindView(R.id.ac_albumcover)  AlbumCoverView ac_albumcover;
     @BindView(R.id.lrc_localmusic) LrcView lrc_localmusic;
+    @BindView(R.id.lrc_localmusic_single) LrcView lrc_localmusic_single;
     @BindView(R.id.sb_local_music_progress)  SeekBar sb_progress;
     @BindView(R.id.rl_lrc_and_cover) RelativeLayout rl_lrc_and_cover;
-    @BindView(R.id.rl_cover)  RelativeLayout rl_cover;;
+    @BindView(R.id.rl_cover)  RelativeLayout rl_cover;
 
 
     @Override
@@ -93,7 +95,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         final float[] downX = new float[1];
         final float[] downY = new float[1];
         final float[] upY = new float[1];
-        final float[] upX = new float[1];
         lrc_localmusic.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -148,8 +149,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                 loadLrc(lrcPath);
             }
             ac_albumcover.setCoverBitmap(CoverLoader.getInstance().loadRound(currentMusic));
-            tv_song.setText(currentMusic.getTitle());
-            tv_singer.setText(currentMusic.getArtist());
+            tv_local_music_artist.setText(currentMusic.getArtist());
             tv_total_time.setText(ParseUtils.formatTime("mm:ss",currentMusic.getDuration()));
         }
     }
@@ -189,8 +189,10 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         if (music == null) {
             return;
         }
-        tv_song.setText(music.getTitle());
-        tv_singer.setText(music.getArtist());
+        //更新Toolbar的UI
+        EventBus.getDefault().post(new ChageToolbarTextEvent(music));
+        //更新播放界面UI
+        tv_local_music_artist.setText(music.getArtist());
         sb_progress.setProgress((int) getPlayService().getCurrentPosition());
         sb_progress.setSecondaryProgress(0);
         sb_progress.setMax((int) music.getDuration());
@@ -200,20 +202,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         ac_albumcover.setCoverBitmap(CoverLoader.getInstance().loadRound(music));
         ac_albumcover.start();
         setLrc(music);
-
-        //如果是刚刚进入app而且没有点击过播放按钮或是上下一首，而且此时该文件已有歌词文件，则不需要加载歌词，因为在onCreate已经加载过了
-        //其他情况就都要重新获取歌词
-//        if(YiYueApplication.isJustIntoAppAndNotPlay){
-//            String lrcPath = FileUtils.getLrcFilePath(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
-//            if(lrcPath!=null){
-//                //这种情况就不用加载了
-//            }else {
-//                setLrc(music);
-//            }
-//            YiYueApplication.isJustIntoAppAndNotPlay = false;
-//        }else {
-//            setLrc(music);
-//        }
 
 //        if (getPlayService().isPlaying() || getPlayService().isPreparing()) {
 //            iv_local_music_player_play.setSelected(true);
@@ -242,6 +230,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             sb_progress.setProgress(progress);
         }
         lrc_localmusic.updateTime(progress);
+        lrc_localmusic_single.updateTime(progress);
     }
 
     @Override
@@ -284,6 +273,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                 int progress = seekBar.getProgress();
                 getPlayService().seekTo(progress);
                 lrc_localmusic.updateTime(progress);
+                lrc_localmusic_single.updateTime(progress);
             } else {
                 seekBar.setProgress(0);
             }
@@ -315,9 +305,10 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             final String lrcPath;
             lrcPath = FileUtils.getLrcFilePath(music);
             if (lrcPath!=null) {
-                lrc_localmusic.loadLrc(new File(lrcPath));
+                loadLrc(lrcPath);
             } else {
                 lrc_localmusic.setLabel("正在搜索歌词...");
+                lrc_localmusic_single.setLabel("正在搜索歌词...");
                 new DownloadLrc(music.getArtist(),music.getTitle()){
                     @Override
                     public void downloadLrcPrepare() {
@@ -331,7 +322,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                         }
                         iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
                         String lrc = FileUtils.getLrcFilePath(music);//下载成功后重新获取路径
-                        lrc_localmusic.loadLrc(new File(lrc));
+                        loadLrc(lrc);
                     }
 
                     @Override
@@ -341,6 +332,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                         }
                         iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
                         lrc_localmusic.setLabel("找不到歌词");
+                        lrc_localmusic_single.setLabel("找不到歌词");
                     }
                 }.execute();
             }
@@ -353,6 +345,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     private void loadLrc(String path) {
         File file = new File(path);
         lrc_localmusic.loadLrc(file);
+        lrc_localmusic_single.loadLrc(file);
     }
 
 

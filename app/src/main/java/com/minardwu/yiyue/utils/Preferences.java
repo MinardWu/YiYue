@@ -14,6 +14,7 @@ import com.minardwu.yiyue.R;
 public class Preferences {
     private static final String MUSIC_ID = "music_id";
     private static final String MUSIC_POSITION = "music_position";
+    private static final String MUSIC_TITLE = "music_title";
     private static final String PLAY_MODE = "play_mode";
     private static final String SPLASH_URL = "splash_url";
     private static final String NIGHT_MODE = "night_mode";
@@ -78,6 +79,14 @@ public class Preferences {
 
     public static void saveCurrentSongPosition(int position) {
         saveInt(MUSIC_POSITION, position);
+    }
+
+    public static String getCurrentSongTitle() {
+        return getString(MUSIC_TITLE, "易乐");
+    }
+
+    public static void saveCurrentSongTitle(String value) {
+        saveString(MUSIC_TITLE, value);
     }
 
     public static int getPlayMode() {

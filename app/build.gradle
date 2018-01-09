@@ -26,10 +26,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
-
+    //Butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
-
+    //okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    //EventBus
+    compile 'org.greenrobot:eventbus:3.1.1'
 }

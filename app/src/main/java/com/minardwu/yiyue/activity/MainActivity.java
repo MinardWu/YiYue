@@ -14,16 +14,26 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.os.Build;
+import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.DrawerItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
+import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.service.OnPlayerEventListener;
 import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.service.QuitTimer;
+import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.StopTimeDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity{
 
     private int currentFragment;
     private DrawerItemAdapter drawerItemAdapter;
@@ -40,6 +50,7 @@ public class MainActivity extends BaseActivity {
     private List<DrawerItemBean> drawerItemBeanList;
     private List<android.support.v4.app.Fragment> fragmentList;
 
+    @BindView(R.id.tv_toolbar) TextView tv_toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.iv_search) ImageView iv_search;
     @BindView(R.id.iv_menu) ImageView iv_menu;
@@ -62,10 +73,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initData();
         initView();
-
-
     }
 
 
@@ -86,6 +96,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView(){
+        tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());
         iv_localmusic.setSelected(true);
         //4.4以上、5.0以下的需要为drawlayout设置沉浸式
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
@@ -132,11 +143,13 @@ public class MainActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
+                        tv_toolbar.setText(Preferences.getCurrentSongTitle());
                         iv_localmusic.setSelected(true);
                         iv_onlinemusic.setSelected(false);
                         currentFragment = 0;
                         break;
                     case 1:
+                        tv_toolbar.setText("易乐FM");
                         iv_localmusic.setSelected(false);
                         iv_onlinemusic.setSelected(true);
                         currentFragment = 1;
@@ -149,5 +162,17 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ChageToolbarTextEvent event) {
+        tv_toolbar.setText(event.getMusicBean().getTitle());
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

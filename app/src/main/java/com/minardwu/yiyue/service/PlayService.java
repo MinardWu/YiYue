@@ -184,6 +184,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         MusicBean music = AppCache.getLocalMusicList().get(playingPosition);
         Preferences.saveCurrentSongId(music.getId());//保存当前播放的音乐id和位置
         Preferences.saveCurrentSongPosition(playingPosition);
+        Preferences.saveCurrentSongTitle(music.getTitle());
         play(music);
     }
 
