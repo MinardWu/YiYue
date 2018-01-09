@@ -2,12 +2,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:lrc="http://schemas.android.com/apk/res-auto"
     tools:context="com.minardwu.yiyue.fragment.OnlineMusicFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:background="#fff"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/iv_cover"
+            android:layout_marginTop="80dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+
+            android:id="@+id/tv_online_music_title"
+            android:layout_below="@+id/iv_cover"
+            android:textSize="24sp"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            android:text="七里香"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_online_music_artist"
+            android:textColor="#5c5b5b"
+            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_online_music_title"
+            android:layout_gravity="center_horizontal"
+            android:text="周杰伦"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.minardwu.yiyue.widget.LrcView
+            android:layout_below="@+id/tv_online_music_artist"
+            android:id="@+id/lrc_onlinelmusic"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="24dp"
+            lrc:lrcAnimationDuration="1000"
+            lrc:lrcCurrentTextColor="@color/black"
+            lrc:lrcDividerHeight="24dp"
+            lrc:lrcNormalTextColor="@color/black_50p"
+            lrc:lrcPadding="40dp"
+            lrc:lrcTextSize="16sp"
+            lrc:lrcTimelineColor="#464646"
+            lrc:lrcTimelineTextColor="#131313" />
+
+        <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_onlinemusic_download"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="32dp"
+                android:src="@drawable/icon_download_online"
+                android:layout_width="60dp"
+                android:layout_height="30dp" />
+
+            <ImageView
+                android:id="@+id/iv_onlinemusic_play"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_play_online"
+                android:layout_width="60dp"
+                android:layout_height="30dp" />
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="32dp"
+                android:id="@+id/iv_onlinemusic_next"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_next_online"
+                android:layout_width="60dp"
+                android:layout_height="30dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>
