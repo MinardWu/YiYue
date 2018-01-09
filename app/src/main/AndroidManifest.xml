@@ -26,8 +26,8 @@
         </activity>
         <activity android:name=".activity.BaseActivity" />
         <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.LocalMusicListActivity" />
-
+        <activity android:name=".activity.LocalMusicListActivity"
+            android:theme="@style/LocalMusicListActivityTheme"/>
         <service
             android:name=".service.PlayService"
             android:enabled="true"
