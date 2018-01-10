@@ -32,4 +32,6 @@
     <color name="lrc_timeline_color">#809E9E9E</color>
     <color name="lrc_time_text_color">#809E9E9E</color>
 
+    <color name="colorGreen">#d5f2df</color>
+    <color name="colorGreenDeep">#5fb881</color>
 </resources>

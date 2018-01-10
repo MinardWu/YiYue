@@ -30,7 +30,7 @@ import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
-import com.minardwu.yiyue.widget.AlbumCoverView;
+import com.minardwu.yiyue.widget.LocalMusicCoverView;
 import com.minardwu.yiyue.widget.LrcView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +55,8 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     @BindView(R.id.iv_local_music_player_musiclist) ImageView iv_local_music_player_musiclist;
     @BindView(R.id.tv_local_music_current_time) TextView tv_current_time;
     @BindView(R.id.tv_local_music_total_time) TextView tv_total_time;
-    @BindView(R.id.ac_albumcover)  AlbumCoverView ac_albumcover;
+    @BindView(R.id.ac_albumcover)
+    LocalMusicCoverView ac_albumcover;
     @BindView(R.id.lrc_localmusic) LrcView lrc_localmusic;
     @BindView(R.id.lrc_localmusic_single) LrcView lrc_localmusic_single;
     @BindView(R.id.sb_local_music_progress)  SeekBar sb_progress;

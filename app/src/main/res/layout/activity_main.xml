@@ -49,6 +49,7 @@
                         android:id="@+id/tv_toolbar"
                         android:text="易乐"
                         android:textSize="20sp"
+                        android:textColor="@color/colorGreenDeep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

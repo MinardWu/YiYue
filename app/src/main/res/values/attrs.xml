@@ -15,4 +15,10 @@
         <attr name="lrcTimeTextColor" format="reference|color" />
         <attr name="lrcTimeTextSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="OnlineCoverView">
+        <attr name="progressCircleWidth" format="dimension"/>
+        <attr name="progressCircleBackgroudColor" format="color"/>
+        <attr name="progressCircleColor" format="color"/>
+    </declare-styleable>
 </resources>

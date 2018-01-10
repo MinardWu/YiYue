@@ -18,7 +18,7 @@ import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.ImageUtils;
 
 
-public class AlbumCoverView extends View implements ValueAnimator.AnimatorUpdateListener {
+public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorUpdateListener {
     private static final long TIME_UPDATE = 50L;
     private static final float DISC_ROTATION_INCREASE = 0.5f;
     private static final float NEEDLE_ROTATION_PLAY = 0.0f;
@@ -49,15 +49,15 @@ public class AlbumCoverView extends View implements ValueAnimator.AnimatorUpdate
     private Point mCoverCenterPoint = new Point();
     private Point mNeedleCenterPoint = new Point();
 
-    public AlbumCoverView(Context context) {
+    public LocalMusicCoverView(Context context) {
         this(context, null);
     }
 
-    public AlbumCoverView(Context context, AttributeSet attrs) {
+    public LocalMusicCoverView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AlbumCoverView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LocalMusicCoverView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

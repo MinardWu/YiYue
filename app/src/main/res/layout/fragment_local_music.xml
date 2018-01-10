@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.minardwu.yiyue.widget.AlbumCoverView
+                <com.minardwu.yiyue.widget.LocalMusicCoverView
                     android:id="@+id/ac_albumcover"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
