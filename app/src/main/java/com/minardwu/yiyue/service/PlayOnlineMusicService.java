@@ -218,7 +218,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     }
 
     public static void doCommand(Context context, String action) {
-        Intent intent = new Intent(context, PlayService.class);
+        Intent intent = new Intent(context, PlayOnlineMusicService.class);
         intent.setAction(action);
         context.startService(intent);
     }
