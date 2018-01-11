@@ -42,11 +42,10 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     private static final int STATE_PLAYING = 2;
     private static final int STATE_PAUSE = 3;
     private int playState = STATE_IDLE;//初始化状态
-    private Random random = new Random(15);
+    private Random random = new Random(System.currentTimeMillis());
 
     private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();//广播在start的时候注册，pause的时候注销
     private final IntentFilter noisyfilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-
 
     private AudioFocusManager audioFocusManager;//音乐焦点管理
     private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
