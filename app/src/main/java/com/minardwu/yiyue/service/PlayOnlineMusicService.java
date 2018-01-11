@@ -199,7 +199,6 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         return new PlayBinder();
     }
 
-
     private float progress;
     private Runnable updateProgressRunable = new Runnable() {
         @Override
