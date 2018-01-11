@@ -306,7 +306,6 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
 
     }
 
-
     public class PlayBinder extends Binder {
         public PlayOnlineMusicService getService() {
             return PlayOnlineMusicService.this;
