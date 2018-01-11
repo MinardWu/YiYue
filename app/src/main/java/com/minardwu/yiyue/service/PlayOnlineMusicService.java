@@ -246,7 +246,6 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         next();
     }
 
-
     /**
      * 获取正在播放的歌曲
      */
