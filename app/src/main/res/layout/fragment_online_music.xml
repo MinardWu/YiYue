@@ -13,7 +13,7 @@
 
         <com.minardwu.yiyue.widget.OnlineMusicCoverView
             android:layout_centerHorizontal="true"
-            android:id="@+id/iv_cover"
+            android:id="@+id/online_music_cover"
             android:layout_marginTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -21,7 +21,7 @@
         <TextView
             android:layout_centerHorizontal="true"
             android:id="@+id/tv_online_music_title"
-            android:layout_below="@+id/iv_cover"
+            android:layout_below="@+id/online_music_cover"
             android:textSize="24sp"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
@@ -73,7 +73,7 @@
             <ImageView
                 android:id="@+id/iv_onlinemusic_play"
                 android:layout_centerInParent="true"
-                android:src="@drawable/icon_play_online"
+                android:src="@drawable/iv_online_music_playorpause"
                 android:layout_width="60dp"
                 android:layout_height="30dp" />
 

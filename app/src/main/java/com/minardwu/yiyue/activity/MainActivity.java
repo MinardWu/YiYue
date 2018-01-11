@@ -1,5 +1,6 @@
 package com.minardwu.yiyue.activity;
 
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -25,6 +26,7 @@ import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayerEventListener;
+import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Preferences;
@@ -42,7 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity {
 
     private int currentFragment;
     private DrawerItemAdapter drawerItemAdapter;

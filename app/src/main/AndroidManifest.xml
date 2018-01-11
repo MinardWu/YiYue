@@ -25,14 +25,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.BaseActivity" />
-        <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.LocalMusicListActivity"
-            android:theme="@style/LocalMusicListActivityTheme"/>
+        <activity android:name=".activity.MainActivity" />
+        <activity
+            android:name=".activity.LocalMusicListActivity"
+            android:theme="@style/LocalMusicListActivityTheme" />
+
         <service
             android:name=".service.PlayService"
             android:enabled="true"
             android:exported="true" />
-
+        <service
+            android:name=".service.PlayOnlineMusicService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

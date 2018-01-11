@@ -21,10 +21,16 @@ import java.util.Random;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.enums.PlayModeEnum;
+import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
+import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 /**
@@ -57,6 +63,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate: " + getClass().getSimpleName());
+        EventBus.getDefault().register(this);
         audioFocusManager = new AudioFocusManager(this);
         mediaSessionManager = new MediaSessionManager(this);
         mediaPlayer.setOnCompletionListener(this);
@@ -204,8 +211,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
                 onPlayerEventListener.onChangeMusic(music);
             }
 //            Notifier.showPlay(music);
-//            mediaSessionManager.updateMetaData(playingMusic);
-//            mediaSessionManager.updatePlaybackState();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -244,6 +249,10 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
     void start() {
         if (!isPreparing() && !isPausing()) {
             return;
+        }
+        //如果正在播放网络音乐则暂停
+        if(AppCache.getPlayOnlineMusicService().isPlaying()){
+            EventBus.getDefault().post(new StopPlayOnlineMusicServiceEvent(1));
         }
         if (audioFocusManager.requestAudioFocus()) {
             mediaPlayer.start();
@@ -316,12 +325,17 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
                 play(playingPosition);
                 break;
             case SINGLE:
-                play(playingPosition);
-                break;
             case LOOP:
             default:
                 play(playingPosition - 1);
                 break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(StopPlayLocalMusicServiceEvent event) {
+        if(event.getFlag()==1){
+            pause();
         }
     }
 
@@ -409,6 +423,8 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
         mediaPlayer.reset();
         mediaPlayer.release();
         mediaPlayer = null;
@@ -416,7 +432,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mediaSessionManager.release();
 //        Notifier.cancelAll();
         AppCache.setPlayService(null);
-        super.onDestroy();
         Log.i(TAG, "onDestroy: " + getClass().getSimpleName());
     }
 
