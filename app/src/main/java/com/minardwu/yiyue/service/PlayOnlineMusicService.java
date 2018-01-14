@@ -15,7 +15,6 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.Random;
 
-
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
