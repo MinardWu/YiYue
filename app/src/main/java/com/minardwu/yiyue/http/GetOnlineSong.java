@@ -53,8 +53,8 @@ public abstract class GetOnlineSong implements HttpListener{
                     String url = data.getString("url");
                     if(url.equals("")){
                         Log.e(TAG,"url为空，找不到歌曲");
-                        temp[0] = id+1;
-                        getSongUrlById(id+1);
+                        temp[0] = id+10;
+                        getSongUrlById(id+10);
                     }else {
                         getSongDetailById(temp[0],url);
                     }
