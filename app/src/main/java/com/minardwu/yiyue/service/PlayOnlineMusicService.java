@@ -24,7 +24,6 @@ import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
 import com.minardwu.yiyue.utils.Preferences;
-import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
