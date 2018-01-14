@@ -34,6 +34,11 @@ public abstract class GetOnlineSong implements HttpListener{
         getSongUrlById(id);
     }
 
+
+    /**
+     * 获取歌曲url
+     * @param id 歌曲id
+     */
     public void getSongUrlById(final int id){
         final int[] temp = new int[1];
         temp[0] = id;
@@ -66,6 +71,11 @@ public abstract class GetOnlineSong implements HttpListener{
         });
     }
 
+    /**
+     * 获取歌曲名字，歌手，封面信息
+     * @param id 歌曲id
+     * @param musicUrl 这个主要是为了保存上一个函数中或得到的url，在本函数将其保存到musicbean中
+     */
     public void getSongDetailById(final int id, final String musicUrl){
         final MusicBean musicBean = new MusicBean();
         Request request = new Request.Builder().url(GET_SONG_DETAIL_BY_ID+id).build();
@@ -79,7 +89,7 @@ public abstract class GetOnlineSong implements HttpListener{
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     String i = response.body().string();
-//                    Log.e(TAG,i);
+                    //Log.e(TAG,i);
                     JSONObject root = new JSONObject(i);
                     JSONObject detail = root.getJSONArray("songs").getJSONObject(0);
                     JSONObject artistInfo = detail.getJSONArray("ar").getJSONObject(0);
@@ -94,7 +104,6 @@ public abstract class GetOnlineSong implements HttpListener{
                     musicBean.setArtist(artist);
                     musicBean.setCoverPath(picUrl);
                     musicBean.setPath(musicUrl);
-//                    onSuccess(musicBean);
                     getSongLrcById(id,musicBean);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -104,6 +113,11 @@ public abstract class GetOnlineSong implements HttpListener{
         });
     }
 
+    /**
+     * 获取歌词
+     * @param id 歌曲id
+     * @param musicBean 歌曲实体，这个是为了获得上一个函数中或得到的music
+     */
     public void getSongLrcById(final int id,final MusicBean musicBean){
         Request request = new Request.Builder().url(GET_SONG_LRC_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
