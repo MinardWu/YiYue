@@ -70,6 +70,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 tv_online_music_title.setText(music.getTitle());
                 tv_online_music_artist.setText(music.getArtist());
                 String lrc = music.getLrc();
+                Log.e("lrc",lrc);
                 if(lrc.equals("1")){
                     lrc_onlinelmusic.setLabel("尚无歌词");
                 }else if(lrc.equals("2")){
