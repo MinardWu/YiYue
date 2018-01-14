@@ -21,7 +21,6 @@ import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.http.GetOnlineSong;
-import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
 import com.minardwu.yiyue.utils.Preferences;
