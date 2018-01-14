@@ -25,7 +25,7 @@
             android:textSize="24sp"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            android:text="七里香"
+            android:text="歌曲"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -36,7 +36,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/tv_online_music_title"
             android:layout_gravity="center_horizontal"
-            android:text="周杰伦"
+            android:text="歌手"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

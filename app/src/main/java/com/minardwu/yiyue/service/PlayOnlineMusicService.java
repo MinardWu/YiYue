@@ -20,11 +20,13 @@ import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
+import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.http.HttpClient;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,12 +96,13 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     public void play(int id){
         Log.e(TAG,"playstart:"+id);
         mediaPlayer.reset();
-        HttpClient.getInstance().getSongUrlById(id, new HttpCallback<String>() {
+        new GetOnlineSong() {
             @Override
-            public void onSuccess(String s) {
+            public void onSuccess(MusicBean musicBean) {
+                playOnlineMusicListener.onChangeMusic(musicBean);
                 Log.e(TAG,"sucess");
                 try {
-                    mediaPlayer.setDataSource(s);
+                    mediaPlayer.setDataSource(musicBean.getPath());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -109,10 +112,10 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
             }
 
             @Override
-            public void onFail(String e) {
-                Log.e(TAG,e.toString());
+            public void onFail(String string) {
+                Log.e("GetOnlineSong","播放出错了"+string);
             }
-        });
+        }.exectue(id);
     }
 
     MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {
@@ -165,6 +168,10 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
             handler.removeCallbacks(updateProgressRunable);
             setPlayState(STATE_IDLE);
         }
+    }
+
+    public long getCurrentMusicDuration(){
+        return mediaPlayer.getDuration();
     }
 
     public void setPlayState(int i){

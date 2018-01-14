@@ -1,24 +1,30 @@
 package com.minardwu.yiyue.fragment;
 
-import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
+import com.minardwu.yiyue.widget.LrcView;
 import com.minardwu.yiyue.widget.OnlineMusicCoverView;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +34,9 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
 
     @BindView(R.id.online_music_cover) OnlineMusicCoverView online_music_cover;
+    @BindView(R.id.tv_online_music_title) TextView tv_online_music_title;
+    @BindView(R.id.tv_online_music_artist) TextView tv_online_music_artist;
+    @BindView(R.id.lrc_onlinelmusic) LrcView lrc_onlinelmusic;
     @BindView(R.id.iv_onlinemusic_download) ImageView iv_onlinemusic_download;
     @BindView(R.id.iv_onlinemusic_play) ImageView iv_onlinemusic_play;
     @BindView(R.id.iv_onlinemusic_next) ImageView iv_onlinemusic_next;
@@ -54,9 +63,27 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_play.setSelected(false);
     }
 
+    public void changeMusicImp(final MusicBean music) {
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                loadCoverByUrl(music.getCoverPath());
+                tv_online_music_title.setText(music.getTitle());
+                tv_online_music_artist.setText(music.getArtist());
+                String lrc = music.getLrc();
+                if(lrc.equals("1")){
+                    lrc_onlinelmusic.setLabel("尚无歌词");
+                }else if(lrc.equals("2")){
+                    lrc_onlinelmusic.setLabel("纯音乐，请欣赏");
+                }else{
+                    lrc_onlinelmusic.loadLrc(lrc);
+                }
+            }
+        });
+    }
+
     @Override
     public void onChangeMusic(MusicBean music) {
-
+        changeMusicImp(music);
     }
 
     @Override
@@ -71,6 +98,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     @Override
     public void onPublish(float progress) {
+        lrc_onlinelmusic.updateTime((long) (getPlayOnlineMusicService().getCurrentMusicDuration()*progress));
         online_music_cover.update(progress);
     }
 
@@ -101,5 +129,39 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     private PlayOnlineMusicService getPlayOnlineMusicService(){
         return AppCache.getPlayOnlineMusicService();
+    }
+
+    public void loadCoverByUrl(final String url) {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                URL myFileUrl = null;
+                Bitmap bitmap = null;
+                try {
+                    myFileUrl = new URL(url);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                    final Bitmap finalBitmap = bitmap;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            online_music_cover.loadCover(finalBitmap);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+        return;
     }
 }

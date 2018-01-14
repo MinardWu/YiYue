@@ -93,7 +93,9 @@ public class OnlineMusicCoverView extends View{
         paint.setStrokeWidth(progressCircleWidth);
         canvas.drawCircle(getWidth()/2,getWidth()/2,(getWidth()- progressCircleWidth)/2,paint);
 
-        bitmap_cover = BitmapFactory.decodeResource(getResources(),R.drawable.default_cover);
+        if(bitmap_cover==null){
+            bitmap_cover = BitmapFactory.decodeResource(getResources(),R.drawable.default_cover);
+        }
         bitmap_cover = Bitmap.createScaledBitmap(bitmap_cover, bitmapWidth, bitmapWidth, true);
         canvas.drawBitmap(getCircleBitmap(bitmap_cover), progressCircleWidth, progressCircleWidth,null);
 

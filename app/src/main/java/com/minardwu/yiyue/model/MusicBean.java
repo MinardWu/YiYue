@@ -29,6 +29,8 @@ public class MusicBean implements Serializable {
     private String fileName;
     // 文件大小
     private long fileSize;
+    // 歌词
+    private String lrc;
 
     public enum Type {
         LOCAL,
@@ -121,6 +123,14 @@ public class MusicBean implements Serializable {
 
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public String getLrc() {
+        return lrc;
+    }
+
+    public void setLrc(String lrc) {
+        this.lrc = lrc;
     }
 
     /**
