@@ -5,15 +5,12 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/action_setting"
-            android:icon="@drawable/ic_menu_settings"
             android:title="@string/menu_setting" />
         <item
             android:id="@+id/action_night"
-            android:icon="@drawable/ic_menu_night"
             android:title="@string/menu_night" />
         <item
             android:id="@+id/action_timer"
-            android:icon="@drawable/ic_menu_timer"
             android:title="@string/menu_timer" />
 
     </group>
@@ -22,12 +19,10 @@
         android:id="@+id/second">
         <item
             android:id="@+id/action_about"
-            android:icon="@drawable/ic_menu_about"
             android:title="@string/menu_about" />
 
         <item
             android:id="@+id/action_exit"
-            android:icon="@drawable/ic_menu_exit"
             android:title="@string/menu_exit" />
     </group>
 </menu>
