@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="280dp"
     android:layout_width="280dp"
-    android:layout_height="400dp">
+    android:layout_height="450dp">
 
     <TextView
         android:text="定时停播"
@@ -26,5 +26,32 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp">
     </ListView>
+
+    <RelativeLayout
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_quitTillSongEnd"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/ic_quit_till_song_end_selector"
+            android:scaleType="centerInside"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_quitTillSongEnd"
+            android:layout_marginLeft="16dp"
+            android:text="计时结束后播完当前歌曲再停止"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

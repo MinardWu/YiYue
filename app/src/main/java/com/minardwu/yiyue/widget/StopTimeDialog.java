@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class StopTimeDialog extends Dialog {
 
     ListView listView;
     StopTimeItemAdapter stopTimeItemAdapter;
+    ImageView iv_quitTillSongEnd;
 
     public StopTimeDialog(@NonNull Context context) {
         super(context);
@@ -44,6 +46,8 @@ public class StopTimeDialog extends Dialog {
         super.onCreate(savedInstanceState);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_stoptime,null);
         setContentView(view);
+        iv_quitTillSongEnd = findViewById(R.id.iv_quitTillSongEnd);
+        iv_quitTillSongEnd.setSelected(Preferences.getQuitTillSongEnd());
         listView = findViewById(R.id.lv_stop_time);
         stopTimeItemAdapter = new StopTimeItemAdapter(getContext(), R.array.stoptime);
         stopTimeItemAdapter.setShowImagePosition(Preferences.getStopTime());
@@ -62,6 +66,18 @@ public class StopTimeDialog extends Dialog {
                 }else {
                     QuitTimer.getInstance().start(i*10*1000);
                     ToastUtils.show("将在"+i*10+"分钟后停止播放");
+                }
+            }
+        });
+        iv_quitTillSongEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(iv_quitTillSongEnd.isSelected()){
+                    Preferences.setQuitTillSongEnd(false);
+                    iv_quitTillSongEnd.setSelected(false);
+                }else {
+                    Preferences.setQuitTillSongEnd(true);
+                    iv_quitTillSongEnd.setSelected(true);
                 }
             }
         });
