@@ -56,6 +56,7 @@ public class StopTimeDialog extends Dialog {
                 dismiss();
                 if(i==0){
                     AppCache.getPlayService().resetOnCompletion();
+                    AppCache.getPlayOnlineMusicService().resetOnCompletion();
                     QuitTimer.getInstance().stop();
                     ToastUtils.show("定时停止播放已停止");
                 }else {
