@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.StopTimeItemAdapter;
+import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
@@ -52,11 +53,13 @@ public class StopTimeDialog extends Dialog {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 stopTimeItemAdapter.setShowImagePosition(i);
                 Preferences.saveStopTime(i);
-                QuitTimer.getInstance().start(i*10*1000);
                 dismiss();
                 if(i==0){
+                    AppCache.getPlayService().resetOnCompletion();
+                    QuitTimer.getInstance().stop();
                     ToastUtils.show("定时停止播放已停止");
                 }else {
+                    QuitTimer.getInstance().start(i*10*1000);
                     ToastUtils.show("将在"+i*10+"分钟后停止播放");
                 }
             }

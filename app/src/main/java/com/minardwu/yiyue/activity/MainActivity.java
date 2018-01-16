@@ -10,6 +10,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -25,10 +27,12 @@ import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.service.EventCallback;
 import com.minardwu.yiyue.service.OnPlayerEventListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.service.QuitTimer;
+import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.StopTimeDialog;
@@ -38,6 +42,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,6 +83,12 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         initData();
         initView();
+        QuitTimer.getInstance().init(new EventCallback<Long>() {
+            @Override
+            public void onEvent(Long aLong) {
+                Log.e("dfajirjg", ParseUtils.formatTime("(mm:ss)",aLong));
+            }
+        });
     }
 
 

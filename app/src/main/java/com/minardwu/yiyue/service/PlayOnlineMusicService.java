@@ -159,7 +159,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
 
     public void stop(){
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {//在播放状态才可以停止播放
-            mediaPlayer.stop();
+            pause();
             mediaPlayer.reset();
             handler.removeCallbacks(updateProgressRunable);
             setPlayState(STATE_IDLE);
@@ -269,11 +269,44 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         Log.i(TAG, "onDestroy: " + getClass().getSimpleName());
     }
 
+    /**
+     * 定时停播时执行操作
+     */
     public void quit() {
-//        stop();
+        pause();
         QuitTimer.getInstance().stop();
         Preferences.saveStopTime(0);
-        //stopSelf();
+    }
+
+    /**
+     * 定时停播，且选择了播放完当前歌曲结束再退出时执行的操作
+     */
+    public void quitWhenSongEnd(){
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                quit();//利用onCompletion设置播放完后暂停，但是接下来要把onCompletion重新设置为默认
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        next();
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 定时停播，且选择了播放完当前歌曲结束再退出的情况
+     * 若此时计时已为0，但最后一首歌还没有结束，用户若点击了不启用，则重设onCompletion为默认
+     */
+    public void resetOnCompletion(){
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                next();
+            }
+        });
     }
 
     @Override

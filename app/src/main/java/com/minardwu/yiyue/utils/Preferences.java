@@ -19,6 +19,7 @@ public class Preferences {
     private static final String SPLASH_URL = "splash_url";
     private static final String NIGHT_MODE = "night_mode";
     private static final String STOP_TIME = "stop_time";
+    private static final String QUIT_TILL_SONG_END = "quit_till_song_end";
 
     private static Context sContext;
 
@@ -123,6 +124,14 @@ public class Preferences {
 
     public static boolean enableMobileNetworkDownload() {
         return getBoolean(sContext.getString(R.string.setting_key_mobile_network_download), false);
+    }
+
+    public static void setQuitTillSongEnd(boolean enable) {
+        saveBoolean(QUIT_TILL_SONG_END, enable);
+    }
+
+    public static boolean getQuitTillSongEnd() {
+        return getBoolean(QUIT_TILL_SONG_END, false);
     }
 
     public static boolean isNightMode() {
