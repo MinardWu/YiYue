@@ -26,6 +26,7 @@ import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
 import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,9 +79,9 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
     }
 
     public static void doCommand(Context context, String action) {
-        Intent intent = new Intent(context, PlayService.class);
-        intent.setAction(action);
-        context.startService(intent);
+//        Intent intent = new Intent(context, PlayService.class);
+//        intent.setAction(action);
+//        context.startService(intent);
     }
 
     @Override
@@ -253,7 +254,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
             mediaPlayer.start();
             playState = STATE_PLAYING;
             handler.post(publishRunnable);
-//            Notifier.showPlay(playingMusic);
+            Notifier.showPlay(playingMusic);
             mediaSessionManager.updateMetaData(playingMusic);
             mediaSessionManager.updatePlaybackState();
             registerReceiver(noisyReceiver, noisyfilter);//注册耳机拔出监听广播
@@ -270,7 +271,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mediaPlayer.pause();
         playState = STATE_PAUSE;
         handler.removeCallbacks(publishRunnable);
-//        Notifier.showPause(playingMusic);
+        Notifier.showPause(playingMusic);
         mediaSessionManager.updatePlaybackState();
         unregisterReceiver(noisyReceiver);//注销耳机拔出监听广播
         if (onPlayerEventListener != null) {
@@ -425,7 +426,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mediaPlayer = null;
         audioFocusManager.abandonAudioFocus();
         mediaSessionManager.release();
-//        Notifier.cancelAll();
+        Notifier.cancelAll();
         AppCache.setPlayService(null);
         Log.i(TAG, "onDestroy: " + getClass().getSimpleName());
     }

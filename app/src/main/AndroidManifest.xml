@@ -37,7 +37,16 @@
         <service
             android:name=".service.PlayOnlineMusicService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <receiver
+            android:name=".receiver.StatusBarReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.minardwu.yiyue.receiver.StatusBarReceiver.ACTION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

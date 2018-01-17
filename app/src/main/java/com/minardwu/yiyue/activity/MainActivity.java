@@ -32,6 +32,7 @@ import com.minardwu.yiyue.service.OnPlayerEventListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.service.QuitTimer;
+import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
@@ -51,6 +52,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = "MainActivity";
     private int currentFragment;
     private DrawerItemAdapter drawerItemAdapter;
     private FragmentPagerAdapter fragmentPagerAdapter;
@@ -86,9 +88,10 @@ public class MainActivity extends BaseActivity {
         QuitTimer.getInstance().init(new EventCallback<Long>() {
             @Override
             public void onEvent(Long aLong) {
-                Log.e("dfajirjg", ParseUtils.formatTime("(mm:ss)",aLong));
+                Log.e(TAG, ParseUtils.formatTime("(mm:ss)",aLong));
             }
         });
+        Notifier.init(getPlayService());
     }
 
 
