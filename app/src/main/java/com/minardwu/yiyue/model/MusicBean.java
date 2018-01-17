@@ -1,5 +1,7 @@
 package com.minardwu.yiyue.model;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -31,6 +33,8 @@ public class MusicBean implements Serializable {
     private long fileSize;
     // 歌词
     private String lrc;
+    // 网络歌曲封面
+    private Bitmap onlineMusicCover;
 
     public enum Type {
         LOCAL,
@@ -131,6 +135,14 @@ public class MusicBean implements Serializable {
 
     public void setLrc(String lrc) {
         this.lrc = lrc;
+    }
+
+    public Bitmap getOnlineMusicCover() {
+        return onlineMusicCover;
+    }
+
+    public void setOnlineMusicCover(Bitmap onlineMusicCover) {
+        this.onlineMusicCover = onlineMusicCover;
     }
 
     /**

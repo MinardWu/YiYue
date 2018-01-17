@@ -104,6 +104,7 @@ public abstract class GetOnlineSong implements HttpListener{
                     musicBean.setArtist(artist);
                     musicBean.setCoverPath(picUrl);
                     musicBean.setPath(musicUrl);
+                    musicBean.setType(MusicBean.Type.ONLINE);
                     getSongLrcById(id,musicBean);
                 } catch (JSONException e) {
                     e.printStackTrace();

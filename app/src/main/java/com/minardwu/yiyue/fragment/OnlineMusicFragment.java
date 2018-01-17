@@ -17,6 +17,7 @@ import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
+import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.widget.LrcView;
 import com.minardwu.yiyue.widget.OnlineMusicCoverView;
 
@@ -41,6 +42,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     @BindView(R.id.iv_onlinemusic_play) ImageView iv_onlinemusic_play;
     @BindView(R.id.iv_onlinemusic_next) ImageView iv_onlinemusic_next;
 
+    private MusicBean playingMusic;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +67,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     }
 
     public void changeMusicImp(final MusicBean music) {
+        playingMusic = music;
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 loadCoverByUrl(music.getCoverPath());
@@ -152,6 +156,10 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                     bitmap = BitmapFactory.decodeStream(is);
                     is.close();
                     final Bitmap finalBitmap = bitmap;
+                    //刷新notification的封面
+                    playingMusic.setOnlineMusicCover(finalBitmap);
+                    Notifier.showPlay(playingMusic);
+                    //刷新播放界面封面
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
