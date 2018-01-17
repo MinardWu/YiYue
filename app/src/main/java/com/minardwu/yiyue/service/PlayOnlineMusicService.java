@@ -22,6 +22,7 @@ import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
+import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
@@ -95,6 +96,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         new GetOnlineSong() {
             @Override
             public void onSuccess(MusicBean musicBean) {
+                playingMusic = musicBean;
                 playOnlineMusicListener.onChangeMusic(musicBean);
                 Log.e(TAG,"sucess");
                 try {
@@ -139,6 +141,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         setPlayState(STATE_PLAYING);
         handler.post(updateProgressRunable);
         playOnlineMusicListener.onPlayerStart();
+        Notifier.showPlay(playingMusic);
         registerReceiver(noisyReceiver,noisyfilter);
     }
 
@@ -149,7 +152,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         mediaPlayer.pause();
         setPlayState(STATE_PAUSE);
         handler.removeCallbacks(updateProgressRunable);
-//        Notifier.showPause(playingMusic);
+        Notifier.showPause(playingMusic);
 //        mediaSessionManager.updatePlaybackState();
         unregisterReceiver(noisyReceiver);
         if (playOnlineMusicListener != null) {

@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
+import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.service.PlayService;
 
 
@@ -32,19 +33,27 @@ public class StatusBarReceiver extends BroadcastReceiver {
             return;
         }
         String extra = intent.getStringExtra(EXTRA);
+        PlayService playService = AppCache.getPlayService();
+        PlayOnlineMusicService playOnlineMusicService = AppCache.getPlayOnlineMusicService();
 
-        Log.e("dsafgsaga",extra);
         if (TextUtils.equals(extra, EXTRA_NEXT)) {
-            AppCache.getPlayService().next();
-//            PlayService.doCommand(context, Actions.ACTION_MEDIA_NEXT);
+            if (playService.isPlaying()){
+                playService.next();
+            }else if(playOnlineMusicService.isPlaying()){
+                playOnlineMusicService.next();
+            }
         } else if (TextUtils.equals(extra, EXTRA_PLAY_PAUSE)) {
-            AppCache.getPlayService().playOrPause();
-
-//            PlayService.doCommand(context, Actions.ACTION_MEDIA_PLAY_PAUSE);
+            if (playService.isPlaying()){
+                playService.playOrPause();
+            }else if(playOnlineMusicService.isPlaying()){
+                playOnlineMusicService.playOrPause();
+            }
         } else if (TextUtils.equals(extra, EXTRA_PRE)) {
-            AppCache.getPlayService().prev();
-
-//            PlayService.doCommand(context, Actions.ACTION_MEDIA_PREVIOUS);
+            if (playService.isPlaying()){
+                playService.prev();
+            }else if(playOnlineMusicService.isPlaying()){
+                playOnlineMusicService.next();
+            }
         }
     }
 }

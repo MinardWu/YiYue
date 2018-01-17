@@ -69,7 +69,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mediaSessionManager = new MediaSessionManager(this);
         mediaPlayer.setOnCompletionListener(this);
         playingPosition = Preferences.getCurrentSongPosition();//初始化时获取上次最后播放的位置
-//        Notifier.init(this);
     }
 
     @Nullable
@@ -79,9 +78,9 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
     }
 
     public static void doCommand(Context context, String action) {
-//        Intent intent = new Intent(context, PlayService.class);
-//        intent.setAction(action);
-//        context.startService(intent);
+        Intent intent = new Intent(context, PlayService.class);
+        intent.setAction(action);
+        context.startService(intent);
     }
 
     @Override
@@ -206,7 +205,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
             if (onPlayerEventListener != null) {
                 onPlayerEventListener.onChangeMusic(music);
             }
-//            Notifier.showPlay(music);
         } catch (IOException e) {
             e.printStackTrace();
         }
