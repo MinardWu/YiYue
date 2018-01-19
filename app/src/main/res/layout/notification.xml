@@ -21,6 +21,7 @@
 
         <TextView
             android:layout_above="@+id/tv_subtitle"
+            android:layout_marginBottom="8dp"
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

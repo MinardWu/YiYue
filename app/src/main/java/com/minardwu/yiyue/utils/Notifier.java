@@ -91,6 +91,7 @@ public class Notifier {
 
         Intent playIntent = new Intent(StatusBarReceiver.ACTION_STATUS_BAR);
         playIntent.putExtra(StatusBarReceiver.EXTRA, StatusBarReceiver.EXTRA_PLAY_PAUSE);
+        playIntent.putExtra(StatusBarReceiver.MUSICTYPE, music.getType().toString());
         PendingIntent playPendingIntent = PendingIntent.getBroadcast(context, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if(isPlaying){
             remoteViews.setImageViewResource(R.id.iv_play_pause,R.drawable.ic_notification_pause);
@@ -101,11 +102,13 @@ public class Notifier {
 
         Intent nextIntent = new Intent(StatusBarReceiver.ACTION_STATUS_BAR);
         nextIntent.putExtra(StatusBarReceiver.EXTRA, StatusBarReceiver.EXTRA_NEXT);
+        nextIntent.putExtra(StatusBarReceiver.MUSICTYPE, music.getType().toString());
         PendingIntent nextPendingIntent = PendingIntent.getBroadcast(context, 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.iv_next, nextPendingIntent);
 
         Intent preIntent = new Intent(StatusBarReceiver.ACTION_STATUS_BAR);
         preIntent.putExtra(StatusBarReceiver.EXTRA, StatusBarReceiver.EXTRA_PRE);
+        preIntent.putExtra(StatusBarReceiver.MUSICTYPE, music.getType().toString());
         PendingIntent prePendingIntent = PendingIntent.getBroadcast(context, 2, preIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.iv_play_pre, prePendingIntent);
 
