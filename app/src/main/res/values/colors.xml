@@ -34,4 +34,5 @@
 
     <color name="colorGreen">#d5f2df</color>
     <color name="colorGreenDeep">#5fb881</color>
+    <color name="colorGreenLight">#30c37c</color>
 </resources>

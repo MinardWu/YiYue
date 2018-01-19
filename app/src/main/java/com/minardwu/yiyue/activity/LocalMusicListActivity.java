@@ -23,6 +23,8 @@ public class LocalMusicListActivity extends BaseActivity implements AdapterView.
     ListView lv_localmusic;
     @BindView(R.id.tv_empty)
     TextView tv_empty;
+    @BindView(R.id.tv_local_music_list_songnum)
+    TextView tv_local_music_list_songnum;
 
     @OnClick(R.id.iv_back) void back(){
         finish();
@@ -47,6 +49,7 @@ public class LocalMusicListActivity extends BaseActivity implements AdapterView.
         } else {
             tv_empty.setVisibility(View.GONE);
         }
+        tv_local_music_list_songnum.setText("("+AppCache.getLocalMusicList().size()+"首)");
         localMusicListItemAdapter.updatePlayingPosition(getPlayService());
         localMusicListItemAdapter.notifyDataSetChanged();
     }
@@ -56,7 +59,6 @@ public class LocalMusicListActivity extends BaseActivity implements AdapterView.
         super.finish();
         this.overridePendingTransition(0,R.anim.activity_close);
     }
-
 
     /**
      * 音乐列表点击事件，如果点击正在播放的音乐则回到播放界面

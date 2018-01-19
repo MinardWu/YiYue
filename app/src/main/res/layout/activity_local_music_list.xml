@@ -29,11 +29,23 @@
                 android:layout_height="24dp" />
 
             <TextView
+                android:id="@+id/tv_local_music_list_titile"
                 android:layout_centerVertical="true"
                 android:textSize="18sp"
                 android:layout_toRightOf="@+id/iv_back"
                 android:layout_marginLeft="16dp"
                 android:text="本地音乐"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_local_music_list_songnum"
+                android:textSize="14sp"
+                android:layout_alignBottom="@+id/tv_local_music_list_titile"
+                android:textColor="#979696"
+                android:layout_toRightOf="@+id/tv_local_music_list_titile"
+                android:layout_marginLeft="0dp"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

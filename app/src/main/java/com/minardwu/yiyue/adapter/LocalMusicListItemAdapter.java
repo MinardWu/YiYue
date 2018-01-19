@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.utils.CoverLoader;
@@ -57,13 +58,20 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
 
         if (position == mPlayingPosition) {
             viewHolder.v_Playing.setVisibility(View.VISIBLE);
+            viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
         } else {
             viewHolder.v_Playing.setVisibility(View.INVISIBLE);
+            viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_50p));
+            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
         }
         MusicBean music = AppCache.getLocalMusicList().get(position);
         Bitmap cover = CoverLoader.getInstance().loadThumbnail(music);
         viewHolder.iv_Cover.setImageBitmap(cover);
         viewHolder.tv_Title.setText(music.getTitle());
+        viewHolder.tv_count.setText(position+1+"");
         String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
         viewHolder.tv_Artist.setText(artist);
         viewHolder.iv_More.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +91,8 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
          View v_Playing;
         @BindView(R.id.iv_cover)
          ImageView iv_Cover;
+        @BindView(R.id.tv_count)
+         TextView tv_count;
         @BindView(R.id.tv_title)
          TextView tv_Title;
         @BindView(R.id.tv_artist)

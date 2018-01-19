@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="55dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <View
+        android:visibility="gone"
         android:id="@+id/v_playing"
         android:layout_width="3dp"
         android:layout_height="50dp"
         android:layout_marginRight="3dp"
-        android:background="@color/red"
-        android:contentDescription="@null"
-        android:visibility="invisible" />
+        android:background="@color/colorGreenDeep"
+        android:contentDescription="@null" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/iv_cover"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -22,9 +23,16 @@
         android:scaleType="fitXY"
         android:src="@drawable/default_cover" />
 
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="24dp"
+        android:layout_height="50dp"
+        android:text="1"
+        android:gravity="center"/>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="10dp">
 
         <LinearLayout
@@ -46,7 +54,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="歌曲"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_artist"
@@ -57,7 +65,7 @@
                     android:singleLine="true"
                     android:text="歌手 - 专辑"
                     android:textColor="@color/grey"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <ImageView
