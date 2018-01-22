@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -46,6 +48,8 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
 
     private int lastProgress;
     private boolean isDraggingProgress;
+    private AlphaAnimation fade_in;
+    private AlphaAnimation fade_out;
 
     @BindView(R.id.tv_local_music_artist) TextView tv_local_music_artist;
     @BindView(R.id.iv_local_music_player_playmode) ImageView iv_local_music_player_playmode;
@@ -55,8 +59,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     @BindView(R.id.iv_local_music_player_musiclist) ImageView iv_local_music_player_musiclist;
     @BindView(R.id.tv_local_music_current_time) TextView tv_current_time;
     @BindView(R.id.tv_local_music_total_time) TextView tv_total_time;
-    @BindView(R.id.ac_albumcover)
-    LocalMusicCoverView ac_albumcover;
+    @BindView(R.id.ac_albumcover) LocalMusicCoverView ac_albumcover;
     @BindView(R.id.lrc_localmusic) LrcView lrc_localmusic;
     @BindView(R.id.lrc_localmusic_single) LrcView lrc_localmusic_single;
     @BindView(R.id.sb_local_music_progress)  SeekBar sb_progress;
@@ -81,6 +84,8 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         super.onActivityCreated(savedInstanceState);
         ButterKnife.bind(this,getView());
         getPlayService().setOnPlayEventListener(this);
+        fade_in = (AlphaAnimation) AnimationUtils.loadAnimation(getContext(),R.anim.view_fade_in);
+        fade_out = (AlphaAnimation) AnimationUtils.loadAnimation(getContext(),R.anim.view_fade_out);
         iv_local_music_player_playmode.setOnClickListener(this);
         iv_local_music_player_pre.setOnClickListener(this);
         iv_local_music_player_play.setOnClickListener(this);
@@ -106,7 +111,9 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                         downY[0] = motionEvent.getY();
                         //加下面这一段是因为若获取不到歌词则捕捉不到lrc的ACTION_UP时间，无法跳转回封面，所以只好放在ACTION_DOWN这里处理
                         if(!lrc_localmusic.hasLrc()){
+                            lrc_localmusic.startAnimation(fade_out);
                             lrc_localmusic.setVisibility(View.GONE);
+                            rl_cover.startAnimation(fade_in);
                             rl_cover.setVisibility(View.VISIBLE);
                             return true;
                         }
@@ -125,7 +132,9 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                             return false;//点击三角播放按钮的时候onTouch不捕获事件,也传递到onTouchEvent中
                         }else {
                             Log.e("getAction","3333333333333333333");
+                            lrc_localmusic.startAnimation(fade_out);
                             lrc_localmusic.setVisibility(View.GONE);
+                            rl_cover.startAnimation(fade_in);
                             rl_cover.setVisibility(View.VISIBLE);
                             return true;
                         }
@@ -138,8 +147,10 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View view) {
                 Log.e("getAction","4444444444444444444444444");
-                lrc_localmusic.setVisibility(View.VISIBLE);
+                rl_cover.startAnimation(fade_out);
                 rl_cover.setVisibility(View.GONE);
+                lrc_localmusic.startAnimation(fade_in);
+                lrc_localmusic.setVisibility(View.VISIBLE);
             }
         });
 
