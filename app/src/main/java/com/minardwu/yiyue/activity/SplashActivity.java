@@ -22,26 +22,22 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        if(AppCache.getPlayService()!=null&&AppCache.getPlayOnlineMusicService()!=null){
-            startMainActivity();
-            finish();
-        }else {
-            //启动并绑定音乐播放服务
-            startService(new Intent(this, PlayService.class));
-            bindService(new Intent(this, PlayService.class),this,BIND_AUTO_CREATE);
-            //启动并绑定音乐播放服务
-            startService(new Intent(this, PlayOnlineMusicService.class));
-            bindService(new Intent(this, PlayOnlineMusicService.class),this,BIND_AUTO_CREATE);
-            //一秒后进入主页面
-            Timer timer = new Timer(true);
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
-                    finish();
-                }
-            },1000);
-        }
+        //启动并绑定音乐播放服务
+        startService(new Intent(this, PlayService.class));
+        bindService(new Intent(this, PlayService.class),this,BIND_AUTO_CREATE);
+        //启动并绑定音乐播放服务
+        startService(new Intent(this, PlayOnlineMusicService.class));
+        bindService(new Intent(this, PlayOnlineMusicService.class),this,BIND_AUTO_CREATE);
+        //一秒后进入主页面
+        Timer timer = new Timer(true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                finish();
+            }
+        },1000);
+
     }
 
     /**
@@ -65,18 +61,9 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
 
     }
 
-    private void startMainActivity() {
-        Intent intent = new Intent();
-        intent.setClass(this, MainActivity.class);
-        intent.putExtras(getIntent());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        unbindService(this);
+        unbindService(this);
     }
 }

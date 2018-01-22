@@ -1,17 +1,13 @@
 package com.minardwu.yiyue.activity;
 
-import android.app.Application;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -27,16 +23,11 @@ import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
-import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.EventCallback;
-import com.minardwu.yiyue.service.OnPlayerEventListener;
-import com.minardwu.yiyue.service.PlayOnlineMusicService;
-import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
-import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.StopTimeDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,7 +35,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -205,10 +195,28 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ChageToolbarTextEvent event) {
         tv_toolbar.setText(event.getMusicBean().getTitle());
-    };
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.e(TAG,"onKeyDown");
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawers();
+            }else {
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onDestroy() {
+        Log.e(TAG,"onDestroy");
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
