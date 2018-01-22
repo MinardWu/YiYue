@@ -204,6 +204,7 @@ public class MainActivity extends BaseActivity {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawers();
             }else {
+                //退回桌面而不是销毁MainActivity
                 Intent home = new Intent(Intent.ACTION_MAIN);
                 home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 home.addCategory(Intent.CATEGORY_HOME);
