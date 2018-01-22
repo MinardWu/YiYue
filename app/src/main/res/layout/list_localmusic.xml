@@ -54,6 +54,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="歌曲"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
