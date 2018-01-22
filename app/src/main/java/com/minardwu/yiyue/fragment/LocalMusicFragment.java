@@ -154,15 +154,11 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        MusicBean currentMusic = AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition());
-        if(currentMusic!=null){
-            String lrcPath = FileUtils.getLrcFilePath(currentMusic);
-            if (lrcPath!=null) {
-                loadLrc(lrcPath);
-            }
-            ac_albumcover.setCoverBitmap(CoverLoader.getInstance().loadRound(currentMusic));
-            tv_local_music_artist.setText(currentMusic.getArtist());
-            tv_total_time.setText(ParseUtils.formatTime("mm:ss",currentMusic.getDuration()));
+        MusicBean music = getPlayService().getPlayingMusic();
+        if (music==null){
+            onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+        }else {
+            onChangeMusic(music);
         }
     }
 
@@ -205,23 +201,22 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         EventBus.getDefault().post(new ChageToolbarTextEvent(music));
         //更新播放界面UI
         tv_local_music_artist.setText(music.getArtist());
+        sb_progress.setMax((int) music.getDuration());
         sb_progress.setProgress((int) getPlayService().getCurrentPosition());
         sb_progress.setSecondaryProgress(0);
-        sb_progress.setMax((int) music.getDuration());
         lastProgress = 0;
-        tv_current_time.setText(R.string.play_time_start);
+        tv_current_time.setText(ParseUtils.formatTime("mm:ss",(int) getPlayService().getCurrentPosition()));
         tv_total_time.setText(ParseUtils.formatTime("mm:ss",music.getDuration()));
         ac_albumcover.setCoverBitmap(CoverLoader.getInstance().loadRound(music));
         ac_albumcover.start();
         setLrc(music);
-
-//        if (getPlayService().isPlaying() || getPlayService().isPreparing()) {
-//            iv_local_music_player_play.setSelected(true);
-//            ac_albumcover.start();
-//        } else {
-//            iv_local_music_player_play.setSelected(false);
-//            ac_albumcover.pause();
-//        }
+        if (getPlayService().isPlaying() || getPlayService().isPreparing()) {
+            iv_local_music_player_play.setSelected(true);
+            ac_albumcover.start();
+        } else {
+            iv_local_music_player_play.setSelected(false);
+            ac_albumcover.pause();
+        }
     }
 
     @Override
@@ -272,23 +267,19 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        if (seekBar == sb_progress) {
-            isDraggingProgress = true;
-        }
+        isDraggingProgress = true;
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (seekBar == sb_progress) {
-            isDraggingProgress = false;
-            if (getPlayService().isPlaying() || getPlayService().isPausing()) {
-                int progress = seekBar.getProgress();
-                getPlayService().seekTo(progress);
-                lrc_localmusic.updateTime(progress);
-                lrc_localmusic_single.updateTime(progress);
-            } else {
-                seekBar.setProgress(0);
-            }
+        isDraggingProgress = false;
+        if (getPlayService().isPlaying() || getPlayService().isPausing()) {
+            int progress = seekBar.getProgress();
+            getPlayService().seekTo(progress);
+            lrc_localmusic.updateTime(progress);
+            lrc_localmusic_single.updateTime(progress);
+        } else {
+            seekBar.setProgress(0);
         }
     }
 
@@ -309,7 +300,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                 break;
         }
         Preferences.savePlayMode(mode.value());
-        iv_local_music_player_playmode.setImageLevel(Preferences.getPlayMode());
+        iv_local_music_player_playmode.setImageLevel(mode.value());
     }
 
     private void setLrc(final MusicBean music) {

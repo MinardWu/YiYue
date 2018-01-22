@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.DrawerItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.constants.Extras;
 import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
@@ -92,8 +93,28 @@ public class MainActivity extends BaseActivity {
             }
         });
         Notifier.init(getPlayService());
+        parseIntent();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        parseIntent();
+    }
+
+    void parseIntent(){
+        Intent newIntent = getIntent();
+        if (newIntent.hasExtra(Extras.EXTRA_NOTIFICATION)) {
+            String type = newIntent.getStringExtra(Extras.EXTRA_NOTIFICATION);
+            if (type.equals("LOCAL")){
+                viewPager.setCurrentItem(0);
+            }else if(type.equals("ONLINE")){
+                viewPager.setCurrentItem(1);
+            }
+            setIntent(new Intent());
+        }
+    }
 
     private void initData() {
         drawerItemBeanList = new ArrayList<DrawerItemBean>();

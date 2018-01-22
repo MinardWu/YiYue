@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
@@ -49,21 +48,21 @@ public class Notifier {
     }
 
     public static void cancelAll() {
+        playService.stopForeground(false);
         notificationManager.cancelAll();
     }
 
     private static Notification buildNotification(Context context, MusicBean music, boolean isPlaying) {
         Intent intent = new Intent(context, MainActivity.class);
-//        intent.putExtra(Extras.EXTRA_NOTIFICATION, true);
-//        intent.setAction(Intent.ACTION_VIEW);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Extras.EXTRA_NOTIFICATION,music.getType().toString());
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_notification)
-//                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_notification))
                 .setCustomBigContentView(getRemoteViews(context, music, isPlaying));
         return builder.build();
     }
@@ -112,6 +111,11 @@ public class Notifier {
         PendingIntent prePendingIntent = PendingIntent.getBroadcast(context, 2, preIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.iv_play_pre, prePendingIntent);
 
+        Intent cancelIntent = new Intent(StatusBarReceiver.ACTION_STATUS_BAR);
+        cancelIntent.putExtra(StatusBarReceiver.EXTRA,StatusBarReceiver.EXTRA_CANCEL);
+        cancelIntent.putExtra(StatusBarReceiver.MUSICTYPE, music.getType().toString());
+        PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context,3,cancelIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.iv_cancel_all,cancelPendingIntent);
         return remoteViews;
     }
 

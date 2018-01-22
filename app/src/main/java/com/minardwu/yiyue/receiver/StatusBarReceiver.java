@@ -5,17 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.constants.Actions;
-import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.utils.Notifier;
 
 
 /**
@@ -28,17 +23,17 @@ public class StatusBarReceiver extends BroadcastReceiver {
     public static final String EXTRA_PRE = "pre";
     public static final String EXTRA_PLAY_PAUSE = "play_pause";
     public static final String EXTRA_NEXT = "next";
+    public static final String EXTRA_CANCEL = "cancel";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent == null || TextUtils.isEmpty(intent.getAction())) {
             return;
         }
-        String extra = intent.getStringExtra(EXTRA);
-        String type = intent.getStringExtra(MUSICTYPE);
         PlayService playService = AppCache.getPlayService();
         PlayOnlineMusicService playOnlineMusicService = AppCache.getPlayOnlineMusicService();
-        Log.e("dfghidughs",type);
+        String extra = intent.getStringExtra(EXTRA);
+        String type = intent.getStringExtra(MUSICTYPE);
         if (TextUtils.equals(extra, EXTRA_NEXT)) {
             if (type.equals("LOCAL")){
                 playService.next();
@@ -57,6 +52,13 @@ public class StatusBarReceiver extends BroadcastReceiver {
             }else if(type.equals("ONLINE")){
                 playOnlineMusicService.next();
             }
+        } else if (TextUtils.equals(extra, EXTRA_CANCEL)) {
+            if (type.equals("LOCAL")){
+                playService.pauseForHideNotifition();
+            }else if(type.equals("ONLINE")){
+                playOnlineMusicService.pauseForHideNotifition();
+            }
+            Notifier.cancelAll();
         }
     }
 }

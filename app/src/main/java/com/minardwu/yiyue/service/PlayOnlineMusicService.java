@@ -160,6 +160,20 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         }
     }
 
+    public void pauseForHideNotifition(){
+        if (!isPlaying()) {
+            return;
+        }
+        mediaPlayer.pause();
+        setPlayState(STATE_PAUSE);
+        handler.removeCallbacks(updateProgressRunable);
+//        mediaSessionManager.updatePlaybackState();
+        unregisterReceiver(noisyReceiver);
+        if (playOnlineMusicListener != null) {
+            playOnlineMusicListener.onPlayerPause();
+        }
+    }
+
     public void stop(){
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {//在播放状态才可以停止播放
             pause();

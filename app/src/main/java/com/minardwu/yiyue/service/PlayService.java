@@ -277,6 +277,20 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         }
     }
 
+    public void pauseForHideNotifition(){
+        if (!isPlaying()) {
+            return;
+        }
+        mediaPlayer.pause();
+        playState = STATE_PAUSE;
+        handler.removeCallbacks(publishRunnable);
+        mediaSessionManager.updatePlaybackState();
+        unregisterReceiver(noisyReceiver);//注销耳机拔出监听广播
+        if (onPlayerEventListener != null) {
+            onPlayerEventListener.onPlayerPause();
+        }
+    }
+
     public void stop() {
         if (isIdle()) {
             return;

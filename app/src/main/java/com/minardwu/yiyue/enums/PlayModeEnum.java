@@ -21,6 +21,7 @@ public enum PlayModeEnum {
             case 2:
                 return SINGLE;
             case 0:
+                return LOOP;
             default:
                 return LOOP;
         }
