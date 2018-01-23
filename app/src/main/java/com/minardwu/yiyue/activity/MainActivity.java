@@ -20,6 +20,7 @@ import com.minardwu.yiyue.adapter.DrawerItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Extras;
 import com.minardwu.yiyue.event.ChageToolbarTextEvent;
+import com.minardwu.yiyue.executor.DrawerItemExecutor;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity {
     private FragmentPagerAdapter fragmentPagerAdapter;
     private List<DrawerItemBean> drawerItemBeanList;
     private List<android.support.v4.app.Fragment> fragmentList;
+    private DrawerItemExecutor drawerItemExecutor = new DrawerItemExecutor();
 
     @BindView(R.id.tv_toolbar) TextView tv_toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -140,47 +142,8 @@ public class MainActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i){
-                    case 1:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        StopTimeDialog stopTimeDialog = new StopTimeDialog(MainActivity.this,R.style.StopTimeDialog);
-                        stopTimeDialog.show();
-                        break;
-                    case 4:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        final int second[]= getResources().getIntArray(R.array.filter_time_num);
-                        ChooseOptionDialog timeFilterDialog = new ChooseOptionDialog(MainActivity.this,R.style.StopTimeDialog);
-                        timeFilterDialog.setTitle("按时长过滤");
-                        timeFilterDialog.setItem(R.array.filter_time_title);
-                        timeFilterDialog.setShowImagePosition(Preferences.getFilterTimePosition());
-                        timeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
-                            @Override
-                            public void onClick(View view, int position) {
-                                Preferences.saveFilterTimePosition(position);
-                                Preferences.saveFilterTime(second[position]);
-                                ToastUtils.show(second[position]+"");
-                            }
-                        });
-                        timeFilterDialog.show();
-                        break;
-                    case 5:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        final int size[]= getResources().getIntArray(R.array.filter_size_num);
-                        ChooseOptionDialog sizeFilterDialog = new ChooseOptionDialog(MainActivity.this,R.style.StopTimeDialog);
-                        sizeFilterDialog.setTitle("按大小过滤");
-                        sizeFilterDialog.setItem(R.array.filter_size_title);
-                        sizeFilterDialog.setShowImagePosition(Preferences.getFilterSizePosition());
-                        sizeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
-                            @Override
-                            public void onClick(View view, int position) {
-                                Preferences.saveFilterSizePosition(position);
-                                Preferences.saveFilterSize(size[position]);
-                                ToastUtils.show(size[position]+"");
-                            }
-                        });
-                        sizeFilterDialog.show();
-                        break;
-                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                drawerItemExecutor.execute(i,MainActivity.this);
             }
         });
         //初始化ViewPaper
