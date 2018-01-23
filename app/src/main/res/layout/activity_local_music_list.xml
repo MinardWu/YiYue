@@ -50,11 +50,20 @@
                 android:layout_height="wrap_content" />
 
             <ImageView
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/iv_more"
                 android:id="@+id/iv_search"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="12dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/search12"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_more"
+                android:layout_marginRight="14dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_more"
                 android:layout_width="24dp"
                 android:layout_height="24dp" />
 

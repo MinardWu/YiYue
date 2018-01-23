@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.StopTimeItemAdapter;
@@ -49,7 +48,7 @@ public class StopTimeDialog extends Dialog {
         iv_quitTillSongEnd = findViewById(R.id.iv_quitTillSongEnd);
         iv_quitTillSongEnd.setSelected(Preferences.getQuitTillSongEnd());
         listView = findViewById(R.id.lv_stop_time);
-        stopTimeItemAdapter = new StopTimeItemAdapter(getContext(), R.array.stoptime);
+        stopTimeItemAdapter = new StopTimeItemAdapter(getContext(), R.array.stop_time);
         stopTimeItemAdapter.setShowImagePosition(Preferences.getStopTime());
         listView.setAdapter(stopTimeItemAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

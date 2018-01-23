@@ -29,7 +29,7 @@ import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
-import com.minardwu.yiyue.widget.FilterDialog;
+import com.minardwu.yiyue.widget.ChooseOptionDialog;
 import com.minardwu.yiyue.widget.StopTimeDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -146,14 +146,14 @@ public class MainActivity extends BaseActivity {
                         StopTimeDialog stopTimeDialog = new StopTimeDialog(MainActivity.this,R.style.StopTimeDialog);
                         stopTimeDialog.show();
                         break;
-                    case 2:
+                    case 4:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         final int second[]= getResources().getIntArray(R.array.filter_time_num);
-                        FilterDialog filterDialog = new FilterDialog(MainActivity.this,R.style.StopTimeDialog);
-                        filterDialog.setTitle("按时长过滤");
-                        filterDialog.setItem(R.array.filter_time_title);
-                        filterDialog.setShowImagePosition(Preferences.getFilterTimePosition());
-                        filterDialog.setOnDialogItemClickListener(new FilterDialog.onDialogItemClickListener() {
+                        ChooseOptionDialog timeFilterDialog = new ChooseOptionDialog(MainActivity.this,R.style.StopTimeDialog);
+                        timeFilterDialog.setTitle("按时长过滤");
+                        timeFilterDialog.setItem(R.array.filter_time_title);
+                        timeFilterDialog.setShowImagePosition(Preferences.getFilterTimePosition());
+                        timeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
                             @Override
                             public void onClick(View view, int position) {
                                 Preferences.saveFilterTimePosition(position);
@@ -161,7 +161,24 @@ public class MainActivity extends BaseActivity {
                                 ToastUtils.show(second[position]+"");
                             }
                         });
-                        filterDialog.show();
+                        timeFilterDialog.show();
+                        break;
+                    case 5:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        final int size[]= getResources().getIntArray(R.array.filter_size_num);
+                        ChooseOptionDialog sizeFilterDialog = new ChooseOptionDialog(MainActivity.this,R.style.StopTimeDialog);
+                        sizeFilterDialog.setTitle("按大小过滤");
+                        sizeFilterDialog.setItem(R.array.filter_size_title);
+                        sizeFilterDialog.setShowImagePosition(Preferences.getFilterSizePosition());
+                        sizeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
+                            @Override
+                            public void onClick(View view, int position) {
+                                Preferences.saveFilterSizePosition(position);
+                                Preferences.saveFilterSize(size[position]);
+                                ToastUtils.show(size[position]+"");
+                            }
+                        });
+                        sizeFilterDialog.show();
                         break;
                 }
             }

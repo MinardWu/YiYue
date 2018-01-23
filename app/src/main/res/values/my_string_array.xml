@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="stoptime">
+    <string-array name="stop_time">
         <item>不开启</item>
         <item>10分钟后</item>
         <item>20分钟后</item>
@@ -26,8 +26,7 @@
         <item>180</item>
     </integer-array>
 
-
-    <string-array name="filter_size">
+    <string-array name="filter_size_title">
         <item>不过滤</item>
         <item>100KB</item>
         <item>500KB</item>
@@ -35,6 +34,22 @@
         <item>5MB</item>
         <item>10MB</item>
         <item>20MB</item>
+    </string-array>
+
+    <integer-array name="filter_size_num">
+        <item>0</item>
+        <item>100</item>
+        <item>500</item>
+        <item>1024</item>
+        <item>5120</item>
+        <item>10240</item>
+        <item>20480</item>
+    </integer-array>
+
+    <string-array name="sort">
+        <item>按歌曲名</item>
+        <item>按歌手名</item>
+        <item>按添加时间</item>
     </string-array>
 
 </resources>

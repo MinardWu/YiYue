@@ -18,7 +18,7 @@ import com.minardwu.yiyue.adapter.StopTimeItemAdapter;
  * Created by MinardWu on 2018/1/23.
  */
 
-public class FilterDialog extends Dialog {
+public class ChooseOptionDialog extends Dialog {
 
     private TextView tv_dialog_title;
     private ListView listView;
@@ -27,15 +27,15 @@ public class FilterDialog extends Dialog {
     private int resId;
     private int showImagePosition;
 
-    public FilterDialog(@NonNull Context context) {
+    public ChooseOptionDialog(@NonNull Context context) {
         super(context);
     }
 
-    public FilterDialog(@NonNull Context context, int themeResId) {
+    public ChooseOptionDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
     }
 
-    protected FilterDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+    protected ChooseOptionDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
@@ -64,6 +64,7 @@ public class FilterDialog extends Dialog {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 stopTimeItemAdapter.setShowImagePosition(i);
+                dismiss();
                 listener.onClick(view,i);
             }
         });

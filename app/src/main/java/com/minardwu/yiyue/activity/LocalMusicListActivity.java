@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.LocalMusicListItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.widget.MoreDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +21,10 @@ public class LocalMusicListActivity extends BaseActivity implements AdapterView.
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.iv_search)
+    ImageView iv_search;
+    @BindView(R.id.iv_more)
+    ImageView iv_more;
     @BindView(R.id.lv_localmusic)
     ListView lv_localmusic;
     @BindView(R.id.tv_empty)
@@ -28,6 +34,20 @@ public class LocalMusicListActivity extends BaseActivity implements AdapterView.
 
     @OnClick(R.id.iv_back) void back(){
         finish();
+    }
+    @OnClick(R.id.iv_more) void more(){
+        MoreDialog moreDialog = new MoreDialog(this,R.style.StopTimeDialog);
+        moreDialog.setOnMoreDialogItemClickListener(new MoreDialog.OnMoreDialogItemClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view.getId()==R.id.tv_scan_music){
+                    AppCache.getLocalMusicList().clear();
+                    AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(LocalMusicListActivity.this));
+                    updateView();
+                }
+            }
+        });
+        moreDialog.show();
     }
 
     LocalMusicListItemAdapter localMusicListItemAdapter = new LocalMusicListItemAdapter();
