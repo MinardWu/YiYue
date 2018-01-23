@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="stoptime">
+        <item>不开启</item>
+        <item>10分钟后</item>
+        <item>20分钟后</item>
+        <item>30分钟后</item>
+        <item>40分钟后</item>
+        <item>50分钟后</item>
+        <item>60分钟后</item>
+    </string-array>
+
+    <string-array name="filter_time_title">
+        <item>不过滤</item>
+        <item>30秒</item>
+        <item>1分钟</item>
+        <item>2分钟</item>
+        <item>3分钟</item>
+    </string-array>
+
+    <integer-array name="filter_time_num">
+        <item>0</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+    </integer-array>
+
+
+    <string-array name="filter_size">
+        <item>不过滤</item>
+        <item>100KB</item>
+        <item>500KB</item>
+        <item>1MB</item>
+        <item>5MB</item>
+        <item>10MB</item>
+        <item>20MB</item>
+    </string-array>
+
+</resources>

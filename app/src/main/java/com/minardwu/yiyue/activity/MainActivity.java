@@ -28,6 +28,8 @@ import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.widget.FilterDialog;
 import com.minardwu.yiyue.widget.StopTimeDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -143,6 +145,23 @@ public class MainActivity extends BaseActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         StopTimeDialog stopTimeDialog = new StopTimeDialog(MainActivity.this,R.style.StopTimeDialog);
                         stopTimeDialog.show();
+                        break;
+                    case 2:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        final int second[]= getResources().getIntArray(R.array.filter_time_num);
+                        FilterDialog filterDialog = new FilterDialog(MainActivity.this,R.style.StopTimeDialog);
+                        filterDialog.setTitle("按时长过滤");
+                        filterDialog.setItem(R.array.filter_time_title);
+                        filterDialog.setShowImagePosition(Preferences.getFilterTimePosition());
+                        filterDialog.setOnDialogItemClickListener(new FilterDialog.onDialogItemClickListener() {
+                            @Override
+                            public void onClick(View view, int position) {
+                                Preferences.saveFilterTimePosition(position);
+                                Preferences.saveFilterTime(second[position]);
+                                ToastUtils.show(second[position]+"");
+                            }
+                        });
+                        filterDialog.show();
                         break;
                 }
             }

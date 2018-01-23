@@ -20,6 +20,8 @@ public class Preferences {
     private static final String NIGHT_MODE = "night_mode";
     private static final String STOP_TIME = "stop_time";
     private static final String QUIT_TILL_SONG_END = "quit_till_song_end";
+    private static final String FITLER_TIME_POSITION = "filter_time_position";
+    private static final String FITLER_SIZE_POSITION = "filter_size_position";
 
     private static Context sContext;
 
@@ -142,20 +144,36 @@ public class Preferences {
         saveBoolean(NIGHT_MODE, on);
     }
 
-    public static String getFilterSize() {
-        return getString(sContext.getString(R.string.setting_key_filter_size), "0");
+    public static long getFilterSize() {
+        return getLong(sContext.getString(R.string.setting_key_filter_size), 0);
     }
 
-    public static void saveFilterSize(String value) {
-        saveString(sContext.getString(R.string.setting_key_filter_size), value);
+    public static void saveFilterSize(long value) {
+        saveLong(sContext.getString(R.string.setting_key_filter_size), value);
     }
 
-    public static String getFilterTime() {
-        return getString(sContext.getString(R.string.setting_key_filter_time), "0");
+    public static int getFilterSizePosition() {
+        return getInt(FITLER_SIZE_POSITION, 0);
     }
 
-    public static void saveFilterTime(String value) {
-        saveString(sContext.getString(R.string.setting_key_filter_time), value);
+    public static void saveFilterSizePosition(int value) {
+        saveInt(FITLER_SIZE_POSITION, value);
+    }
+
+    public static long getFilterTime() {
+        return getLong(sContext.getString(R.string.setting_key_filter_time), 0);
+    }
+
+    public static void saveFilterTime(long value) {
+        saveLong(sContext.getString(R.string.setting_key_filter_time), value);
+    }
+
+    public static int getFilterTimePosition() {
+        return getInt(FITLER_TIME_POSITION, 0);
+    }
+
+    public static void saveFilterTimePosition(int value) {
+        saveInt(FITLER_TIME_POSITION, value);
     }
 
 }
