@@ -1,11 +1,14 @@
 package com.minardwu.yiyue.executor;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.view.GravityCompat;
 import android.view.View;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.InfoActivity;
 import com.minardwu.yiyue.activity.MainActivity;
+import com.minardwu.yiyue.activity.SampleActivity;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.ChooseOptionDialog;
@@ -55,7 +58,9 @@ public class DrawerItemExecutor {
                 });
                 sizeFilterDialog.show();
                 break;
-
+            case 6:
+                activity.startActivity(new Intent(activity, InfoActivity.class));
+                break;
         }
     }
 

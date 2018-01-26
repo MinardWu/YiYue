@@ -47,6 +47,8 @@
                 <action android:name="com.minardwu.yiyue.receiver.StatusBarReceiver.ACTION" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".activity.InfoActivity"></activity>
     </application>
 
 </manifest>
