@@ -119,6 +119,10 @@ public class MainActivity extends BaseActivity {
         drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_filter,"文件时间过滤"));
         drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_filter,"文件大小过滤"));
         drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"关于"));
+        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"帮助"));
+        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"我的收藏"));
+        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"我的歌手"));
+        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"播放历史"));
         drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_exit,"退出应用"));
 
         fragmentList = new ArrayList<android.support.v4.app.Fragment>();

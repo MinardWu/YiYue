@@ -115,7 +115,7 @@ public class Notifier {
         cancelIntent.putExtra(StatusBarReceiver.EXTRA,StatusBarReceiver.EXTRA_CANCEL);
         cancelIntent.putExtra(StatusBarReceiver.MUSICTYPE, music.getType().toString());
         PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context,3,cancelIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.iv_cancel_all,cancelPendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.rl_cancel_all,cancelPendingIntent);
         return remoteViews;
     }
 

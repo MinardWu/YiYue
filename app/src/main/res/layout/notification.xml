@@ -14,49 +14,64 @@
         android:src="@drawable/icon_logo" />
 
     <RelativeLayout
+        android:id="@+id/ll_right_all"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.0"
         android:paddingBottom="2dp">
 
-        <TextView
-            android:layout_above="@+id/tv_subtitle"
-            android:layout_marginBottom="8dp"
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="13dp"
-            android:ellipsize="end"
-            android:fadingEdge="horizontal"
-            android:maxLines="1"
-            android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent.Title" />
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_right_top"
             android:layout_above="@id/ll_line"
-            android:id="@+id/tv_subtitle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fadingEdge="horizontal"
-            android:paddingLeft="13.0dp"
-            android:maxLines="1"
-            android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent" />
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_alignParentRight="true"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
+            <LinearLayout
+                android:id="@+id/ll_song_and_artist"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_centerInParent="true"
-                android:id="@+id/iv_cancel_all"
-                android:src="@drawable/ic_notification_cancle"
-                android:layout_width="12dp"
-                android:layout_height="12dp" />
+                <TextView
+                    android:layout_marginBottom="8dp"
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="13dp"
+                    android:ellipsize="end"
+                    android:fadingEdge="horizontal"
+                    android:maxLines="1"
+                    android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent.Title" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_subtitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fadingEdge="horizontal"
+                    android:paddingLeft="13dp"
+                    android:maxLines="1"
+                    android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent" />
 
+            </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/rl_cancel_all"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/iv_cancel_all"
+                    android:src="@drawable/ic_notification_cancle"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
