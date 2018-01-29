@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string-array name="drawer_title">
+        <item>夜间模式</item>
+        <item>移动网络下载</item>
+        <item>empty</item>
+        <item>音效调节</item>
+        <item>定时停止播放</item>
+        <item>文件时间过滤</item>
+        <item>文件大小过滤</item>
+        <item>empty</item>
+        <item>我的收藏</item>
+        <item>我的歌手</item>
+        <item>FM足迹</item>
+        <item>empty</item>
+        <item>反馈</item>
+        <item>关于</item>
+    </string-array>
+
+    <integer-array name="drawer_img">
+        <item>@drawable/icon_night</item>
+        <item>@drawable/icon_mobiledata</item>
+        <item>@null</item>
+        <item>@drawable/icon_balancer</item>
+        <item>@drawable/icon_clock</item>
+        <item>@drawable/icon_filter</item>
+        <item>@drawable/icon_filter</item>
+        <item>@null</item>
+        <item>@drawable/icon_night</item>
+        <item>@drawable/icon_night</item>
+        <item>@drawable/icon_night</item>
+        <item>@null</item>
+        <item>@drawable/icon_info</item>
+        <item>@drawable/icon_info</item>
+    </integer-array>
+
+    <integer-array name="drawer_type">
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>2</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>2</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+
+
     <string-array name="stop_time">
         <item>不开启</item>
         <item>10分钟后</item>

@@ -6,27 +6,57 @@ package com.minardwu.yiyue.model;
 
 public class DrawerItemBean {
 
-    private int resId;
-    private String text;
+    private int type;
+    private int imgId;
+    private String title;
+    private String info;
+    private boolean state;
 
-    public DrawerItemBean(int resId, String text) {
-        this.resId = resId;
-        this.text = text;
+    public DrawerItemBean(int type, int imgId, String title, String info, boolean state) {
+        this.type = type;
+        this.imgId = imgId;
+        this.title = title;
+        this.info = info;
+        this.state = state;
     }
 
-    public int getResId() {
-        return resId;
+    public int getType() {
+        return type;
     }
 
-    public void setResId(int resId) {
-        this.resId = resId;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public String getText() {
-        return text;
+    public int getImgId() {
+        return imgId;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 }

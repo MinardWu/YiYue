@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:minHeight="42dp">
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/iv_list_drawer_switch"
+        android:layout_width="18dp"
+        android:layout_height="18dp" />
+
+    <TextView
+        android:textSize="15sp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@+id/iv_list_drawer_switch"
+        android:id="@+id/tv_list_drawer_switch_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:theme="@style/SwitchStyle"
+        android:id="@+id/sw_list_drawer_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+</RelativeLayout>

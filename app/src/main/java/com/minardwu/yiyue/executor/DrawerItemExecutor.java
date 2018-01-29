@@ -22,11 +22,11 @@ public class DrawerItemExecutor {
 
     public void execute(int position,Activity activity){
         switch (position){
-            case 1:
+            case 4:
                 StopTimeDialog stopTimeDialog = new StopTimeDialog(activity, R.style.StopTimeDialog);
                 stopTimeDialog.show();
                 break;
-            case 4:
+            case 5:
                 final int second[]= activity.getResources().getIntArray(R.array.filter_time_num);
                 ChooseOptionDialog timeFilterDialog = new ChooseOptionDialog(activity,R.style.StopTimeDialog);
                 timeFilterDialog.setTitle("按时长过滤");
@@ -42,7 +42,7 @@ public class DrawerItemExecutor {
                 });
                 timeFilterDialog.show();
                 break;
-            case 5:
+            case 6:
                 final int size[]= activity.getResources().getIntArray(R.array.filter_size_num);
                 ChooseOptionDialog sizeFilterDialog = new ChooseOptionDialog(activity,R.style.StopTimeDialog);
                 sizeFilterDialog.setTitle("按大小过滤");
@@ -58,7 +58,7 @@ public class DrawerItemExecutor {
                 });
                 sizeFilterDialog.show();
                 break;
-            case 6:
+            case 13:
                 activity.startActivity(new Intent(activity, InfoActivity.class));
                 break;
         }

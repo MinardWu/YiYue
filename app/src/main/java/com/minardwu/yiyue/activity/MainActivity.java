@@ -29,9 +29,6 @@ import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
-import com.minardwu.yiyue.utils.ToastUtils;
-import com.minardwu.yiyue.widget.ChooseOptionDialog;
-import com.minardwu.yiyue.widget.StopTimeDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -111,20 +108,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initData() {
-        drawerItemBeanList = new ArrayList<DrawerItemBean>();
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_night,"夜间模式                     开"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_clock,"定时停止播放"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_balancer,"音效调节"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_mobiledata,"移动网络下载"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_filter,"文件时间过滤"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_filter,"文件大小过滤"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"关于"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"帮助"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"我的收藏"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"我的歌手"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_info,"播放历史"));
-        drawerItemBeanList.add(new DrawerItemBean(R.drawable.icon_exit,"退出应用"));
-
         fragmentList = new ArrayList<android.support.v4.app.Fragment>();
         fragmentList.add(new LocalMusicFragment());
         fragmentList.add(new OnlineMusicFragment());
@@ -141,7 +124,7 @@ public class MainActivity extends BaseActivity {
             drawerLayout.setClipToPadding(false);
         }
         //初始化侧边栏
-        drawerItemAdapter = new DrawerItemAdapter(this,R.layout.list_drawer,drawerItemBeanList);
+        drawerItemAdapter = new DrawerItemAdapter(this,R.array.drawer_img,R.array.drawer_title,R.array.drawer_type);
         listView.setAdapter(drawerItemAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
