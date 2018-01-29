@@ -116,11 +116,11 @@ public class Preferences {
         saveString(SPLASH_URL, url);
     }
 
-    public static boolean enableMobileNetworkPlay() {
+    public static boolean enablePlayWhenOnlyHaveWifi() {
         return getBoolean(sContext.getString(R.string.setting_key_mobile_network_play), false);
     }
 
-    public static void saveMobileNetworkPlay(boolean enable) {
+    public static void savePlayWhenOnlyHaveWifi(boolean enable) {
         saveBoolean(sContext.getString(R.string.setting_key_mobile_network_play), enable);
     }
 

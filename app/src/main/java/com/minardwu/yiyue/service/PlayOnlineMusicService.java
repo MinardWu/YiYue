@@ -17,13 +17,16 @@ import java.util.Random;
 
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
+import com.minardwu.yiyue.constants.NetWorkType;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
+import com.minardwu.yiyue.utils.NetWorkUtils;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,16 +65,6 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         EventBus.getDefault().register(this);
 //        audioFocusManager = new AudioFocusManager(this);
 //        mediaSessionManager = new MediaSessionManager(this);
-//        Notifier.init(this);
-//        QuitTimer.getInstance().init(this, handler, new EventCallback<Long>() {
-//            //利用onEvent将剩余时间传递回PlayService中，然后利用OnTimer传回Activity更新UI
-//            @Override
-//            public void onEvent(Long aLong) {
-//                if (onPlayerEventListener != null) {
-//                    onPlayerEventListener.onTimer(aLong);
-//                }
-//            }
-//        });
     }
 
     public void setPlayOnlineMusicListener(OnPlayOnlineMusicListener playOnlineMusicListener) {
@@ -91,6 +84,16 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     }
 
     public void play(int id){
+        if(Preferences.enablePlayWhenOnlyHaveWifi()){
+            if(NetWorkUtils.getNetWorkType(this) != NetWorkType.WIFI){
+                ToastUtils.show("当前无WiFi，若想播放请关闭开关");
+                return;
+            }
+        }
+        if(NetWorkUtils.getNetWorkType(this) == NetWorkType.NO_NET){
+            ToastUtils.show("当前无网络，请检查网络连接");
+            return;
+        }
         Log.e(TAG,"playstart:"+id);
         mediaPlayer.reset();
         new GetOnlineSong() {
@@ -281,7 +284,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         mediaPlayer = null;
 //        audioFocusManager.abandonAudioFocus();
 //        mediaSessionManager.release();
-//        Notifier.cancelAll();
+        Notifier.cancelAll();
         AppCache.setPlayOnlineMusicService(null);
         Log.i(TAG, "onDestroy: " + getClass().getSimpleName());
     }

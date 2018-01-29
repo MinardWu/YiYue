@@ -133,7 +133,23 @@ public class MainActivity extends BaseActivity {
         }
         //初始化侧边栏
         drawerItemAdapter = new DrawerItemAdapter(this,R.array.drawer_img,R.array.drawer_title,R.array.drawer_type);
-        drawerItemAdapter.setDrawerItemBeanInfo(12,"帮助我们");
+
+        drawerItemAdapter.setSwitchClickListener(new DrawerItemAdapter.OnSwitchClickListener() {
+            @Override
+            public void onClick(int position,boolean isCheck) {
+                switch (position){
+                    case 0:
+                        break;
+                    case 1:
+                        if(isCheck){
+                            Preferences.savePlayWhenOnlyHaveWifi(true);
+                        }else {
+                            Preferences.savePlayWhenOnlyHaveWifi(false);
+                        }
+                        break;
+                }
+            }
+        });
         listView.setAdapter(drawerItemAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -34,7 +34,6 @@ public abstract class GetOnlineSong implements HttpListener{
         getSongUrlById(id);
     }
 
-
     /**
      * 获取歌曲url
      * @param id 歌曲id

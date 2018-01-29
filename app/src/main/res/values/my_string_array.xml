@@ -3,7 +3,7 @@
 
     <string-array name="drawer_title">
         <item>夜间模式</item>
-        <item>移动网络下载</item>
+        <item>仅Wi-Fi播放</item>
         <item>empty</item>
         <item>音效调节</item>
         <item>定时停止播放</item>

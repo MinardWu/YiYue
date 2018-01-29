@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.model.DrawerItemBean;
+import com.minardwu.yiyue.utils.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,19 +31,31 @@ public class DrawerItemAdapter extends BaseAdapter {
 
     public DrawerItemAdapter(Context context,int imgIdArray,int stringArray,int typeArray){
         this.mContext = context;
-        TypedArray typedArray = context.getResources().obtainTypedArray(imgIdArray);
+        initData(imgIdArray,stringArray,typeArray);
+    }
+
+    void initData(int imgIdArray,int stringArray,int typeArray){
+        TypedArray typedArray = mContext.getResources().obtainTypedArray(imgIdArray);
         int[] resIds = new int[typedArray.length()];
         for (int i = 0; i < typedArray.length(); i++)
             resIds[i] = typedArray.getResourceId(i, 0);
-        int[] types = context.getResources().getIntArray(typeArray);
-        String[] titles = context.getResources().getStringArray(stringArray);
+        int[] types = mContext.getResources().getIntArray(typeArray);
+        String[] titles = mContext.getResources().getStringArray(stringArray);
         for(int i=0;i<titles.length;i++){
             drawerItemBeanList.add(new DrawerItemBean(types[i],resIds[i],titles[i],"",false));
         }
+        setDrawerItemBeanState(0,false);
+        setDrawerItemBeanState(1, Preferences.enablePlayWhenOnlyHaveWifi());
+        setDrawerItemBeanInfo(12,"帮助我们");
     }
 
     public void setDrawerItemBeanInfo(int position,String info){
         drawerItemBeanList.get(position).setInfo(info);
+        notifyDataSetChanged();
+    }
+
+    public void setDrawerItemBeanState(int position,boolean isCheck){
+        drawerItemBeanList.get(position).setState(isCheck);
         notifyDataSetChanged();
     }
 
@@ -73,9 +86,9 @@ public class DrawerItemAdapter extends BaseAdapter {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         NormalViewHolder normalViewHolder;
-        SwitchViewHolder switchViewHolder;
+        final SwitchViewHolder switchViewHolder;
         EmptyViewHolder emptyViewHolder;
         DrawerItemBean drawerItemBean = drawerItemBeanList.get(position);
         switch (getItemViewType(position)){
@@ -108,6 +121,12 @@ public class DrawerItemAdapter extends BaseAdapter {
                 switchViewHolder.imageView.setImageResource(drawerItemBean.getImgId());
                 switchViewHolder.title.setText(drawerItemBean.getTitle());
                 switchViewHolder.aSwitch.setChecked(drawerItemBean.isState());
+                switchViewHolder.aSwitch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switchClickListener.onClick(position,switchViewHolder.aSwitch.isChecked());
+                    }
+                });
                 break;
             case 2:
                 if(convertView==null){
@@ -137,6 +156,16 @@ public class DrawerItemAdapter extends BaseAdapter {
 
     class EmptyViewHolder {
 
+    }
+
+    public interface OnSwitchClickListener{
+        void onClick(int position,boolean isCheck);
+    }
+
+    private OnSwitchClickListener switchClickListener;
+
+    public void setSwitchClickListener(OnSwitchClickListener switchClickListener) {
+        this.switchClickListener = switchClickListener;
     }
 }
 
