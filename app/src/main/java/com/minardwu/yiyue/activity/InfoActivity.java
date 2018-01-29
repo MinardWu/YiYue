@@ -6,12 +6,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.utils.SystemUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class InfoActivity extends SampleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView tv_version = findViewById(R.id.tv_version);
+        tv_version.setText(SystemUtils.getLocalVersionName(this));
     }
 
     @Override

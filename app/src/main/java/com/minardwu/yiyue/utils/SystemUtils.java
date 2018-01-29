@@ -3,6 +3,8 @@ package com.minardwu.yiyue.utils;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.WindowManager;
@@ -63,6 +65,38 @@ public class SystemUtils {
     public static int getScreenHeight() {
         WindowManager wm = (WindowManager) YiYueApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
         return wm.getDefaultDisplay().getHeight();
+    }
+
+    /**
+     * 获取软件版本号
+     */
+    public static int getLocalVersion(Context context) {
+        int localVersion = 0;
+        try {
+            PackageInfo packageInfo = context.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            localVersion = packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return localVersion;
+    }
+
+    /**
+     * 获取软件版本名
+     */
+    public static String getLocalVersionName(Context context) {
+        String localVersion = "";
+        try {
+            PackageInfo packageInfo = context.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            localVersion = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return localVersion;
     }
 
 }
