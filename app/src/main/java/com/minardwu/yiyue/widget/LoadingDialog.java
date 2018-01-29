@@ -19,7 +19,7 @@ public class LoadingDialog {
 
     public static Dialog createLoadingDialog(Context context) {
 
-        View view =  LayoutInflater.from(context).inflate(R.layout.progress_dialog, null);
+        View view =  LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
         LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll_progressDialog);
         ImageView iv = (ImageView) view.findViewById(R.id.iv_progressDialog);
 

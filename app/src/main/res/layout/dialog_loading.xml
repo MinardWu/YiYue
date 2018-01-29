@@ -3,7 +3,7 @@
     android:id="@+id/ll_progressDialog"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/loadingdialog_bg"
+    android:background="@drawable/dialog_loading_bg"
     android:orientation="vertical">
 
     <ImageView

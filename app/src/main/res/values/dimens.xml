@@ -7,4 +7,5 @@
     <dimen name="lrc_timeline_height">0.5dp</dimen>
     <dimen name="lrc_drawable_width">30dp</dimen>
     <dimen name="lrc_time_width">40dp</dimen>
+    <dimen name="drawer_img_width_or_height">18dp</dimen>
 </resources>
