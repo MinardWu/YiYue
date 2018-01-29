@@ -1,7 +1,9 @@
 package com.minardwu.yiyue.executor;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.media.audiofx.AudioEffect;
 import android.support.v4.view.GravityCompat;
 import android.view.View;
 
@@ -9,6 +11,8 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.InfoActivity;
 import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.activity.SampleActivity;
+import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.ChooseOptionDialog;
@@ -22,6 +26,24 @@ public class DrawerItemExecutor {
 
     public void execute(int position,Activity activity){
         switch (position){
+            case 3:
+                if (MusicUtils.isAudioControlPanelAvailable(activity)) {
+                    Intent intent = new Intent();
+                    String packageName = activity.getPackageName();
+                    intent.setAction(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+                    intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName);
+                    intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
+                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, AppCache.getPlayService().getAudioSessionId());
+                    try {
+                        activity.startActivityForResult(intent, 1);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                        ToastUtils.show(R.string.device_not_support);
+                    }
+                } else {
+                    ToastUtils.show(R.string.device_not_support);
+                }
+                break;
             case 4:
                 StopTimeDialog stopTimeDialog = new StopTimeDialog(activity, R.style.StopTimeDialog);
                 stopTimeDialog.show();
