@@ -2,9 +2,11 @@ package com.minardwu.yiyue.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -17,7 +19,9 @@ import butterknife.OnClick;
 public abstract class SampleActivity extends BaseActivity {
 
     @BindView(R.id.iv_toolbar_back) ImageView iv_toolbar_back;
-    @BindView(R.id.tv_toolbar_title) TextView tv_toolbar_title;
+    @BindView(R.id.tv_toolbar_mid_title) TextView tv_toolbar_mid_title;
+    @BindView(R.id.tv_toolbar_left_title) TextView tv_toolbar_left_title;
+    @BindView(R.id.tv_toolbar_right_title) TextView tv_toolbar_right_title;
     @BindView(R.id.content_view) ViewGroup content_view;
 
     @OnClick(R.id.iv_toolbar_back) void back(){
@@ -30,11 +34,16 @@ public abstract class SampleActivity extends BaseActivity {
         setContentView(R.layout.activity_sample);
 
         ButterKnife.bind(this);
-        setToolbarTitle(tv_toolbar_title);
-        content_view.addView(View.inflate(this,getContentView(),null));
+        setToolbarImage(iv_toolbar_back);
+        setToolbarTitle(tv_toolbar_left_title,tv_toolbar_mid_title,tv_toolbar_right_title);
+        View view = View.inflate(this,getContentView(),null);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        content_view.addView(view,params);
     }
 
     protected abstract int getContentView();
 
-    protected void setToolbarTitle(TextView textView) {}
+    protected void setToolbarTitle(TextView left,TextView mid,TextView right) {}
+
+    protected void setToolbarImage(ImageView imageView) {}
 }

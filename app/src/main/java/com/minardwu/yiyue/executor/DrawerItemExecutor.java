@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.view.View;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.FeedbackActivity;
 import com.minardwu.yiyue.activity.InfoActivity;
 import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.activity.SampleActivity;
@@ -79,6 +80,9 @@ public class DrawerItemExecutor {
                     }
                 });
                 sizeFilterDialog.show();
+                break;
+            case 12:
+                activity.startActivity(new Intent(activity, FeedbackActivity.class));
                 break;
             case 13:
                 activity.startActivity(new Intent(activity, InfoActivity.class));

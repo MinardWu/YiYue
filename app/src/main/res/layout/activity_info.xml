@@ -1,16 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.minardwu.yiyue.activity.InfoActivity">
 
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="100dp">
 
-    <TextView
-        android:textColor="@color/black"
-        android:text="yiyue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/iv_info_logo"
+            android:src="@drawable/icon_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
 
-</LinearLayout>
+        <TextView
+            android:textSize="24sp"
+            android:id="@+id/tv_app_name"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/iv_info_logo"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:text="易乐"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_app_name"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/grey"
+            android:text="1.0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_version"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/grey"
+            android:text="Copyright ©2018 MinardWu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

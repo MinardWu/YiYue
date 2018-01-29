@@ -48,7 +48,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.InfoActivity"></activity>
+        <activity android:name=".activity.InfoActivity" />
+        <activity android:name=".activity.FeedbackActivity"></activity>
     </application>
 
 </manifest>
