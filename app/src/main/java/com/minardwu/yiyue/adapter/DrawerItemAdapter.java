@@ -39,7 +39,11 @@ public class DrawerItemAdapter extends BaseAdapter {
         for(int i=0;i<titles.length;i++){
             drawerItemBeanList.add(new DrawerItemBean(types[i],resIds[i],titles[i],"",false));
         }
-        drawerItemBeanList.get(10).setInfo("历史记录");
+    }
+
+    public void setDrawerItemBeanInfo(int position,String info){
+        drawerItemBeanList.get(position).setInfo(info);
+        notifyDataSetChanged();
     }
 
     @Override

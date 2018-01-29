@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.format.DateUtils;
 
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.constants.StopTimeAction;
 import com.minardwu.yiyue.utils.Preferences;
 
 /**
@@ -45,6 +46,7 @@ public class QuitTimer {
     }
 
     public void stop() {
+        timerCallback.onEvent(StopTimeAction.CLEAR_INFO);
         handler.removeCallbacks(quitRunnable);
     }
 
@@ -56,6 +58,11 @@ public class QuitTimer {
                 timerCallback.onEvent(remainTime);
                 handler.postDelayed(this, DateUtils.SECOND_IN_MILLIS);//下一秒继续计时
             } else {
+                //如果开启播完关闭则需要修改drawer定时ui
+                if(Preferences.getQuitTillSongEnd()){
+                    timerCallback.onEvent(StopTimeAction.UNTIL_SONG_END);
+                }
+                //更改播放状态
                 if(playService.isPlaying()){
                     if(Preferences.getQuitTillSongEnd()){
                         playService.quitWhenSongEnd();

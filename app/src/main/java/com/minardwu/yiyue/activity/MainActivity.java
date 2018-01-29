@@ -19,6 +19,7 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.DrawerItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Extras;
+import com.minardwu.yiyue.constants.StopTimeAction;
 import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.executor.DrawerItemExecutor;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
@@ -79,6 +80,13 @@ public class MainActivity extends BaseActivity {
         QuitTimer.getInstance().init(new EventCallback<Long>() {
             @Override
             public void onEvent(Long aLong) {
+                if (aLong== StopTimeAction.CLEAR_INFO){
+                    drawerItemAdapter.setDrawerItemBeanInfo(4,"");
+                }else if (aLong==StopTimeAction.UNTIL_SONG_END){
+                    drawerItemAdapter.setDrawerItemBeanInfo(4,"播完后关闭");
+                }else {
+                    drawerItemAdapter.setDrawerItemBeanInfo(4,ParseUtils.formatTime("(mm:ss)",aLong));
+                }
                 Log.e(TAG, ParseUtils.formatTime("(mm:ss)",aLong));
             }
         });
@@ -125,6 +133,7 @@ public class MainActivity extends BaseActivity {
         }
         //初始化侧边栏
         drawerItemAdapter = new DrawerItemAdapter(this,R.array.drawer_img,R.array.drawer_title,R.array.drawer_type);
+        drawerItemAdapter.setDrawerItemBeanInfo(12,"帮助我们");
         listView.setAdapter(drawerItemAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
