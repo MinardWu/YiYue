@@ -22,33 +22,39 @@
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp">
 
-            <RelativeLayout
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
                 <ImageView
-                    android:layout_alignParentLeft="true"
                     android:layout_marginLeft="16dp"
-                    android:layout_centerVertical="true"
                     android:id="@+id/iv_menu"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/btn_action_bg_selector"
-                    android:contentDescription="@null"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_menu" />
 
-                <LinearLayout
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
+                        android:layout_centerInParent="true"
                         android:id="@+id/tv_toolbar"
                         android:text="易乐"
                         android:textSize="20sp"
+                        android:focusable="true"
+                        android:singleLine="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:ellipsize="marquee"
                         android:textColor="@color/colorGreenDeep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -70,22 +76,17 @@
                         android:gravity="center"
                         android:background="@drawable/icon_onlinemusic_selector"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <ImageView
-                    android:layout_alignParentRight="true"
                     android:layout_marginRight="16dp"
-                    android:layout_centerVertical="true"
                     android:id="@+id/iv_search"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_gravity="end"
-                    android:background="@drawable/btn_action_bg_selector"
-                    android:contentDescription="@null"
                     android:scaleType="centerInside"
                     android:src="@drawable/search12" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
 
