@@ -77,9 +77,6 @@ public class ArtistActivity extends AppCompatActivity{
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.e("dsfadg",bitmap.getWidth()+"-"+bitmap.getHeight());
-                                Log.e("dsfadgg",ImageUtils.createCircleImage(bitmap).getWidth()+"-"+ImageUtils.createCircleImage(bitmap).getHeight());
-                                //iv_artist.setScaleType(ImageView.ScaleType.CENTER);
                                 iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
                                 iv_bg.setImageBitmap(bitmap);
                             }
@@ -88,7 +85,7 @@ public class ArtistActivity extends AppCompatActivity{
 
                     @Override
                     public void onFail(String e) {
-
+                        loadDataFail();
                     }
                 });
             }
