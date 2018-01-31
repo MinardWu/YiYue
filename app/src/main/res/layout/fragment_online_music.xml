@@ -6,6 +6,8 @@
     tools:context="com.minardwu.yiyue.fragment.OnlineMusicFragment">
 
     <RelativeLayout
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:background="#fff"
         android:orientation="vertical"
         android:layout_width="match_parent"
