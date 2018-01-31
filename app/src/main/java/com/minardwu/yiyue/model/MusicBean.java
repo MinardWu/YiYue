@@ -17,6 +17,8 @@ public class MusicBean implements Serializable {
     private String title;
     // 艺术家
     private String artist;
+
+    private String artistId;
     // 专辑
     private String album;
     // [本地歌曲]专辑ID
@@ -143,6 +145,14 @@ public class MusicBean implements Serializable {
 
     public void setOnlineMusicCover(Bitmap onlineMusicCover) {
         this.onlineMusicCover = onlineMusicCover;
+    }
+
+    public String getArtistId() {
+        return artistId;
+    }
+
+    public void setArtistId(String artistId) {
+        this.artistId = artistId;
     }
 
     /**

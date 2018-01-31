@@ -38,4 +38,10 @@ public interface OnPlayOnlineMusicListener {
      */
     void onTimer(long remain);
 
+
+    /**
+     * 更新歌手歌曲列表播放歌曲，加上artistId是保证更新的是当前播放歌手的列表
+     */
+    void onUpdatePosition(int position,String artistId);
+
 }

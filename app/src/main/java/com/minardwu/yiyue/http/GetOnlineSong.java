@@ -95,12 +95,15 @@ public abstract class GetOnlineSong implements HttpListener{
                     JSONObject albumInfo = detail.getJSONObject("al");
                     String title = detail.getString("name");
                     String artist = artistInfo.getString("name");
+                    String artistId = artistInfo.getString("id");
                     String picUrl = albumInfo.getString("picUrl");
                     Log.e(TAG,title);
                     Log.e(TAG,artist);
                     Log.e(TAG,picUrl);
+                    musicBean.setId(id);
                     musicBean.setTitle(title);
                     musicBean.setArtist(artist);
+                    musicBean.setArtistId(artistId);
                     musicBean.setCoverPath(picUrl);
                     musicBean.setPath(musicUrl);
                     musicBean.setType(MusicBean.Type.ONLINE);

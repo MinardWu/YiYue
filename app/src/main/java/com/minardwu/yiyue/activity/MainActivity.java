@@ -24,12 +24,16 @@ import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.executor.DrawerItemExecutor;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
+import com.minardwu.yiyue.http.GetOnlineArtist;
+import com.minardwu.yiyue.http.HttpCallback;
+import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.DrawerItemBean;
 import com.minardwu.yiyue.service.EventCallback;
 import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

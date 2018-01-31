@@ -118,6 +118,11 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     }
 
     @Override
+    public void onUpdatePosition(int position,String artistId) {
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_onlinemusic_download:

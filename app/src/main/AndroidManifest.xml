@@ -49,7 +49,8 @@
         </receiver>
 
         <activity android:name=".activity.InfoActivity" />
-        <activity android:name=".activity.FeedbackActivity"></activity>
+        <activity android:name=".activity.FeedbackActivity" />
+        <activity android:name=".activity.ArtistActivity"></activity>
     </application>
 
 </manifest>

@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.minardwu.yiyue.application.AppCache;
@@ -20,6 +22,7 @@ import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.constants.NetWorkType;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
+import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
@@ -44,7 +47,10 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     private static final int STATE_PLAYING = 2;
     private static final int STATE_PAUSE = 3;
     private int playState = STATE_IDLE;//初始化状态
+    private boolean randomPlay = true;//初始化状态
     private Random random = new Random(System.currentTimeMillis());
+    private List<Integer> targetListIds = new ArrayList<Integer>();
+    private int playPosintion;
 
     private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();//广播在start的时候注册，pause的时候注销
     private final IntentFilter noisyfilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -81,6 +87,19 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         } else {
             next();
         }
+    }
+
+    public void playTargetList(List<MusicBean> list,int position){
+        for(MusicBean musicBean:list)
+            targetListIds.add((int)musicBean.getId());
+        randomPlay = false;
+        play(targetListIds.get(position));
+        playPosintion = position;
+    }
+
+    public void playRandom(){
+        randomPlay = true;
+        //play(random.nextInt(100000)+60000);
     }
 
     public void play(int id){
@@ -129,7 +148,18 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     public void next(){
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
-        play(random.nextInt(100000)+60000);
+        if(!randomPlay){
+            if(playPosintion== targetListIds.size()-1){
+                play(targetListIds.get(0));
+                playPosintion = 0;
+            }else {
+                play(targetListIds.get(playPosintion+1));
+                playPosintion = playPosintion+1;
+            }
+            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(),playPosintion));
+        }else {
+            play(random.nextInt(100000)+60000);
+        }
     }
 
     void start(){
@@ -356,6 +386,11 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
 
     @Override
     public void onTimer(long remain) {
+
+    }
+
+    @Override
+    public void onUpdatePosition(int position,String artistId) {
 
     }
 
