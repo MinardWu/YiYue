@@ -50,14 +50,16 @@
                         android:id="@+id/tv_toolbar"
                         android:text="易乐"
                         android:textSize="20sp"
-                        android:focusable="true"
-                        android:singleLine="true"
-                        android:focusableInTouchMode="true"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:ellipsize="marquee"
-                        android:textColor="@color/colorGreenDeep"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGreenDeep"
+
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:focusableInTouchMode="true"
+                        />
 
                     <ImageView
                         android:visibility="gone"

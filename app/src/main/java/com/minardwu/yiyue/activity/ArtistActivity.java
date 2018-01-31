@@ -1,12 +1,18 @@
 package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.OnlineMusicListItemAdapter;
@@ -17,6 +23,7 @@ import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
+import com.minardwu.yiyue.utils.ImageUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,11 +39,21 @@ import butterknife.ButterKnife;
 public class ArtistActivity extends AppCompatActivity{
 
     @BindView(R.id.lv_artist_hot_songs) ListView listView;
+    @BindView(R.id.collapsing_toolbar_layout) CollapsingToolbarLayout collapsing_toolbar_layout;
+    @BindView(R.id.app_bar_layout) AppBarLayout app_bar_layout;
+    @BindView(R.id.tv_artist_name) TextView tv_artist_name;
+    @BindView(R.id.iv_bg) ImageView iv_bg;
+    @BindView(R.id.iv_artist) ImageView iv_artist;
+    @BindView(R.id.tv_artist_name_below_iv) TextView tv_artist_name_below_iv;
 
     PlayOnlineMusicService playOnlineMusicService;
     List<MusicBean> hontSongs = new ArrayList<MusicBean>();
     OnlineMusicListItemAdapter adapter = new OnlineMusicListItemAdapter(hontSongs);
+
+    private Intent intent;
+    private int type;
     private String artistId;
+    private String artistName;
 
 
     @Override
@@ -46,14 +63,47 @@ public class ArtistActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
-        Intent intent = getIntent();
-        int type = intent.getIntExtra("type",0);
-        if (type==0){
-            String artist = intent.getStringExtra("artistName");
-            GetOnlineArtist.getArtistIdByName(artist, new HttpCallback<ArtistBean>() {
+        intent = getIntent();
+        type = intent.getIntExtra("type",0);
+        artistName = intent.getStringExtra("artistName");
+//        if (type==0){
+//            GetOnlineArtist.getArtistIdByName(artistName, new HttpCallback<ArtistBean>() {
+//                @Override
+//                public void onSuccess(ArtistBean artistBean) {
+//                    initListView(artistBean);
+//                }
+//
+//                @Override
+//                public void onFail(String e) {
+//                    loadDataFail();
+//                }
+//            });
+//        }else if(type==1){
+            artistId = intent.getStringExtra("artistId");
+            GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
                 @Override
                 public void onSuccess(ArtistBean artistBean) {
                     initListView(artistBean);
+                    ImageUtils.getBitmapByUrl(artistBean.getPicUrl(), new HttpCallback<Bitmap>() {
+                        @Override
+                        public void onSuccess(final Bitmap bitmap) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.e("dsfadg",bitmap.getWidth()+"-"+bitmap.getHeight());
+                                    Log.e("dsfadgg",ImageUtils.createCircleImage(bitmap).getWidth()+"-"+ImageUtils.createCircleImage(bitmap).getHeight());
+                                    //iv_artist.setScaleType(ImageView.ScaleType.CENTER);
+                                    iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
+                                    iv_bg.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFail(String e) {
+
+                        }
+                    });
                 }
 
                 @Override
@@ -61,23 +111,39 @@ public class ArtistActivity extends AppCompatActivity{
                     loadDataFail();
                 }
             });
-        }else if(type==1){
-            String id = intent.getStringExtra("artistId");
-            GetOnlineArtist.getArtistInfoById(id, new HttpCallback<ArtistBean>() {
-                @Override
-                public void onSuccess(ArtistBean artistBean) {
-                    initListView(artistBean);
-                }
 
-                @Override
-                public void onFail(String e) {
-                    loadDataFail();
-                }
-            });
-
-        }
-
+//        }
+        initView();
     }
+
+    private void initView(){
+        setTitleToCollapsingToolbarLayout();
+        tv_artist_name.setText(artistName);
+        tv_artist_name_below_iv.setText(artistName);
+        iv_artist.setImageBitmap(ImageUtils.createCircleImage(BitmapFactory.decodeResource(getResources(),R.drawable.default_cover)));
+    }
+
+    private void setTitleToCollapsingToolbarLayout() {
+        app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int offsetWhenCollapse = appBarLayout.getTotalScrollRange();
+                if (Math.abs(verticalOffset) == offsetWhenCollapse) {
+                    tv_artist_name.setVisibility(View.VISIBLE);
+                    //设置toolbar为自定义样式的时候，会覆盖掉collapsing_toolbar_layout的title，所以这时下面的方法不能用
+//                    collapsing_toolbar_layout.setTitle(artistName);
+//                    collapsing_toolbar_layout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorGreenLight));
+//                    collapsing_toolbar_layout.setCollapsedTitleGravity(Gravity.CENTER);
+                } else {
+                    tv_artist_name.setVisibility(View.INVISIBLE);
+//                    collapsing_toolbar_layout.setTitle("");
+//                    collapsing_toolbar_layout.setExpandedTitleGravity(Gravity.CENTER);
+//                    collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT);
+                }
+            }
+        });
+    }
+
 
     private void initListView(ArtistBean artistBean){
         artistId = artistBean.getId();

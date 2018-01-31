@@ -3,6 +3,7 @@ package com.minardwu.yiyue.utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -13,8 +14,14 @@ import android.support.annotation.Nullable;
 
 
 import com.minardwu.yiyue.constants.RequestCode;
+import com.minardwu.yiyue.http.HttpCallback;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * 图像工具类
@@ -257,12 +264,42 @@ public class ImageUtils {
         int length = Math.min(source.getWidth(), source.getHeight());
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        Bitmap target = Bitmap.createBitmap(length, length, Bitmap.Config.ARGB_8888);
+        Bitmap target = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(target);
-        canvas.drawCircle(source.getWidth() / 2, source.getHeight() / 2, length / 2, paint);
+        canvas.drawCircle(target.getWidth() / 2, target.getHeight() / 2, length / 2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(source, 0, 0, paint);
+        target = Bitmap.createBitmap(target,target.getWidth()/2-length/2,target.getHeight()/2-length/2,length,length);
         return target;
+    }
+
+    public static void getBitmapByUrl(final String url, final HttpCallback<Bitmap> callback) {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                URL myFileUrl = null;
+                Bitmap bitmap = null;
+                try {
+                    myFileUrl = new URL(url);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                    callback.onSuccess(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    callback.onFail(e.toString());
+                }
+            }
+        }.start();
+        return;
     }
 
     public static void startAlbum(Activity activity) {

@@ -135,7 +135,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
             public void onFail(String string) {
                 Log.e("GetOnlineSong","播放出错了"+string);
             }
-        }.exectue(id);
+        }.exectue(id);//114533
     }
 
     MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {

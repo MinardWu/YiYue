@@ -36,4 +36,6 @@ dependencies {
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
+
+    compile 'com.android.support:design:26.0.0'
 }
