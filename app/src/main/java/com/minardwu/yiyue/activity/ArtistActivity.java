@@ -66,53 +66,38 @@ public class ArtistActivity extends AppCompatActivity{
         intent = getIntent();
         type = intent.getIntExtra("type",0);
         artistName = intent.getStringExtra("artistName");
-//        if (type==0){
-//            GetOnlineArtist.getArtistIdByName(artistName, new HttpCallback<ArtistBean>() {
-//                @Override
-//                public void onSuccess(ArtistBean artistBean) {
-//                    initListView(artistBean);
-//                }
-//
-//                @Override
-//                public void onFail(String e) {
-//                    loadDataFail();
-//                }
-//            });
-//        }else if(type==1){
-            artistId = intent.getStringExtra("artistId");
-            GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
-                @Override
-                public void onSuccess(ArtistBean artistBean) {
-                    initListView(artistBean);
-                    ImageUtils.getBitmapByUrl(artistBean.getPicUrl(), new HttpCallback<Bitmap>() {
-                        @Override
-                        public void onSuccess(final Bitmap bitmap) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.e("dsfadg",bitmap.getWidth()+"-"+bitmap.getHeight());
-                                    Log.e("dsfadgg",ImageUtils.createCircleImage(bitmap).getWidth()+"-"+ImageUtils.createCircleImage(bitmap).getHeight());
-                                    //iv_artist.setScaleType(ImageView.ScaleType.CENTER);
-                                    iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
-                                    iv_bg.setImageBitmap(bitmap);
-                                }
-                            });
-                        }
+        artistId = intent.getStringExtra("artistId");
+        GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
+            @Override
+            public void onSuccess(ArtistBean artistBean) {
+                initListView(artistBean);
+                ImageUtils.getBitmapByUrl(artistBean.getPicUrl(), new HttpCallback<Bitmap>() {
+                    @Override
+                    public void onSuccess(final Bitmap bitmap) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.e("dsfadg",bitmap.getWidth()+"-"+bitmap.getHeight());
+                                Log.e("dsfadgg",ImageUtils.createCircleImage(bitmap).getWidth()+"-"+ImageUtils.createCircleImage(bitmap).getHeight());
+                                //iv_artist.setScaleType(ImageView.ScaleType.CENTER);
+                                iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
+                                iv_bg.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
 
-                        @Override
-                        public void onFail(String e) {
+                    @Override
+                    public void onFail(String e) {
 
-                        }
-                    });
-                }
+                    }
+                });
+            }
 
-                @Override
-                public void onFail(String e) {
-                    loadDataFail();
-                }
-            });
-
-//        }
+            @Override
+            public void onFail(String e) {
+                loadDataFail();
+            }
+        });
         initView();
     }
 
