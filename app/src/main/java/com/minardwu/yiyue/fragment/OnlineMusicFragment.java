@@ -1,5 +1,6 @@
 package com.minardwu.yiyue.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
@@ -63,6 +65,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_download.setOnClickListener(this);
         iv_onlinemusic_play.setOnClickListener(this);
         iv_onlinemusic_next.setOnClickListener(this);
+        tv_online_music_artist.setOnClickListener(this);
         iv_onlinemusic_play.setSelected(false);
     }
 
@@ -133,6 +136,14 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 break;
             case R.id.iv_onlinemusic_next:
                 getPlayOnlineMusicService().next();
+                break;
+            case R.id.tv_online_music_artist:
+                Intent intent = new Intent(getActivity(), ArtistActivity.class);
+                intent.putExtra("type",0);
+                intent.putExtra("artistName",tv_online_music_artist.getText().toString());
+//                intent.putExtra("type",1);
+//                intent.putExtra("artistId",playingMusic.getArtistId());
+                startActivity(intent);
                 break;
         }
     }

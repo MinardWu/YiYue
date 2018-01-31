@@ -159,6 +159,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
             EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(),playPosintion));
         }else {
             play(random.nextInt(100000)+60000);
+            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent("random",-1));
         }
     }
 
