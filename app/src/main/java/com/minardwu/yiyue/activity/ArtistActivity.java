@@ -9,15 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.adapter.OnlineMusicListItemAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
@@ -49,6 +45,7 @@ public class ArtistActivity extends AppCompatActivity{
     @BindView(R.id.iv_artist) ImageView iv_artist;
     @BindView(R.id.tv_artist_name_below_iv) TextView tv_artist_name_below_iv;
 
+
     PlayOnlineMusicService playOnlineMusicService;
     List<MusicBean> hontSongs = new ArrayList<MusicBean>();
     OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(hontSongs);
@@ -56,6 +53,7 @@ public class ArtistActivity extends AppCompatActivity{
 
     private Intent intent;
     private int type;
+    private int song_conut;
     private String artistId;
     private String artistName;
 
@@ -73,7 +71,7 @@ public class ArtistActivity extends AppCompatActivity{
         artistId = intent.getStringExtra("artistId");
         GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
             @Override
-            public void onSuccess(ArtistBean artistBean) {
+            public void onSuccess(final ArtistBean artistBean) {
                 initListView(artistBean);
                 ImageUtils.getBitmapByUrl(artistBean.getPicUrl(), new HttpCallback<Bitmap>() {
                     @Override
@@ -132,6 +130,7 @@ public class ArtistActivity extends AppCompatActivity{
 
 
     private void initListView(ArtistBean artistBean){
+        song_conut = artistBean.getSongs().size();
         artistId = artistBean.getId();
         hontSongs = artistBean.getSongs();
         adapter = new OnlineMusicRecycleViewAdapter(hontSongs);
@@ -139,6 +138,8 @@ public class ArtistActivity extends AppCompatActivity{
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+//                tv_play_all_song_count.setText("(共"+song_conut+"首)");
+//                rl_play_all.setVisibility(View.VISIBLE);
                 rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
                 rl_artist_hot_songs.setAdapter(adapter);
                 adapter.updatePlayingMusicId(playOnlineMusicService);
@@ -147,11 +148,11 @@ public class ArtistActivity extends AppCompatActivity{
                     public void onItemClick(View view, int position) {
                         //第一个条件是点击播放歌手歌单后进行判断用的
                         //第二个条件是刚点开歌手页进行判断的
-                        if(position==adapter.getPlayingMusicPosition()||adapter.getTargetList().get(position).getId()==playOnlineMusicService.getPlayingMusic().getId()){
+                        if(position==adapter.getPlayingMusicPosition()||adapter.getMusicList().get(position-1).getId()==playOnlineMusicService.getPlayingMusic().getId()){
                             finish();
                         }else {
                             playOnlineMusicService.stop();
-                            playOnlineMusicService.playTargetList(hontSongs,position);
+                            playOnlineMusicService.playTargetList(hontSongs,position-1);
                             adapter.updatePlayingMusicPosition(position);
                             adapter.notifyDataSetChanged();
                         }

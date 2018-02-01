@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:visibility="gone"
+    android:background="#fff"
+    android:id="@+id/rl_play_all"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:minHeight="@dimen/music_list_item_height"
+    android:layout_height="@dimen/music_list_item_height">
+
+    <RelativeLayout
+        android:id="@+id/rl_for_iv_play_all"
+        android:minHeight="@dimen/music_list_item_height"
+        android:layout_width="50dp"
+        android:layout_height="@dimen/music_list_item_height">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:id="@+id/iv_play_all"
+            android:src="@drawable/pause"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_play_all"
+        android:layout_toRightOf="@+id/rl_for_iv_play_all"
+        android:layout_centerVertical="true"
+        android:text="播放全部"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_play_all_song_count"
+        android:layout_toRightOf="@+id/tv_play_all"
+        android:layout_centerVertical="true"
+        android:textSize="15sp"
+        android:textColor="@color/grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/v_line"
+        android:paddingLeft="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/listDivider" />
+
+</RelativeLayout>
+

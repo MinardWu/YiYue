@@ -36,7 +36,7 @@
                     app:layout_collapseParallaxMultiplier="0.7" />
 
                 <LinearLayout
-                    android:background="#f6ffffff"
+                    android:background="#f4ffffff"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </LinearLayout>
@@ -104,29 +104,20 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-        <!--<ListView-->
-            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-            <!--android:id="@+id/lv_artist_hot_songs"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:divider="@null"-->
-            <!--android:dividerHeight="0dp">-->
-        <!--</ListView>-->
-
-    <!--</android.support.v4.widget.NestedScrollView>-->
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rl_artist_hot_songs"
+    <LinearLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_artist_hot_songs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout>
