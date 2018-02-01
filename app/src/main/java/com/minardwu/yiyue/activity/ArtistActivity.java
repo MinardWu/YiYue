@@ -176,7 +176,6 @@ public class ArtistActivity extends AppCompatActivity{
         });
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateOnlineMusicListPositionEvent(UpdateOnlineMusicListPositionEvent event){
         if (this.artistId.equals(event.getArtistId())){
