@@ -129,7 +129,6 @@ public class ArtistActivity extends AppCompatActivity{
         });
     }
 
-
     private void initListView(ArtistBean artistBean){
         song_conut = artistBean.getSongs().size();
         artistId = artistBean.getId();
