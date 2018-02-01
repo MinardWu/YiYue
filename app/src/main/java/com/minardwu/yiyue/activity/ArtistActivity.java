@@ -181,7 +181,6 @@ public class ArtistActivity extends AppCompatActivity{
     public void onUpdateOnlineMusicListPositionEvent(UpdateOnlineMusicListPositionEvent event){
         if (this.artistId.equals(event.getArtistId())){
             //记得position加1(界面与musicList传递数据时总是加1或减1，加或减取决于谁是发送数据的一方了)
-            Log.e("gjhgjghj",event.getPosition()+"");
             adapter.updatePlayingMusicPosition(event.getPosition()+1);
             adapter.notifyDataSetChanged();
         }else {
