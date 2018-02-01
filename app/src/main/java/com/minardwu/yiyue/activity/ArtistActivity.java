@@ -183,7 +183,7 @@ public class ArtistActivity extends AppCompatActivity{
             adapter.updatePlayingMusicPosition(event.getPosition());
             adapter.notifyDataSetChanged();
         }else {
-            //当用户点开一个歌手页后如果不打算循坏该歌手的歌，但是又不退出歌手页，而这时fm切到下一首歌了，则要把之前显示播放的那首歌设置为未播放的样式
+            //当用户点开一个歌手页后如果不打算循坏该歌手的歌，但是又不退出歌手页，而这时fm切到下一首歌了（已经不是歌手页这个歌手了），则要把之前显示播放的那首歌设置为未播放的样式
             adapter.updatePlayingMusicPosition(-1);
             adapter.notifyDataSetChanged();
         }
