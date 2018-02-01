@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -138,8 +139,6 @@ public class ArtistActivity extends AppCompatActivity{
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                tv_play_all_song_count.setText("(共"+song_conut+"首)");
-//                rl_play_all.setVisibility(View.VISIBLE);
                 rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
                 rl_artist_hot_songs.setAdapter(adapter);
                 adapter.updatePlayingMusicId(playOnlineMusicService);
@@ -161,6 +160,7 @@ public class ArtistActivity extends AppCompatActivity{
                     @Override
                     public void onMoreClick(View view, int position) {
                             ToastUtils.show("more");
+                            playOnlineMusicService.next();
                     }
                 });
             }
@@ -180,7 +180,9 @@ public class ArtistActivity extends AppCompatActivity{
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateOnlineMusicListPositionEvent(UpdateOnlineMusicListPositionEvent event){
         if (this.artistId.equals(event.getArtistId())){
-            adapter.updatePlayingMusicPosition(event.getPosition());
+            //记得position加1
+            Log.e("gjhgjghj",event.getPosition()+"");
+            adapter.updatePlayingMusicPosition(event.getPosition()+1);
             adapter.notifyDataSetChanged();
         }else {
             //当用户点开一个歌手页后如果不打算循坏该歌手的歌，但是又不退出歌手页，而这时fm切到下一首歌了（已经不是歌手页这个歌手了），则要把之前显示播放的那首歌设置为未播放的样式

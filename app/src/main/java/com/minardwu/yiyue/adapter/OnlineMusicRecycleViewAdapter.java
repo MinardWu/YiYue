@@ -54,7 +54,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             PlayAllViewHolder playAllViewHolder = new PlayAllViewHolder(view);
             return playAllViewHolder;
         }else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_localmusic,null);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_localmusic,parent,false);
             MyViewHolder myViewHolder = new MyViewHolder(view);
             return myViewHolder;
         }
@@ -86,7 +86,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             viewHolder.tv_count.setText(position+"");
             String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
             viewHolder.tv_Artist.setText(artist);
-            viewHolder.v_Divider.setVisibility(position != AppCache.getLocalMusicList().size() - 1 ? View.VISIBLE : View.GONE);
+            viewHolder.v_Divider.setVisibility(position != musicList.size() ? View.VISIBLE : View.GONE);
             viewHolder.iv_More.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

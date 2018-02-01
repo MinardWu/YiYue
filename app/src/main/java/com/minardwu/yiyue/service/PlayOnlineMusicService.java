@@ -90,6 +90,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     }
 
     public void playTargetList(List<MusicBean> list,int position){
+        targetListIds.clear();
         for(MusicBean musicBean:list)
             targetListIds.add((int)musicBean.getId());
         randomPlay = false;
@@ -149,14 +150,15 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
         if(!randomPlay){
-            if(playPosintion== targetListIds.size()-1){
+            if(playPosintion == targetListIds.size()-1){
                 play(targetListIds.get(0));
                 playPosintion = 0;
+                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(),playPosintion));
             }else {
                 play(targetListIds.get(playPosintion+1));
                 playPosintion = playPosintion+1;
+                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(),playPosintion));
             }
-            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(),playPosintion));
         }else {
             play(random.nextInt(100000)+60000);
             EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent("random",-1));
