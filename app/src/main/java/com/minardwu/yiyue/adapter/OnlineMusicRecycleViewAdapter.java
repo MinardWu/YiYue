@@ -1,9 +1,9 @@
 package com.minardwu.yiyue.adapter;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,48 +21,30 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by MinardWu on 2017/12/30.
+ * Created by MinardWu on 2018/2/1.
  */
 
-public class OnlineMusicListItemAdapter extends BaseAdapter {
+public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<OnlineMusicRecycleViewAdapter.MyViewHolder> {
+
 
     private long playingMusicId;
     private int playingMusicPosition = -1;
     private boolean justIn = true;
     private List<MusicBean> list = new ArrayList<MusicBean>();
 
-    public OnlineMusicListItemAdapter(List<MusicBean> list) {
+    public OnlineMusicRecycleViewAdapter(List<MusicBean> list) {
         this.list = list;
     }
 
     @Override
-    public int getCount() {
-        return list.size();
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_localmusic,null);
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+        return myViewHolder;
     }
 
     @Override
-    public Object getItem(int i) {
-        return list.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(final int position, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
-        if (view==null){
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_localmusic,null);
-            viewHolder = new ViewHolder(view);
-            view.setTag(viewHolder);
-        }else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
-
-        //网络歌曲列表界面第一次创建UI，因为有很多不同的列表，所以不能用position而是用歌曲id
-        //而当点击歌曲时更新UI就不能再使用歌曲id了，因为有时网络加载播放较慢，不能及时获取到你点击的歌曲的id，所以这时用position速度较快
+    public void onBindViewHolder(MyViewHolder viewHolder, final int position) {
         if ((list.get(position).getId()==playingMusicId&&justIn)||position==playingMusicPosition) {
             viewHolder.v_Playing.setVisibility(View.VISIBLE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
@@ -88,27 +70,42 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
                 }
             }
         });
-        return view;
+        viewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener!=null){
+                    listener.onItemClick(view,position);
+                }
+            }
+        });
     }
 
-    static class ViewHolder {
-        @BindView(R.id.v_playing)
-         View v_Playing;
-        @BindView(R.id.iv_cover)
-         ImageView iv_Cover;
-        @BindView(R.id.tv_count)
-         TextView tv_count;
-        @BindView(R.id.tv_title)
-         TextView tv_Title;
-        @BindView(R.id.tv_artist)
-         TextView tv_Artist;
-        @BindView(R.id.iv_more)
-         ImageView iv_More;
-        @BindView(R.id.v_divider)
-         View v_Divider;
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
 
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.v_playing)
+        View v_Playing;
+        @BindView(R.id.iv_cover)
+        ImageView iv_Cover;
+        @BindView(R.id.tv_count)
+        TextView tv_count;
+        @BindView(R.id.tv_title)
+        TextView tv_Title;
+        @BindView(R.id.tv_artist)
+        TextView tv_Artist;
+        @BindView(R.id.iv_more)
+        ImageView iv_More;
+        @BindView(R.id.v_divider)
+        View v_Divider;
+        @BindView(R.id.ll_item)
+        View ll_item;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -133,14 +130,14 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
         return list;
     }
 
-    public interface OnListViewMoreClickListener {
+    public interface OnRecycleViewClickListener{
+        void onItemClick(View view,int position);
         void onMoreClick(View view,int position);
     }
 
-    private OnListViewMoreClickListener listener;
+    private OnRecycleViewClickListener listener;
 
-    public void setOnListViewMoreClickListener(OnListViewMoreClickListener listener){
+    public void setOnRecycleViewClickListener(OnRecycleViewClickListener listener){
         this.listener = listener;
     }
-
 }

@@ -7,6 +7,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.OnlineMusicListItemAdapter;
+import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.http.GetOnlineArtist;
@@ -38,7 +41,7 @@ import butterknife.ButterKnife;
 
 public class ArtistActivity extends AppCompatActivity{
 
-    @BindView(R.id.lv_artist_hot_songs) ListView listView;
+    @BindView(R.id.rl_artist_hot_songs) RecyclerView rl_artist_hot_songs;
     @BindView(R.id.collapsing_toolbar_layout) CollapsingToolbarLayout collapsing_toolbar_layout;
     @BindView(R.id.app_bar_layout) AppBarLayout app_bar_layout;
     @BindView(R.id.tv_artist_name) TextView tv_artist_name;
@@ -48,7 +51,8 @@ public class ArtistActivity extends AppCompatActivity{
 
     PlayOnlineMusicService playOnlineMusicService;
     List<MusicBean> hontSongs = new ArrayList<MusicBean>();
-    OnlineMusicListItemAdapter adapter = new OnlineMusicListItemAdapter(hontSongs);
+    OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(hontSongs);
+    LinearLayoutManager linearLayoutManager;
 
     private Intent intent;
     private int type;
@@ -130,25 +134,32 @@ public class ArtistActivity extends AppCompatActivity{
     private void initListView(ArtistBean artistBean){
         artistId = artistBean.getId();
         hontSongs = artistBean.getSongs();
-        adapter = new OnlineMusicListItemAdapter(hontSongs);
+        adapter = new OnlineMusicRecycleViewAdapter(hontSongs);
+        linearLayoutManager = new LinearLayoutManager(this);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                listView.setAdapter(adapter);
+                rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
+                rl_artist_hot_songs.setAdapter(adapter);
                 adapter.updatePlayingMusicId(playOnlineMusicService);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    public void onItemClick(View view, int position) {
                         //第一个条件是点击播放歌手歌单后进行判断用的
                         //第二个条件是刚点开歌手页进行判断的
-                        if(i==adapter.getPlayingMusicPosition()||adapter.getTargetList().get(i).getId()==playOnlineMusicService.getPlayingMusic().getId()){
+                        if(position==adapter.getPlayingMusicPosition()||adapter.getTargetList().get(position).getId()==playOnlineMusicService.getPlayingMusic().getId()){
                             finish();
                         }else {
                             playOnlineMusicService.stop();
-                            playOnlineMusicService.playTargetList(hontSongs,i);
-                            adapter.updatePlayingMusicPosition(i);
+                            playOnlineMusicService.playTargetList(hontSongs,position);
+                            adapter.updatePlayingMusicPosition(position);
                             adapter.notifyDataSetChanged();
                         }
+                    }
+
+                    @Override
+                    public void onMoreClick(View view, int position) {
+                            ToastUtils.show("more");
                     }
                 });
             }
