@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import android.util.Log;
-
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
-import com.minardwu.yiyue.service.PlayService;
 import com.minardwu.yiyue.utils.Notifier;
 
 
@@ -30,33 +28,33 @@ public class StatusBarReceiver extends BroadcastReceiver {
         if (intent == null || TextUtils.isEmpty(intent.getAction())) {
             return;
         }
-        PlayService playService = AppCache.getPlayService();
+        PlayLocalMusicService playLocalMusicService = AppCache.getPlayLocalMusicService();
         PlayOnlineMusicService playOnlineMusicService = AppCache.getPlayOnlineMusicService();
         String extra = intent.getStringExtra(EXTRA);
         String type = intent.getStringExtra(MUSICTYPE);
         if (TextUtils.equals(extra, EXTRA_NEXT)) {
             if (type.equals("LOCAL")){
-                playService.next();
+                playLocalMusicService.next();
             }else if(type.equals("ONLINE")){
                 playOnlineMusicService.next();
             }
         } else if (TextUtils.equals(extra, EXTRA_PLAY_PAUSE)) {
             if (type.equals("LOCAL")){
-                playService.playOrPause();
+                playLocalMusicService.playOrPause();
             }else if(type.equals("ONLINE")){
                 playOnlineMusicService.playOrPause();
             }
         } else if (TextUtils.equals(extra, EXTRA_PRE)) {
             if (type.equals("LOCAL")){
-                playService.prev();
+                playLocalMusicService.prev();
             }else if(type.equals("ONLINE")){
                 playOnlineMusicService.next();
             }
         } else if (TextUtils.equals(extra, EXTRA_CANCEL)) {
             if (type.equals("LOCAL")){
-                playService.pauseForHideNotifition();
+                playLocalMusicService.pauseForHideNotifition();
             }else if(type.equals("ONLINE")){
-                playOnlineMusicService.pauseForHideNotifition();
+                playOnlineMusicService.pauseForHideNotification();
             }
             Notifier.cancelAll();
         }

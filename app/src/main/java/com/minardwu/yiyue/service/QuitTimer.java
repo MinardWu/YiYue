@@ -11,7 +11,7 @@ import com.minardwu.yiyue.utils.Preferences;
 /**
  */
 public class QuitTimer {
-    private PlayService playService;
+    private PlayLocalMusicService playLocalMusicService;
     private PlayOnlineMusicService playOnlineMusicService;
     private EventCallback<Long> timerCallback;
     private Handler handler = new Handler();
@@ -30,7 +30,7 @@ public class QuitTimer {
 
     public void init(@NonNull EventCallback<Long> timerCallback) {
         this.timerCallback = timerCallback;
-        this.playService = AppCache.getPlayService();
+        this.playLocalMusicService = AppCache.getPlayLocalMusicService();
         this.playOnlineMusicService = AppCache.getPlayOnlineMusicService();
     }
 
@@ -63,11 +63,11 @@ public class QuitTimer {
                     timerCallback.onEvent(StopTimeAction.UNTIL_SONG_END);
                 }
                 //更改播放状态
-                if(playService.isPlaying()){
+                if(playLocalMusicService.isPlaying()){
                     if(Preferences.getQuitTillSongEnd()){
-                        playService.quitWhenSongEnd();
+                        playLocalMusicService.quitWhenSongEnd();
                     }else {
-                        playService.quit();
+                        playLocalMusicService.quit();
                     }
                 }else if(playOnlineMusicService.isPlaying()){
                     if(Preferences.getQuitTillSongEnd()){

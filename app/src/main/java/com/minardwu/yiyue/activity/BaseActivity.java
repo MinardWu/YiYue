@@ -1,6 +1,5 @@
 package com.minardwu.yiyue.activity;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -8,7 +7,7 @@ import android.os.Build;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.service.PlayLocalMusicService;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -23,11 +22,11 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public PlayService getPlayService() {
-        PlayService playService = AppCache.getPlayService();
-        if (playService == null) {
+    public PlayLocalMusicService getPlayService() {
+        PlayLocalMusicService playLocalMusicService = AppCache.getPlayLocalMusicService();
+        if (playLocalMusicService == null) {
             throw new NullPointerException("play service is null");
         }
-        return playService;
+        return playLocalMusicService;
     }
 }

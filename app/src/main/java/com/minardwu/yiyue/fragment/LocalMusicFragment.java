@@ -26,7 +26,7 @@ import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.http.DownloadLrc;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayerEventListener;
-import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.ParseUtils;
@@ -184,12 +184,12 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    public PlayService getPlayService() {
-        PlayService playService = AppCache.getPlayService();
-        if (playService == null) {
+    public PlayLocalMusicService getPlayService() {
+        PlayLocalMusicService playLocalMusicService = AppCache.getPlayLocalMusicService();
+        if (playLocalMusicService == null) {
             throw new NullPointerException("play service is null");
         }
-        return playService;
+        return playLocalMusicService;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.minardwu.yiyue.service;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -39,7 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
 /**
  * 音乐播放后台服务
  */
-public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCompletionListener, OnPlayOnlineMusicListener {
+public class PlayOnlineMusicService extends PlayService implements MediaPlayer.OnCompletionListener, OnPlayOnlineMusicListener {
     private static final String TAG = "PlayOnlineMusicService";
     private static final long TIME_UPDATE = 100L;
     private static final int STATE_IDLE = 0;
@@ -50,10 +49,10 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
     private boolean randomPlay = true;//初始化状态
     private Random random = new Random(System.currentTimeMillis());
     private List<Integer> targetListIds = new ArrayList<Integer>();
-    private int playPosintion;
+    private int playPosition;
 
     private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();//广播在start的时候注册，pause的时候注销
-    private final IntentFilter noisyfilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private final IntentFilter noisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
     private AudioFocusManager audioFocusManager;//音乐焦点管理
     private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
@@ -69,8 +68,8 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         setPlayOnlineMusicListener(this);
         mediaPlayer.setOnCompletionListener(this);
         EventBus.getDefault().register(this);
-//        audioFocusManager = new AudioFocusManager(this);
-//        mediaSessionManager = new MediaSessionManager(this);
+        audioFocusManager = new AudioFocusManager();
+        mediaSessionManager = new MediaSessionManager();
     }
 
     public void setPlayOnlineMusicListener(OnPlayOnlineMusicListener playOnlineMusicListener) {
@@ -95,7 +94,7 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
             targetListIds.add((int)musicBean.getId());
         randomPlay = false;
         play(targetListIds.get(position));
-        playPosintion = position;
+        playPosition = position;
     }
 
     public void playRandom(){
@@ -150,14 +149,14 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
         if(!randomPlay){
-            if(playPosintion == targetListIds.size()-1){
+            if(playPosition == targetListIds.size()-1){
                 play(targetListIds.get(0));
-                playPosintion = 0;
-                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(),playPosintion));
+                playPosition = 0;
+                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(), playPosition));
             }else {
-                play(targetListIds.get(playPosintion+1));
-                playPosintion = playPosintion+1;
-                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(),playPosintion));
+                play(targetListIds.get(playPosition +1));
+                playPosition = playPosition +1;
+                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(), playPosition));
             }
         }else {
             play(random.nextInt(100000)+60000);
@@ -170,40 +169,46 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
             return;
         }
         //如果正在播放本地音乐则暂停
-        if(AppCache.getPlayService().isPlaying()){
+        if(AppCache.getPlayLocalMusicService().isPlaying()){
             EventBus.getDefault().post(new StopPlayLocalMusicServiceEvent(1));
         }
-        mediaPlayer.start();
-        setPlayState(STATE_PLAYING);
-        handler.post(updateProgressRunable);
-        playOnlineMusicListener.onPlayerStart();
-        Notifier.showPlay(playingMusic);
-        registerReceiver(noisyReceiver,noisyfilter);
+        if(audioFocusManager.requestAudioFocus()){
+            mediaPlayer.start();
+            setPlayState(STATE_PLAYING);
+            handler.post(updateProgressRunable);
+            playOnlineMusicListener.onPlayerStart();
+            Notifier.showPlay(playingMusic);
+            AppCache.setCurrentService(this);
+            mediaSessionManager.updateMetaData(playingMusic);
+            mediaSessionManager.updatePlaybackState();
+            registerReceiver(noisyReceiver, noisyFilter);
+        }
     }
 
     void pause() {
         if (!isPlaying()) {
             return;
         }
+        mediaSessionManager.updatePlaybackState();
         mediaPlayer.pause();
         setPlayState(STATE_PAUSE);
         handler.removeCallbacks(updateProgressRunable);
+        audioFocusManager.abandonAudioFocus();
         Notifier.showPause(playingMusic);
-//        mediaSessionManager.updatePlaybackState();
         unregisterReceiver(noisyReceiver);
         if (playOnlineMusicListener != null) {
             playOnlineMusicListener.onPlayerPause();
         }
     }
 
-    public void pauseForHideNotifition(){
+    public void pauseForHideNotification(){
         if (!isPlaying()) {
             return;
         }
+        mediaSessionManager.updatePlaybackState();
         mediaPlayer.pause();
         setPlayState(STATE_PAUSE);
         handler.removeCallbacks(updateProgressRunable);
-//        mediaSessionManager.updatePlaybackState();
         unregisterReceiver(noisyReceiver);
         if (playOnlineMusicListener != null) {
             playOnlineMusicListener.onPlayerPause();
@@ -315,8 +320,8 @@ public class PlayOnlineMusicService extends Service implements MediaPlayer.OnCom
         mediaPlayer.reset();
         mediaPlayer.release();
         mediaPlayer = null;
-//        audioFocusManager.abandonAudioFocus();
-//        mediaSessionManager.release();
+        audioFocusManager.abandonAudioFocus();
+        mediaSessionManager.release();
         Notifier.cancelAll();
         AppCache.setPlayOnlineMusicService(null);
         Log.i(TAG, "onDestroy: " + getClass().getSimpleName());

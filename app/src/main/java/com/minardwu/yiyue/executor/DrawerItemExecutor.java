@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.media.audiofx.AudioEffect;
-import android.support.v4.view.GravityCompat;
 import android.view.View;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.activity.FeedbackActivity;
 import com.minardwu.yiyue.activity.InfoActivity;
-import com.minardwu.yiyue.activity.MainActivity;
-import com.minardwu.yiyue.activity.SampleActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
@@ -35,7 +32,7 @@ public class DrawerItemExecutor {
                     intent.setAction(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
                     intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName);
                     intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
-                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, AppCache.getPlayService().getAudioSessionId());
+                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, AppCache.getPlayLocalMusicService().getAudioSessionId());
                     try {
                         activity.startActivityForResult(intent, 1);
                     } catch (ActivityNotFoundException e) {

@@ -12,11 +12,9 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
-import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.FileUtils;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,9 +105,9 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
         }
     }
 
-    public void updatePlayingPosition(PlayService playService) {
-        if (playService.getPlayingMusic() != null && playService.getPlayingMusic().getType() == MusicBean.Type.LOCAL) {
-            mPlayingPosition = playService.getPlayingPosition();
+    public void updatePlayingPosition(PlayLocalMusicService playLocalMusicService) {
+        if (playLocalMusicService.getPlayingMusic() != null && playLocalMusicService.getPlayingMusic().getType() == MusicBean.Type.LOCAL) {
+            mPlayingPosition = playLocalMusicService.getPlayingPosition();
         } else {
             mPlayingPosition = -1;
         }

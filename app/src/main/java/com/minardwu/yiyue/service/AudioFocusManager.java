@@ -1,7 +1,10 @@
 package com.minardwu.yiyue.service;
 
 import android.media.AudioManager;
-import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 
 import static android.content.Context.AUDIO_SERVICE;
 
@@ -9,14 +12,12 @@ import static android.content.Context.AUDIO_SERVICE;
  * 音乐焦点管理
  */
 public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListener {
-    private PlayService mPlayService;
-    private AudioManager mAudioManager;
+    private static AudioManager mAudioManager;
     private boolean isPausedByFocusLossTransient;
     private int mVolumeWhenFocusLossTransientCanDuck;
 
-    public AudioFocusManager(@NonNull PlayService playService) {
-        mPlayService = playService;
-        mAudioManager = (AudioManager) playService.getSystemService(AUDIO_SERVICE);
+    public AudioFocusManager() {
+        mAudioManager = (AudioManager) YiYueApplication.getAppContext().getSystemService(AUDIO_SERVICE);
     }
 
     public boolean requestAudioFocus() {
@@ -34,9 +35,10 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
         switch (focusChange) {
             // 重新获得焦点
             case AudioManager.AUDIOFOCUS_GAIN:
+                Log.e("onAudioFocusChange","AUDIOFOCUS_GAIN");
                 if (!willPlay() && isPausedByFocusLossTransient) {
                     // 通话结束，恢复播放
-                    mPlayService.playOrPause();
+                    AppCache.getCurrentService().playOrPause();
                 }
 
                 volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -51,12 +53,14 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
                 break;
             // 永久丢失焦点，如被其他播放器抢占
             case AudioManager.AUDIOFOCUS_LOSS:
+                Log.e("onAudioFocusChange","AUDIOFOCUS_LOSS");
                 if (willPlay()) {
                     forceStop();
                 }
                 break;
             // 短暂丢失焦点，如来电
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                Log.e("onAudioFocusChange","AUDIOFOCUS_LOSS_TRANSIENT");
                 if (willPlay()) {
                     forceStop();
                     isPausedByFocusLossTransient = true;
@@ -76,14 +80,16 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
     }
 
     private boolean willPlay() {
-        return mPlayService.isPreparing() || mPlayService.isPlaying();
+        PlayService playingService = AppCache.getCurrentService();
+        return playingService.isPreparing() || playingService.isPlaying();
     }
 
     private void forceStop() {
-        if (mPlayService.isPreparing()) {
-            mPlayService.stop();
-        } else if (mPlayService.isPlaying()) {
-            mPlayService.pause();
+        PlayService playingService = AppCache.getCurrentService();
+        if (playingService.isPreparing()) {
+            playingService.stop();
+        } else if (playingService.isPlaying()) {
+            playingService.pause();
         }
     }
 }

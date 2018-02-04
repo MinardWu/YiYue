@@ -31,7 +31,7 @@
             android:theme="@style/LocalMusicListActivityTheme" />
 
         <service
-            android:name=".service.PlayService"
+            android:name=".service.PlayLocalMusicService"
             android:enabled="true"
             android:exported="true" />
         <service

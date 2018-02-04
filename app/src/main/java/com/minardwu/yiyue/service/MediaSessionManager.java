@@ -7,6 +7,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 
 
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.CoverLoader;
 
@@ -21,17 +22,16 @@ public class MediaSessionManager {
             | PlaybackStateCompat.ACTION_STOP
             | PlaybackStateCompat.ACTION_SEEK_TO;
 
-    private PlayService mPlayService;
+    private PlayLocalMusicService mPlayService;
     private MediaSessionCompat mMediaSession;
 
-    public MediaSessionManager(PlayService playService) {
-        mPlayService = playService;
+    public MediaSessionManager() {
         setupMediaSession();
     }
 
     //初始化MediaSession
     private void setupMediaSession() {
-        mMediaSession = new MediaSessionCompat(mPlayService, TAG);
+        mMediaSession = new MediaSessionCompat(YiYueApplication.getAppContext(), TAG);
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
         mMediaSession.setCallback(callback);
         mMediaSession.setActive(true);
@@ -39,11 +39,12 @@ public class MediaSessionManager {
 
     //更新播放状态
     public void updatePlaybackState() {
-        int state = (mPlayService.isPlaying() || mPlayService.isPreparing()) ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
+        PlayService playingService = AppCache.getCurrentService();
+        int state = (playingService.isPlaying() || playingService.isPreparing()) ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
         mMediaSession.setPlaybackState(
                 new PlaybackStateCompat.Builder()
                         .setActions(MEDIA_SESSION_ACTIONS)
-                        .setState(state, mPlayService.getCurrentPosition(), 1)
+                        .setState(state, playingService.getCurrentPosition(), 1)
                         .build());
     }
 
@@ -79,32 +80,32 @@ public class MediaSessionManager {
     private MediaSessionCompat.Callback callback = new MediaSessionCompat.Callback() {
         @Override
         public void onPlay() {
-            mPlayService.playOrPause();
+            AppCache.getCurrentService().playOrPause();
         }
 
         @Override
         public void onPause() {
-            mPlayService.playOrPause();
+            AppCache.getCurrentService().playOrPause();
         }
 
         @Override
         public void onSkipToNext() {
-            mPlayService.next();
+            AppCache.getCurrentService().next();
         }
 
         @Override
         public void onSkipToPrevious() {
-            mPlayService.prev();
+            AppCache.getCurrentService().prev();
         }
 
         @Override
         public void onStop() {
-            mPlayService.stop();
+            AppCache.getCurrentService().stop();
         }
 
         @Override
         public void onSeekTo(long pos) {
-            mPlayService.seekTo((int) pos);
+            AppCache.getCurrentService().seekTo((int) pos);
         }
     };
 }

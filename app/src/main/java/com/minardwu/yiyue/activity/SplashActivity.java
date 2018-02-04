@@ -10,8 +10,8 @@ import android.util.Log;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
-import com.minardwu.yiyue.service.PlayService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,8 +23,8 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         //启动并绑定音乐播放服务
-        startService(new Intent(this, PlayService.class));
-        bindService(new Intent(this, PlayService.class),this,BIND_AUTO_CREATE);
+        startService(new Intent(this, PlayLocalMusicService.class));
+        bindService(new Intent(this, PlayLocalMusicService.class),this,BIND_AUTO_CREATE);
         //启动并绑定音乐播放服务
         startService(new Intent(this, PlayOnlineMusicService.class));
         bindService(new Intent(this, PlayOnlineMusicService.class),this,BIND_AUTO_CREATE);
@@ -47,9 +47,9 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         String tag = iBinder.getClass()+"";
         Log.e("ServiceTag",tag);
-        if(tag.equals("class com.minardwu.yiyue.service.PlayService$PlayBinder")){
-            final PlayService playService = ((PlayService.PlayBinder) iBinder).getService();
-            AppCache.setPlayService(playService);
+        if(tag.equals("class com.minardwu.yiyue.service.PlayLocalMusicService$PlayBinder")){
+            final PlayLocalMusicService playLocalMusicService = ((PlayLocalMusicService.PlayBinder) iBinder).getService();
+            AppCache.setPlayLocalMusicService(playLocalMusicService);
         }else {
             PlayOnlineMusicService service = ((PlayOnlineMusicService.PlayBinder) iBinder).getService();
             AppCache.setPlayOnlineMusicService(service);

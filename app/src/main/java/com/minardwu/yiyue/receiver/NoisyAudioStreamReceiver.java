@@ -7,7 +7,7 @@ import android.content.Intent;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
-import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.service.PlayLocalMusicService;
 
 
 /**
@@ -17,8 +17,8 @@ public class NoisyAudioStreamReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(AppCache.getPlayService().isPlaying()){
-            PlayService.doCommand(context, Actions.ACTION_MEDIA_PLAY_PAUSE);
+        if(AppCache.getPlayLocalMusicService().isPlaying()){
+            PlayLocalMusicService.doCommand(context, Actions.ACTION_MEDIA_PLAY_PAUSE);
         }else if(AppCache.getPlayOnlineMusicService().isPlaying()){
             PlayOnlineMusicService.doCommand(context, Actions.ACTION_MEDIA_PLAY_PAUSE);
         }

@@ -16,11 +16,10 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.MainActivity;
-import com.minardwu.yiyue.activity.SplashActivity;
 import com.minardwu.yiyue.constants.Extras;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.StatusBarReceiver;
-import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.service.PlayLocalMusicService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,25 +29,25 @@ import java.util.List;
  */
 public class Notifier {
     private static final int NOTIFICATION_ID = 0x111;
-    private static PlayService playService;
+    private static PlayLocalMusicService playLocalMusicService;
     private static NotificationManager notificationManager;
 
-    public static void init(PlayService playService) {
-        Notifier.playService = playService;
-        notificationManager = (NotificationManager) playService.getSystemService(Context.NOTIFICATION_SERVICE);
+    public static void init(PlayLocalMusicService playLocalMusicService) {
+        Notifier.playLocalMusicService = playLocalMusicService;
+        notificationManager = (NotificationManager) playLocalMusicService.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public static void showPlay(MusicBean music) {
-        playService.startForeground(NOTIFICATION_ID, buildNotification(playService, music, true));
+        playLocalMusicService.startForeground(NOTIFICATION_ID, buildNotification(playLocalMusicService, music, true));
     }
 
     public static void showPause(MusicBean music) {
-//        playService.stopForeground(false);
-        notificationManager.notify(NOTIFICATION_ID, buildNotification(playService, music, false));
+//        playLocalMusicService.stopForeground(false);
+        notificationManager.notify(NOTIFICATION_ID, buildNotification(playLocalMusicService, music, false));
     }
 
     public static void cancelAll() {
-        playService.stopForeground(false);
+        playLocalMusicService.stopForeground(false);
         notificationManager.cancelAll();
     }
 
@@ -86,7 +85,7 @@ public class Notifier {
         remoteViews.setTextViewText(R.id.tv_title, title);
         remoteViews.setTextViewText(R.id.tv_subtitle, subtitle);
 
-        boolean isLightNotificationTheme = isLightNotificationTheme(playService);
+        boolean isLightNotificationTheme = isLightNotificationTheme(playLocalMusicService);
 
         Intent playIntent = new Intent(StatusBarReceiver.ACTION_STATUS_BAR);
         playIntent.putExtra(StatusBarReceiver.EXTRA, StatusBarReceiver.EXTRA_PLAY_PAUSE);
