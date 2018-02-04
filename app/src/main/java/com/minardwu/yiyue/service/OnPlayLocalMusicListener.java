@@ -6,7 +6,7 @@ import com.minardwu.yiyue.model.MusicBean;
 /**
  * 播放进度监听器
  */
-public interface OnPlayerEventListener {
+public interface OnPlayLocalMusicListener {
 
     /**
      * 切换歌曲

@@ -53,7 +53,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private AudioFocusManager audioFocusManager;//音乐焦点管理
     private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
-    private OnPlayerEventListener onPlayerEventListener;
+    private OnPlayLocalMusicListener onPlayerEventListener;
 
     private MusicBean playingMusic;//正在播放的歌曲[本地|网络]
     private int playingPosition = 0;//正在播放的本地歌曲的序号
@@ -131,11 +131,11 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         }.execute();
     }
 
-    public OnPlayerEventListener getOnPlayEventListener() {
+    public OnPlayLocalMusicListener getOnPlayEventListener() {
         return onPlayerEventListener;
     }
 
-    public void setOnPlayEventListener(OnPlayerEventListener listener) {
+    public void setOnPlayEventListener(OnPlayLocalMusicListener listener) {
         onPlayerEventListener = listener;
     }
 

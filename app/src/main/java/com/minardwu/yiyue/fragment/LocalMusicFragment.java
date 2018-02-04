@@ -25,7 +25,7 @@ import com.minardwu.yiyue.enums.PlayModeEnum;
 import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.http.DownloadLrc;
 import com.minardwu.yiyue.model.MusicBean;
-import com.minardwu.yiyue.service.OnPlayerEventListener;
+import com.minardwu.yiyue.service.OnPlayLocalMusicListener;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.FileUtils;
@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 
 
 
-public class LocalMusicFragment extends Fragment implements View.OnClickListener,OnPlayerEventListener, SeekBar.OnSeekBarChangeListener, LrcView.OnPlayClickListener{
+public class LocalMusicFragment extends Fragment implements View.OnClickListener,OnPlayLocalMusicListener, SeekBar.OnSeekBarChangeListener, LrcView.OnPlayClickListener{
 
     private int lastProgress;
     private boolean isDraggingProgress;
