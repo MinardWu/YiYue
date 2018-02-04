@@ -162,6 +162,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             play(random.nextInt(100000)+60000);
             EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent("random",-1));
         }
+        mediaSessionManager.release();//不release再重新创建的话更新不了ui
     }
 
     void start(){
@@ -179,6 +180,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             playOnlineMusicListener.onPlayerStart();
             Notifier.showPlay(playingMusic);
             AppCache.setCurrentService(this);
+            mediaSessionManager = new MediaSessionManager();
             mediaSessionManager.updateMetaData(playingMusic);
             mediaSessionManager.updatePlaybackState();
             registerReceiver(noisyReceiver, noisyFilter);

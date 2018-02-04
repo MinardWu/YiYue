@@ -253,6 +253,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
             handler.post(publishRunnable);
             Notifier.showPlay(playingMusic);
             AppCache.setCurrentService(this);
+            mediaSessionManager = new MediaSessionManager();
             mediaSessionManager.updateMetaData(playingMusic);
             mediaSessionManager.updatePlaybackState();
             registerReceiver(noisyReceiver, noisyfilter);//注册耳机拔出监听广播
@@ -321,6 +322,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
                 play(playingPosition + 1);
                 break;
         }
+        mediaSessionManager.release();//不release再重新创建的话更新不了ui
     }
 
     public void prev() {
@@ -339,6 +341,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
                 play(playingPosition - 1);
                 break;
         }
+        mediaSessionManager.release();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
