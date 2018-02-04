@@ -5,9 +5,7 @@ package com.minardwu.yiyue.constants;
  */
 
 public interface PlayingService {
-
     int NONE = 0;
     int PLAY_LOCAL_MUSIC_SERVICE = 1;
     int PLAY_ONLINE_MUSIC_SERVICE = 2;
-
 }

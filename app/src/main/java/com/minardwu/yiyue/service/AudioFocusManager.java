@@ -35,7 +35,6 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
         switch (focusChange) {
             // 重新获得焦点
             case AudioManager.AUDIOFOCUS_GAIN:
-                Log.e("onAudioFocusChange","AUDIOFOCUS_GAIN");
                 if (!willPlay() && isPausedByFocusLossTransient) {
                     // 通话结束，恢复播放
                     AppCache.getCurrentService().playOrPause();
@@ -53,14 +52,12 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
                 break;
             // 永久丢失焦点，如被其他播放器抢占
             case AudioManager.AUDIOFOCUS_LOSS:
-                Log.e("onAudioFocusChange","AUDIOFOCUS_LOSS");
                 if (willPlay()) {
                     forceStop();
                 }
                 break;
             // 短暂丢失焦点，如来电
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                Log.e("onAudioFocusChange","AUDIOFOCUS_LOSS_TRANSIENT");
                 if (willPlay()) {
                     forceStop();
                     isPausedByFocusLossTransient = true;
