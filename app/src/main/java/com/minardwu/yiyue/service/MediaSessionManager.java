@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 
 import com.minardwu.yiyue.application.AppCache;
@@ -22,7 +23,6 @@ public class MediaSessionManager {
             | PlaybackStateCompat.ACTION_STOP
             | PlaybackStateCompat.ACTION_SEEK_TO;
 
-    private PlayLocalMusicService mPlayService;
     private MediaSessionCompat mMediaSession;
 
     public MediaSessionManager() {
@@ -60,8 +60,13 @@ public class MediaSessionManager {
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.getArtist())
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.getAlbum())
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, music.getArtist())
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, music.getDuration())
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, CoverLoader.getInstance().loadThumbnail(music));
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, music.getDuration());
+
+        if(music.getType()==MusicBean.Type.LOCAL){
+            metaData.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, CoverLoader.getInstance().loadThumbnail(music));
+        }else{
+            metaData.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, music.getOnlineMusicCover());
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, AppCache.getLocalMusicList().size());
@@ -95,7 +100,11 @@ public class MediaSessionManager {
 
         @Override
         public void onSkipToPrevious() {
-            AppCache.getCurrentService().prev();
+            if(AppCache.getCurrentService() instanceof PlayOnlineMusicService){
+                AppCache.getCurrentService().next();
+            }else {
+                AppCache.getCurrentService().prev();
+            }
         }
 
         @Override

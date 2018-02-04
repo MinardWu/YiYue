@@ -1,7 +1,6 @@
 package com.minardwu.yiyue.service;
 
 import android.media.AudioManager;
-import android.util.Log;
 
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.application.YiYueApplication;
