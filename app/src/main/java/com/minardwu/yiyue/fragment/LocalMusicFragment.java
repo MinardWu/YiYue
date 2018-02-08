@@ -43,7 +43,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-
 public class LocalMusicFragment extends Fragment implements View.OnClickListener,OnPlayLocalMusicListener, SeekBar.OnSeekBarChangeListener, LrcView.OnPlayClickListener{
 
     private int lastProgress;
