@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity {
 
 
     @OnClick(R.id.iv_search) void startSearch(){
-
+            startActivity(new Intent(this,SearchActivity.class));
     }
 
     @OnClick(R.id.iv_menu) void openDrawer(){
