@@ -80,6 +80,9 @@
     <string name="grant_permission_setting">授权成功，请在再次操作以设置铃声</string>
     <string name="no_permission_select_image">没有权限，无法选择图片！</string>
     <string name="lrc_label">暂无歌词</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="table_search_history">search_history</string>
+    <string name="table_my_artist">my_artist</string>
+    <string name="table_fm_history">fm_history</string>
 </resources>
