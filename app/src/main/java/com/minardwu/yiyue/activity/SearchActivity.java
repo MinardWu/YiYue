@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
@@ -23,10 +24,12 @@ import butterknife.ButterKnife;
 
 public class SearchActivity extends BaseActivity implements View.OnClickListener, TextView.OnEditorActionListener {
 
-    @BindView(R.id.button_layout)
-    ButtonLayout button_layout;
+    @BindView(R.id.iv_toolbar_back)
+    ImageView iv_toolbar_back;
     @BindView(R.id.et_search)
     EditText et_search;
+    @BindView(R.id.button_layout)
+    ButtonLayout button_layout;
     @BindView(R.id.tv_clear_history)
     TextView tv_clear_history;
 
@@ -41,20 +44,19 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
-
         databaseHelper = new MyDatabaseHelper(SearchActivity.this,"YY.db",null,1);
         sqLiteDatabase = databaseHelper.getWritableDatabase();
         databaseHelper.setSQLiteDataBase(sqLiteDatabase);
-
-        tv_clear_history.setOnClickListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        searchHistoryList = databaseHelper.query();
         et_search.setOnEditorActionListener(this);
+        iv_toolbar_back.setOnClickListener(this);
+        tv_clear_history.setOnClickListener(this);
         button_layout.removeAllViews();
+        searchHistoryList = databaseHelper.query();
         for (String history:searchHistoryList){
             Button button = new Button(this);
             button.setText(history);
@@ -70,7 +72,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.tv_clear_history){
+        if(view.getId()==R.id.iv_toolbar_back){
+            finish();
+        }else if(view.getId()==R.id.tv_clear_history){
             databaseHelper.clearHistory();
             onResume();
         }else {
