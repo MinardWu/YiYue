@@ -129,7 +129,7 @@ public class ArtistActivity extends AppCompatActivity{
         });
     }
 
-    private void initListView(ArtistBean artistBean){
+    private void initListView(final ArtistBean artistBean){
         song_conut = artistBean.getSongs().size();
         artistId = artistBean.getId();
         hontSongs = artistBean.getSongs();
@@ -140,17 +140,23 @@ public class ArtistActivity extends AppCompatActivity{
             public void run() {
                 rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
                 rl_artist_hot_songs.setAdapter(adapter);
+                adapter.setHeaderText(artistBean.getId());
                 adapter.updatePlayingMusicId(playOnlineMusicService);
                 adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        if(position==0) {
+                            playOnlineMusicService.startOrStopLoop(artistBean.getId(), hontSongs);
+                            adapter.setHeaderText(artistBean.getId());
+                        }
                         //第一个条件是点击播放歌手歌单后进行判断用的
                         //第二个条件是刚点开歌手页进行判断的
-                        if(position==adapter.getPlayingMusicPosition()||adapter.getMusicList().get(position-1).getId()==playOnlineMusicService.getPlayingMusic().getId()){
+                        else if(position==adapter.getPlayingMusicPosition()||
+                                playOnlineMusicService.getPlayingMusic()!=null&&adapter.getMusicList().get(position-1).getId()==playOnlineMusicService.getPlayingMusic().getId()){
                             finish();
                         }else {
                             playOnlineMusicService.stop();
-                            playOnlineMusicService.playTargetList(hontSongs,position-1);
+                            playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
                             adapter.updatePlayingMusicPosition(position);
                             adapter.notifyDataSetChanged();
                         }
@@ -158,7 +164,7 @@ public class ArtistActivity extends AppCompatActivity{
 
                     @Override
                     public void onMoreClick(View view, int position) {
-                            ToastUtils.show("more");
+                            ToastUtils.show("next");
                             playOnlineMusicService.next();
                     }
                 });

@@ -64,8 +64,17 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(position==0){
             PlayAllViewHolder playAllViewHolder = (PlayAllViewHolder) holder;
+            playAllViewHolder.tv_play_all.setText(headerText);
             playAllViewHolder.tv_play_all_song_count.setText("(共"+ musicList.size()+"首)");
             playAllViewHolder.rl_play_all.setVisibility(View.VISIBLE);
+            playAllViewHolder.rl_play_all.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener!=null){
+                        listener.onItemClick(view,position);
+                    }
+                }
+            });
         }else {
             MyViewHolder viewHolder = (MyViewHolder) holder;
             //因为进入到这块说明position不为0，所以position必须要减一才能获得musicList中下标为0的元素
@@ -104,8 +113,6 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
                 }
             });
         }
-
-
     }
 
     @Override
@@ -140,6 +147,8 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     class PlayAllViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_play_all_song_count)
         TextView tv_play_all_song_count;
+        @BindView(R.id.tv_play_all)
+        TextView tv_play_all;
         @BindView(R.id.rl_play_all)
         RelativeLayout rl_play_all;
 
@@ -169,6 +178,17 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
 
     public List<MusicBean> getMusicList() {
         return musicList;
+    }
+
+    private String headerText;
+
+    public void setHeaderText(String artistId){
+        if(artistId.equals(AppCache.getPlayOnlineMusicService().getListId())){
+            headerText = "正在循环";
+        }else {
+            headerText = "开始循环";
+        }
+        notifyDataSetChanged();
     }
 
     public interface OnRecycleViewClickListener{

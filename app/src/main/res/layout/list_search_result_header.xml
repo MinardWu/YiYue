@@ -1,0 +1,24 @@
+<LinearLayout android:id="@+id/ll_search_artist"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:src="@drawable/default_cover"
+        android:id="@+id/iv_search_artist"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:text="歌手"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/tv_search_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

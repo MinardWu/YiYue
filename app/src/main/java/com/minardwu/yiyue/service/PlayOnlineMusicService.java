@@ -49,6 +49,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     private boolean randomPlay = true;//初始化状态
     private Random random = new Random(System.currentTimeMillis());
     private List<Integer> targetListIds = new ArrayList<Integer>();
+    private String listId="0";
     private int playPosition;
 
     private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();//广播在start的时候注册，pause的时候注销
@@ -88,18 +89,32 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
-    public void playTargetList(List<MusicBean> list,int position){
-        targetListIds.clear();
-        for(MusicBean musicBean:list)
-            targetListIds.add((int)musicBean.getId());
-        randomPlay = false;
-        play(targetListIds.get(position));
-        playPosition = position;
+    /**
+     * @param artistId 使用传过来的artistId作为列表的id，如果传过来的id与保存的相同，则说明是要取消循环该列表了
+     * @param list
+     */
+    public void startOrStopLoop(String artistId,List<MusicBean> list){
+        if(listId.equals(artistId)){
+            listId = "0";
+            randomPlay = true;
+            targetListIds.clear();
+        }else {
+            listId = artistId;
+            randomPlay = false;
+            targetListIds.clear();
+            for(MusicBean musicBean:list)
+                targetListIds.add((int)musicBean.getId());
+            playPosition = 0;
+            for(int i=0;i<list.size();i++){
+                if (getPlayingMusic()!=null&&list.get(i).getId()==getPlayingMusic().getId()){
+                    playPosition = i;
+                }
+            }
+        }
     }
 
-    public void playRandom(){
-        randomPlay = true;
-        //play(random.nextInt(100000)+60000);
+    public String getListId(){
+        return listId;
     }
 
     public void play(int id){
@@ -152,11 +167,11 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             if(playPosition == targetListIds.size()-1){
                 play(targetListIds.get(0));
                 playPosition = 0;
-                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(), playPosition));
+                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(listId, playPosition));
             }else {
                 play(targetListIds.get(playPosition +1));
                 playPosition = playPosition +1;
-                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(getPlayingMusic().getArtistId(), playPosition));
+                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(listId, playPosition));
             }
         }else {
             play(random.nextInt(100000)+60000);
