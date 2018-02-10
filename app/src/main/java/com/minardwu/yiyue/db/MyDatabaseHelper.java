@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_SEARCH_HISTORY = "create table "+TABLE_SEARCH_HISTORY+"(" +
             "id integer primary key autoincrement," +
-            "content text" +
+            "content text," +
+            "time integer" +
             ")";
 
     private static final String CREATE_TABLE_MY_ARTIST = "create table "+TABLE_MY_ARTIST+"(" +
@@ -66,9 +68,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         this.sqLiteDatabase = sqLiteDataBase;
     }
 
-    public List<String> query(){
+    public List<String> queryHistory(){
         List<String> list = new ArrayList<String>();
-        Cursor cursor = sqLiteDatabase.query(TABLE_SEARCH_HISTORY,null,null,null,null,null,"id desc");
+        Cursor cursor = sqLiteDatabase.query(TABLE_SEARCH_HISTORY,null,null,null,null,null,"time desc");
         while (cursor.moveToNext()){
             list.add(cursor.getString(cursor.getColumnIndex("content")));
         }
@@ -76,14 +78,29 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public void insert(String content){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("content",content);
-        sqLiteDatabase.insert(TABLE_SEARCH_HISTORY,null,contentValues);
+    public void insertHistory(String content){
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM "+TABLE_SEARCH_HISTORY+" WHERE content = ?",new String[]{content});
+        cursor.moveToFirst();
+        Long count = cursor.getLong(0);
+        if(count>0){
+            updateHistory(content);
+        }else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("content",content);
+            contentValues.put("time", System.currentTimeMillis());
+            sqLiteDatabase.insert(TABLE_SEARCH_HISTORY,null,contentValues);
+        }
+
     }
 
     public void clearHistory(){
         sqLiteDatabase.delete(TABLE_SEARCH_HISTORY,null,null);
+    }
+
+    public void updateHistory(String content){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("time",System.currentTimeMillis());
+        sqLiteDatabase.update(TABLE_SEARCH_HISTORY,contentValues,"content = ?",new String[]{content});
     }
 
 }

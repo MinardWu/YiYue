@@ -3,13 +3,10 @@ package com.minardwu.yiyue.activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.adapter.SearchResultAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
@@ -66,7 +62,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
-        databaseHelper = new MyDatabaseHelper(SearchActivity.this,"YY.db",null,1);
+        databaseHelper = new MyDatabaseHelper(SearchActivity.this,"QO.db",null,1);
         sqLiteDatabase = databaseHelper.getWritableDatabase();
         databaseHelper.setSQLiteDataBase(sqLiteDatabase);
 
@@ -82,7 +78,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         iv_toolbar_back.setOnClickListener(this);
         tv_clear_history.setOnClickListener(this);
         button_layout.removeAllViews();
-        searchHistoryList = databaseHelper.query();
+        searchHistoryList = databaseHelper.queryHistory();
         for (String history:searchHistoryList){
             Button button = new Button(this);
             button.setText(history);
@@ -105,8 +101,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             onResume();
         }else {
             Button btn = (Button) view;
-            executeSearch(btn.getText().toString());
-            ToastUtils.show(btn.getText().toString());
+            String content = btn.getText().toString();
+            executeSearch(content);
+            databaseHelper.updateHistory(content);
         }
     }
 
@@ -118,8 +115,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 || event == null
                 || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
             String content = textView.getText().toString();
-            databaseHelper.insert(content);
-            Log.e(TAG,content);
+            databaseHelper.insertHistory(content);
             executeSearch(content);
             onResume();
             return true;
