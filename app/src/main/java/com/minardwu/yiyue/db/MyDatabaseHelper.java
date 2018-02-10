@@ -56,7 +56,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_SEARCH_HISTORY);
         sqLiteDatabase.execSQL(CREATE_TABLE_MY_ARTIST);
         sqLiteDatabase.execSQL(CREATE_TABLE_FM_HISTORY);
-        ToastUtils.show("ok");
     }
 
     @Override
