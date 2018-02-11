@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/tv_online_music_artist"
-            android:textColor="#5c5b5b"
+            android:textColor="@color/grey"
             android:layout_marginTop="8dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/tv_online_music_title"
@@ -61,7 +61,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="24dp"
             lrc:lrcAnimationDuration="1000"
-            lrc:lrcCurrentTextColor="@color/black"
+            lrc:lrcCurrentTextColor="@color/grey"
             lrc:lrcDividerHeight="24dp"
             lrc:lrcNormalTextColor="@color/black_50p"
             lrc:lrcPadding="40dp"
@@ -80,7 +80,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="32dp"
-                android:src="@drawable/icon_download_online"
+                android:src="@drawable/ic_online_fragment_download"
                 android:layout_width="60dp"
                 android:layout_height="30dp" />
 
@@ -97,7 +97,7 @@
                 android:layout_marginRight="32dp"
                 android:id="@+id/iv_onlinemusic_next"
                 android:layout_centerInParent="true"
-                android:src="@drawable/icon_next_online"
+                android:src="@drawable/ic_online_fragment_next"
                 android:layout_width="60dp"
                 android:layout_height="30dp" />
 

@@ -67,6 +67,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_next.setOnClickListener(this);
         tv_online_music_artist.setOnClickListener(this);
         iv_onlinemusic_play.setSelected(false);
+        changeIconState(1);
     }
 
     public void changeMusicImp(final MusicBean music) {
@@ -77,6 +78,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 tv_online_music_title.setText(music.getTitle());
                 tv_online_music_artist.setText(music.getArtist());
                 String lrc = music.getLrc();
+                changeIconState(1);
                 if(lrc!=null){
                     Log.e("lrc",lrc);
                     if(lrc.equals("1")){
@@ -137,6 +139,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 getPlayOnlineMusicService().playOrPause();
                 break;
             case R.id.iv_onlinemusic_next:
+                changeIconState(0);
                 getPlayOnlineMusicService().next();
                 break;
             case R.id.tv_online_music_artist:
@@ -191,4 +194,18 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         }.start();
         return;
     }
+
+    private void changeIconState(int state){
+        if(state==0){
+            iv_onlinemusic_download.setEnabled(false);
+            iv_onlinemusic_play.setEnabled(false);
+            iv_onlinemusic_next.setEnabled(false);
+        }else if(state==1){
+            iv_onlinemusic_download.setEnabled(true);
+            iv_onlinemusic_play.setEnabled(true);
+            iv_onlinemusic_next.setEnabled(true);
+        }
+
+    }
+
 }
