@@ -1,6 +1,7 @@
 package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.AppBarLayout;
@@ -11,12 +12,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.http.GetOnlineArtist;
 import com.minardwu.yiyue.http.HttpCallback;
@@ -30,13 +33,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ArtistActivity extends AppCompatActivity{
+public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.rl_artist_hot_songs) RecyclerView rl_artist_hot_songs;
     @BindView(R.id.collapsing_toolbar_layout) CollapsingToolbarLayout collapsing_toolbar_layout;
@@ -45,18 +49,21 @@ public class ArtistActivity extends AppCompatActivity{
     @BindView(R.id.iv_bg) ImageView iv_bg;
     @BindView(R.id.iv_artist) ImageView iv_artist;
     @BindView(R.id.tv_artist_name_below_iv) TextView tv_artist_name_below_iv;
+    @BindView(R.id.btn_follow_artist) Button btn_follow_artist;
 
 
     PlayOnlineMusicService playOnlineMusicService;
     List<MusicBean> hontSongs = new ArrayList<MusicBean>();
     OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(hontSongs);
     LinearLayoutManager linearLayoutManager;
+    MyDatabaseHelper myDatabaseHelper;
 
     private Intent intent;
     private int type;
     private int song_conut;
     private String artistId;
     private String artistName;
+    private String artistPicUrl;
 
 
     @Override
@@ -70,9 +77,11 @@ public class ArtistActivity extends AppCompatActivity{
         type = intent.getIntExtra("type",0);
         artistName = intent.getStringExtra("artistName");
         artistId = intent.getStringExtra("artistId");
+        initView();
         GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
             @Override
             public void onSuccess(final ArtistBean artistBean) {
+                artistPicUrl = artistBean.getPicUrl();
                 initListView(artistBean);
                 ImageUtils.getBitmapByUrl(artistBean.getPicUrl(), new HttpCallback<Bitmap>() {
                     @Override
@@ -80,6 +89,9 @@ public class ArtistActivity extends AppCompatActivity{
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (myDatabaseHelper.isFollowArtist(artistId)){
+                                    myDatabaseHelper.updateArtistPic(artistId,artistPicUrl);
+                                }
                                 iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
                                 iv_bg.setImageBitmap(bitmap);
                             }
@@ -98,7 +110,6 @@ public class ArtistActivity extends AppCompatActivity{
                 loadDataFail();
             }
         });
-        initView();
     }
 
     private void initView(){
@@ -106,6 +117,11 @@ public class ArtistActivity extends AppCompatActivity{
         tv_artist_name.setText(artistName);
         tv_artist_name_below_iv.setText(artistName);
         iv_artist.setImageBitmap(ImageUtils.createCircleImage(BitmapFactory.decodeResource(getResources(),R.drawable.default_cover)));
+        myDatabaseHelper = new MyDatabaseHelper(this,getResources().getString(R.string.database_name),null,1);
+        SQLiteDatabase sqLiteDatabase = myDatabaseHelper.getWritableDatabase();
+        myDatabaseHelper.setSQLiteDataBase(sqLiteDatabase);
+        btn_follow_artist.setText(myDatabaseHelper.isFollowArtist(artistId) ? "已关注":"关注");
+        btn_follow_artist.setOnClickListener(this);
     }
 
     private void setTitleToCollapsingToolbarLayout() {
@@ -198,5 +214,19 @@ public class ArtistActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_follow_artist:
+                if(myDatabaseHelper.isFollowArtist(artistId)){
+                    myDatabaseHelper.unfollowArtist(artistId);
+                    btn_follow_artist.setText("关注");
+                }else {
+                    myDatabaseHelper.followArtist(artistId,artistName,artistPicUrl);
+                    btn_follow_artist.setText("已关注");
+                }
+        }
     }
 }

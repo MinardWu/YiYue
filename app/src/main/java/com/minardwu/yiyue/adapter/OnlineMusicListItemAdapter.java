@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 
 public class OnlineMusicListItemAdapter extends BaseAdapter {
 
-    private long playingMusicId;
     private int playingMusicPosition = -1;
     private boolean justIn = true;
     private List<MusicBean> list = new ArrayList<MusicBean>();
@@ -63,7 +62,7 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
 
         //网络歌曲列表界面第一次创建UI，因为有很多不同的列表，所以不能用position而是用歌曲id
         //而当点击歌曲时更新UI就不能再使用歌曲id了，因为有时网络加载播放较慢，不能及时获取到你点击的歌曲的id，所以这时用position速度较快
-        if ((list.get(position).getId()==playingMusicId&&justIn)||position==playingMusicPosition) {
+        if (position==playingMusicPosition) {
             viewHolder.v_Playing.setVisibility(View.VISIBLE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
             viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
@@ -112,27 +111,6 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
         }
     }
 
-    public void updatePlayingMusicId(PlayOnlineMusicService playOnlineMusicService) {
-        if (playOnlineMusicService.getPlayingMusic() != null) {
-            playingMusicId = playOnlineMusicService.getPlayingMusic().getId();
-        } else {
-            playingMusicId = -1;
-        }
-    }
-
-    public void updatePlayingMusicPosition(int position) {
-        justIn = false;
-        playingMusicPosition = position;
-    }
-
-    public int getPlayingMusicPosition() {
-        return playingMusicPosition;
-    }
-
-    public List<MusicBean> getTargetList() {
-        return list;
-    }
-
     public interface OnListViewMoreClickListener {
         void onMoreClick(View view,int position);
     }
@@ -143,4 +121,8 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
         this.listener = listener;
     }
 
+    public void updatePlayingMusicPosition(int playingMusicPosition){
+        this.playingMusicPosition = playingMusicPosition;
+        notifyDataSetChanged();
+    }
 }

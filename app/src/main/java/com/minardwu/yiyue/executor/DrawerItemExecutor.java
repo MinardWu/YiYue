@@ -10,6 +10,8 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.activity.FeedbackActivity;
 import com.minardwu.yiyue.activity.InfoActivity;
+import com.minardwu.yiyue.activity.MyArtistActivity;
+import com.minardwu.yiyue.activity.MyFMHistoryActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
@@ -79,8 +81,11 @@ public class DrawerItemExecutor {
                 });
                 sizeFilterDialog.show();
                 break;
+            case 9:
+                activity.startActivity(new Intent(activity, MyArtistActivity.class));
+                break;
             case 10:
-                activity.startActivity(new Intent(activity, ArtistActivity.class));
+                activity.startActivity(new Intent(activity, MyFMHistoryActivity.class));
                 break;
             case 12:
                 activity.startActivity(new Intent(activity, FeedbackActivity.class));

@@ -51,7 +51,9 @@
         <activity android:name=".activity.InfoActivity" />
         <activity android:name=".activity.FeedbackActivity" />
         <activity android:name=".activity.ArtistActivity" />
-        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.MyArtistActivity" />
+        <activity android:name=".activity.MyFMHistoryActivity"></activity>
     </application>
 
 </manifest>

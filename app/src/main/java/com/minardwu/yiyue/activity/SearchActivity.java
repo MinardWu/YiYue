@@ -3,7 +3,6 @@ package com.minardwu.yiyue.activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,7 +77,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         iv_toolbar_back.setOnClickListener(this);
         tv_clear_history.setOnClickListener(this);
         button_layout.removeAllViews();
-        searchHistoryList = databaseHelper.queryHistory();
+        searchHistoryList = databaseHelper.querySearchHistory();
         for (String history:searchHistoryList){
             Button button = new Button(this);
             button.setText(history);
@@ -97,13 +96,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         if(view.getId()==R.id.iv_toolbar_back){
             finish();
         }else if(view.getId()==R.id.tv_clear_history){
-            databaseHelper.clearHistory();
+            databaseHelper.clearSearchHistory();
             onResume();
         }else {
             Button btn = (Button) view;
             String content = btn.getText().toString();
             executeSearch(content);
-            databaseHelper.updateHistory(content);
+            databaseHelper.updateSearchHistory(content);
         }
     }
 
@@ -115,7 +114,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 || event == null
                 || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
             String content = textView.getText().toString();
-            databaseHelper.insertHistory(content);
+            databaseHelper.insertSearchHistory(content);
             executeSearch(content);
             onResume();
             return true;

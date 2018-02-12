@@ -85,4 +85,6 @@
     <string name="table_search_history">search_history</string>
     <string name="table_my_artist">my_artist</string>
     <string name="table_fm_history">fm_history</string>
+
+    <string name="database_name">RRRR.db</string>
 </resources>

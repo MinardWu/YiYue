@@ -16,9 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.constants.NetWorkType;
+import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
@@ -58,6 +60,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     private AudioFocusManager audioFocusManager;//音乐焦点管理
     private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
     private MusicBean playingMusic;
+    private MyDatabaseHelper myDatabaseHelper;
 
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private OnPlayOnlineMusicListener playOnlineMusicListener;
@@ -71,6 +74,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         EventBus.getDefault().register(this);
         audioFocusManager = new AudioFocusManager();
         mediaSessionManager = new MediaSessionManager();
+        //myDatabaseHelper = new MyDatabaseHelper(this,getResources().getString(R.string.database_name),null,1);
     }
 
     public void setPlayOnlineMusicListener(OnPlayOnlineMusicListener playOnlineMusicListener) {
@@ -195,6 +199,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             playOnlineMusicListener.onPlayerStart();
             Notifier.showPlay(playingMusic);
             AppCache.setCurrentService(this);
+            MyDatabaseHelper.init(this,getResources().getString(R.string.database_name),null,1).addFMHistory(playingMusic);
             mediaSessionManager = new MediaSessionManager();
             mediaSessionManager.updateMetaData(playingMusic);
             mediaSessionManager.updatePlaybackState();
