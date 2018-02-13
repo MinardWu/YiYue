@@ -54,4 +54,5 @@ public class MyFMHistoryActivity extends SampleActivity {
         mid.setText("FM足迹");
         right.setVisibility(View.GONE);
     }
+
 }
