@@ -15,9 +15,6 @@ import com.minardwu.yiyue.model.MusicBean;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MyFMHistoryActivity extends SampleActivity {
 
     private ListView lv_fm_history;
