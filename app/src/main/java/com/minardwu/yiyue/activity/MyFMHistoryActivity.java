@@ -7,7 +7,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.adapter.LocalMusicListItemAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicListItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
