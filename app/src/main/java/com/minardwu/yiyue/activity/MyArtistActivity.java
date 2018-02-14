@@ -23,7 +23,7 @@ public class MyArtistActivity extends SampleActivity {
     protected void setToolbarTitle(TextView left, TextView mid, TextView right) {
         super.setToolbarTitle(left, mid, right);
         left.setVisibility(View.GONE);
-        mid.setText("收藏");
+        mid.setText("我的歌手");
         right.setVisibility(View.GONE);
     }
 }

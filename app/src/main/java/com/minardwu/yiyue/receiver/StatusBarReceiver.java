@@ -42,7 +42,7 @@ public class StatusBarReceiver extends BroadcastReceiver {
             if (type.equals("LOCAL")){
                 playLocalMusicService.playOrPause();
             }else if(type.equals("ONLINE")){
-                playOnlineMusicService.playOrPause();
+                playOnlineMusicService.playOrPause(0);
             }
         } else if (TextUtils.equals(extra, EXTRA_PRE)) {
             if (type.equals("LOCAL")){

@@ -82,7 +82,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         this.playOnlineMusicListener = playOnlineMusicListener;
     }
 
-    public void playOrPause() {
+    public void playOrPause(int id) {
         if (isPreparing()) {
             stop();
         } else if (isPlaying()) {
@@ -90,7 +90,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         } else if (isPausing()) {
             start();
         } else {
-            next();
+            play(id);
         }
     }
 

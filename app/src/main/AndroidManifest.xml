@@ -53,7 +53,8 @@
         <activity android:name=".activity.ArtistActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.MyArtistActivity" />
-        <activity android:name=".activity.MyFMHistoryActivity"></activity>
+        <activity android:name=".activity.MyFMHistoryActivity" />
+        <activity android:name=".activity.MySongActivity"></activity>
     </application>
 
 </manifest>

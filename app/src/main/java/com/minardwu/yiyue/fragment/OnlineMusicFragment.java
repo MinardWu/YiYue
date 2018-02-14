@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
@@ -45,6 +47,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     @BindView(R.id.iv_onlinemusic_next) ImageView iv_onlinemusic_next;
 
     private MusicBean playingMusic;
+    private boolean isLoveSong;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,11 +70,33 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_next.setOnClickListener(this);
         tv_online_music_artist.setOnClickListener(this);
         iv_onlinemusic_play.setSelected(false);
-        changeIconState(1);
+        playingMusic = MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).getFMHistoryLastSong();
+        if(playingMusic==null){
+            new GetOnlineSong() {
+                @Override
+                public void onSuccess(MusicBean musicBean) {
+                    playingMusic = musicBean;
+                    changeMusicImp(playingMusic);
+                    changeIconState(1);
+                    Notifier.showPause(playingMusic);
+                }
+
+                @Override
+                public void onFail(String string) {
+
+                }
+            }.exectue(100861);
+        }else {
+            changeMusicImp(playingMusic);
+            changeIconState(1);
+            Notifier.showPause(playingMusic);
+        }
+
     }
 
     public void changeMusicImp(final MusicBean music) {
         playingMusic = music;
+        isLoveSong = MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).isLoveSong(playingMusic);
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 loadCoverByUrl(music.getCoverPath());
@@ -133,10 +158,16 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_onlinemusic_download:
-
+                if(isLoveSong){
+                    iv_onlinemusic_download.setSelected(false);
+                    MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).deleteLoveSong(playingMusic);
+                }else {
+                    iv_onlinemusic_download.setSelected(true);
+                    MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).addLoveSong(playingMusic);
+                }
                 break;
             case R.id.iv_onlinemusic_play:
-                getPlayOnlineMusicService().playOrPause();
+                getPlayOnlineMusicService().playOrPause((int) playingMusic.getId());
                 break;
             case R.id.iv_onlinemusic_next:
                 changeIconState(0);
@@ -179,7 +210,11 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                     final Bitmap finalBitmap = bitmap;
                     //刷新notification的封面
                     playingMusic.setOnlineMusicCover(finalBitmap);
-                    Notifier.showPlay(playingMusic);
+                    if (getPlayOnlineMusicService().isPlaying()){
+                        Notifier.showPlay(playingMusic);
+                    }else {
+                        Notifier.showPause(playingMusic);
+                    }
                     //刷新播放界面封面
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -201,6 +236,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             iv_onlinemusic_play.setEnabled(false);
             iv_onlinemusic_next.setEnabled(false);
         }else if(state==1){
+            iv_onlinemusic_download.setSelected(isLoveSong?true:false);
             iv_onlinemusic_download.setEnabled(true);
             iv_onlinemusic_play.setEnabled(true);
             iv_onlinemusic_next.setEnabled(true);
