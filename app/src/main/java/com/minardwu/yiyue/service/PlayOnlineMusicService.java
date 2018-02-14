@@ -53,6 +53,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     private List<Integer> targetListIds = new ArrayList<Integer>();
     private String listId="0";
     private int playPosition;
+    private String playingMusicId="null";
 
     private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();//广播在start的时候注册，pause的时候注销
     private final IntentFilter noisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -94,16 +95,16 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     }
 
     /**
-     * @param artistId 使用传过来的artistId作为列表的id，如果传过来的id与保存的相同，则说明是要取消循环该列表了
+     * @param listId 使用传过来的listId作为列表的id，如果传过来的id与保存的相同，则说明是要取消循环该列表了
      * @param list
      */
-    public void startOrStopLoop(String artistId,List<MusicBean> list){
-        if(listId.equals(artistId)){
-            listId = "0";
+    public void startOrStopLoop(String listId,List<MusicBean> list){
+        if(this.listId.equals(listId)){
+            this.listId = "0";
             randomPlay = true;
             targetListIds.clear();
         }else {
-            listId = artistId;
+            this.listId = listId;
             randomPlay = false;
             targetListIds.clear();
             for(MusicBean musicBean:list)
@@ -116,9 +117,16 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             }
         }
     }
+    public void updataPlayingMusicPosition(int position){
+        this.playPosition = position;
+    }
 
     public String getListId(){
         return listId;
+    }
+
+    public String getPlayingMusicId(){
+        return playingMusicId;
     }
 
     public void play(int id){
@@ -133,6 +141,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             return;
         }
         Log.e(TAG,"playstart:"+id);
+        playingMusicId = id+"";
         mediaPlayer.reset();
         new GetOnlineSong() {
             @Override
@@ -169,17 +178,15 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         playOnlineMusicListener.onPublish(0);
         if(!randomPlay){
             if(playPosition == targetListIds.size()-1){
-                play(targetListIds.get(0));
                 playPosition = 0;
-                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(listId, playPosition));
             }else {
-                play(targetListIds.get(playPosition +1));
                 playPosition = playPosition +1;
-                EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(listId, playPosition));
             }
+            play(targetListIds.get(playPosition));
+            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(listId));
         }else {
             play(random.nextInt(100000)+60000);
-            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent("random",-1));
+            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent("random"));
         }
         mediaSessionManager.release();//不release再重新创建的话更新不了ui
     }

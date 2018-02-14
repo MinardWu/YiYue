@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,7 +32,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,12 +128,14 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int offsetWhenCollapse = appBarLayout.getTotalScrollRange();
                 if (Math.abs(verticalOffset) == offsetWhenCollapse) {
+                    btn_follow_artist.setVisibility(View.INVISIBLE);//解决快速上拉时button会与标题重叠的问题
                     tv_artist_name.setVisibility(View.VISIBLE);
                     //设置toolbar为自定义样式的时候，会覆盖掉collapsing_toolbar_layout的title，所以这时下面的方法不能用
 //                    collapsing_toolbar_layout.setTitle(artistName);
 //                    collapsing_toolbar_layout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorGreenLight));
 //                    collapsing_toolbar_layout.setCollapsedTitleGravity(Gravity.CENTER);
                 } else {
+                    btn_follow_artist.setVisibility(View.VISIBLE);
                     tv_artist_name.setVisibility(View.INVISIBLE);
 //                    collapsing_toolbar_layout.setTitle("");
 //                    collapsing_toolbar_layout.setExpandedTitleGravity(Gravity.CENTER);
@@ -157,7 +157,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                 rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
                 rl_artist_hot_songs.setAdapter(adapter);
                 adapter.setHeaderText(artistBean.getId());
-                adapter.updatePlayingMusicId(playOnlineMusicService);
                 adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -173,7 +172,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                         }else {
                             playOnlineMusicService.stop();
                             playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                            adapter.updatePlayingMusicPosition(position);
+                            playOnlineMusicService.updataPlayingMusicPosition(position-1);
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -199,15 +198,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateOnlineMusicListPositionEvent(UpdateOnlineMusicListPositionEvent event){
-        if (this.artistId.equals(event.getArtistId())){
-            //记得position加1(界面与musicList传递数据时总是加1或减1，加或减取决于谁是发送数据的一方了)
-            adapter.updatePlayingMusicPosition(event.getPosition()+1);
-            adapter.notifyDataSetChanged();
-        }else {
-            //当用户点开一个歌手页后如果不打算循坏该歌手的歌，但是又不退出歌手页，而这时fm切到下一首歌了（已经不是歌手页这个歌手了），则要把之前显示播放的那首歌设置为未播放的样式
-            adapter.updatePlayingMusicPosition(-1);
-            adapter.notifyDataSetChanged();
-        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

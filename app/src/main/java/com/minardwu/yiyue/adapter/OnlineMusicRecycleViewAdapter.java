@@ -30,11 +30,13 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
 
     private long playingMusicId;
     private int playingMusicPosition = -1;
+    private PlayOnlineMusicService playOnlineMusicService;
     private boolean justIn = true;
     private List<MusicBean> musicList = new ArrayList<MusicBean>();
 
     public OnlineMusicRecycleViewAdapter(List<MusicBean> list) {
         this.musicList = list;
+        playOnlineMusicService = AppCache.getPlayOnlineMusicService();
     }
 
     @Override
@@ -79,7 +81,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             MyViewHolder viewHolder = (MyViewHolder) holder;
             //因为进入到这块说明position不为0，所以position必须要减一才能获得musicList中下标为0的元素
             //所以这个recycleView涉及到musicList的position都要-1，其他的不用，如adapter.updatePlayingMusicPosition时直接传入position即可
-            if ((playingMusicId== musicList.get(position-1).getId()&&justIn)||position==playingMusicPosition) {
+            if ((playOnlineMusicService.getPlayingMusicId().equals(musicList.get(position-1).getId()+""))) {
                 viewHolder.v_Playing.setVisibility(View.VISIBLE);
                 viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
                 viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
@@ -159,19 +161,6 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         }
     }
 
-    public void updatePlayingMusicId(PlayOnlineMusicService playOnlineMusicService) {
-        if (playOnlineMusicService.getPlayingMusic() != null) {
-            playingMusicId = playOnlineMusicService.getPlayingMusic().getId();
-        } else {
-            playingMusicId = -1;
-        }
-    }
-
-    public void updatePlayingMusicPosition(int position) {
-        justIn = false;
-        playingMusicPosition = position;
-    }
-
     public int getPlayingMusicPosition() {
         return playingMusicPosition;
     }
@@ -182,8 +171,8 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
 
     private String headerText;
 
-    public void setHeaderText(String artistId){
-        if(artistId.equals(AppCache.getPlayOnlineMusicService().getListId())){
+    public void setHeaderText(String listId){
+        if(listId.equals(AppCache.getPlayOnlineMusicService().getListId())){
             headerText = "正在循环";
         }else {
             headerText = "开始循环";

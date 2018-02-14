@@ -7,11 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.minardwu.yiyue.activity.MyFMHistoryActivity">
 
-    <ListView
-        android:id="@+id/lv_fm_history"
-        android:divider="@null"
-        android:dividerHeight="0dp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_fm_history"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
