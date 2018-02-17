@@ -1,5 +1,7 @@
 package com.minardwu.yiyue.http;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.minardwu.yiyue.model.ArtistBean;
@@ -10,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +121,36 @@ public class GetOnlineArtist {
                 }
             }
         });
+    }
+
+    public static void getArtistPicById(String id, final HttpCallback<Bitmap> getPicCallback){
+        getArtistInfoById(id, new HttpCallback<ArtistBean>() {
+            @Override
+            public void onSuccess(ArtistBean artistBean) {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request request = new Request.Builder().url(artistBean.getPicUrl()).build();
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        getPicCallback.onFail("111111"+e.toString());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        InputStream is = response.body().byteStream();
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                        is.close();
+                        getPicCallback.onSuccess(bitmap);
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(String e) {
+                getPicCallback.onFail("2222222"+e.toString());
+            }
+        });
+
     }
 
 }

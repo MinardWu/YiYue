@@ -2,7 +2,9 @@ package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,9 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.SearchResultAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.http.GetOnlineArtist;
+import com.minardwu.yiyue.http.GetOnlineSong;
+import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.http.Search;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
@@ -141,7 +146,47 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void run() {
                         loading_view.setVisibility(View.GONE);
+                        lv_search_result.setVisibility(View.VISIBLE);
+                        //搜索得到的歌手
+                        tv_artist.setText("歌手："+artistBean.getName());
+                        GetOnlineArtist.getArtistPicById(artistBean.getId(), new HttpCallback<Bitmap>() {
+                            @Override
+                            public void onSuccess(final Bitmap bitmap) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        iv_artist.setImageBitmap(bitmap);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFail(String e) {
+                                Log.e(TAG,e.toString());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ToastUtils.show("加载失败了");
+                                    }
+                                });
+                            }
+                        });
+                        headerView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                finish();
+                                Intent intent = new Intent(SearchActivity.this,ArtistActivity.class);
+                                intent.putExtra("artistName",artistBean.getName());
+                                intent.putExtra("artistId",artistBean.getId());
+                                startActivity(intent);
+                            }
+                        });
+                        //搜索得到的歌曲
+                        if (lv_search_result.getHeaderViewsCount() == 0) {
+                            lv_search_result.addHeaderView(headerView);
+                        }
                         adapter = new SearchResultAdapter(list);
+                        lv_search_result.setAdapter(adapter);
                         adapter.setOnSearchResultViewClickListener(new SearchResultAdapter.OnSearchResultViewClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
@@ -159,22 +204,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
                             }
                         });
-                        if (lv_search_result.getHeaderViewsCount() == 0) {
-                            lv_search_result.addHeaderView(headerView);
-                        }
-                        tv_artist.setText(artistBean.getName());
-                        headerView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                finish();
-                                Intent intent = new Intent(SearchActivity.this,ArtistActivity.class);
-                                intent.putExtra("artistName",artistBean.getName());
-                                intent.putExtra("artistId",artistBean.getId());
-                                startActivity(intent);
-                            }
-                        });
-                        lv_search_result.setAdapter(adapter);
-                        lv_search_result.setVisibility(View.VISIBLE);
+
                     }
                 });
 

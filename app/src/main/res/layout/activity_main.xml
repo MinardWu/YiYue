@@ -134,42 +134,68 @@
             android:layout_height="48dp">
 
             <View
+                android:id="@+id/view_line"
                 android:layout_alignParentTop="true"
                 android:background="@color/grey"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"/>
 
-            <ImageView
-                android:src="@drawable/icon_info"
-                android:id="@+id/iv_drawer_setting"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_width="@dimen/drawer_img_width_or_height"
-                android:layout_height="@dimen/drawer_img_width_or_height" />
+            <LinearLayout
+                android:layout_below="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:text="设置"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/iv_drawer_setting"
-                android:layout_marginLeft="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:clickable="true"
+                    android:background="@drawable/bg_pressed"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
 
-            <ImageView
-                android:src="@drawable/icon_exit"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/tv_drawer_exit"
-                android:layout_marginRight="8dp"
-                android:layout_width="@dimen/drawer_img_width_or_height"
-                android:layout_height="@dimen/drawer_img_width_or_height" />
+                    <ImageView
+                        android:src="@drawable/ic_setting"
+                        android:id="@+id/iv_drawer_setting"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="@dimen/drawer_img_width_or_height"
+                        android:layout_height="@dimen/drawer_img_width_or_height" />
 
-            <TextView
-                android:id="@+id/tv_drawer_exit"
-                android:layout_centerVertical="true"
-                android:text="退出应用"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    <TextView
+                        android:text="设置"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/iv_drawer_setting"
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:clickable="true"
+                    android:background="@drawable/bg_pressed"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/icon_exit"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/tv_drawer_exit"
+                        android:layout_marginRight="8dp"
+                        android:layout_width="@dimen/drawer_img_width_or_height"
+                        android:layout_height="@dimen/drawer_img_width_or_height" />
+
+                    <TextView
+                        android:id="@+id/tv_drawer_exit"
+                        android:layout_centerVertical="true"
+                        android:text="退出应用"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

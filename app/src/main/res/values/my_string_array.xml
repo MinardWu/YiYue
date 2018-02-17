@@ -27,11 +27,11 @@
         <item>@drawable/icon_filter</item>
         <item>@drawable/icon_filter</item>
         <item>@null</item>
-        <item>@drawable/icon_night</item>
-        <item>@drawable/icon_night</item>
-        <item>@drawable/icon_night</item>
+        <item>@drawable/ic_love</item>
+        <item>@drawable/ic_artist</item>
+        <item>@drawable/ic_foot</item>
         <item>@null</item>
-        <item>@drawable/icon_info</item>
+        <item>@drawable/ic_feedback</item>
         <item>@drawable/icon_info</item>
     </integer-array>
 
