@@ -166,11 +166,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                         if(position==0) {
                             playOnlineMusicService.startOrStopLoop(artistBean.getId(), hontSongs);
                             adapter.setHeaderText(artistBean.getId());
-                        }
-                        //第一个条件是点击播放歌手歌单后进行判断用的
-                        //第二个条件是刚点开歌手页进行判断的
-                        else if(position==adapter.getPlayingMusicPosition()||
-                                playOnlineMusicService.getPlayingMusic()!=null&&adapter.getMusicList().get(position-1).getId()==playOnlineMusicService.getPlayingMusic().getId()){
+                        }else if(playOnlineMusicService.getPlayingMusicId().equals(hontSongs.get(position-1).getId()+"")){
                             finish();
                         }else {
                             playOnlineMusicService.stop();
