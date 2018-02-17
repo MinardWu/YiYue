@@ -27,6 +27,7 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ImageUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.widget.LoadingView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +49,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.iv_artist) ImageView iv_artist;
     @BindView(R.id.tv_artist_name_below_iv) TextView tv_artist_name_below_iv;
     @BindView(R.id.btn_follow_artist) Button btn_follow_artist;
+    @BindView(R.id.loading_view) LoadingView loading_view;
 
 
     PlayOnlineMusicService playOnlineMusicService;
@@ -154,6 +156,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                loading_view.setVisibility(View.GONE);
                 rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
                 rl_artist_hot_songs.setAdapter(adapter);
                 adapter.setHeaderText(artistBean.getId());

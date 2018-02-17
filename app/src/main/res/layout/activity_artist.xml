@@ -156,6 +156,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.minardwu.yiyue.widget.LoadingView
+            android:id="@+id/loading_view"
+            android:layout_marginTop="80dp"
+            android:layout_gravity="center_horizontal"
+            app:loading_text_size="14sp"
+            app:loading_text_color="#393a3b"
+            app:ic_loading_width="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rl_artist_hot_songs"
             android:layout_width="match_parent"

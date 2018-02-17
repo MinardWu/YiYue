@@ -77,7 +77,12 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 public void onSuccess(MusicBean musicBean) {
                     playingMusic = musicBean;
                     changeMusicImp(playingMusic);
-                    changeIconState(1);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            changeIconState(1);
+                        }
+                    });
                     Notifier.showPause(playingMusic);
                 }
 
@@ -158,6 +163,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_onlinemusic_download:
+                isLoveSong = MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).isLoveSong(playingMusic);
                 if(isLoveSong){
                     iv_onlinemusic_download.setSelected(false);
                     MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).deleteLoveSong(playingMusic);

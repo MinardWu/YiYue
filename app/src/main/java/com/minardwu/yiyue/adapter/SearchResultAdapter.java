@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -25,9 +28,12 @@ import butterknife.ButterKnife;
 public class SearchResultAdapter extends BaseAdapter {
 
     private List<MusicBean> musicList = new ArrayList<MusicBean>();
+    private PlayOnlineMusicService playOnlineMusicService;
+
 
     public SearchResultAdapter(List<MusicBean> list) {
         this.musicList = list;
+        playOnlineMusicService = AppCache.getPlayOnlineMusicService();
     }
 
     @Override
@@ -61,6 +67,14 @@ public class SearchResultAdapter extends BaseAdapter {
         String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
         viewHolder.tv_Artist.setText(artist);
         viewHolder.v_Divider.setVisibility(position != musicList.size() ? View.VISIBLE : View.GONE);
+        if ((playOnlineMusicService.getPlayingMusicId().equals(musicList.get(position).getId()+""))) {
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+        } else {
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_l));
+            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
+        }
+
         viewHolder.iv_More.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -19,8 +19,8 @@ import com.minardwu.yiyue.utils.ImageUtils;
 
 
 public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorUpdateListener {
-    private static final long TIME_UPDATE = 50L;
-    private static final float DISC_ROTATION_INCREASE = 0.5f;
+    private static final long TIME_UPDATE = 10L;
+    private static final float DISC_ROTATION_INCREASE = 0.1f;
     private static final float NEEDLE_ROTATION_PLAY = 0.0f;
     private static final float NEEDLE_ROTATION_PAUSE = -25.0f;
     private Handler mHandler = new Handler();

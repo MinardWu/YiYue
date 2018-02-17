@@ -53,7 +53,7 @@ public class MyFMHistoryActivity extends SampleActivity {
                 if(position == 0){
                     playOnlineMusicService.startOrStopLoop("FMH", list);
                     adapter.setHeaderText("FMH");
-                }else if(playOnlineMusicService.getPlayingMusic()!=null&&adapter.getMusicList().get(position-1).getId()==playOnlineMusicService.getPlayingMusic().getId()){
+                }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
                     finish();
                 }else {
                     playOnlineMusicService.stop();

@@ -21,4 +21,11 @@
         <attr name="progressCircleBackgroudColor" format="color"/>
         <attr name="progressCircleColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="LoadingView">
+        <attr name="ic_loading_width" format="dimension"/>
+        <attr name="loading_text" format="string"/>
+        <attr name="loading_text_color" format="color"/>
+        <attr name="loading_text_size" format="dimension"/>
+    </declare-styleable>
 </resources>

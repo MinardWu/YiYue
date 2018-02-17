@@ -21,8 +21,11 @@ import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.http.Search;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.ButtonLayout;
+import com.minardwu.yiyue.widget.LoadingDialog;
+import com.minardwu.yiyue.widget.LoadingView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     LinearLayout ll_search_history;
     @BindView(R.id.lv_search_result)
     ListView lv_search_result;
+    @BindView(R.id.loading_view)
+    LoadingView loading_view;
 
     private static final String TAG = "SearchActivity";
 
@@ -51,16 +56,18 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private MyDatabaseHelper databaseHelper;
     private SQLiteDatabase sqLiteDatabase;
     private SearchResultAdapter adapter;
+    private PlayOnlineMusicService playOnlineMusicService;
 
-    View headerView;
-    ImageView iv_artist;
-    TextView tv_artist;
+    private View headerView;
+    private ImageView iv_artist;
+    private TextView tv_artist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        playOnlineMusicService = AppCache.getPlayOnlineMusicService();
         databaseHelper = new MyDatabaseHelper(SearchActivity.this,"QO.db",null,1);
         sqLiteDatabase = databaseHelper.getWritableDatabase();
         databaseHelper.setSQLiteDataBase(sqLiteDatabase);
@@ -124,18 +131,27 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void executeSearch(final String content){
+        ll_search_history.setVisibility(View.GONE);
+        lv_search_result.setVisibility(View.GONE);
+        loading_view.setVisibility(View.VISIBLE);
         Search.serach(content, new Search.SearchCallback() {
             @Override
             public void onSuccess(final List<MusicBean> list, final ArtistBean artistBean) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        loading_view.setVisibility(View.GONE);
                         adapter = new SearchResultAdapter(list);
                         adapter.setOnSearchResultViewClickListener(new SearchResultAdapter.OnSearchResultViewClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                AppCache.getPlayOnlineMusicService().stop();
-                                AppCache.getPlayOnlineMusicService().play((int) list.get(position).getId());
+                                if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position).getId()+"")){
+                                    finish();
+                                }else {
+                                    playOnlineMusicService.stop();
+                                    playOnlineMusicService.play((int) list.get(position).getId());
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
 
                             @Override
@@ -158,7 +174,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                             }
                         });
                         lv_search_result.setAdapter(adapter);
-                        ll_search_history.setVisibility(View.GONE);
                         lv_search_result.setVisibility(View.VISIBLE);
                     }
                 });
@@ -166,8 +181,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             }
 
             @Override
-            public void onFail(String e) {
-                ToastUtils.show(e.toString());
+            public void onFail(final String e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtils.show(e.toString());
+                    }
+                });
             }
         });
     }
