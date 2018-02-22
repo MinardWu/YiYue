@@ -3,6 +3,7 @@ package com.minardwu.yiyue.executor;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.media.audiofx.AudioEffect;
 import android.view.View;
 
@@ -96,7 +97,7 @@ public class DrawerItemExecutor {
                 activity.startActivity(new Intent(activity, FeedbackActivity.class));
                 break;
             case 13:
-                activity.startActivity(new Intent(activity, TapeActivity.class));
+                activity.startActivity(new Intent(activity, InfoActivity.class));
                 break;
         }
     }

@@ -24,12 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BaseActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.BaseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.LocalMusicListActivity"
             android:theme="@style/LocalMusicListActivityTheme" />
-
         <service
             android:name=".service.PlayLocalMusicService"
             android:enabled="true"

@@ -49,7 +49,7 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
-    private int currentFragment;
+    private int currentFragment = 0;
     private DrawerItemAdapter drawerItemAdapter;
     private FragmentPagerAdapter fragmentPagerAdapter;
     private List<DrawerItemBean> drawerItemBeanList;
@@ -67,7 +67,11 @@ public class MainActivity extends BaseActivity {
 
 
     @OnClick(R.id.iv_search) void startSearch(){
+        if(currentFragment==0){
+            startActivity(new Intent(this,TapeActivity.class));
+        }else if(currentFragment==1){
             startActivity(new Intent(this,SearchActivity.class));
+        }
     }
 
     @OnClick(R.id.iv_menu) void openDrawer(){

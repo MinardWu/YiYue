@@ -36,5 +36,8 @@
     <color name="colorGreenDeep">#5fb881</color>
     <color name="colorGreenLight">#30c37c</color>
     <color name="green_2">#4d9e6c</color>
-    <color name="text">#fe4660</color>
+    <color name="text">#dd3216</color>
+
+    <color name="tapeRed">#dd3216</color>
+    <color name="tapeBlack">#292929</color>
 </resources>
