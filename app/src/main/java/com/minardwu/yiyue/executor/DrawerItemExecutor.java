@@ -13,6 +13,7 @@ import com.minardwu.yiyue.activity.InfoActivity;
 import com.minardwu.yiyue.activity.MyArtistActivity;
 import com.minardwu.yiyue.activity.MyFMHistoryActivity;
 import com.minardwu.yiyue.activity.MySongActivity;
+import com.minardwu.yiyue.activity.TapeActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
@@ -95,7 +96,7 @@ public class DrawerItemExecutor {
                 activity.startActivity(new Intent(activity, FeedbackActivity.class));
                 break;
             case 13:
-                activity.startActivity(new Intent(activity, InfoActivity.class));
+                activity.startActivity(new Intent(activity, TapeActivity.class));
                 break;
         }
     }

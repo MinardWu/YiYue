@@ -54,7 +54,9 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.MyArtistActivity" />
         <activity android:name=".activity.MyFMHistoryActivity" />
-        <activity android:name=".activity.MySongActivity"></activity>
+        <activity android:name=".activity.MySongActivity" />
+        <activity android:name=".activity.TapeActivity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>
