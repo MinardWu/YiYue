@@ -101,6 +101,7 @@ public class MainActivity extends BaseActivity {
         parseIntent();
         initData();
         initView();
+        startActivity(new Intent(this,TapeActivity.class));
     }
 
     @Override
