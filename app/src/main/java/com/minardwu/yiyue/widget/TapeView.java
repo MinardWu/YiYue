@@ -24,7 +24,7 @@ public class TapeView extends View {
     private static final String TAG = "TapeView";
     private int screenWidth = SystemUtils.getScreenWidth();
     private int screenHeight = SystemUtils.getScreenHeight();
-    private String song = "七里香";
+    private String song = "不能说的秘密";
     private String artist = "周杰伦";
     private boolean isRunning = false;
     private float rotationDegree = 0;
