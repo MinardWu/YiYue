@@ -77,7 +77,7 @@ public class Preferences {
     }
 
     public static int getCurrentSongPosition() {
-        return getInt(MUSIC_POSITION, -1);
+        return getInt(MUSIC_POSITION, 0);
     }
 
     public static void saveCurrentSongPosition(int position) {
