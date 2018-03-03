@@ -105,4 +105,20 @@
         <item>按添加时间</item>
     </string-array>
 
+    <integer-array name="local_music_more_img">
+        <item>@drawable/icon_night</item>
+        <item>@drawable/icon_mobiledata</item>
+        <item>@drawable/ic_feedback</item>
+        <item>@drawable/icon_info</item>
+        <item>@drawable/icon_info</item>
+    </integer-array>
+
+    <string-array name="local_music_more_text">
+        <item>播放下一首</item>
+        <item>歌手</item>
+        <item>专辑</item>
+        <item>设为铃声</item>
+        <item>删除</item>
+    </string-array>
+
 </resources>

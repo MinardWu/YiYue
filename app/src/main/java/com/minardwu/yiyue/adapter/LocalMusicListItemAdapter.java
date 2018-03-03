@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
@@ -25,8 +26,19 @@ import butterknife.ButterKnife;
 
 public class LocalMusicListItemAdapter extends BaseAdapter {
 
-//    private OnMoreClickListener mListener;
+
     private int mPlayingPosition;
+
+    public interface LocalMusicListItemAdapterLinster{
+        void onItemClick(int position);
+        void onMoreClick(int position);
+    }
+
+    private LocalMusicListItemAdapterLinster mListener;
+
+    public void setLocalMusicListItemAdapterLinster(LocalMusicListItemAdapterLinster localMusicListItemAdapterLinster) {
+        this.mListener = localMusicListItemAdapterLinster;
+    }
 
     @Override
     public int getCount() {
@@ -44,7 +56,7 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view==null){
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_localmusic,null);
@@ -75,9 +87,17 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
         viewHolder.iv_More.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (mListener != null) {
-//                    mListener.onMoreClick(position);
-//                }
+                if (mListener != null) {
+                    mListener.onMoreClick(position);
+                }
+            }
+        });
+        viewHolder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onItemClick(position);
+                }
             }
         });
         viewHolder.v_Divider.setVisibility(position != AppCache.getLocalMusicList().size() - 1 ? View.VISIBLE : View.GONE);
@@ -99,6 +119,8 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
          ImageView iv_More;
         @BindView(R.id.v_divider)
          View v_Divider;
+        @BindView(R.id.ll_item)
+        LinearLayout item;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

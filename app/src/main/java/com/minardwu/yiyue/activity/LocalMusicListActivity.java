@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.LocalMusicListItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.fragment.MoreOptionOfLocalmusicFragment;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.widget.MoreDialog;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LocalMusicListActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class LocalMusicListActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -57,9 +58,26 @@ public class LocalMusicListActivity extends BaseActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_music_list);
         ButterKnife.bind(this);
+        localMusicListItemAdapter.setLocalMusicListItemAdapterLinster(new LocalMusicListItemAdapter.LocalMusicListItemAdapterLinster() {
+            @Override
+            public void onItemClick(int position) {
+                if(position==getPlayService().getPlayingPosition()){
+                    finish();
+                }else {
+                    getPlayService().play(position);
+                    updateView();
+                }
+            }
+
+            @Override
+            public void onMoreClick(int position) {
+                MoreOptionOfLocalmusicFragment fragment = new MoreOptionOfLocalmusicFragment();
+                fragment.show(getSupportFragmentManager(), "MoreOptionOfLocalmusicFragment");
+            }
+        });
         lv_localmusic.setAdapter(localMusicListItemAdapter);
         lv_localmusic.setEmptyView(tv_empty);
-        lv_localmusic.setOnItemClickListener(this);
+        //lv_localmusic.setOnItemClickListener(this);
         updateView();
     }
 
@@ -83,13 +101,13 @@ public class LocalMusicListActivity extends BaseActivity implements AdapterView.
     /**
      * 音乐列表点击事件，如果点击正在播放的音乐则回到播放界面
      */
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(i==getPlayService().getPlayingPosition()){
-            finish();
-        }else {
-            getPlayService().play(i);
-            updateView();
-        }
-    }
+//    @Override
+//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        if(i==getPlayService().getPlayingPosition()){
+//            finish();
+//        }else {
+//            getPlayService().play(i);
+//            updateView();
+//        }
+//    }
 }

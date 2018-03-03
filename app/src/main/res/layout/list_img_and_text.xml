@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/music_list_item_more_list_height"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/list_img_and_text_iv"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:id="@+id/list_img_and_text_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_alignParentBottom="true"
+            android:background="?android:attr/listDivider"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
