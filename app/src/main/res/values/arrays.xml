@@ -52,7 +52,6 @@
         <item>0</item>
     </integer-array>
 
-
     <string-array name="stop_time">
         <item>不开启</item>
         <item>10分钟后</item>
