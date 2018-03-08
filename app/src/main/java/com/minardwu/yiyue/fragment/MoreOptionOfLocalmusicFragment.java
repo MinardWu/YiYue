@@ -33,6 +33,7 @@ public class MoreOptionOfLocalmusicFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //设置无标题
+
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         //设置从底部弹出
         WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
