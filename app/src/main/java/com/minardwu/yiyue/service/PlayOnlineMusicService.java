@@ -95,7 +95,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     }
 
     /**
-     * @param listId 使用传过来的listId作为列表的id，如果传过来的id与保存的相同，则说明是要取消循环该列表了
+     * @param listId 使用传过来的listId作为列表的id，如果传过来的id与保存的相同，则说明是要取消循环该列表了。
      * @param list
      */
     public void startOrStopLoop(String listId,List<MusicBean> list){
