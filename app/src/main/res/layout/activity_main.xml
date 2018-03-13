@@ -80,11 +80,11 @@
 
                 <ImageView
                     android:layout_marginRight="16dp"
-                    android:id="@+id/iv_search"
+                    android:id="@+id/iv_top_left"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/search12" />
+                    android:src="@drawable/ic_search" />
 
             </LinearLayout>
 
