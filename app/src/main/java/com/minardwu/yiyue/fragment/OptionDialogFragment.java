@@ -11,16 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.utils.SystemUtils;
 
 
-public class MoreOptionOfLocalmusicFragment extends DialogFragment {
+public class OptionDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener {
 
+    private LinearLayout ll_header;
+    private TextView tv_header_title;
+    private TextView tv_header_text;
     private ListView listView;
+
+    private boolean headerVisiable = true;
+    private String header_titile;
+    private String header_text;
     private ImageAndTextAdapter adapter;
 
     @Override
@@ -40,9 +50,21 @@ public class MoreOptionOfLocalmusicFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setAttributes(params);
         View view = inflater.inflate(R.layout.fragment_more_option_of_localmusic, container);
+        ll_header = view.findViewById(R.id.ll_header);
+        tv_header_title = view.findViewById(R.id.tv_header_title);
+        tv_header_text = view.findViewById(R.id.tv_header_text);
         listView = view.findViewById(R.id.lv_local_music_more_option);
-        adapter = new ImageAndTextAdapter(getContext(),R.array.local_music_more_img,R.array.local_music_more_text);
+
+        if(headerVisiable){
+            ll_header.setVisibility(View.VISIBLE);
+        }else {
+            ll_header.setVisibility(View.GONE);
+        }
+        tv_header_title.setText(header_titile);
+        tv_header_text.setText(header_text);
+        //adapter = new ImageAndTextAdapter(getContext(),R.array.local_music_more_img,R.array.local_music_more_text);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
         return view;
     }
 
@@ -58,5 +80,40 @@ public class MoreOptionOfLocalmusicFragment extends DialogFragment {
         int dialogHeight = (int) (SystemUtils.getScreenHeight() * 0.6);
         getDialog().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         getDialog().setCanceledOnTouchOutside(true);
+    }
+
+    public void setListViewAdapter(ImageAndTextAdapter adapter){
+        this.adapter = adapter;
+    }
+
+    public void setHeaderVisiable(boolean visiable){
+        this.headerVisiable = visiable;
+    }
+
+    public void setHeader_text(String header_text) {
+        this.header_text = header_text;
+    }
+
+    public void setHeader_titile(String header_titile) {
+        this.header_titile = header_titile;
+    }
+
+    public ListView getListView() {
+        return listView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        listener.onItemClickListener(view,i);
+    }
+
+    public interface OptionDialogFragmentClickListener{
+        void onItemClickListener(View view,int position);
+    }
+
+    private OptionDialogFragmentClickListener listener;
+
+    public void setOptionDialogFragmentClickListener(OptionDialogFragmentClickListener listener){
+        this.listener = listener;
     }
 }
