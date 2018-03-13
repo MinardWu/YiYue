@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.minardwu.yiyue.fragment.MoreOptionOfLocalmusicFragment">
+    tools:context="com.minardwu.yiyue.fragment.OptionDialogFragment">
 
     <LinearLayout
+        android:id="@+id/ll_header"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:layout_marginTop="10dp"
@@ -13,17 +14,18 @@
         android:layout_height="@dimen/music_list_item_more_list_height">
 
         <TextView
+            android:id="@+id/tv_header_title"
             android:textSize="14sp"
             android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="歌曲：" />
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_header_text"
             android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="七里香" />
+            android:text="" />
 
     </LinearLayout>
 
