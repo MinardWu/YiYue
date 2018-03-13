@@ -24,16 +24,12 @@ import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.executor.DrawerItemExecutor;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
-import com.minardwu.yiyue.http.GetOnlineArtist;
-import com.minardwu.yiyue.http.HttpCallback;
-import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.DrawerItemBean;
 import com.minardwu.yiyue.service.EventCallback;
 import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
-import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,7 +54,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.tv_toolbar) TextView tv_toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @BindView(R.id.iv_search) ImageView iv_search;
+    @BindView(R.id.iv_top_left) ImageView iv_top_left;
     @BindView(R.id.iv_menu) ImageView iv_menu;
     @BindView(R.id.iv_localmusic) ImageView iv_localmusic;
     @BindView(R.id.iv_onlinemusic) ImageView iv_onlinemusic;
@@ -66,7 +62,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.vp) ViewPager viewPager;
 
 
-    @OnClick(R.id.iv_search) void startSearch(){
+    @OnClick(R.id.iv_top_left) void startSearch(){
         if(currentFragment==0){
             startActivity(new Intent(this,TapeActivity.class));
         }else if(currentFragment==1){
@@ -101,7 +97,7 @@ public class MainActivity extends BaseActivity {
         parseIntent();
         initData();
         initView();
-        startActivity(new Intent(this,TapeActivity.class));
+        //startActivity(new Intent(this,TapeActivity.class));
     }
 
     @Override
@@ -116,9 +112,13 @@ public class MainActivity extends BaseActivity {
         if (newIntent.hasExtra(Extras.EXTRA_NOTIFICATION)) {
             String type = newIntent.getStringExtra(Extras.EXTRA_NOTIFICATION);
             if (type.equals("LOCAL")){
+                currentFragment = 0;
                 viewPager.setCurrentItem(0);
+                changeIcon(0);
             }else if(type.equals("ONLINE")){
+                currentFragment = 0;
                 viewPager.setCurrentItem(1);
+                changeIcon(1);
             }
             setIntent(new Intent());
         }
@@ -131,6 +131,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView(){
+        changeIcon(currentFragment);
         tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());
         iv_localmusic.setSelected(true);
         //4.4以上、5.0以下的需要为drawlayout设置沉浸式
@@ -194,12 +195,14 @@ public class MainActivity extends BaseActivity {
                         iv_localmusic.setSelected(true);
                         iv_onlinemusic.setSelected(false);
                         currentFragment = 0;
+                        changeIcon(currentFragment);
                         break;
                     case 1:
                         tv_toolbar.setText("易乐FM");
                         iv_localmusic.setSelected(false);
                         iv_onlinemusic.setSelected(true);
                         currentFragment = 1;
+                        changeIcon(currentFragment);
                         break;
                 }
             }
@@ -211,6 +214,13 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private void changeIcon(int currentFragment){
+        if(currentFragment==0){
+            iv_top_left.setImageResource(R.drawable.ic_tape);
+        }else if(currentFragment==1){
+            iv_top_left.setImageResource(R.drawable.ic_search);
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ChageToolbarTextEvent event) {
