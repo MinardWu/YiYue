@@ -2,15 +2,16 @@ package com.minardwu.yiyue.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.LocalMusicListItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.fragment.MoreOptionOfLocalmusicFragment;
+import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.widget.MoreDialog;
 
@@ -71,8 +72,17 @@ public class LocalMusicListActivity extends BaseActivity {
 
             @Override
             public void onMoreClick(int position) {
-                MoreOptionOfLocalmusicFragment fragment = new MoreOptionOfLocalmusicFragment();
-                fragment.show(getSupportFragmentManager(), "MoreOptionOfLocalmusicFragment");
+                OptionDialogFragment fragment = new OptionDialogFragment();
+                fragment.setHeader_titile("歌曲：");
+                fragment.setHeader_text(AppCache.getLocalMusicList().get(position).getTitle());
+                fragment.setListViewAdapter(new ImageAndTextAdapter(LocalMusicListActivity.this,R.array.local_music_more_img,R.array.local_music_more_text));
+                fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
+                    @Override
+                    public void onItemClickListener(View view, int position) {
+                        Toast.makeText(LocalMusicListActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
             }
         });
         lv_localmusic.setAdapter(localMusicListItemAdapter);
