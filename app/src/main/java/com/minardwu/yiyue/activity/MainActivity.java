@@ -98,6 +98,7 @@ public class MainActivity extends BaseActivity {
         initData();
         initView();
         //startActivity(new Intent(this,TapeActivity.class));
+
     }
 
     @Override
