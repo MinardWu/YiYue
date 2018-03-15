@@ -5,15 +5,20 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.os.Handler;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.utils.SystemUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MinardWu on 2018/2/20.
@@ -24,11 +29,12 @@ public class TapeView extends View {
     private static final String TAG = "TapeView";
     private int screenWidth = SystemUtils.getScreenWidth();
     private int screenHeight = SystemUtils.getScreenHeight();
-    private String song = "不能说的秘密";
-    private String artist = "周杰伦";
+    private String title = "歌曲";
+    private String artist = "艺术家";
     private boolean isRunning = false;
     private float rotationDegree = 0;
     private Handler handler = new Handler();
+    private List<Rect> gearRectList = new ArrayList<>();
 
     public TapeView(Context context) {
         this(context,null);
@@ -42,34 +48,83 @@ public class TapeView extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    private Runnable rotateRunable = new Runnable() {
+    private Runnable rotateRunnable = new Runnable() {
         @Override
         public void run() {
-            rotationDegree += 2.f;
+            rotationDegree += 0.4f;
             if(rotationDegree>=360){
                 rotationDegree = 0.f;
             }
             invalidate();
-            handler.postDelayed(this,50);
+            handler.postDelayed(this,10);
         }
     };
+
+    int accelerateCount = 0;
+    boolean isAccelerate = true;
+    private Runnable accelerateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (isAccelerate){
+                rotationDegree += 0.4f* accelerateCount;
+                accelerateCount += 1;
+            }else {
+                rotationDegree -= 0.4f* accelerateCount;
+                accelerateCount -= 1;
+            }
+
+            if (rotationDegree>=360){
+                rotationDegree=0.f;
+            }
+            invalidate();
+            //加速结束
+            if(accelerateCount ==50){
+                isAccelerate = false;
+            }
+            //减速结束
+            if (accelerateCount ==0){
+                isAccelerate = true;
+                handler.removeCallbacks(this);
+                handler.post(rotateRunnable);
+                return;
+            }
+            handler.postDelayed(this,10);
+        }
+    };
+
+    public void startAccelerate(){
+        if (isRunning){
+            handler.removeCallbacks(rotateRunnable);
+        }
+        handler.post(accelerateRunnable);
+    }
+
+    public void startRotate(){
+        if (!isRunning){
+            handler.post(rotateRunnable);
+            isRunning = true;
+        }
+    }
+
+    public void stopRotate(){
+        if (isRunning){
+            handler.removeCallbacks(rotateRunnable);
+            isRunning = false;
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(!isRunning){
-            handler.post(rotateRunable);
-            isRunning = true;
-        }
         canvas.drawColor(getResources().getColor(R.color.tapeBlack));
 
         //画中间主要部分
-        Paint centerAreaPaint = new Paint();
-        centerAreaPaint.setAntiAlias(true);
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeRed));
-        centerAreaPaint.setStrokeWidth(5);
-        centerAreaPaint.setStyle(Paint.Style.FILL);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(getResources().getColor(R.color.tapeRed));
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.FILL);
         Path centerAreaPath = new Path();
         float semicircleRadius = 125;//左右两个半圆的半径
         float semicircleDiameter = 250;//左右两个半圆的直径
@@ -88,8 +143,8 @@ public class TapeView extends View {
         float ovalCenterY = leftGearCenterPoint.y;
         MyPoint ovalLeftTopPoint = new MyPoint(ovalStartX,ellipseRelativeStart.y+centerOvalVerticalMargin);
         MyPoint ovalRightTopPoint = new MyPoint(ovalStartX+centerOvalWidth,ellipseRelativeStart.y+centerOvalVerticalMargin);
-        canvas.drawRoundRect(1.f/20.f*screenWidth,3.f/32.f*screenHeight,19.f/20.f*screenWidth,23.f/32.f*screenHeight,50,50,centerAreaPaint);
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeBlack));
+        canvas.drawRoundRect(1.f/20.f*screenWidth,3.f/32.f*screenHeight,19.f/20.f*screenWidth,23.f/32.f*screenHeight,50,50,paint);
+        paint.setColor(getResources().getColor(R.color.tapeBlack));
         {
 //            centerAreaPath.moveTo(1.f/20.f*screenWidth,3.f/32.f*screenHeight);
 //            centerAreaPath.lineTo(19.f/20.f*screenWidth,3.f/32.f*screenHeight);
@@ -106,49 +161,49 @@ public class TapeView extends View {
             centerAreaPath.addCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),gearRadius, Path.Direction.CW);
             centerAreaPath.addCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),gearRadius, Path.Direction.CW);
         }
-        canvas.drawPath(centerAreaPath,centerAreaPaint);
+        canvas.drawPath(centerAreaPath,paint);
         //画长方形
-        centerAreaPaint.setColor(Color.DKGRAY);
-        centerAreaPaint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(leftGearCenterPoint.x+gearRadius+centerOvalHorizontalMargin,ellipseRelativeStart.y+centerOvalVerticalMargin,rightGearCenterPoint.x-gearRadius-centerOvalHorizontalMargin,ellipseRelativeStart.y+semicircleDiameter-centerOvalVerticalMargin,centerAreaPaint);
+        paint.setColor(Color.DKGRAY);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(leftGearCenterPoint.x+gearRadius+centerOvalHorizontalMargin,ellipseRelativeStart.y+centerOvalVerticalMargin,rightGearCenterPoint.x-gearRadius-centerOvalHorizontalMargin,ellipseRelativeStart.y+semicircleDiameter-centerOvalVerticalMargin,paint);
         //画左边唱片
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeBlack));
-        canvas.drawRect(ovalStartX,ellipseRelativeStart.y+centerOvalVerticalMargin,ovalStartX+160,ellipseRelativeStart.y+semicircleDiameter-centerOvalVerticalMargin,centerAreaPaint);//填充唱片背景
-        centerAreaPaint.setStrokeWidth(3);
-        centerAreaPaint.setStyle(Paint.Style.FILL);
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeRed));
-        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint.add(0,20),centerAreaPaint);
-        centerAreaPaint.setStyle(Paint.Style.STROKE);
-        centerAreaPaint.setStrokeWidth(0.5f);
-        centerAreaPaint.setColor(Color.LTGRAY);
+        paint.setColor(getResources().getColor(R.color.tapeBlack));
+        canvas.drawRect(ovalStartX,ellipseRelativeStart.y+centerOvalVerticalMargin,ovalStartX+160,ellipseRelativeStart.y+semicircleDiameter-centerOvalVerticalMargin,paint);//填充唱片背景
+        paint.setStrokeWidth(3);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.tapeRed));
+        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint.add(0,20),paint);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(0.5f);
+        paint.setColor(Color.LTGRAY);
         ovalLeftTopPoint.x += 50;
-        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,centerAreaPaint);
+        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,paint);
         ovalLeftTopPoint.x += 30;
-        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,centerAreaPaint);
+        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,paint);
         ovalLeftTopPoint.x += 50;
-        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,centerAreaPaint);
+        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,paint);
         ovalLeftTopPoint.x += 30;
-        centerAreaPaint.setStyle(Paint.Style.FILL);
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeBlack));
-        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,centerAreaPaint);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.tapeBlack));
+        drawLeftDisc(canvas,leftGearCenterPoint,ovalLeftTopPoint,paint);
         //画右边唱片
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeBlack));
-        canvas.drawRect(ovalStartX+centerOvalWidth-130,ellipseRelativeStart.y+centerOvalVerticalMargin,ovalStartX+centerOvalWidth,ellipseRelativeStart.y+semicircleDiameter-centerOvalVerticalMargin,centerAreaPaint);//填充唱片背景
-        centerAreaPaint.setStrokeWidth(3);
-        centerAreaPaint.setStyle(Paint.Style.FILL);
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeRed));
-        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint.add(0,20),centerAreaPaint);
-        centerAreaPaint.setStyle(Paint.Style.STROKE);
-        centerAreaPaint.setStrokeWidth(0.5f);
-        centerAreaPaint.setColor(Color.LTGRAY);
+        paint.setColor(getResources().getColor(R.color.tapeBlack));
+        canvas.drawRect(ovalStartX+centerOvalWidth-130,ellipseRelativeStart.y+centerOvalVerticalMargin,ovalStartX+centerOvalWidth,ellipseRelativeStart.y+semicircleDiameter-centerOvalVerticalMargin,paint);//填充唱片背景
+        paint.setStrokeWidth(3);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.tapeRed));
+        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint.add(0,20),paint);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(0.5f);
+        paint.setColor(Color.LTGRAY);
         ovalRightTopPoint.x -= 50;
-        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint,centerAreaPaint);
+        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint,paint);
         ovalRightTopPoint.x -= 30;
-        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint,centerAreaPaint);
+        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint,paint);
         ovalRightTopPoint.x -= 50;
-        centerAreaPaint.setStyle(Paint.Style.FILL);
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeBlack));
-        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint,centerAreaPaint);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.tapeBlack));
+        drawRightDisc(canvas,rightGearCenterPoint,ovalRightTopPoint,paint);
         //画长方形里面的点
         int count = 1;
         float[] points = new float[14];
@@ -158,69 +213,73 @@ public class TapeView extends View {
             points[i+1] = ovalCenterY;
             count++;
         }
-        centerAreaPaint.setColor(Color.WHITE);
-        centerAreaPaint.setStrokeWidth(5);
-        canvas.drawPoints(points,centerAreaPaint);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(5);
+        canvas.drawPoints(points,paint);
         //画长方形里面的两条短竖线
-        canvas.drawLine(ovalStartX+centerOvalWidth/2,ovalCenterY-50,ovalStartX+centerOvalWidth/2,ovalCenterY-20,centerAreaPaint);
-        canvas.drawLine(ovalStartX+centerOvalWidth/2,ovalCenterY+20,ovalStartX+centerOvalWidth/2,ovalCenterY+50,centerAreaPaint);
+        canvas.drawLine(ovalStartX+centerOvalWidth/2,ovalCenterY-50,ovalStartX+centerOvalWidth/2,ovalCenterY-20,paint);
+        canvas.drawLine(ovalStartX+centerOvalWidth/2,ovalCenterY+20,ovalStartX+centerOvalWidth/2,ovalCenterY+50,paint);
         //齿轮最外层两个圆
-        centerAreaPaint.setStyle(Paint.Style.STROKE);
-        centerAreaPaint.setStrokeWidth(10);
-        centerAreaPaint.setColor(Color.WHITE);
-        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),semicircleRadius-20f,centerAreaPaint);
-        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),semicircleRadius-20f,centerAreaPaint);
-        centerAreaPaint.setColor(Color.BLACK);
-        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),semicircleRadius-30f,centerAreaPaint);
-        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),semicircleRadius-30f,centerAreaPaint);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(10);
+        paint.setColor(Color.WHITE);
+        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),semicircleRadius-20f,paint);
+        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),semicircleRadius-20f,paint);
+        gearRectList.add(new Rect((int)leftGearCenterPoint.getX()-(int)(semicircleRadius-20f),(int)leftGearCenterPoint.getY()-(int)(semicircleRadius-20f),(int)leftGearCenterPoint.getX()+(int)(semicircleRadius-20f),(int)leftGearCenterPoint.getY()+(int)(semicircleRadius-20f)));
+        gearRectList.add(new Rect((int)rightGearCenterPoint.getX()-(int)(semicircleRadius-20f),(int)rightGearCenterPoint.getY()-(int)(semicircleRadius-20f),(int)rightGearCenterPoint.getX()+(int)(semicircleRadius-20f),(int)rightGearCenterPoint.getY()+(int)(semicircleRadius-20f)));
+        paint.setColor(Color.BLACK);
+        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),semicircleRadius-30f,paint);
+        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),semicircleRadius-30f,paint);
         //齿轮最里面两个圆
-        centerAreaPaint.setColor(Color.BLACK);
-        centerAreaPaint.setStrokeWidth(20);
-        centerAreaPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),smallCircleRadius,centerAreaPaint);
-        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),smallCircleRadius,centerAreaPaint);
-        centerAreaPaint.setColor(Color.WHITE);
-        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),smallCircleRadius/3,centerAreaPaint);
-        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),smallCircleRadius/3,centerAreaPaint);
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(20);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),smallCircleRadius,paint);
+        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),smallCircleRadius,paint);
+        paint.setColor(Color.WHITE);
+        canvas.drawCircle(leftGearCenterPoint.getX(),leftGearCenterPoint.getY(),smallCircleRadius/3,paint);
+        canvas.drawCircle(rightGearCenterPoint.getX(),rightGearCenterPoint.getY(),smallCircleRadius/3,paint);
         //画齿轮的齿
-        centerAreaPaint.setColor(Color.BLACK);
-        centerAreaPaint.setStrokeWidth(20);
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(20);
         for (int i=0;i<12;i++){
             canvas.save();
             canvas.rotate(i*30+rotationDegree,leftGearCenterPoint.x,leftGearCenterPoint.y);
             if(i%2==0){
-                canvas.drawLine(leftGearCenterPoint.x,leftGearCenterPoint.y-gearRadius+15.f,leftGearCenterPoint.x,leftGearCenterPoint.y-gearRadius+15.f+gearRadius/6,centerAreaPaint);
+                canvas.drawLine(leftGearCenterPoint.x,leftGearCenterPoint.y-gearRadius+15.f,leftGearCenterPoint.x,leftGearCenterPoint.y-gearRadius+15.f+gearRadius/6,paint);
             }else {
-                canvas.drawLine(leftGearCenterPoint.x,leftGearCenterPoint.y-smallCircleRadius-gearRadius/6,leftGearCenterPoint.x,leftGearCenterPoint.y-smallCircleRadius,centerAreaPaint);
+                canvas.drawLine(leftGearCenterPoint.x,leftGearCenterPoint.y-smallCircleRadius-gearRadius/6,leftGearCenterPoint.x,leftGearCenterPoint.y-smallCircleRadius,paint);
             }
             canvas.restore();
 
             canvas.save();
             canvas.rotate(i*30+rotationDegree,rightGearCenterPoint.x,rightGearCenterPoint.y);
             if(i%2==0){
-                canvas.drawLine(rightGearCenterPoint.x,rightGearCenterPoint.y-gearRadius+15.f,rightGearCenterPoint.x,rightGearCenterPoint.y-gearRadius+gearRadius/6+15.f,centerAreaPaint);
+                canvas.drawLine(rightGearCenterPoint.x,rightGearCenterPoint.y-gearRadius+15.f,rightGearCenterPoint.x,rightGearCenterPoint.y-gearRadius+gearRadius/6+15.f,paint);
             }else {
-                canvas.drawLine(rightGearCenterPoint.x,rightGearCenterPoint.y-smallCircleRadius-gearRadius/6,rightGearCenterPoint.x,rightGearCenterPoint.y-smallCircleRadius,centerAreaPaint);
+                canvas.drawLine(rightGearCenterPoint.x,rightGearCenterPoint.y-smallCircleRadius-gearRadius/6,rightGearCenterPoint.x,rightGearCenterPoint.y-smallCircleRadius,paint);
             }
             canvas.restore();
         }
 
         //写字
-        centerAreaPaint.setStrokeWidth(5);
-        centerAreaPaint.setTextSize(60);
-        centerAreaPaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(song,1.f/2.f*screenWidth,1.f/6.f*screenHeight,centerAreaPaint);
-        centerAreaPaint.setTextSize(50);
-        canvas.drawText(artist,1.f/2.f*screenWidth,1.f/6.f*screenHeight+100,centerAreaPaint);
-        centerAreaPaint.setColor(getResources().getColor(R.color.tapeInfoTextColor));
-        centerAreaPaint.setTextAlign(Paint.Align.RIGHT);
-        centerAreaPaint.setTextSize(60);
-        canvas.drawText("Side",leftGearCenterPoint.x-gearRadius-sideATextMargin,leftGearCenterPoint.y-20,centerAreaPaint);
-        centerAreaPaint.setTextAlign(Paint.Align.CENTER);
-        centerAreaPaint.setTextSize(80);
-        canvas.drawText("A",leftGearCenterPoint.x-gearRadius-sideATextMargin-60,leftGearCenterPoint.y+80,centerAreaPaint);
-        centerAreaPaint.setTextSize(40);
-        canvas.drawText("一乐 Copyright ©2018 MinardWu",screenWidth/2,leftGearCenterPoint.y+gearRadius+120,centerAreaPaint);
+        paint.setColor(getResources().getColor(R.color.tapeMusicInfoTextColor));
+        paint.setStrokeWidth(10);
+        paint.setTextSize(60);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(title,1.f/2.f*screenWidth,1.f/6.f*screenHeight,paint);
+        paint.setTextSize(50);
+        canvas.drawText(artist,1.f/2.f*screenWidth,1.f/6.f*screenHeight+100,paint);
+        paint.setStrokeWidth(5);
+        paint.setColor(getResources().getColor(R.color.tapeInfoTextColor));
+        paint.setTextAlign(Paint.Align.RIGHT);
+        paint.setTextSize(60);
+        canvas.drawText("Side",leftGearCenterPoint.x-gearRadius-sideATextMargin,leftGearCenterPoint.y-20,paint);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(80);
+        canvas.drawText("A",leftGearCenterPoint.x-gearRadius-sideATextMargin-60,leftGearCenterPoint.y+80,paint);
+        paint.setTextSize(40);
+        canvas.drawText("一乐 Copyright ©2018 MinardWu",screenWidth/2,leftGearCenterPoint.y+gearRadius+120,paint);
 
 //        canvas.save();
 //        TextPaint textPaint = new TextPaint();
@@ -234,12 +293,10 @@ public class TapeView extends View {
 //        canvas.restore();
 
         //四个钉子
-        Paint nailPaint = new Paint();
         float nailRadius = 1.f/50.f*screenWidth;
         float nailMargin = 1.f/100.f*screenWidth;
-        nailPaint.setAntiAlias(true);
-        nailPaint.setColor(Color.BLACK);
-        nailPaint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
         Path nailPath = new Path();
         {
             nailPath.addCircle(nailMargin+nailRadius,nailMargin+nailRadius,nailRadius, Path.Direction.CW);//左上
@@ -247,14 +304,12 @@ public class TapeView extends View {
             nailPath.addCircle(screenWidth-nailMargin-nailRadius,nailMargin+nailRadius,nailRadius,Path.Direction.CW);//右上
             nailPath.addCircle(screenWidth-nailMargin-nailRadius,screenHeight-nailMargin-nailRadius,nailRadius,Path.Direction.CW);//右下
         }
-        canvas.drawPath(nailPath,nailPaint);
+        canvas.drawPath(nailPath,paint);
 
         //底部梯形
-        Paint bottomAreaPaint = new Paint();
-        bottomAreaPaint.setAntiAlias(true);
-        bottomAreaPaint.setColor(getResources().getColor(R.color.tapeRed));
-        bottomAreaPaint.setStyle(Paint.Style.STROKE);
-        bottomAreaPaint.setStrokeWidth(8);
+        paint.setColor(getResources().getColor(R.color.tapeRed));
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(8);
         Path bottomAreaPath = new Path();
         float bottomAreaHeight = 1.f/4.f*screenHeight;
         float bottomAreaTopLength = 2.f/3.f*screenWidth-2*1.f/20.f*screenWidth;
@@ -269,7 +324,7 @@ public class TapeView extends View {
             bottomAreaPath.lineTo(5.f/6.f*screenWidth,screenHeight);
             bottomAreaPath.lineTo(1.f/6.f*screenWidth,screenHeight);
         }
-        canvas.drawPath(bottomAreaPath,bottomAreaPaint);
+        canvas.drawPath(bottomAreaPath,paint);
         for(int i=0;i<8;i++){
             //画线
             float desY = bottomAreaHeight/8;
@@ -277,16 +332,16 @@ public class TapeView extends View {
             float startY = bottomLeftTopPoint.y+desY*i;
             float endX = bottomRightTopPoint.x+i*(desY/tan);
             float endY = bottomRightTopPoint.y+desY*i;
-            canvas.drawLine(startX,startY,endX,endY,bottomAreaPaint);
+            canvas.drawLine(startX,startY,endX,endY,paint);
         }
         //梯形中的五个孔
-        bottomAreaPaint.setStyle(Paint.Style.FILL);
-        bottomAreaPaint.setColor(Color.BLACK);
-        canvas.drawCircle(screenWidth/2,screenHeight-bottomAreaHeight+bottomAreaHeight/6,bottomAreaHeight/10,bottomAreaPaint);
-        canvas.drawCircle(screenWidth/2-bottomAreaBottomLength/3,screenHeight-bottomAreaHeight+bottomAreaHeight/6*5,bottomAreaHeight/8,bottomAreaPaint);
-        canvas.drawCircle(screenWidth/2+bottomAreaBottomLength/3,screenHeight-bottomAreaHeight+bottomAreaHeight/6*5,bottomAreaHeight/8,bottomAreaPaint);
-        canvas.drawRect(bottomLeftTopPoint.x+bottomAreaTopLength/4,screenHeight-bottomAreaHeight+bottomAreaHeight/2,bottomLeftTopPoint.x+bottomAreaTopLength/4+bottomAreaHeight/5,screenHeight-bottomAreaHeight+bottomAreaHeight/2+bottomAreaHeight/5,bottomAreaPaint);
-        canvas.drawRect(bottomRightTopPoint.x-bottomAreaTopLength/4,screenHeight-bottomAreaHeight+bottomAreaHeight/2,bottomRightTopPoint.x-bottomAreaTopLength/4+bottomAreaHeight/5,screenHeight-bottomAreaHeight+bottomAreaHeight/2+bottomAreaHeight/5,bottomAreaPaint);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLACK);
+        canvas.drawCircle(screenWidth/2,screenHeight-bottomAreaHeight+bottomAreaHeight/6,bottomAreaHeight/10,paint);
+        canvas.drawCircle(screenWidth/2-bottomAreaBottomLength/3,screenHeight-bottomAreaHeight+bottomAreaHeight/6*5,bottomAreaHeight/8,paint);
+        canvas.drawCircle(screenWidth/2+bottomAreaBottomLength/3,screenHeight-bottomAreaHeight+bottomAreaHeight/6*5,bottomAreaHeight/8,paint);
+        canvas.drawRect(bottomLeftTopPoint.x+bottomAreaTopLength/4,screenHeight-bottomAreaHeight+bottomAreaHeight/2,bottomLeftTopPoint.x+bottomAreaTopLength/4+bottomAreaHeight/5,screenHeight-bottomAreaHeight+bottomAreaHeight/2+bottomAreaHeight/5,paint);
+        canvas.drawRect(bottomRightTopPoint.x-bottomAreaTopLength/4,screenHeight-bottomAreaHeight+bottomAreaHeight/2,bottomRightTopPoint.x-bottomAreaTopLength/4+bottomAreaHeight/5,screenHeight-bottomAreaHeight+bottomAreaHeight/2+bottomAreaHeight/5,paint);
     }
 
     private class MyPoint{
@@ -328,7 +383,7 @@ public class TapeView extends View {
         float tan = (gearCenter.y-point.y)/(point.x-gearCenter.x);
         float radius = (float) Math.sqrt(Math.pow(point.y-gearCenter.y,2)+Math.pow(point.x-gearCenter.x,2));
         float angle = (float) Math.atan(tan)/(float) Math.PI*180.f;
-        angle = angle;//这里+1是为了扩大弧，使弧与长方形更好的贴合
+        //angle = angle;//这里+1是为了扩大弧，使弧与长方形更好的贴合
         canvas.drawArc(gearCenter.x-radius,gearCenter.y-radius,gearCenter.x+radius,gearCenter.y+radius,-angle,2*angle,false,paint);
     }
 
@@ -337,7 +392,43 @@ public class TapeView extends View {
         float tan = (gearCenter.y-point.y)/(gearCenter.x-point.x);
         float raius = (float) Math.sqrt(Math.pow(gearCenter.y-point.y,2)+Math.pow(gearCenter.x-point.x,2));
         float angle = (float) Math.atan(tan)/(float) Math.PI*180.f;
-        angle = angle;//这里+1是为了扩大弧，使弧与长方形更好的贴合
+        //angle = angle;//这里+1是为了扩大弧，使弧与长方形更好的贴合
         canvas.drawArc(gearCenter.x-raius,gearCenter.y-raius,gearCenter.x+raius,gearCenter.y+raius,180-angle,2*angle,false,paint);
+    }
+
+    public void setTitle(String title){
+        this.title = title;
+        invalidate();
+    }
+
+    public void setArtis(String artist){
+        this.artist = artist;
+        invalidate();
+    }
+
+    public interface OnGearClickListener{
+        void leftGearClick();
+        void rightGearClick();
+        void otherAreaClick();
+    }
+
+    private OnGearClickListener listener;
+
+    public void setOnGearClickListener(OnGearClickListener onGearClickListener) {
+        this.listener = onGearClickListener;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            if(gearRectList.get(0).contains((int)event.getX(),(int)event.getY())){
+                listener.leftGearClick();
+            }else if(gearRectList.get(1).contains((int)event.getX(),(int)event.getY())){
+                listener.rightGearClick();
+            }else {
+                listener.otherAreaClick();
+            }
+        }
+        return super.onTouchEvent(event);
     }
 }

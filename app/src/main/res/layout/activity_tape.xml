@@ -9,6 +9,7 @@
     tools:context="com.minardwu.yiyue.activity.TapeActivity">
 
     <com.minardwu.yiyue.widget.TapeView
+        android:id="@+id/tape"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

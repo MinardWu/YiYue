@@ -22,7 +22,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public PlayLocalMusicService getPlayService() {
+    public PlayLocalMusicService getPlayLocalMusicService() {
         PlayLocalMusicService playLocalMusicService = AppCache.getPlayLocalMusicService();
         if (playLocalMusicService == null) {
             throw new NullPointerException("play service is null");

@@ -41,4 +41,5 @@
     <color name="tapeRed">#dd3216</color>
     <color name="tapeBlack">#292929</color>
     <color name="tapeInfoTextColor">#dd9283</color>
+    <color name="tapeMusicInfoTextColor">#050505</color>
 </resources>
