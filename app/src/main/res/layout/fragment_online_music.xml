@@ -73,7 +73,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="70dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="60dp">
 
             <ImageView
                 android:id="@+id/iv_onlinemusic_download"
@@ -88,8 +88,8 @@
                 android:id="@+id/iv_onlinemusic_play"
                 android:layout_centerInParent="true"
                 android:src="@drawable/iv_online_music_playorpause"
-                android:layout_width="60dp"
-                android:layout_height="30dp" />
+                android:layout_width="64dp"
+                android:layout_height="32dp" />
 
             <ImageView
                 android:layout_centerVertical="true"
@@ -98,8 +98,8 @@
                 android:id="@+id/iv_onlinemusic_next"
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_online_fragment_next"
-                android:layout_width="60dp"
-                android:layout_height="30dp" />
+                android:layout_width="64dp"
+                android:layout_height="32dp" />
 
         </RelativeLayout>
 

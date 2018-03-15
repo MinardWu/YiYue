@@ -3,6 +3,7 @@ package com.minardwu.yiyue.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,6 +52,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     private MusicBean playingMusic;
     private boolean isLoveSong;
+    private AnimationSet unloveAnimation;
+    private AnimationSet loveAnimation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +102,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             changeIconState(1);
             Notifier.showPause(playingMusic);
         }
-
+        unloveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_unlove);
+        loveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_love);
     }
 
     public void changeMusicImp(final MusicBean music) {
@@ -165,9 +172,11 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             case R.id.iv_onlinemusic_download:
                 isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
                 if(isLoveSong){
+                    iv_onlinemusic_download.startAnimation(unloveAnimation);
                     iv_onlinemusic_download.setSelected(false);
                     MyDatabaseHelper.init(getContext()).deleteLoveSong(playingMusic);
                 }else {
+                    iv_onlinemusic_download.startAnimation(loveAnimation);
                     iv_onlinemusic_download.setSelected(true);
                     MyDatabaseHelper.init(getContext()).addLoveSong(playingMusic);
                 }
