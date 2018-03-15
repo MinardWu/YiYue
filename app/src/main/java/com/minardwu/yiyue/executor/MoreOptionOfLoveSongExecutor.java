@@ -20,6 +20,7 @@ public class MoreOptionOfLoveSongExecutor {
             case 1:
                 Intent intent = new Intent(activity, ArtistActivity.class);
                 intent.putExtra("artistId",musicBean.getArtistId());
+                intent.putExtra("artistName",musicBean.getArtist());
                 activity.startActivity(intent);
                 break;
             case 2:

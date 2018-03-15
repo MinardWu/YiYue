@@ -62,7 +62,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     MyDatabaseHelper myDatabaseHelper;
 
     private Intent intent;
-    private int type;
     private int song_conut;
     private String artistId;
     private String artistName;
@@ -77,7 +76,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         EventBus.getDefault().register(this);
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
         intent = getIntent();
-        type = intent.getIntExtra("type",0);
         artistName = intent.getStringExtra("artistName");
         artistId = intent.getStringExtra("artistId");
         initView();
