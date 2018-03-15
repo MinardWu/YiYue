@@ -220,6 +220,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void deleteFMHistory(MusicBean musicBean){
+        sqLiteDatabase.delete(TABLE_FM_HISTORY,"songId = ?",new String[]{musicBean.getId()+""});
+    }
+
     public void clearFMHistory(){
         sqLiteDatabase.delete(TABLE_FM_HISTORY,null,null);
     }

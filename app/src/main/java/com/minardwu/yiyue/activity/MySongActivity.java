@@ -1,5 +1,6 @@
 package com.minardwu.yiyue.activity;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.executor.IView;
+import com.minardwu.yiyue.executor.MoreOptionOfLoveSongExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
@@ -24,7 +27,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class MySongActivity extends SampleActivity {
+public class MySongActivity extends SampleActivity implements IView{
 
     private RecyclerView rv_fm_history;
     private LinearLayout empty_view;
@@ -70,15 +73,21 @@ public class MySongActivity extends SampleActivity {
             }
 
             @Override
-            public void onMoreClick(View view, int position) {
-                OptionDialogFragment fragment = new OptionDialogFragment();
+            public void onMoreClick(View view, final int musicPosition) {
+                final OptionDialogFragment fragment = new OptionDialogFragment();
                 fragment.setHeader_titile("歌曲：");
-                fragment.setHeader_text(list.get(position-1).getTitle());
+                fragment.setHeader_text(list.get(musicPosition-1).getTitle());
                 fragment.setListViewAdapter(new ImageAndTextAdapter(MySongActivity.this,R.array.love_song_more_img,R.array.love_song_more_text));
                 fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                     @Override
                     public void onItemClickListener(View view, int position) {
-                        Toast.makeText(MySongActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                        fragment.dismiss();
+                        //点击播放的话直接使用上面的逻辑即可
+                        if (position==0){
+                            onItemClick(view,musicPosition);
+                        }else{
+                            MoreOptionOfLoveSongExecutor.execute(MySongActivity.this,position,list.get(musicPosition-1),MySongActivity.this);
+                        }
                     }
                 });
                 fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
@@ -108,5 +117,10 @@ public class MySongActivity extends SampleActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void updateView() {
+        onResume();
     }
 }

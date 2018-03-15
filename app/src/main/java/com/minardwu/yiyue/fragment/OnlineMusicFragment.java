@@ -250,4 +250,13 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     }
 
+    /**
+     * 用户在播放当前歌曲时进入收藏界面取消收藏正在播放的音乐，出来后应该更新界面
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
+        iv_onlinemusic_download.setSelected(isLoveSong?true:false);
+    }
 }
