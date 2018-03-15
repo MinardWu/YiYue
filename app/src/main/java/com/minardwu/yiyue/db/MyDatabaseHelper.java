@@ -214,6 +214,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void clearFMHistory(){
+        sqLiteDatabase.delete(TABLE_FM_HISTORY,null,null);
+    }
+
     public boolean isLoveSong(MusicBean musicBean){
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_MY_SONG + " WHERE songId = ?", new String[]{musicBean.getId()+""});
         cursor.moveToFirst();

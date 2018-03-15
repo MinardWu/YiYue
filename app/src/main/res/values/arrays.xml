@@ -105,7 +105,7 @@
     </string-array>
 
     <integer-array name="local_music_more_img">
-        <item>@drawable/ic_option_next</item>
+        <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
         <item>@drawable/ic_option_album</item>
         <item>@drawable/ic_option_ring</item>
@@ -113,10 +113,38 @@
     </integer-array>
 
     <string-array name="local_music_more_text">
-        <item>播放下一首</item>
+        <item>播放</item>
         <item>歌手</item>
         <item>专辑</item>
         <item>设为铃声</item>
+        <item>删除</item>
+    </string-array>
+
+    <integer-array name="love_song_more_img">
+        <item>@drawable/ic_option_play</item>
+        <item>@drawable/ic_option_singer</item>
+        <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_delete</item>
+    </integer-array>
+
+    <string-array name="love_song_more_text">
+        <item>播放</item>
+        <item>歌手</item>
+        <item>专辑</item>
+        <item>删除</item>
+    </string-array>
+
+    <integer-array name="fm_history_more_img">
+        <item>@drawable/ic_option_play</item>
+        <item>@drawable/ic_option_singer</item>
+        <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_delete</item>
+    </integer-array>
+
+    <string-array name="fm_history_more_text">
+        <item>播放</item>
+        <item>歌手</item>
+        <item>专辑</item>
         <item>删除</item>
     </string-array>
 

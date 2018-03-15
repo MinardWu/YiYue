@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 
@@ -23,6 +27,7 @@ import java.util.List;
 public class MySongActivity extends SampleActivity {
 
     private RecyclerView rv_fm_history;
+    private LinearLayout empty_view;
     private OnlineMusicRecycleViewAdapter adapter;
     private List<MusicBean> list;
     private PlayOnlineMusicService playOnlineMusicService;
@@ -40,7 +45,10 @@ public class MySongActivity extends SampleActivity {
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
         linearLayoutManager = new LinearLayoutManager(this);
         rv_fm_history = findViewById(R.id.rv_my_song);
+        empty_view = findViewById(R.id.empty_view);
         list = MyDatabaseHelper.init(this,getResources().getString(R.string.database_name),null,1).queryMySong();
+        rv_fm_history.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
+        empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
         adapter = new OnlineMusicRecycleViewAdapter(list);
         adapter.setHeaderText("LOVE");
         rv_fm_history.setLayoutManager(linearLayoutManager);
@@ -63,7 +71,17 @@ public class MySongActivity extends SampleActivity {
 
             @Override
             public void onMoreClick(View view, int position) {
-                playOnlineMusicService.next();
+                OptionDialogFragment fragment = new OptionDialogFragment();
+                fragment.setHeader_titile("歌曲：");
+                fragment.setHeader_text(list.get(position-1).getTitle());
+                fragment.setListViewAdapter(new ImageAndTextAdapter(MySongActivity.this,R.array.love_song_more_img,R.array.love_song_more_text));
+                fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
+                    @Override
+                    public void onItemClickListener(View view, int position) {
+                        Toast.makeText(MySongActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
             }
         });
     }
