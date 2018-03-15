@@ -224,7 +224,9 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ChageToolbarTextEvent event) {
-        tv_toolbar.setText(event.getMusicBean().getTitle());
+        if (currentFragment==0){
+            tv_toolbar.setText(event.getMusicBean().getTitle());
+        }
     }
 
     @Override

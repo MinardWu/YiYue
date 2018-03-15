@@ -82,12 +82,14 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             //因为进入到这块说明position不为0，所以position必须要减一才能获得musicList中下标为0的元素
             //所以这个recycleView涉及到musicList的position都要-1，其他的不用，如adapter.updatePlayingMusicPosition时直接传入position即可
             if ((playOnlineMusicService.getPlayingMusicId().equals(musicList.get(position-1).getId()+""))) {
-                viewHolder.v_Playing.setVisibility(View.VISIBLE);
+                viewHolder.tv_count.setVisibility(View.GONE);
+                viewHolder.iv_playing.setVisibility(View.VISIBLE);
                 viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
                 viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
                 viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
             } else {
-                viewHolder.v_Playing.setVisibility(View.INVISIBLE);
+                viewHolder.tv_count.setVisibility(View.VISIBLE);
+                viewHolder.iv_playing.setVisibility(View.GONE);
                 viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
                 viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_l));
                 viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
@@ -125,8 +127,8 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.v_playing)
         View v_Playing;
-        @BindView(R.id.iv_cover)
-        ImageView iv_Cover;
+        @BindView(R.id.iv_playing)
+        ImageView iv_playing;
         @BindView(R.id.tv_count)
         TextView tv_count;
         @BindView(R.id.tv_title)

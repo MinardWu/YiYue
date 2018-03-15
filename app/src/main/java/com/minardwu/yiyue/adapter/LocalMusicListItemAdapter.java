@@ -65,21 +65,22 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
         if (position == mPlayingPosition) {
-            viewHolder.v_Playing.setVisibility(View.VISIBLE);
+            viewHolder.tv_count.setVisibility(View.GONE);
+            viewHolder.iv_playing.setVisibility(View.VISIBLE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
             viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
             viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
         } else {
-            viewHolder.v_Playing.setVisibility(View.INVISIBLE);
+            //viewHolder.v_Playing.setVisibility(View.INVISIBLE);
+            viewHolder.tv_count.setVisibility(View.VISIBLE);
+            viewHolder.iv_playing.setVisibility(View.GONE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
             viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_l));
             viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
         }
         MusicBean music = AppCache.getLocalMusicList().get(position);
         Bitmap cover = CoverLoader.getInstance().loadThumbnail(music);
-        viewHolder.iv_Cover.setImageBitmap(cover);
         viewHolder.tv_Title.setText(music.getTitle());
         viewHolder.tv_count.setText(position+1+"");
         String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
@@ -107,8 +108,8 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
     static class ViewHolder {
         @BindView(R.id.v_playing)
          View v_Playing;
-        @BindView(R.id.iv_cover)
-         ImageView iv_Cover;
+        @BindView(R.id.iv_playing)
+         ImageView iv_playing;
         @BindView(R.id.tv_count)
          TextView tv_count;
         @BindView(R.id.tv_title)

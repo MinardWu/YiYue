@@ -93,7 +93,7 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
     static class ViewHolder {
         @BindView(R.id.v_playing)
          View v_Playing;
-        @BindView(R.id.iv_cover)
+        @BindView(R.id.iv_playing)
          ImageView iv_Cover;
         @BindView(R.id.tv_count)
          TextView tv_count;
