@@ -161,6 +161,22 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         }
     }
 
+
+    /**
+     * 从TapeActivity返回重新设置
+     */
+    @Override
+    public void onResume() {
+        getPlayService().setOnPlayEventListener(this);
+        MusicBean music = getPlayService().getPlayingMusic();
+        if (music==null){
+            onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+        }else {
+            onChangeMusic(music);
+        }
+        super.onResume();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -237,16 +253,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         }
         lrc_localmusic.updateTime(progress);
         lrc_localmusic_single.updateTime(progress);
-    }
-
-    @Override
-    public void onBufferingUpdate(int percent) {
-        sb_progress.setSecondaryProgress(sb_progress.getMax() * 100 / percent);
-    }
-
-    @Override
-    public void onTimer(long remain) {
-
     }
 
     @Override
