@@ -46,7 +46,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
     private static final int STATE_PAUSE = 3;
 
     private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();
-    private final IntentFilter noisyfilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private final IntentFilter noisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
     private final Handler handler = new Handler();
 
@@ -131,10 +131,6 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         }.execute();
     }
 
-    public OnPlayLocalMusicListener getOnPlayEventListener() {
-        return onPlayerEventListener;
-    }
-
     public void setOnPlayEventListener(OnPlayLocalMusicListener listener) {
         onPlayerEventListener = listener;
     }
@@ -200,7 +196,6 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
             mediaPlayer.prepareAsync();
             playState = STATE_PREPARING;
             mediaPlayer.setOnPreparedListener(preparedListener);
-            mediaPlayer.setOnBufferingUpdateListener(bufferingUpdateListener);
             if (onPlayerEventListener != null) {
                 onPlayerEventListener.onChangeMusic(music);
             }
@@ -214,15 +209,6 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         public void onPrepared(MediaPlayer mp) {
             if (isPreparing()) {
                 start();
-            }
-        }
-    };
-
-    private MediaPlayer.OnBufferingUpdateListener bufferingUpdateListener = new MediaPlayer.OnBufferingUpdateListener() {
-        @Override
-        public void onBufferingUpdate(MediaPlayer mp, int percent) {
-            if (onPlayerEventListener != null) {
-                onPlayerEventListener.onBufferingUpdate(percent);
             }
         }
     };
@@ -256,7 +242,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
             mediaSessionManager = new MediaSessionManager();
             mediaSessionManager.updateMetaData(playingMusic);
             mediaSessionManager.updatePlaybackState();
-            registerReceiver(noisyReceiver, noisyfilter);//注册耳机拔出监听广播
+            registerReceiver(noisyReceiver, noisyFilter);//注册耳机拔出监听广播
             if (onPlayerEventListener != null) {
                 onPlayerEventListener.onPlayerStart();
             }

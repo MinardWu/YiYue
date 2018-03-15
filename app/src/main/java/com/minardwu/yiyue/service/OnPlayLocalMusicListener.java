@@ -29,16 +29,6 @@ public interface OnPlayLocalMusicListener {
     void onPublish(int progress);
 
     /**
-     * 缓冲百分比
-     */
-    void onBufferingUpdate(int percent);
-
-    /**
-     * 更新定时停止播放时间
-     */
-    void onTimer(long remain);
-
-    /**
      * 更新本地音乐
      */
     void onMusicListUpdate();
