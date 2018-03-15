@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +55,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     ListView lv_search_result;
     @BindView(R.id.loading_view)
     LoadingView loading_view;
+    @BindView(R.id.empty_view)
+    LinearLayout empty_view;
 
     private static final String TAG = "SearchActivity";
 
@@ -76,7 +79,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         databaseHelper = new MyDatabaseHelper(SearchActivity.this,"QO.db",null,1);
         sqLiteDatabase = databaseHelper.getWritableDatabase();
         databaseHelper.setSQLiteDataBase(sqLiteDatabase);
-
+        searchHistoryList = databaseHelper.querySearchHistory();
+        empty_view.setVisibility(searchHistoryList.size()>0?View.GONE:View.VISIBLE);
+        ll_search_history.setVisibility(searchHistoryList.size()>0?View.VISIBLE:View.GONE);
         headerView = LayoutInflater.from(SearchActivity.this).inflate(R.layout.list_search_result_header,null);
         iv_artist = headerView.findViewById(R.id.iv_search_artist);
         tv_artist = headerView.findViewById(R.id.tv_search_artist);
@@ -109,7 +114,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             finish();
         }else if(view.getId()==R.id.tv_clear_history){
             databaseHelper.clearSearchHistory();
-            onResume();
+            ll_search_history.setVisibility(View.GONE);
+            empty_view.setVisibility(View.VISIBLE);
         }else {
             Button btn = (Button) view;
             String content = btn.getText().toString();
@@ -136,6 +142,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void executeSearch(final String content){
+        empty_view.setVisibility(View.GONE);
         ll_search_history.setVisibility(View.GONE);
         lv_search_result.setVisibility(View.GONE);
         loading_view.setVisibility(View.VISIBLE);

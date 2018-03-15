@@ -61,12 +61,13 @@ public class Search {
                         String songName = song.getString("name");
                         String songAlbumName = song.getJSONObject("al").getString("name");
                         String songAlbumId = song.getJSONObject("al").getString("id");
+                        String songArtist = song.getJSONArray("ar").getJSONObject(0).getString("name");
                         String artistId = songs.getJSONObject(0).getJSONArray("ar").getJSONObject(0).getString("id");
                         String artistName = songs.getJSONObject(0).getJSONArray("ar").getJSONObject(0).getString("name");
 
-                        musicBean.setArtist(artistName);
                         musicBean.setId(Long.parseLong(songId));
                         musicBean.setTitle(songName);
+                        musicBean.setArtist(songArtist);
                         musicBean.setAlbum(songAlbumName);
                         musicBean.setAlbumId(Long.parseLong(songAlbumId));
                         musicBeanList.add(musicBean);
