@@ -28,7 +28,7 @@ public class MoreOptionOfFMHistoryExecutor {
                 break;
             case 3:
                 MyDatabaseHelper.init(activity).deleteFMHistory(musicBean);
-                iView.updateView();
+                iView.updateViewForExecutor();
                 break;
         }
     }

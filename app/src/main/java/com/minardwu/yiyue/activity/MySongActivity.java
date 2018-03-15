@@ -120,7 +120,7 @@ public class MySongActivity extends SampleActivity implements IView{
     }
 
     @Override
-    public void updateView() {
+    public void updateViewForExecutor() {
         onResume();
     }
 }

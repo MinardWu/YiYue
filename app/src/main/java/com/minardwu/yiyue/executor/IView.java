@@ -5,5 +5,5 @@ package com.minardwu.yiyue.executor;
  */
 
 public interface IView {
-    void updateView();
+    void updateViewForExecutor();
 }

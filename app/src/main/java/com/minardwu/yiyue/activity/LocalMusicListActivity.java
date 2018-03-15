@@ -11,6 +11,8 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.LocalMusicListItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.executor.IView;
+import com.minardwu.yiyue.executor.MoreOptionOfLocalMusicListExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.widget.MoreDialog;
@@ -19,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LocalMusicListActivity extends BaseActivity {
+public class LocalMusicListActivity extends BaseActivity implements IView{
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -71,15 +73,20 @@ public class LocalMusicListActivity extends BaseActivity {
             }
 
             @Override
-            public void onMoreClick(int position) {
-                OptionDialogFragment fragment = new OptionDialogFragment();
+            public void onMoreClick(final int musicPosition) {
+                final OptionDialogFragment fragment = new OptionDialogFragment();
                 fragment.setHeader_titile("歌曲：");
-                fragment.setHeader_text(AppCache.getLocalMusicList().get(position).getTitle());
+                fragment.setHeader_text(AppCache.getLocalMusicList().get(musicPosition).getTitle());
                 fragment.setListViewAdapter(new ImageAndTextAdapter(LocalMusicListActivity.this,R.array.local_music_more_img,R.array.local_music_more_text));
                 fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                     @Override
                     public void onItemClickListener(View view, int position) {
-                        Toast.makeText(LocalMusicListActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                        fragment.dismiss();
+                        if (position==0){
+                            onItemClick(musicPosition);
+                        }else {
+                            MoreOptionOfLocalMusicListExecutor.execute(LocalMusicListActivity.this,position,AppCache.getLocalMusicList().get(musicPosition),LocalMusicListActivity.this);
+                        }
                     }
                 });
                 fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
@@ -106,6 +113,11 @@ public class LocalMusicListActivity extends BaseActivity {
     public void finish() {
         super.finish();
         this.overridePendingTransition(0,R.anim.activity_close);
+    }
+
+    @Override
+    public void updateViewForExecutor() {
+        localMusicListItemAdapter.notifyDataSetChanged();
     }
 
     /**

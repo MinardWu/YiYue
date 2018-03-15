@@ -28,7 +28,7 @@ public class MoreOptionOfLoveSongExecutor {
                 break;
             case 3:
                 MyDatabaseHelper.init(activity).deleteLoveSong(musicBean);
-                iView.updateView();
+                iView.updateViewForExecutor();
                 break;
         }
     }
