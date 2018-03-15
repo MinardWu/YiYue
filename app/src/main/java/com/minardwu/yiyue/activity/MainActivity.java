@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        Notifier.init(getPlayService());
+        Notifier.init(getPlayLocalMusicService());
         QuitTimer.getInstance().init(new EventCallback<Long>() {
             @Override
             public void onEvent(Long aLong) {
@@ -98,7 +98,6 @@ public class MainActivity extends BaseActivity {
         initData();
         initView();
         //startActivity(new Intent(this,TapeActivity.class));
-
     }
 
     @Override
