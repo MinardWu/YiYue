@@ -62,10 +62,10 @@ public class LocalMusicListActivity extends BaseActivity {
         localMusicListItemAdapter.setLocalMusicListItemAdapterLinster(new LocalMusicListItemAdapter.LocalMusicListItemAdapterLinster() {
             @Override
             public void onItemClick(int position) {
-                if(position==getPlayService().getPlayingPosition()){
+                if(position== getPlayLocalMusicService().getPlayingPosition()){
                     finish();
                 }else {
-                    getPlayService().play(position);
+                    getPlayLocalMusicService().play(position);
                     updateView();
                 }
             }
@@ -98,7 +98,7 @@ public class LocalMusicListActivity extends BaseActivity {
             tv_empty.setVisibility(View.GONE);
         }
         tv_local_music_list_songnum.setText("("+AppCache.getLocalMusicList().size()+"首)");
-        localMusicListItemAdapter.updatePlayingPosition(getPlayService());
+        localMusicListItemAdapter.updatePlayingPosition(getPlayLocalMusicService());
         localMusicListItemAdapter.notifyDataSetChanged();
     }
 
@@ -113,10 +113,10 @@ public class LocalMusicListActivity extends BaseActivity {
      */
 //    @Override
 //    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//        if(i==getPlayService().getPlayingPosition()){
+//        if(i==getPlayLocalMusicService().getPlayingPosition()){
 //            finish();
 //        }else {
-//            getPlayService().play(i);
+//            getPlayLocalMusicService().play(i);
 //            updateView();
 //        }
 //    }
