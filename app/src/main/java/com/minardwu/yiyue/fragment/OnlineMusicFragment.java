@@ -70,7 +70,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_next.setOnClickListener(this);
         tv_online_music_artist.setOnClickListener(this);
         iv_onlinemusic_play.setSelected(false);
-        playingMusic = MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).getFMHistoryLastSong();
+        playingMusic = MyDatabaseHelper.init(getContext()).getFMHistoryLastSong();
         if(playingMusic==null){
             new GetOnlineSong() {
                 @Override
@@ -101,7 +101,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     public void changeMusicImp(final MusicBean music) {
         playingMusic = music;
-        isLoveSong = MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).isLoveSong(playingMusic);
+        isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 loadCoverByUrl(music.getCoverPath());
@@ -163,13 +163,13 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_onlinemusic_download:
-                isLoveSong = MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).isLoveSong(playingMusic);
+                isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
                 if(isLoveSong){
                     iv_onlinemusic_download.setSelected(false);
-                    MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).deleteLoveSong(playingMusic);
+                    MyDatabaseHelper.init(getContext()).deleteLoveSong(playingMusic);
                 }else {
                     iv_onlinemusic_download.setSelected(true);
-                    MyDatabaseHelper.init(getContext(),getResources().getString(R.string.database_name),null,1).addLoveSong(playingMusic);
+                    MyDatabaseHelper.init(getContext()).addLoveSong(playingMusic);
                 }
                 break;
             case R.id.iv_onlinemusic_play:

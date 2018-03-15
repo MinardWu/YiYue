@@ -103,14 +103,14 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
                     @Override
                     public void onFail(String e) {
-                        loadDataFail();
+                        loadDataFail(e);
                     }
                 });
             }
 
             @Override
             public void onFail(String e) {
-                loadDataFail();
+                loadDataFail(e);
             }
         });
     }
@@ -198,11 +198,11 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void loadDataFail(){
+    private void loadDataFail(final String error){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtils.show("加载失败");
+                ToastUtils.show("加载失败"+error);
             }
         });
     }

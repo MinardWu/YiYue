@@ -46,7 +46,7 @@ public class MySongActivity extends SampleActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         rv_fm_history = findViewById(R.id.rv_my_song);
         empty_view = findViewById(R.id.empty_view);
-        list = MyDatabaseHelper.init(this,getResources().getString(R.string.database_name),null,1).queryMySong();
+        list = MyDatabaseHelper.init(this).queryMySong();
         rv_fm_history.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
         empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
         adapter = new OnlineMusicRecycleViewAdapter(list);

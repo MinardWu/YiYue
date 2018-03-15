@@ -13,6 +13,7 @@ import com.minardwu.yiyue.model.MusicBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by MinardWu on 2018/2/9.
@@ -23,6 +24,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static SQLiteDatabase sqLiteDatabase;
 
+    private static final String DATABASE_NAME = "ASDF.db";
     private static final String TABLE_SEARCH_HISTORY = "search_history";
     private static final String TABLE_FM_HISTORY = "fm_history";
     private static final String TABLE_MY_ARTIST = "my_artist";
@@ -78,6 +80,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+    }
+
+    public static MyDatabaseHelper init(Context context){
+        return init(context,DATABASE_NAME,null,1);
     }
 
     public static MyDatabaseHelper init(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){

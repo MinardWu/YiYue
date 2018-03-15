@@ -48,7 +48,7 @@ public class MyFMHistoryActivity extends SampleActivity{
         linearLayoutManager = new LinearLayoutManager(this);
         rv_fm_history = findViewById(R.id.rv_fm_history);
         empty_view = findViewById(R.id.empty_view);
-        list = MyDatabaseHelper.init(this,getResources().getString(R.string.database_name),null,1).queryFMHistory();
+        list = MyDatabaseHelper.init(this).queryFMHistory();
         rv_fm_history.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
         empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
         adapter = new OnlineMusicRecycleViewAdapter(list);
@@ -102,7 +102,7 @@ public class MyFMHistoryActivity extends SampleActivity{
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyDatabaseHelper.init(MyFMHistoryActivity.this,getResources().getString(R.string.database_name),null,1).clearFMHistory();
+                MyDatabaseHelper.init(MyFMHistoryActivity.this).clearFMHistory();
                 onResume();
             }
         });

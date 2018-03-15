@@ -206,7 +206,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             playOnlineMusicListener.onPlayerStart();
             Notifier.showPlay(playingMusic);
             AppCache.setCurrentService(this);
-            MyDatabaseHelper.init(this,getResources().getString(R.string.database_name),null,1).addFMHistory(playingMusic);
+            MyDatabaseHelper.init(this).addFMHistory(playingMusic);
             mediaSessionManager = new MediaSessionManager();
             mediaSessionManager.updateMetaData(playingMusic);
             mediaSessionManager.updatePlaybackState();
