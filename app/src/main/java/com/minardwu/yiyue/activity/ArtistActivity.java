@@ -14,12 +14,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.GetOnlineArtist;
 import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.model.ArtistBean;
@@ -53,8 +56,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
 
     PlayOnlineMusicService playOnlineMusicService;
-    List<MusicBean> hontSongs = new ArrayList<MusicBean>();
-    OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(hontSongs);
+    List<MusicBean> hotSongs = new ArrayList<MusicBean>();
+    OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(hotSongs);
     LinearLayoutManager linearLayoutManager;
     MyDatabaseHelper myDatabaseHelper;
 
@@ -150,8 +153,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     private void initListView(final ArtistBean artistBean){
         song_conut = artistBean.getSongs().size();
         artistId = artistBean.getId();
-        hontSongs = artistBean.getSongs();
-        adapter = new OnlineMusicRecycleViewAdapter(hontSongs);
+        hotSongs = artistBean.getSongs();
+        adapter = new OnlineMusicRecycleViewAdapter(hotSongs);
         linearLayoutManager = new LinearLayoutManager(this);
         runOnUiThread(new Runnable() {
             @Override
@@ -164,9 +167,9 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onItemClick(View view, int position) {
                         if(position==0) {
-                            playOnlineMusicService.startOrStopLoop(artistBean.getId(), hontSongs);
+                            playOnlineMusicService.startOrStopLoop(artistBean.getId(), hotSongs);
                             adapter.setHeaderText(artistBean.getId());
-                        }else if(playOnlineMusicService.getPlayingMusicId().equals(hontSongs.get(position-1).getId()+"")){
+                        }else if(playOnlineMusicService.getPlayingMusicId().equals(hotSongs.get(position-1).getId()+"")){
                             finish();
                         }else {
                             playOnlineMusicService.stop();
@@ -178,8 +181,17 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
                     @Override
                     public void onMoreClick(View view, int position) {
-                            ToastUtils.show("next");
-                            playOnlineMusicService.next();
+                        OptionDialogFragment fragment = new OptionDialogFragment();
+                        fragment.setHeader_titile("歌曲：");
+                        fragment.setHeader_text(hotSongs.get(position-1).getTitle());
+                        fragment.setListViewAdapter(new ImageAndTextAdapter(ArtistActivity.this,R.array.artist_activity_more_img,R.array.artist_activity_more_text));
+                        fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
+                            @Override
+                            public void onItemClickListener(View view, int position) {
+                                Toast.makeText(ArtistActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
                     }
                 });
             }

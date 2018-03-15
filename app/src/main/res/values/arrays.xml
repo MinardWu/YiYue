@@ -148,4 +148,14 @@
         <item>删除</item>
     </string-array>
 
+    <integer-array name="artist_activity_more_img">
+        <item>@drawable/ic_option_play</item>
+        <item>@drawable/ic_option_album</item>
+    </integer-array>
+
+    <string-array name="artist_activity_more_text">
+        <item>播放</item>
+        <item>专辑</item>
+    </string-array>
+
 </resources>
