@@ -132,7 +132,9 @@ public class MainActivity extends BaseActivity {
 
     private void initView(){
         changeIcon(currentFragment);
-        tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());
+        if(AppCache.getLocalMusicList().size()>0&&AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle()!= null){
+            tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());
+        }
         iv_localmusic.setSelected(true);
         //4.4以上、5.0以下的需要为drawlayout设置沉浸式
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){

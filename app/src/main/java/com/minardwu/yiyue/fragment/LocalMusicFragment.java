@@ -155,7 +155,9 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
 
         MusicBean music = getPlayService().getPlayingMusic();
         if (music==null){
-            onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+            if(AppCache.getLocalMusicList().size()>0){
+                onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+            }
         }else {
             onChangeMusic(music);
         }
@@ -170,7 +172,9 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         getPlayService().setOnPlayEventListener(this);
         MusicBean music = getPlayService().getPlayingMusic();
         if (music==null){
-            onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+            if(AppCache.getLocalMusicList().size()>0){
+                onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+            }
         }else {
             onChangeMusic(music);
         }

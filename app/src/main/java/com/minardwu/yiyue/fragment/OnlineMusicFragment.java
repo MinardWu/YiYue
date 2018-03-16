@@ -50,6 +50,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     @BindView(R.id.iv_onlinemusic_play) ImageView iv_onlinemusic_play;
     @BindView(R.id.iv_onlinemusic_next) ImageView iv_onlinemusic_next;
 
+    private static final String TAG = "OnlineMusicFragment" ;
     private MusicBean playingMusic;
     private boolean isLoveSong;
     private AnimationSet unloveAnimation;
@@ -94,6 +95,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
                 @Override
                 public void onFail(String string) {
+                    Log.v(TAG,string);
 
                 }
             }.exectue(100861);
@@ -182,7 +184,10 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 }
                 break;
             case R.id.iv_onlinemusic_play:
-                getPlayOnlineMusicService().playOrPause((int) playingMusic.getId());
+                if(playingMusic==null){
+                    playingMusic.setId(186003);
+                    getPlayOnlineMusicService().playOrPause((int) playingMusic.getId());
+                }
                 break;
             case R.id.iv_onlinemusic_next:
                 changeIconState(0);
@@ -263,7 +268,9 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     @Override
     public void onResume() {
         super.onResume();
-        isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
-        iv_onlinemusic_download.setSelected(isLoveSong?true:false);
+        if(playingMusic!=null){
+            isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
+            iv_onlinemusic_download.setSelected(isLoveSong?true:false);
+        }
     }
 }

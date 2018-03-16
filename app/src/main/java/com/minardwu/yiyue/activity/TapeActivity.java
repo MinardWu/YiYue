@@ -27,7 +27,9 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
         getPlayLocalMusicService().setOnPlayEventListener(this);
         MusicBean music = getPlayLocalMusicService().getPlayingMusic();
         if (music==null){
-            onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+            if(AppCache.getLocalMusicList().size()>0){
+                onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
+            }
         }else {
             onChangeMusic(music);
         }
