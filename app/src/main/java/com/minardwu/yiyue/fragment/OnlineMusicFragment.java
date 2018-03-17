@@ -41,7 +41,6 @@ import butterknife.ButterKnife;
 
 public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicListener, View.OnClickListener {
 
-
     @BindView(R.id.online_music_cover) OnlineMusicCoverView online_music_cover;
     @BindView(R.id.tv_online_music_title) TextView tv_online_music_title;
     @BindView(R.id.tv_online_music_artist) TextView tv_online_music_artist;
