@@ -272,4 +272,5 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             iv_onlinemusic_download.setSelected(isLoveSong?true:false);
         }
     }
+
 }
