@@ -33,12 +33,17 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_back" />
 
+                <!--android:drawableRight="@drawable/ic_search_cancel"-->
+                <!--android:drawablePadding="32dp"-->
             <EditText
+                android:textCursorDrawable="@null"
+                android:background="@drawable/et_search"
                 android:singleLine="true"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="12dp"
+                android:paddingBottom="6dp"
                 android:id="@+id/et_search"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:maxLength="16"

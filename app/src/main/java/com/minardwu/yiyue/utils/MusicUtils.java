@@ -77,7 +77,7 @@ public class MusicUtils {
             musicBean.setTitle(title);
             musicBean.setArtist(artist);
             musicBean.setAlbum(album);
-            musicBean.setAlbumId(albumId);
+            musicBean.setAlbumId(albumId+"");
             musicBean.setDuration(duration);
             musicBean.setPath(path);
             musicBean.setFileName(fileName);

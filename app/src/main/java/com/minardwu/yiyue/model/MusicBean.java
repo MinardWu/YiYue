@@ -22,7 +22,7 @@ public class MusicBean implements Serializable {
     // 专辑
     private String album;
     // [本地歌曲]专辑ID
-    private long albumId;
+    private String albumId;
     // [在线歌曲]专辑封面路径
     private String coverPath;
     // 持续时间
@@ -83,11 +83,11 @@ public class MusicBean implements Serializable {
         this.album = album;
     }
 
-    public long getAlbumId() {
+    public String getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(long albumId) {
+    public void setAlbumId(String albumId) {
         this.albumId = albumId;
     }
 

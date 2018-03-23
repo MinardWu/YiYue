@@ -1,7 +1,11 @@
 package com.minardwu.yiyue.application;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -20,6 +24,7 @@ public class YiYueApplication extends Application{
 
     private static Context context;
     public static boolean isJustIntoAppAndNotPlay;
+    public static boolean isNeedQequestReadExteranlStorage = false;
 
     @Override
     public void onCreate() {
@@ -28,9 +33,14 @@ public class YiYueApplication extends Application{
         Preferences.init(getApplicationContext());
         ToastUtils.init(getApplicationContext());
         CoverLoader.getInstance().init(getApplicationContext());
-        AppCache.getLocalMusicList().clear();
-        AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(getApplicationContext()));
         Stetho.initializeWithDefaults(this);
+        AppCache.getLocalMusicList().clear();
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(getApplicationContext()));
+            isNeedQequestReadExteranlStorage = false;
+        }else {
+            isNeedQequestReadExteranlStorage = true;
+        }
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();

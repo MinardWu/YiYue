@@ -3,7 +3,10 @@ package com.minardwu.yiyue.utils;
 
 import android.text.format.DateUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.logging.SimpleFormatter;
 
 public class ParseUtils {
 
@@ -29,6 +32,12 @@ public class ParseUtils {
         String minute = String.format(Locale.getDefault(), "%02d", m);
         String second = String.format(Locale.getDefault(), "%02d", s);
         return pattern.replace("mm", minute).replace("ss", second);
+    }
+
+    public static String formatTimeOfPattern(String pattern, long l) {
+        Date date = new Date(l);
+        String time = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        return time;
     }
 
     /**

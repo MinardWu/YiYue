@@ -1,6 +1,8 @@
 package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -14,10 +16,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.os.Build;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.DrawerItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.Extras;
 import com.minardwu.yiyue.constants.StopTimeAction;
 import com.minardwu.yiyue.event.ChageToolbarTextEvent;
@@ -27,9 +31,11 @@ import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
 import com.minardwu.yiyue.service.EventCallback;
 import com.minardwu.yiyue.service.QuitTimer;
+import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.SystemUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -97,7 +103,14 @@ public class MainActivity extends BaseActivity {
         parseIntent();
         initData();
         initView();
+        if(YiYueApplication.isNeedQequestReadExteranlStorage){
+            SystemUtils.checkPermission(this,1);
+        }
         //startActivity(new Intent(this,TapeActivity.class));
+        Intent albumIntent = new Intent(this, AlbumActivity.class);
+        albumIntent.putExtra("albumId","18905");
+        albumIntent.putExtra("albumName","18905");
+        startActivity(albumIntent);
     }
 
     @Override
@@ -254,5 +267,28 @@ public class MainActivity extends BaseActivity {
         Log.e(TAG,"onDestroy");
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    // 判断用户是否 点击了不再提醒。(检测该权限是否还可以申请)
+                    boolean b = shouldShowRequestPermissionRationale(permissions[0]);
+//                    if (!b) {
+//                         // 用户还是想用我的APP的提示用户去应用设置界面手动开启权限
+//                    } else {
+//                        finish();
+//                    }
+                    Toast.makeText(this, "权限获取失败，若想正常使用请开通权限", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "权限获取成功", Toast.LENGTH_SHORT).show();
+                    AppCache.getLocalMusicList().clear();
+                    AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(getApplicationContext()));
+                }
+            }
+        }
     }
 }

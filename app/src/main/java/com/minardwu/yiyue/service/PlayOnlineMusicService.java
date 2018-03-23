@@ -130,6 +130,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     }
 
     public void play(int id){
+        playOnlineMusicListener.onPrepareStart();
         if(Preferences.enablePlayWhenOnlyHaveWifi()){
             if(NetWorkUtils.getNetWorkType(this) != NetWorkType.WIFI){
                 ToastUtils.show("当前无WiFi，若想播放请关闭开关");
@@ -146,6 +147,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         new GetOnlineSong() {
             @Override
             public void onSuccess(MusicBean musicBean) {
+                playOnlineMusicListener.onPrepareStop();
                 playingMusic = musicBean;
                 playOnlineMusicListener.onChangeMusic(musicBean);
                 Log.e(TAG,"sucess");
@@ -161,6 +163,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
 
             @Override
             public void onFail(String string) {
+                playOnlineMusicListener.onPrepareStop();
                 Log.e("GetOnlineSong","播放出错了"+string);
             }
         }.exectue(id);//114533
@@ -394,6 +397,16 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                 next();
             }
         });
+    }
+
+    @Override
+    public void onPrepareStart() {
+
+    }
+
+    @Override
+    public void onPrepareStop() {
+
     }
 
     @Override

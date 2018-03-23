@@ -8,6 +8,7 @@ import android.os.Build;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
+import com.minardwu.yiyue.service.PlayOnlineMusicService;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -25,8 +26,16 @@ public class BaseActivity extends AppCompatActivity {
     public PlayLocalMusicService getPlayLocalMusicService() {
         PlayLocalMusicService playLocalMusicService = AppCache.getPlayLocalMusicService();
         if (playLocalMusicService == null) {
-            throw new NullPointerException("play service is null");
+            throw new NullPointerException(" service is null");
         }
         return playLocalMusicService;
+    }
+
+    public PlayOnlineMusicService getPlayOnlineMusicService() {
+        PlayOnlineMusicService playOnlineMusicService = AppCache.getPlayOnlineMusicService();
+        if (playOnlineMusicService == null) {
+            throw new NullPointerException("play service is null");
+        }
+        return playOnlineMusicService;
     }
 }

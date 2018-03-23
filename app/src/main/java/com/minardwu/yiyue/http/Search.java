@@ -69,7 +69,7 @@ public class Search {
                         musicBean.setTitle(songName);
                         musicBean.setArtist(songArtist);
                         musicBean.setAlbum(songAlbumName);
-                        musicBean.setAlbumId(Long.parseLong(songAlbumId));
+                        musicBean.setAlbumId(songAlbumId);
                         musicBeanList.add(musicBean);
                         artistBean.setName(artistName);
                         artistBean.setId(artistId);

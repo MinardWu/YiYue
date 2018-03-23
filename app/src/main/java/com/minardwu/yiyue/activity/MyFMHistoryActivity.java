@@ -17,6 +17,7 @@ import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.executor.IView;
+import com.minardwu.yiyue.executor.MoreOptionOfFMHistoryExecutor;
 import com.minardwu.yiyue.executor.MoreOptionOfLoveSongExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.model.MusicBean;
@@ -87,7 +88,7 @@ public class MyFMHistoryActivity extends SampleActivity implements IView{
                         if (position==0){
                             onItemClick(view,musicPosition);
                         }else{
-                            MoreOptionOfLoveSongExecutor.execute(MyFMHistoryActivity.this,position,list.get(musicPosition-1),MyFMHistoryActivity.this);
+                            MoreOptionOfFMHistoryExecutor.execute(MyFMHistoryActivity.this,position,list.get(musicPosition-1),MyFMHistoryActivity.this);
                         }
                     }
                 });

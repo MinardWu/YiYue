@@ -49,6 +49,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.app_bar_layout) AppBarLayout app_bar_layout;
     @BindView(R.id.tv_artist_name) TextView tv_artist_name;
     @BindView(R.id.iv_bg) ImageView iv_bg;
+    @BindView(R.id.iv_back) ImageView iv_back;
     @BindView(R.id.iv_artist) ImageView iv_artist;
     @BindView(R.id.tv_artist_name_below_iv) TextView tv_artist_name_below_iv;
     @BindView(R.id.btn_follow_artist) Button btn_follow_artist;
@@ -123,6 +124,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         myDatabaseHelper.setSQLiteDataBase(sqLiteDatabase);
         btn_follow_artist.setText(myDatabaseHelper.isFollowArtist(artistId) ? "已关注":"关注");
         btn_follow_artist.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
     }
 
     private void setTitleToCollapsingToolbarLayout() {
@@ -227,6 +229,10 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                     myDatabaseHelper.followArtist(artistId,artistName,artistPicUrl);
                     btn_follow_artist.setText("已关注");
                 }
+                break;
+            case R.id.iv_back:
+                finish();
+                break;
         }
     }
 }

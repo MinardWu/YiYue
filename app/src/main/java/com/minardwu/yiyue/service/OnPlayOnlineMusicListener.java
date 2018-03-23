@@ -9,6 +9,16 @@ import com.minardwu.yiyue.model.MusicBean;
 public interface OnPlayOnlineMusicListener {
 
     /**
+     * 开始获取数据
+     */
+    void onPrepareStart();
+
+    /**
+     * 获取数据结束
+     */
+    void onPrepareStop();
+
+    /**
      * 切换歌曲
      */
     void onChangeMusic(MusicBean music);
@@ -37,7 +47,6 @@ public interface OnPlayOnlineMusicListener {
      * 更新定时停止播放时间
      */
     void onTimer(long remain);
-
 
     /**
      * 更新歌手歌曲列表播放歌曲，加上artistId是保证更新的是当前播放歌手的列表

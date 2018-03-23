@@ -374,7 +374,7 @@ public class LrcView extends View {
     private GestureDetector.SimpleOnGestureListener mSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDown(MotionEvent e) {
-            Log.v("sdafhuihf","onDownbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+            Log.v("getAction","内部down");
             if (hasLrc() && mOnPlayClickListener != null) {
                 mScroller.forceFinished(true);
                 removeCallbacks(hideTimelineRunnable);
@@ -387,7 +387,7 @@ public class LrcView extends View {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            Log.e("sdafhuihf","ccccccccccccccccccccccccc");
+            Log.e("getAction","内部scroll");
             if(distanceY>50){
                 isShowTimeline = true;
             }

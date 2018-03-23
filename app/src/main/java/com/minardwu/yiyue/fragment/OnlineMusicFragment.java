@@ -78,29 +78,11 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_play.setSelected(false);
         playingMusic = MyDatabaseHelper.init(getContext()).getFMHistoryLastSong();
         if(playingMusic==null){
-            new GetOnlineSong() {
-                @Override
-                public void onSuccess(MusicBean musicBean) {
-                    playingMusic = musicBean;
-                    changeMusicImp(playingMusic);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            changeIconState(1);
-                        }
-                    });
-                    Notifier.showPause(playingMusic);
-                }
-
-                @Override
-                public void onFail(String string) {
-                    Log.v(TAG,string);
-
-                }
-            }.exectue(100861);
+            changeIconState(0);
+            setFirstInData();
         }else {
-            changeMusicImp(playingMusic);
             changeIconState(1);
+            changeMusicImp(playingMusic);
             Notifier.showPause(playingMusic);
         }
         unloveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_unlove);
@@ -116,7 +98,6 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 tv_online_music_title.setText(music.getTitle());
                 tv_online_music_artist.setText(music.getArtist());
                 String lrc = music.getLrc();
-                changeIconState(1);
                 if(lrc!=null){
                     Log.e("lrc",lrc);
                     if(lrc.equals("1")){
@@ -127,6 +108,26 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                         lrc_onlinelmusic.loadLrc(lrc);
                     }
                 }
+            }
+        });
+    }
+
+    @Override
+    public void onPrepareStart() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                changeIconState(0);
+            }
+        });
+    }
+
+    @Override
+    public void onPrepareStop() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                changeIconState(1);
             }
         });
     }
@@ -184,12 +185,12 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 break;
             case R.id.iv_onlinemusic_play:
                 if(playingMusic==null){
-                    playingMusic.setId(186003);
-                    getPlayOnlineMusicService().playOrPause((int) playingMusic.getId());
+                    getPlayOnlineMusicService().play(AppCache.defaultMusicId);
+                }else {
+                    getPlayOnlineMusicService().playOrPause((int)playingMusic.getId());
                 }
                 break;
             case R.id.iv_onlinemusic_next:
-                changeIconState(0);
                 getPlayOnlineMusicService().next();
                 break;
             case R.id.tv_online_music_artist:
@@ -271,6 +272,29 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
             iv_onlinemusic_download.setSelected(isLoveSong?true:false);
         }
+    }
+
+    private void setFirstInData(){
+        new GetOnlineSong() {
+            @Override
+            public void onSuccess(MusicBean musicBean) {
+                playingMusic = musicBean;
+                changeMusicImp(playingMusic);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        changeIconState(1);
+                    }
+                });
+                Notifier.showPause(playingMusic);
+            }
+
+            @Override
+            public void onFail(String string) {
+                Log.v(TAG,string);
+                changeIconState(1);
+            }
+        }.exectue(AppCache.defaultMusicId);
     }
 
 }

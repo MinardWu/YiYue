@@ -101,7 +101,7 @@ public class GetOnlineArtist {
                             musicBean.setId(Long.parseLong(songId));
                             musicBean.setTitle(songName);
                             musicBean.setAlbum(songAlbumName);
-                            musicBean.setAlbumId(Long.parseLong(songAlbumId));
+                            musicBean.setAlbumId(songAlbumId);
                             //Log.e(TAG,songAlbumName);
                             list.add(musicBean);
                         }

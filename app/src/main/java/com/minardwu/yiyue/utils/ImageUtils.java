@@ -1,6 +1,8 @@
 package com.minardwu.yiyue.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,11 +10,23 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.view.View;
 
 
+import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.RequestCode;
 import com.minardwu.yiyue.http.HttpCallback;
 
@@ -27,7 +41,35 @@ import java.net.URL;
  * 图像工具类
  */
 public class ImageUtils {
-    private static final int BLUR_RADIUS = 50;
+    private static final int BLUR_RADIUS = 500;
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static Bitmap blur(Context context, Bitmap bitmap, float bitmap_scale, int blur_radius) {
+        //先对图片进行压缩然后再blur
+        Bitmap inputBitmap = Bitmap.createScaledBitmap(bitmap,
+                Math.round(bitmap.getWidth() * bitmap_scale),
+                Math.round(bitmap.getHeight() * bitmap_scale),
+                false);
+        //创建空的Bitmap用于输出
+        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+        //①、初始化Renderscript
+        RenderScript rs = RenderScript.create(context);
+        //②、Create an Intrinsic Blur Script using the Renderscript
+        ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        //③、native层分配内存空间
+        Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+        Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+        //④、设置blur的半径然后进行blur
+        theIntrinsic.setRadius(blur_radius);
+        theIntrinsic.setInput(tmpIn);
+        theIntrinsic.forEach(tmpOut);
+        //⑤、拷贝blur后的数据到java缓冲区中
+        tmpOut.copyTo(outputBitmap);
+        //⑥、销毁Renderscript
+        rs.destroy();
+        //bitmap.recycle();
+        return outputBitmap;
+    }
 
     @Nullable
     public static Bitmap blur(Bitmap source) {
@@ -300,6 +342,26 @@ public class ImageUtils {
             }
         }.start();
         return;
+    }
+
+    public static void getBlurBitmapByUrl(final String url, final HttpCallback<Bitmap> callback) {
+        getBitmapByUrl(url, new HttpCallback<Bitmap>() {
+            @Override
+            public void onSuccess(Bitmap bitmap) {
+                final Bitmap blur = ImageUtils.blur(YiYueApplication.getAppContext(),bitmap,0.01f,25);
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(blur);
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(String e) {
+                callback.onFail(e);
+            }
+        });
     }
 
     public static void startAlbum(Activity activity) {

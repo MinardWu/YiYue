@@ -24,7 +24,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static SQLiteDatabase sqLiteDatabase;
 
-    private static final String DATABASE_NAME = "ASDF.db";
+    private static final String DATABASE_NAME = "ASDFQW.db";
     private static final String TABLE_SEARCH_HISTORY = "search_history";
     private static final String TABLE_FM_HISTORY = "fm_history";
     private static final String TABLE_MY_ARTIST = "my_artist";
@@ -43,6 +43,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "title text," +
             "artist text," +
             "album text," +
+            "albumId text," +
             "coverUrl text," +
             "time integer" +
             ")";
@@ -61,6 +62,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "title text," +
             "artist text," +
             "album text," +
+            "albumId text," +
             "time integer" +
             ")";
 
@@ -176,6 +178,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             contentValues.put("title", musicBean.getTitle());
             contentValues.put("artist", musicBean.getArtist());
             contentValues.put("album", musicBean.getAlbum());
+            contentValues.put("albumId", musicBean.getAlbumId());
             contentValues.put("coverUrl", musicBean.getCoverPath());
             contentValues.put("time", System.currentTimeMillis());
             sqLiteDatabase.insert(TABLE_FM_HISTORY,null,contentValues);
@@ -194,6 +197,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
             musicBean.setArtist(cursor.getString(cursor.getColumnIndex("artist")));
             musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("album")));
+            musicBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
             list.add(musicBean);
         }
         return list;
@@ -212,6 +216,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             lastSong[0].setTitle(cursor2.getString(cursor2.getColumnIndex("title")));
             lastSong[0].setArtist(cursor2.getString(cursor2.getColumnIndex("artist")));
             lastSong[0].setAlbum(cursor2.getString(cursor2.getColumnIndex("album")));
+            lastSong[0].setAlbumId(cursor2.getString(cursor2.getColumnIndex("albumId")));
             lastSong[0].setCoverPath(cursor2.getString(cursor2.getColumnIndex("coverUrl")));
             lastSong[0].setType(MusicBean.Type.ONLINE);
             return lastSong[0];
@@ -246,6 +251,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("title", musicBean.getTitle());
         contentValues.put("artist", musicBean.getArtist());
         contentValues.put("album", musicBean.getAlbum());
+        contentValues.put("albumId", musicBean.getAlbumId());
         contentValues.put("time", System.currentTimeMillis());
         sqLiteDatabase.insert(TABLE_MY_SONG,null,contentValues);
     }

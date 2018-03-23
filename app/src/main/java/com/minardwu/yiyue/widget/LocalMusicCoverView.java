@@ -24,30 +24,30 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
     private static final float NEEDLE_ROTATION_PLAY = 0.0f;
     private static final float NEEDLE_ROTATION_PAUSE = -25.0f;
     private Handler mHandler = new Handler();
-    private Bitmap mDiscBitmap;
-    private Bitmap mCoverBitmap;
-    private Bitmap mNeedleBitmap;
+    private Bitmap discBitmap;
+    private Bitmap coverBitmap;
+    private Bitmap needleBitmap;
     private Drawable mTopLine;
     private Drawable mCoverBorder;
     private int mTopLineHeight;
     private int mCoverBorderWidth;
-    private Matrix mDiscMatrix = new Matrix();
-    private Matrix mCoverMatrix = new Matrix();
-    private Matrix mNeedleMatrix = new Matrix();
-    private ValueAnimator mPlayAnimator;
-    private ValueAnimator mPauseAnimator;
-    private float mDiscRotation = 0.0f;
+    private Matrix discMatrix = new Matrix();
+    private Matrix coverMatrix = new Matrix();
+    private Matrix needleMatrix = new Matrix();
+    private ValueAnimator playAnimator;
+    private ValueAnimator pauseAnimator;
+    private float discAndCoverRotation = 0.0f;
     private float mNeedleRotation = NEEDLE_ROTATION_PLAY;
     private boolean isPlaying = false;
 
     // 图片起始坐标
-    private Point mDiscPoint = new Point();
-    private Point mCoverPoint = new Point();
-    private Point mNeedlePoint = new Point();
+    private Point discStartPoint = new Point();
+    private Point coverStartPoint = new Point();
+    private Point needleStartPoint = new Point();
     // 旋转中心坐标
-    private Point mDiscCenterPoint = new Point();
-    private Point mCoverCenterPoint = new Point();
-    private Point mNeedleCenterPoint = new Point();
+    private Point discCenterPoint = new Point();
+    private Point coverCenterPoint = new Point();
+    private Point needleCenterPoint = new Point();
 
     public LocalMusicCoverView(Context context) {
         this(context, null);
@@ -65,22 +65,20 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
     private void init() {
         mTopLine = getResources().getDrawable(R.drawable.play_page_cover_top_line_shape);
         mCoverBorder = getResources().getDrawable(R.drawable.play_page_cover_border_shape);
-        mDiscBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.play_page_disc);
-        mDiscBitmap = ImageUtils.resizeImage(mDiscBitmap, (int) (getScreenWidth() * 0.75),
-                (int) (getScreenWidth() * 0.75));
-        mCoverBitmap = CoverLoader.getInstance().loadRound(null);
-        mNeedleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.play_page_needle);
-        mNeedleBitmap = ImageUtils.resizeImage(mNeedleBitmap, (int) (getScreenWidth() * 0.25),
-                (int) (getScreenWidth() * 0.375));
+        discBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.play_page_disc);
+        discBitmap = ImageUtils.resizeImage(discBitmap, (int) (getScreenWidth() * 0.75), (int) (getScreenWidth() * 0.75));
+        coverBitmap = CoverLoader.getInstance().loadRound(null);
+        needleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.play_page_needle);
+        needleBitmap = ImageUtils.resizeImage(needleBitmap, (int) (getScreenWidth() * 0.25), (int) (getScreenWidth() * 0.375));
         mTopLineHeight = dp2px(1);
         mCoverBorderWidth = dp2px(1);
 
-        mPlayAnimator = ValueAnimator.ofFloat(NEEDLE_ROTATION_PAUSE, NEEDLE_ROTATION_PLAY);
-        mPlayAnimator.setDuration(300);
-        mPlayAnimator.addUpdateListener(this);
-        mPauseAnimator = ValueAnimator.ofFloat(NEEDLE_ROTATION_PLAY, NEEDLE_ROTATION_PAUSE);
-        mPauseAnimator.setDuration(300);
-        mPauseAnimator.addUpdateListener(this);
+        playAnimator = ValueAnimator.ofFloat(NEEDLE_ROTATION_PAUSE, NEEDLE_ROTATION_PLAY);
+        playAnimator.setDuration(300);
+        playAnimator.addUpdateListener(this);
+        pauseAnimator = ValueAnimator.ofFloat(NEEDLE_ROTATION_PLAY, NEEDLE_ROTATION_PAUSE);
+        pauseAnimator.setDuration(300);
+        pauseAnimator.addUpdateListener(this);
     }
 
     @Override
@@ -94,18 +92,18 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
      */
     private void initSize() {
         int discOffsetY = 0;
-        mDiscPoint.x = (getWidth() - mDiscBitmap.getWidth()) / 2;
-        mDiscPoint.y = discOffsetY;
-        mCoverPoint.x = (getWidth() - mCoverBitmap.getWidth()) / 2;
-        mCoverPoint.y = discOffsetY + (mDiscBitmap.getHeight() - mCoverBitmap.getHeight()) / 2;
-        mNeedlePoint.x = getWidth() / 2 - mNeedleBitmap.getWidth() / 6;
-        mNeedlePoint.y = -mNeedleBitmap.getWidth() / 6;
-        mDiscCenterPoint.x = getWidth() / 2;
-        mDiscCenterPoint.y = mDiscBitmap.getHeight() / 2 + discOffsetY;
-        mCoverCenterPoint.x = mDiscCenterPoint.x;
-        mCoverCenterPoint.y = mDiscCenterPoint.y;
-        mNeedleCenterPoint.x = mDiscCenterPoint.x;
-        mNeedleCenterPoint.y = 0;
+        discStartPoint.x = (getWidth() - discBitmap.getWidth()) / 2;
+        discStartPoint.y = discOffsetY;
+        coverStartPoint.x = (getWidth() - coverBitmap.getWidth()) / 2;
+        coverStartPoint.y = discOffsetY + (discBitmap.getHeight() - coverBitmap.getHeight()) / 2;
+        needleStartPoint.x = getWidth() / 2 - needleBitmap.getWidth() / 6;
+        needleStartPoint.y = -needleBitmap.getWidth() / 6;
+        discCenterPoint.x = getWidth() / 2;
+        discCenterPoint.y = discBitmap.getHeight() / 2 + discOffsetY;
+        coverCenterPoint.x = discCenterPoint.x;
+        coverCenterPoint.y = discCenterPoint.y;
+        needleCenterPoint.x = discCenterPoint.x;
+        needleCenterPoint.y = 0;
     }
 
     @Override
@@ -120,13 +118,13 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
         if (widthMode == MeasureSpec.EXACTLY) {
             width = widthSize;
         } else {
-            width = mDiscBitmap.getWidth();
+            width = discBitmap.getWidth();
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
             height = heightSize;
         } else {
-            height = mDiscBitmap.getHeight();
+            height = discBitmap.getHeight();
         }
         setMeasuredDimension(width, height);
     }
@@ -137,24 +135,24 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
         mTopLine.setBounds(0, 0, getWidth(), mTopLineHeight);
         mTopLine.draw(canvas);
         // 2.绘制黑胶唱片外侧半透明边框
-        mCoverBorder.setBounds(mDiscPoint.x - mCoverBorderWidth, mDiscPoint.y - mCoverBorderWidth,
-                mDiscPoint.x + mDiscBitmap.getWidth() + mCoverBorderWidth, mDiscPoint.y +
-                        mDiscBitmap.getHeight() + mCoverBorderWidth);
+        mCoverBorder.setBounds(
+                discStartPoint.x - mCoverBorderWidth,
+                discStartPoint.y - mCoverBorderWidth,
+                discStartPoint.x + discBitmap.getWidth() + mCoverBorderWidth,
+                discStartPoint.y + discBitmap.getHeight() + mCoverBorderWidth);
         mCoverBorder.draw(canvas);
-        // 3.绘制黑胶
-        // 设置旋转中心和旋转角度，setRotate和preTranslate顺序很重要
-        mDiscMatrix.setRotate(mDiscRotation, mDiscCenterPoint.x, mDiscCenterPoint.y);
-        // 设置图片起始坐标
-        mDiscMatrix.preTranslate(mDiscPoint.x, mDiscPoint.y);
-        canvas.drawBitmap(mDiscBitmap, mDiscMatrix, null);
+        // 3.绘制黑胶,setRotate和preTranslate顺序很重要
+        discMatrix.setRotate(discAndCoverRotation, discCenterPoint.x, discCenterPoint.y);//设置旋转中心和旋转角度
+        discMatrix.preTranslate(discStartPoint.x, discStartPoint.y);//设置图片起始坐标
+        canvas.drawBitmap(discBitmap, discMatrix, null);
         // 4.绘制封面
-        mCoverMatrix.setRotate(mDiscRotation, mCoverCenterPoint.x, mCoverCenterPoint.y);
-        mCoverMatrix.preTranslate(mCoverPoint.x, mCoverPoint.y);
-        canvas.drawBitmap(mCoverBitmap, mCoverMatrix, null);
+        coverMatrix.setRotate(discAndCoverRotation, coverCenterPoint.x, coverCenterPoint.y);
+        coverMatrix.preTranslate(coverStartPoint.x, coverStartPoint.y);
+        canvas.drawBitmap(coverBitmap, coverMatrix, null);
         // 5.绘制指针
-//        mNeedleMatrix.setRotate(mNeedleRotation, mNeedleCenterPoint.x, mNeedleCenterPoint.y);
-//        mNeedleMatrix.preTranslate(mNeedlePoint.x, mNeedlePoint.y);
-//        canvas.drawBitmap(mNeedleBitmap, mNeedleMatrix, null);
+//        needleMatrix.setRotate(mNeedleRotation, needleCenterPoint.x, needleCenterPoint.y);
+//        needleMatrix.preTranslate(needleStartPoint.x, needleStartPoint.y);
+//        canvas.drawBitmap(needleBitmap, needleMatrix, null);
     }
 
     public void initNeedle(boolean isPlaying) {
@@ -163,8 +161,8 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
     }
 
     public void setCoverBitmap(Bitmap bitmap) {
-        mCoverBitmap = bitmap;
-        mDiscRotation = 0.0f;
+        coverBitmap = bitmap;
+        discAndCoverRotation = 0.0f;
         invalidate();
     }
 
@@ -173,8 +171,8 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
             return;
         }
         isPlaying = true;
-        mHandler.post(mRotationRunnable);
-        mPlayAnimator.start();
+        mHandler.post(rotationRunnable);
+        playAnimator.start();
     }
 
     public void pause() {
@@ -182,8 +180,8 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
             return;
         }
         isPlaying = false;
-        mHandler.removeCallbacks(mRotationRunnable);
-        mPauseAnimator.start();
+        mHandler.removeCallbacks(rotationRunnable);
+        pauseAnimator.start();
     }
 
     @Override
@@ -192,13 +190,13 @@ public class LocalMusicCoverView extends View implements ValueAnimator.AnimatorU
         invalidate();
     }
 
-    private Runnable mRotationRunnable = new Runnable() {
+    private Runnable rotationRunnable = new Runnable() {
         @Override
         public void run() {
             if (isPlaying) {
-                mDiscRotation += DISC_ROTATION_INCREASE;
-                if (mDiscRotation >= 360) {
-                    mDiscRotation = 0;
+                discAndCoverRotation += DISC_ROTATION_INCREASE;
+                if (discAndCoverRotation >= 360) {
+                    discAndCoverRotation = 0;
                 }
                 invalidate();
             }

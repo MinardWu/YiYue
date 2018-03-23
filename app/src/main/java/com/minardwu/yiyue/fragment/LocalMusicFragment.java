@@ -105,32 +105,32 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()){
                     case MotionEvent.ACTION_DOWN:
-                        Log.e("getAction","ACTION_DOWN");
+                        Log.e("getAction","lrc_down");
                         downX[0] = motionEvent.getX();
                         downY[0] = motionEvent.getY();
                         //加下面这一段是因为若获取不到歌词则捕捉不到lrc的ACTION_UP时间，无法跳转回封面，所以只好放在ACTION_DOWN这里处理
-                        if(!lrc_localmusic.hasLrc()){
-                            lrc_localmusic.startAnimation(fade_out);
-                            lrc_localmusic.setVisibility(View.GONE);
-                            rl_cover.startAnimation(fade_in);
-                            rl_cover.setVisibility(View.VISIBLE);
+//                        if(!lrc_localmusic.hasLrc()){
+//                            lrc_localmusic.startAnimation(fade_out);
+//                            lrc_localmusic.setVisibility(View.GONE);
+//                            rl_cover.startAnimation(fade_in);
+//                            rl_cover.setVisibility(View.VISIBLE);
                             return true;
-                        }
-                        break;
+//                        }
+//                        break;
                     case MotionEvent.ACTION_MOVE:
-                        Log.e("getAction","ACTION_MOVE");
+                        Log.e("getAction","lrc_move");
                         break;
                     case MotionEvent.ACTION_UP:
-                        Log.e("getAction","ACTION_UP");
+                        Log.e("getAction","lrc_up");
                         upY[0] = motionEvent.getY();
                         if(Math.abs(upY[0]-downY[0])>50){
-                            Log.e("getAction","1111111111111111111");
+                            Log.e("getAction","lrc_up_move");
                             return false;//拖动的时候onTouch不捕获事件,传递到onTouchEvent中
                         }else if(lrc_localmusic.getPlayDarwableBounds().contains((int)downX[0],(int)downY[0])){
-                            Log.e("getAction","2222222222222222222");
+                            Log.e("getAction","lrc_up_tran");
                             return false;//点击三角播放按钮的时候onTouch不捕获事件,也传递到onTouchEvent中
                         }else {
-                            Log.e("getAction","3333333333333333333");
+                            Log.e("getAction","lrc_up_fade");
                             lrc_localmusic.startAnimation(fade_out);
                             lrc_localmusic.setVisibility(View.GONE);
                             rl_cover.startAnimation(fade_in);
@@ -145,7 +145,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         rl_lrc_and_cover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("getAction","4444444444444444444444444");
                 rl_cover.startAnimation(fade_out);
                 rl_cover.setVisibility(View.GONE);
                 lrc_localmusic.startAnimation(fade_in);

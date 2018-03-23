@@ -1,13 +1,18 @@
 package com.minardwu.yiyue.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.minardwu.yiyue.application.YiYueApplication;
 
@@ -98,5 +103,19 @@ public class SystemUtils {
         }
         return localVersion;
     }
+
+    public static void checkPermission(Activity activity,int REQUEST_READ_EXTERNAL_STORAGE) {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Toast.makeText(activity, "请开通相关权限，否则无法正常使用本应用！", Toast.LENGTH_SHORT).show();
+            }
+            //申请权限
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            Toast.makeText(activity, "授权成功！", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 }
