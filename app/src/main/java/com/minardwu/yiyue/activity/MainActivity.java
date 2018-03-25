@@ -213,7 +213,7 @@ public class MainActivity extends BaseActivity {
                         changeIcon(currentFragment);
                         break;
                     case 1:
-                        tv_toolbar.setText("易乐FM");
+                        tv_toolbar.setText(getResources().getString(R.string.fm_name));
                         iv_localmusic.setSelected(false);
                         iv_onlinemusic.setSelected(true);
                         currentFragment = 1;
