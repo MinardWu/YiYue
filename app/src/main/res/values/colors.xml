@@ -42,4 +42,5 @@
     <color name="tapeBlack">#292929</color>
     <color name="tapeInfoTextColor">#dd9283</color>
     <color name="tapeMusicInfoTextColor">#050505</color>
+    <color name="transparent">#00000000</color>
 </resources>

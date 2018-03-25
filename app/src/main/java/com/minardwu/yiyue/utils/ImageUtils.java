@@ -10,7 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -21,11 +20,9 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.view.View;
 
 
-import com.minardwu.yiyue.application.AppCache;
+
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.RequestCode;
 import com.minardwu.yiyue.http.HttpCallback;
@@ -334,7 +331,13 @@ public class ImageUtils {
                     InputStream is = conn.getInputStream();
                     bitmap = BitmapFactory.decodeStream(is);
                     is.close();
-                    callback.onSuccess(bitmap);
+                    final Bitmap finalBitmap = bitmap;
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess(finalBitmap);
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                     callback.onFail(e.toString());

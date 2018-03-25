@@ -270,6 +270,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
             musicBean.setArtist(cursor.getString(cursor.getColumnIndex("artist")));
             musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("album")));
+            musicBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
             list.add(musicBean);
         }
         return list;

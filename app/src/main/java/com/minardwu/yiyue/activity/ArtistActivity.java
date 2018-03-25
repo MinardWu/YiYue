@@ -42,7 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
+public class ArtistActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.rl_artist_hot_songs) RecyclerView rl_artist_hot_songs;
     @BindView(R.id.collapsing_toolbar_layout) CollapsingToolbarLayout collapsing_toolbar_layout;
@@ -134,6 +134,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                 int offsetWhenCollapse = appBarLayout.getTotalScrollRange();
                 if (Math.abs(verticalOffset) == offsetWhenCollapse) {
                     btn_follow_artist.setVisibility(View.INVISIBLE);//解决快速上拉时button会与标题重叠的问题
+                    tv_artist_name_below_iv.setVisibility(View.INVISIBLE);//解决快速上拉时会与标题重叠的问题
                     tv_artist_name.setVisibility(View.VISIBLE);
                     //设置toolbar为自定义样式的时候，会覆盖掉collapsing_toolbar_layout的title，所以这时下面的方法不能用
 //                    collapsing_toolbar_layout.setTitle(artistName);
@@ -141,6 +142,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 //                    collapsing_toolbar_layout.setCollapsedTitleGravity(Gravity.CENTER);
                 } else {
                     btn_follow_artist.setVisibility(View.VISIBLE);
+                    tv_artist_name_below_iv.setVisibility(View.VISIBLE);
                     tv_artist_name.setVisibility(View.INVISIBLE);
 //                    collapsing_toolbar_layout.setTitle("");
 //                    collapsing_toolbar_layout.setExpandedTitleGravity(Gravity.CENTER);

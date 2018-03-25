@@ -9,20 +9,19 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:fitsSystemWindows="true">
+        android:layout_height="240dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp">
 
             <RelativeLayout
+                android:id="@+id/rl_top"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -38,6 +37,7 @@
                 <ImageView
                     android:id="@+id/iv_album_cover"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="100dp"
                     android:layout_marginLeft="18dp"
                     android:src="@drawable/default_cover"
                     android:layout_width="120dp"
@@ -79,6 +79,8 @@
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
+                android:background="@color/transparent"
+                android:layout_marginTop="@dimen/toolbar_paddingTop_top"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -95,13 +97,16 @@
                         android:layout_marginLeft="16dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_back"
+                        android:src="@drawable/ic_back_white"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
 
                     <TextView
+                        android:textColor="@color/white"
                         android:id="@+id/tv_toolbar_album_name"
-                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/iv_back"
+                        android:layout_marginLeft="16dp"
                         android:textSize="18sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -110,7 +115,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_more"
+                        android:src="@drawable/ic_more_white"
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
 

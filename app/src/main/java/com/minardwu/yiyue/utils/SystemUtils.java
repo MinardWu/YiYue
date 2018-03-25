@@ -7,13 +7,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.YiYueApplication;
 
 import java.lang.reflect.Method;

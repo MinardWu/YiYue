@@ -54,8 +54,8 @@ public class GetOnlineAlbum {
                     String albumPicUrl = album.getString("picUrl");
                     String albumCompany = album.getString("company");
                     String albumArtistName = artist.getString("name");
-                    String albumArtistId = album.getString("id");
-                    String albumArtistPicUrl = album.getString("picUrl");
+                    String albumArtistId = artist.getString("id");
+                    String albumArtistPicUrl = artist.getString("picUrl");
                     long albumPublishTime = album.getLong("publishTime");
                     int size = album.getInt("size");
 
