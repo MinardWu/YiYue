@@ -65,7 +65,12 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
             @Override
             public void onItemClick(int position) {
                 if(position== getPlayLocalMusicService().getPlayingPosition()){
-                    finish();
+                    if(getPlayLocalMusicService().isPlaying()){
+                        finish();
+                    }else {
+                        getPlayLocalMusicService().play(position);
+                        finish();
+                    }
                 }else {
                     getPlayLocalMusicService().play(position);
                     updateView();

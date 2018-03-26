@@ -27,7 +27,7 @@
             android:layout_below="@+id/iv_info_logo"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
-            android:text="易乐"
+            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

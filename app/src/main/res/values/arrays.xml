@@ -158,4 +158,14 @@
         <item>专辑</item>
     </string-array>
 
+    <integer-array name="album_activity_more_img">
+        <item>@drawable/ic_option_play</item>
+        <item>@drawable/ic_option_singer</item>
+    </integer-array>
+
+    <string-array name="album_activity_more_text">
+        <item>播放</item>
+        <item>歌手</item>
+    </string-array>
+
 </resources>

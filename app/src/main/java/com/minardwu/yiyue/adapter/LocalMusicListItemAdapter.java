@@ -16,6 +16,7 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.FileUtils;
+import com.minardwu.yiyue.utils.Preferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +66,7 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        if (position == mPlayingPosition) {
+        if (position == Preferences.getCurrentSongPosition()) {
             viewHolder.tv_count.setVisibility(View.GONE);
             viewHolder.iv_playing.setVisibility(View.VISIBLE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));

@@ -85,7 +85,7 @@ public class Preferences {
     }
 
     public static String getCurrentSongTitle() {
-        return getString(MUSIC_TITLE, "易乐");
+        return getString(MUSIC_TITLE, "一乐");
     }
 
     public static void saveCurrentSongTitle(String value) {

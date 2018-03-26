@@ -366,6 +366,14 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         return playState == STATE_IDLE;
     }
 
+
+    /**
+     * 获取正在播放的本地歌曲的序号
+     */
+    public void setPlayingPosition(int position) {
+        this.playingPosition = position;
+    }
+
     /**
      * 获取正在播放的本地歌曲的序号
      */

@@ -26,6 +26,8 @@ import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.executor.MoreOptionOfAlbumActExecutor;
+import com.minardwu.yiyue.executor.MoreOptionOfArtistActExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.GetOnlineAlbum;
 import com.minardwu.yiyue.http.HttpCallback;
@@ -44,7 +46,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AlbumActivity extends AppCompatActivity implements View.OnClickListener {
+public class AlbumActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.app_bar_layout)
     AppBarLayout app_bar_layout;
@@ -167,15 +169,20 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
             }
 
             @Override
-            public void onMoreClick(View view, int position) {
-                OptionDialogFragment fragment = new OptionDialogFragment();
+            public void onMoreClick(View view, final int musicPosition) {
+                final OptionDialogFragment fragment = new OptionDialogFragment();
                 fragment.setHeader_titile("歌曲：");
-                fragment.setHeader_text(list.get(position-1).getTitle());
-                fragment.setListViewAdapter(new ImageAndTextAdapter(AlbumActivity.this,R.array.artist_activity_more_img,R.array.artist_activity_more_text));
+                fragment.setHeader_text(list.get(musicPosition-1).getTitle());
+                fragment.setListViewAdapter(new ImageAndTextAdapter(AlbumActivity.this,R.array.album_activity_more_img,R.array.album_activity_more_text));
                 fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                     @Override
                     public void onItemClickListener(View view, int position) {
-                        Toast.makeText(AlbumActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                        fragment.dismiss();
+                        if(position==0){
+                            onItemClick(view,musicPosition);
+                        }else {
+                            MoreOptionOfAlbumActExecutor.execute(AlbumActivity.this,position,list.get(musicPosition-1));
+                        }
                     }
                 });
                 fragment.show(getSupportFragmentManager(), "OptionDialogFragment");

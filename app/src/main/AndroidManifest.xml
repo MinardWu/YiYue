@@ -63,8 +63,7 @@
         <activity
             android:name=".activity.TapeActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.AlbumActivity"
-            android:theme="@style/TTheme"></activity>
+        <activity android:name=".activity.AlbumActivity"></activity>
     </application>
 
 </manifest>

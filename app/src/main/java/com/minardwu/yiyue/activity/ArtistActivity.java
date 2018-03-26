@@ -22,6 +22,8 @@ import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.executor.IView;
+import com.minardwu.yiyue.executor.MoreOptionOfArtistActExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.GetOnlineArtist;
 import com.minardwu.yiyue.http.HttpCallback;
@@ -30,6 +32,7 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ImageUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,7 +45,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ArtistActivity extends BaseActivity implements View.OnClickListener {
+public class ArtistActivity extends BaseActivity implements View.OnClickListener{
 
     @BindView(R.id.rl_artist_hot_songs) RecyclerView rl_artist_hot_songs;
     @BindView(R.id.collapsing_toolbar_layout) CollapsingToolbarLayout collapsing_toolbar_layout;
@@ -95,7 +98,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                                     myDatabaseHelper.updateArtistPic(artistId,artistPicUrl);
                                 }
                                 iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
-                                iv_bg.setImageBitmap(bitmap);
+                                iv_bg.setImageBitmap(ImageUtils.blur(ArtistActivity.this,bitmap,0.1f,5));
                             }
                         });
                     }
@@ -182,15 +185,20 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                     }
 
                     @Override
-                    public void onMoreClick(View view, int position) {
-                        OptionDialogFragment fragment = new OptionDialogFragment();
+                    public void onMoreClick(View view, final int musicPosition) {
+                        final OptionDialogFragment fragment = new OptionDialogFragment();
                         fragment.setHeader_titile("歌曲：");
-                        fragment.setHeader_text(hotSongs.get(position-1).getTitle());
+                        fragment.setHeader_text(hotSongs.get(musicPosition-1).getTitle());
                         fragment.setListViewAdapter(new ImageAndTextAdapter(ArtistActivity.this,R.array.artist_activity_more_img,R.array.artist_activity_more_text));
                         fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                             @Override
                             public void onItemClickListener(View view, int position) {
-                                Toast.makeText(ArtistActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                                fragment.dismiss();
+                                if(position==0){
+                                    onItemClick(view,musicPosition);
+                                }else {
+                                    MoreOptionOfArtistActExecutor.execute(ArtistActivity.this,position,hotSongs.get(musicPosition-1));
+                                }
                             }
                         });
                         fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
@@ -237,4 +245,5 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
+
 }

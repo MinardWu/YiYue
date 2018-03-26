@@ -89,7 +89,9 @@ public class MusicUtils {
             musicBeanList.add(musicBean);
         }
         cursor.close();
-
+        Preferences.saveCurrentSongId(musicBeanList.get(0).getId());
+        Preferences.saveCurrentSongTitle(musicBeanList.get(0).getTitle());
+        Preferences.saveCurrentSongPosition(0);
         return musicBeanList;
     }
 
