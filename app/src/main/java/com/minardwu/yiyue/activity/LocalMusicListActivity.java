@@ -1,6 +1,7 @@
 package com.minardwu.yiyue.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -11,11 +12,20 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.LocalMusicListItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.event.ChageToolbarTextEvent;
+import com.minardwu.yiyue.event.UpdateLocalMusicListEvent;
 import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.executor.MoreOptionOfLocalMusicListExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.SystemUtils;
+import com.minardwu.yiyue.utils.UIUtils;
+import com.minardwu.yiyue.widget.CustomPopWindow;
 import com.minardwu.yiyue.widget.MoreDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +33,8 @@ import butterknife.OnClick;
 
 public class LocalMusicListActivity extends BaseActivity implements IView{
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.iv_back)
     ImageView iv_back;
     @BindView(R.id.iv_search)
@@ -40,18 +52,23 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
         finish();
     }
     @OnClick(R.id.iv_more) void more(){
-        MoreDialog moreDialog = new MoreDialog(this,R.style.StopTimeDialog);
-        moreDialog.setOnMoreDialogItemClickListener(new MoreDialog.OnMoreDialogItemClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(view.getId()==R.id.tv_scan_music){
-                    AppCache.getLocalMusicList().clear();
-                    AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(LocalMusicListActivity.this));
-                    updateView();
-                }
-            }
-        });
-        moreDialog.show();
+        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(this)
+                .setView(R.layout.popup_window)//显示的布局，还可以通过设置一个View
+                .setOutsideTouchable(true)//是否PopupWindow 以外触摸dissmiss
+                .create()
+                .showAsDropDown(toolbar, SystemUtils.getScreenWidth(),0);
+//        MoreDialog moreDialog = new MoreDialog(this,R.style.StopTimeDialog);
+//        moreDialog.setOnMoreDialogItemClickListener(new MoreDialog.OnMoreDialogItemClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(view.getId()==R.id.tv_scan_music){
+//                    AppCache.getLocalMusicList().clear();
+//                    AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(LocalMusicListActivity.this));
+//                    updateView();
+//                }
+//            }
+//        });
+//        moreDialog.show();
     }
 
     LocalMusicListItemAdapter localMusicListItemAdapter = new LocalMusicListItemAdapter();
@@ -61,6 +78,7 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_music_list);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         localMusicListItemAdapter.setLocalMusicListItemAdapterLinster(new LocalMusicListItemAdapter.LocalMusicListItemAdapterLinster() {
             @Override
             public void onItemClick(int position) {
@@ -123,6 +141,17 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
     @Override
     public void updateViewForExecutor() {
         localMusicListItemAdapter.notifyDataSetChanged();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLocalMusicListEvent(UpdateLocalMusicListEvent event) {
+        localMusicListItemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**

@@ -10,7 +10,13 @@ import android.view.View;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.event.UpdateLocalMusicListEvent;
 import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.Preferences;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.Collections;
 
 /**
  * Created by MinardWu on 2018/1/23.
@@ -53,10 +59,13 @@ public class MoreDialog extends Dialog {
                 ChooseOptionDialog sortDialog = new ChooseOptionDialog(getContext(),R.style.StopTimeDialog);
                 sortDialog.setTitle("排序方式");
                 sortDialog.setItem(R.array.sort);
+                sortDialog.setShowImagePosition(Preferences.getLocalMusicOrderType()-1);
                 sortDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-
+                        Preferences.setLocalMusicOrderType(position+1);
+                        Collections.sort(AppCache.getLocalMusicList(),new MusicUtils.MusicComparator());
+                        EventBus.getDefault().post(new UpdateLocalMusicListEvent(1));
                     }
                 });
                 sortDialog.show();

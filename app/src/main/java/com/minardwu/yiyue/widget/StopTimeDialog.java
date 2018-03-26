@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.adapter.StopTimeItemAdapter;
+import com.minardwu.yiyue.adapter.ChooseOptionAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.Preferences;
@@ -25,7 +25,7 @@ import com.minardwu.yiyue.utils.ToastUtils;
 public class StopTimeDialog extends Dialog {
 
     ListView listView;
-    StopTimeItemAdapter stopTimeItemAdapter;
+    ChooseOptionAdapter chooseOptionAdapter;
     ImageView iv_quitTillSongEnd;
 
     public StopTimeDialog(@NonNull Context context) {
@@ -48,13 +48,13 @@ public class StopTimeDialog extends Dialog {
         iv_quitTillSongEnd = findViewById(R.id.iv_quitTillSongEnd);
         iv_quitTillSongEnd.setSelected(Preferences.getQuitTillSongEnd());
         listView = findViewById(R.id.lv_stop_time);
-        stopTimeItemAdapter = new StopTimeItemAdapter(getContext(), R.array.stop_time);
-        stopTimeItemAdapter.setShowImagePosition(Preferences.getStopTime());
-        listView.setAdapter(stopTimeItemAdapter);
+        chooseOptionAdapter = new ChooseOptionAdapter(getContext(), R.array.stop_time);
+        chooseOptionAdapter.setShowImagePosition(Preferences.getStopTime());
+        listView.setAdapter(chooseOptionAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                stopTimeItemAdapter.setShowImagePosition(i);
+                chooseOptionAdapter.setShowImagePosition(i);
                 Preferences.saveStopTime(i);
                 dismiss();
                 if(i==0){

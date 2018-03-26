@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.adapter.StopTimeItemAdapter;
+import com.minardwu.yiyue.adapter.ChooseOptionAdapter;
 
 /**
  * Created by MinardWu on 2018/1/23.
@@ -22,7 +22,7 @@ public class ChooseOptionDialog extends Dialog {
 
     private TextView tv_dialog_title;
     private ListView listView;
-    private StopTimeItemAdapter stopTimeItemAdapter;
+    private ChooseOptionAdapter chooseOptionAdapter;
     private String title;
     private int resId;
     private int showImagePosition;
@@ -57,13 +57,13 @@ public class ChooseOptionDialog extends Dialog {
         tv_dialog_title = findViewById(R.id.tv_dialog_title);
         tv_dialog_title.setText(title);
         listView = findViewById(R.id.lv_dialog);
-        stopTimeItemAdapter = new StopTimeItemAdapter(getContext(),resId);
-        stopTimeItemAdapter.setShowImagePosition(showImagePosition);
-        listView.setAdapter(stopTimeItemAdapter);
+        chooseOptionAdapter = new ChooseOptionAdapter(getContext(),resId);
+        chooseOptionAdapter.setShowImagePosition(showImagePosition);
+        listView.setAdapter(chooseOptionAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                stopTimeItemAdapter.setShowImagePosition(i);
+                chooseOptionAdapter.setShowImagePosition(i);
                 dismiss();
                 listener.onClick(view,i);
             }

@@ -121,7 +121,7 @@ public class MusicUtils {
         return context.getPackageManager().resolveActivity(intent, PackageManager.GET_RESOLVED_FILTER) != null;
     }
 
-    static class MusicComparator implements Comparator<MusicBean> {
+    public static class MusicComparator implements Comparator<MusicBean> {
 
         @Override
         public int compare(MusicBean musicBean1, MusicBean musicBean2) {

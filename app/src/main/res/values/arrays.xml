@@ -99,9 +99,10 @@
     </integer-array>
 
     <string-array name="sort">
+        <item>按添加时间</item>
         <item>按歌曲名</item>
         <item>按歌手名</item>
-        <item>按添加时间</item>
+        <item>按专辑名</item>
     </string-array>
 
     <integer-array name="local_music_more_img">

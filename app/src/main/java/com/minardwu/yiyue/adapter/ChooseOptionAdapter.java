@@ -14,13 +14,13 @@ import com.minardwu.yiyue.R;
  * Created by MinardWu on 2018/1/8.
  */
 
-public class StopTimeItemAdapter extends BaseAdapter {
+public class ChooseOptionAdapter extends BaseAdapter {
 
     Context mcontext;
     String[] items;
     int showImagePosition = 0;
 
-    public StopTimeItemAdapter(Context context, int resId) {
+    public ChooseOptionAdapter(Context context, int resId) {
         mcontext = context;
         items = mcontext.getResources().getStringArray(resId);
     }
