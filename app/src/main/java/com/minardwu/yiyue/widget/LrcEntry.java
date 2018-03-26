@@ -114,7 +114,8 @@ class LrcEntry implements Comparable<LrcEntry> {
         }
 
         line = line.trim();
-        Matcher lineMatcher = Pattern.compile("((\\[\\d\\d:\\d\\d\\.\\d\\d\\])+)(.+)").matcher(line);
+        Matcher lineMatcher = Pattern.compile("((\\[\\d\\d:\\d\\d\\.\\d{2,3}\\])+)(.+)").matcher(line);
+        //((\[\d\d:\d\d\.\d{2,3}\])+)
         if (!lineMatcher.matches()) {
             return null;
         }
@@ -123,7 +124,7 @@ class LrcEntry implements Comparable<LrcEntry> {
         String text = lineMatcher.group(3);
         List<LrcEntry> entryList = new ArrayList<>();
 
-        Matcher timeMatcher = Pattern.compile("\\[(\\d\\d):(\\d\\d)\\.(\\d\\d)\\]").matcher(times);
+        Matcher timeMatcher = Pattern.compile("\\[(\\d\\d):(\\d\\d)\\.(\\d{2,3})\\]").matcher(times);
         while (timeMatcher.find()) {
             long min = Long.parseLong(timeMatcher.group(1));
             long sec = Long.parseLong(timeMatcher.group(2));
