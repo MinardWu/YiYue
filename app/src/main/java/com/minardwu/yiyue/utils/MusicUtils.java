@@ -14,6 +14,8 @@ import android.support.annotation.NonNull;
 import com.minardwu.yiyue.model.MusicBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MusicUtils {
@@ -41,7 +43,8 @@ public class MusicUtils {
                         MediaStore.Audio.AudioColumns.DATA,
                         MediaStore.Audio.AudioColumns.DISPLAY_NAME,
                         MediaStore.Audio.AudioColumns.SIZE,
-                        MediaStore.Audio.AudioColumns.DURATION
+                        MediaStore.Audio.AudioColumns.DURATION,
+                        MediaStore.Audio.AudioColumns.DATE_ADDED
                 },
                 FILTER,
                 new String[]{
@@ -70,6 +73,7 @@ public class MusicUtils {
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
             String fileName = cursor.getString((cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DISPLAY_NAME)));
             long fileSize = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
+            long addTime = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DATE_ADDED));
 
             MusicBean musicBean = new MusicBean();
             musicBean.setId(id);
@@ -82,6 +86,7 @@ public class MusicUtils {
             musicBean.setPath(path);
             musicBean.setFileName(fileName);
             musicBean.setFileSize(fileSize);
+            musicBean.setAddTime(addTime);
             if (++i <= 20) {
                 // 只加载前20首的缩略图
 //                CoverLoader.getInstance().loadThumbnail(musicBean);
@@ -92,6 +97,7 @@ public class MusicUtils {
         Preferences.saveCurrentSongId(musicBeanList.get(0).getId());
         Preferences.saveCurrentSongTitle(musicBeanList.get(0).getTitle());
         Preferences.saveCurrentSongPosition(0);
+        Collections.sort(musicBeanList,new MusicComparator());
         return musicBeanList;
     }
 
@@ -113,5 +119,34 @@ public class MusicUtils {
 
     private static boolean isIntentAvailable(Context context, Intent intent) {
         return context.getPackageManager().resolveActivity(intent, PackageManager.GET_RESOLVED_FILTER) != null;
+    }
+
+    static class MusicComparator implements Comparator<MusicBean> {
+
+        @Override
+        public int compare(MusicBean musicBean1, MusicBean musicBean2) {
+            int type = Preferences.getLocalMusicOrderType();
+            int result = 1;
+            switch (type){
+                case Preferences.ORDER_BY_TIME:
+                    result =  (int) (musicBean1.getAddTime()-musicBean2.getAddTime());
+                    break;
+                case Preferences.ORDER_BY_TITLE:
+                    result = (int)musicBean1.getTitle().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);
+                    break;
+                case Preferences.ORDER_BY_SINGER:
+                    result = (int)musicBean1.getArtist().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);
+                    break;
+                case Preferences.ORDER_BY_ALBUM:
+                    result = (int)musicBean1.getAlbum().toLowerCase().charAt(0)-(int)musicBean2.getAlbum().toLowerCase().charAt(0);
+                    break;
+            }
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
     }
 }

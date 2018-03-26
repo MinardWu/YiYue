@@ -23,6 +23,12 @@ public class Preferences {
     private static final String FITLER_TIME_POSITION = "filter_time_position";
     private static final String FITLER_SIZE_POSITION = "filter_size_position";
 
+    private static final String LOCAL_MUSIC_ORDER_TYPE = "local_music_order_type";
+    public static final int ORDER_BY_TIME = 1;
+    public static final int ORDER_BY_TITLE = 2;
+    public static final int ORDER_BY_SINGER = 3;
+    public static final int ORDER_BY_ALBUM = 4;
+
     private static Context sContext;
 
     public static void init(Context context) {
@@ -68,6 +74,14 @@ public class Preferences {
 
 
     //对于具体数据调用基本数据的操作
+    public static int getLocalMusicOrderType() {
+        return getInt(LOCAL_MUSIC_ORDER_TYPE, 1);
+    }
+
+    public static void setLocalMusicOrderType(int position) {
+        saveInt(LOCAL_MUSIC_ORDER_TYPE, position);
+    }
+
     public static long getCurrentSongId() {
         return getLong(MUSIC_ID, -1);
     }

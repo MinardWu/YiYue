@@ -37,6 +37,8 @@ public class MusicBean implements Serializable {
     private String lrc;
     // 网络歌曲封面
     private Bitmap onlineMusicCover;
+    // 添加时间
+    private long addTime;
 
     public enum Type {
         LOCAL,
@@ -153,6 +155,15 @@ public class MusicBean implements Serializable {
 
     public void setArtistId(String artistId) {
         this.artistId = artistId;
+    }
+
+
+    public long getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(long addTime) {
+        this.addTime = addTime;
     }
 
     /**
