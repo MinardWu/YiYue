@@ -8,6 +8,7 @@ import android.media.audiofx.AudioEffect;
 import android.view.View;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.AlarmClockActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.activity.FeedbackActivity;
 import com.minardwu.yiyue.activity.InfoActivity;
@@ -28,9 +29,9 @@ import com.minardwu.yiyue.widget.StopTimeDialog;
 
 public class DrawerItemExecutor {
 
-    public void execute(int position,Activity activity){
-        switch (position){
-            case 3:
+    public void execute(int position,String title,Activity activity){
+        switch (title){
+            case "音效调节":
                 if (MusicUtils.isAudioControlPanelAvailable(activity)) {
                     Intent intent = new Intent();
                     String packageName = activity.getPackageName();
@@ -48,11 +49,11 @@ public class DrawerItemExecutor {
                     ToastUtils.show(R.string.device_not_support);
                 }
                 break;
-            case 4:
+            case "定时停止播放":
                 StopTimeDialog stopTimeDialog = new StopTimeDialog(activity, R.style.StopTimeDialog);
                 stopTimeDialog.show();
                 break;
-            case 5:
+            case "文件时间过滤":
                 final int second[]= activity.getResources().getIntArray(R.array.filter_time_num);
                 ChooseOptionDialog timeFilterDialog = new ChooseOptionDialog(activity,R.style.StopTimeDialog);
                 timeFilterDialog.setTitle("按时长过滤");
@@ -68,7 +69,7 @@ public class DrawerItemExecutor {
                 });
                 timeFilterDialog.show();
                 break;
-            case 6:
+            case "文件大小过滤":
                 final int size[]= activity.getResources().getIntArray(R.array.filter_size_num);
                 ChooseOptionDialog sizeFilterDialog = new ChooseOptionDialog(activity,R.style.StopTimeDialog);
                 sizeFilterDialog.setTitle("按大小过滤");
@@ -84,20 +85,23 @@ public class DrawerItemExecutor {
                 });
                 sizeFilterDialog.show();
                 break;
-            case 8:
+            case "我的收藏":
                 activity.startActivity(new Intent(activity, MySongActivity.class));
                 break;
-            case 9:
+            case "我的歌手":
                 activity.startActivity(new Intent(activity, MyArtistActivity.class));
                 break;
-            case 10:
+            case "FM足迹":
                 activity.startActivity(new Intent(activity, MyFMHistoryActivity.class));
                 break;
-            case 12:
+            case "反馈":
                 activity.startActivity(new Intent(activity, FeedbackActivity.class));
                 break;
-            case 13:
+            case "关于":
                 activity.startActivity(new Intent(activity, InfoActivity.class));
+                break;
+            case "音乐闹钟":
+                activity.startActivity(new Intent(activity, AlarmClockActivity.class));
                 break;
         }
     }

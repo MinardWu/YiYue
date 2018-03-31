@@ -13,7 +13,7 @@
         android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/toolbar_style"
+        android:background="@drawable/toolbar_main_activity_style"
         android:paddingTop="@dimen/toolbar_paddingTop_top"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">

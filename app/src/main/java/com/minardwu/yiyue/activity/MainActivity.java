@@ -107,10 +107,10 @@ public class MainActivity extends BaseActivity {
             SystemUtils.checkPermission(this,1);
         }
         //startActivity(new Intent(this,TapeActivity.class));
-        Intent albumIntent = new Intent(this, AlbumActivity.class);
-        albumIntent.putExtra("albumId","18905");
-        albumIntent.putExtra("albumName","18905");
-        startActivity(albumIntent);
+//        Intent albumIntent = new Intent(this, AlbumActivity.class);
+//        albumIntent.putExtra("albumId","18905");
+//        albumIntent.putExtra("albumName","18905");
+//        startActivity(albumIntent);
     }
 
     @Override
@@ -175,14 +175,14 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        listView.setAdapter(drawerItemAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        drawerItemAdapter.setOnNormalClickListener(new DrawerItemAdapter.OnNormalClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onClick(int position, String title) {
                 drawerLayout.closeDrawer(GravityCompat.START);
-                drawerItemExecutor.execute(i,MainActivity.this);
+                drawerItemExecutor.execute(position,title,MainActivity.this);
             }
         });
+        listView.setAdapter(drawerItemAdapter);
         //初始化ViewPaper
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

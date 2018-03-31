@@ -9,6 +9,7 @@
         <item>定时停止播放</item>
         <item>文件时间过滤</item>
         <item>文件大小过滤</item>
+        <item>音乐闹钟</item>
         <item>empty</item>
         <item>我的收藏</item>
         <item>我的歌手</item>
@@ -26,6 +27,7 @@
         <item>@drawable/icon_clock</item>
         <item>@drawable/icon_filter</item>
         <item>@drawable/icon_filter</item>
+        <item>@drawable/ic_alarm_clock</item>
         <item>@null</item>
         <item>@drawable/ic_love</item>
         <item>@drawable/ic_artist</item>
@@ -39,6 +41,7 @@
         <item>1</item>
         <item>1</item>
         <item>2</item>
+        <item>0</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>

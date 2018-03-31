@@ -18,6 +18,7 @@ public class Preferences {
     private static final String PLAY_MODE = "play_mode";
     private static final String SPLASH_URL = "splash_url";
     private static final String NIGHT_MODE = "night_mode";
+    private static final String ALARM_CLOCK = "alarm_clock";
     private static final String STOP_TIME = "stop_time";
     private static final String QUIT_TILL_SONG_END = "quit_till_song_end";
     private static final String FITLER_TIME_POSITION = "filter_time_position";
@@ -136,6 +137,14 @@ public class Preferences {
 
     public static void savePlayWhenOnlyHaveWifi(boolean enable) {
         saveBoolean(sContext.getString(R.string.setting_key_mobile_network_play), enable);
+    }
+
+    public static boolean enableAlarmClock() {
+        return getBoolean(ALARM_CLOCK, false);
+    }
+
+    public static void saveAlarmClock(boolean enable) {
+        saveBoolean(ALARM_CLOCK, enable);
     }
 
     public static boolean enableMobileNetworkDownload() {

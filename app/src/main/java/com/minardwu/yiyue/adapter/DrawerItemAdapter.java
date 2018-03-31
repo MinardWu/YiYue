@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -90,12 +91,13 @@ public class DrawerItemAdapter extends BaseAdapter {
         NormalViewHolder normalViewHolder;
         final SwitchViewHolder switchViewHolder;
         EmptyViewHolder emptyViewHolder;
-        DrawerItemBean drawerItemBean = drawerItemBeanList.get(position);
+        final DrawerItemBean drawerItemBean = drawerItemBeanList.get(position);
         switch (getItemViewType(position)){
             case 0:
                 if(convertView==null){
                     normalViewHolder = new NormalViewHolder();
                     convertView = LayoutInflater.from(mContext).inflate(R.layout.list_drawer_normal,null);
+                    normalViewHolder.item = convertView.findViewById(R.id.rl_item);
                     normalViewHolder.imageView = convertView.findViewById(R.id.iv_list_drawer_normal);
                     normalViewHolder.title = convertView.findViewById(R.id.tv_list_drawer_normal_title);
                     normalViewHolder.info = convertView.findViewById(R.id.tv_list_drawer_normal_info);
@@ -106,6 +108,12 @@ public class DrawerItemAdapter extends BaseAdapter {
                 normalViewHolder.imageView.setImageResource(drawerItemBean.getImgId());
                 normalViewHolder.title.setText(drawerItemBean.getTitle());
                 normalViewHolder.info.setText(drawerItemBean.getInfo());
+                normalViewHolder.item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalClickListener.onClick(position,drawerItemBean.getTitle());
+                    }
+                });
                 break;
             case 1:
                 if(convertView==null){
@@ -143,6 +151,7 @@ public class DrawerItemAdapter extends BaseAdapter {
     }
 
     class NormalViewHolder {
+        RelativeLayout item;
         ImageView imageView;
         TextView title;
         TextView info;
@@ -166,6 +175,16 @@ public class DrawerItemAdapter extends BaseAdapter {
 
     public void setSwitchClickListener(OnSwitchClickListener switchClickListener) {
         this.switchClickListener = switchClickListener;
+    }
+
+    public interface OnNormalClickListener{
+        void onClick(int position,String title);
+    }
+
+    private OnNormalClickListener normalClickListener;
+
+    public void setOnNormalClickListener(OnNormalClickListener onNormalClickListener) {
+        this.normalClickListener = onNormalClickListener;
     }
 }
 

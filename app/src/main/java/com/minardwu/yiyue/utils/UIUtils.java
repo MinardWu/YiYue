@@ -62,4 +62,8 @@ public class UIUtils {
         }
         return actionBarHeight;
     }
+
+    public static int getColor(Context context,int  id) {
+        return context.getResources().getColor(id);
+    }
 }

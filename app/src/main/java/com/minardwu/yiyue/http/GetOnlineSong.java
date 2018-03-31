@@ -1,5 +1,7 @@
 package com.minardwu.yiyue.http;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.minardwu.yiyue.model.MusicBean;
@@ -62,9 +64,14 @@ public abstract class GetOnlineSong implements HttpListener{
                     }else {
                         getSongDetailById(temp[0],url);
                     }
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     e.printStackTrace();
-                    onFail(e.toString());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onFail(e.toString());
+                        }
+                    });
                 }
             }
         });
@@ -113,9 +120,14 @@ public abstract class GetOnlineSong implements HttpListener{
                     musicBean.setType(MusicBean.Type.ONLINE);
                     getSongLrcById(id,musicBean);
                     //onSuccess(musicBean);
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     e.printStackTrace();
-                    onFail(e.toString());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onFail(e.toString());
+                        }
+                    });
                 }
             }
         });
@@ -148,10 +160,20 @@ public abstract class GetOnlineSong implements HttpListener{
                         String lyric = lrc.getString("lyric");
                         musicBean.setLrc(lyric);
                     }
-                    onSuccess(musicBean);
-                } catch (JSONException e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onSuccess(musicBean);
+                        }
+                    });
+                } catch (final JSONException e) {
                     e.printStackTrace();
-                    onFail(e.toString());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onFail(e.toString());
+                        }
+                    });
                 }
             }
         });

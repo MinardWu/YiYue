@@ -26,6 +26,9 @@ import java.util.Locale;
 
 public class SystemUtils {
 
+    public static int REQUEST_READ_EXTERNAL_STORAGE = 1;
+    public static int REQUEST_WRITE_SETTING = 2;
+
     /**
      * 判断是否有Activity在运行
      */
@@ -119,6 +122,16 @@ public class SystemUtils {
         }
     }
 
-
+    public static void checkWriteSettingPermission(Activity activity,int requestCode) {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_SETTINGS)) {
+                Toast.makeText(activity, "请开通相关权限，否则无法正常使用该功能！", Toast.LENGTH_SHORT).show();
+            }
+            //申请权限
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_SETTINGS},requestCode);
+        } else {
+            Toast.makeText(activity, "授权成功！", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

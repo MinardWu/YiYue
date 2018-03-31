@@ -22,7 +22,6 @@ public abstract class SampleActivity extends BaseActivity {
     @BindView(R.id.tv_toolbar_mid_title) TextView tv_toolbar_mid_title;
     @BindView(R.id.tv_toolbar_left_title) TextView tv_toolbar_left_title;
     @BindView(R.id.tv_toolbar_right_title) TextView tv_toolbar_right_title;
-    @BindView(R.id.content_view) ViewGroup content_view;
 
     @OnClick(R.id.iv_toolbar_back) void back(){
         finish();
@@ -32,13 +31,18 @@ public abstract class SampleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
-
+        ViewGroup conten_view = findViewById(R.id.content_view);
+        View view = View.inflate(this,getContentView(),null);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        conten_view.addView(view,params);
         ButterKnife.bind(this);
         setToolbarImage(iv_toolbar_back);
         setToolbarTitle(tv_toolbar_left_title,tv_toolbar_mid_title,tv_toolbar_right_title);
-        View view = View.inflate(this,getContentView(),null);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        content_view.addView(view,params);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     protected abstract int getContentView();
