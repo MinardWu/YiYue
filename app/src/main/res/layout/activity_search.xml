@@ -13,7 +13,7 @@
         android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/toolbar_main_activity_style"
+        android:background="@drawable/toolbar_sample_activity_style"
         android:paddingTop="@dimen/toolbar_paddingTop_top"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
@@ -31,7 +31,7 @@
                 android:layout_marginLeft="16dp"
                 android:background="@drawable/btn_action_bg_selector"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_back_white" />
 
                 <!--android:drawableRight="@drawable/ic_search_cancel"-->
                 <!--android:drawablePadding="32dp"-->
@@ -48,6 +48,8 @@
                 android:layout_weight="1"
                 android:maxLength="16"
                 android:imeOptions="actionSearch"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:hint="歌手、歌曲"/>
 
         </LinearLayout>
