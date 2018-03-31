@@ -26,6 +26,7 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.Notifier;
+import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.LrcView;
 import com.minardwu.yiyue.widget.OnlineMusicCoverView;
 
@@ -280,19 +281,15 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             public void onSuccess(MusicBean musicBean) {
                 playingMusic = musicBean;
                 changeMusicImp(playingMusic);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        changeIconState(1);
-                    }
-                });
+                changeIconState(1);
                 Notifier.showPause(playingMusic);
             }
 
             @Override
             public void onFail(String string) {
-                Log.v(TAG,string);
+                Log.e(TAG,string);
                 changeIconState(1);
+                ToastUtils.show("服务器出小差了");
             }
         }.exectue(AppCache.defaultMusicId);
     }
