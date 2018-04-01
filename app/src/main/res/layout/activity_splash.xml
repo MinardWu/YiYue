@@ -6,14 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.minardwu.yiyue.activity.SplashActivity">
 
+    <ImageView
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv_slogan"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:text="只关音乐"
+        android:textSize="40sp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/app_name"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="2dp"
         android:layout_above="@+id/tv_copyright"
         android:layout_centerHorizontal="true"
         android:text="一乐"
         android:textSize="16sp"
-        android:textColor="@color/colorGreenDeep"
+        android:textColor="@color/grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -23,8 +41,7 @@
         android:layout_alignParentBottom="true"
         android:textSize="12sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/colorGreenDeep"
+        android:textColor="@color/grey"
         android:text="Copyright ©2018 MinardWu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

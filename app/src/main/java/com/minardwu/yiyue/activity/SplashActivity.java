@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,6 +30,8 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
     TextView app_name;
     @BindView(R.id.tv_copyright)
     TextView tv_copyright;
+    @BindView(R.id.tv_slogan)
+    TextView tv_slogan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
         //启动并绑定音乐播放服务
         startService(new Intent(this, PlayOnlineMusicService.class));
         bindService(new Intent(this, PlayOnlineMusicService.class),this,BIND_AUTO_CREATE);
-        //一秒后进入主页面
+        //2秒后进入主页面
         Timer timer = new Timer(true);
         timer.schedule(new TimerTask() {
             @Override
@@ -49,10 +52,13 @@ public class SplashActivity extends AppCompatActivity implements ServiceConnecti
                 startActivity(new Intent(SplashActivity.this,MainActivity.class));
                 finish();
             }
-        },1000);
+        },2000);
         Animation fade_in = (AlphaAnimation) AnimationUtils.loadAnimation(this,R.anim.splash_textview_fade_in);
-        app_name.startAnimation(fade_in);
-        tv_copyright.startAnimation(fade_in);
+//        app_name.startAnimation(fade_in);
+        app_name.setVisibility(View.GONE);
+//        tv_copyright.startAnimation(fade_in);
+        tv_copyright.setVisibility(View.GONE);
+        tv_slogan.startAnimation(fade_in);
     }
 
     /**
