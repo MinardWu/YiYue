@@ -64,7 +64,8 @@
             android:name=".activity.TapeActivity"
             android:screenOrientation="landscape" />
         <activity android:name=".activity.AlbumActivity" />
-        <activity android:name=".activity.AlarmClockActivity"></activity>
+        <activity android:name=".activity.AlarmClockActivity" />
+        <activity android:name=".activity.CollectionActivity"></activity>
     </application>
 
 </manifest>

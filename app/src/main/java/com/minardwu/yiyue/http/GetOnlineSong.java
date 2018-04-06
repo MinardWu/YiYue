@@ -47,8 +47,13 @@ public abstract class GetOnlineSong implements HttpListener{
         Request request = new Request.Builder().url(GET_SONG_URL_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                onFail(e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onFail(e.toString());
+                    }
+                });
             }
 
             @Override
@@ -87,8 +92,13 @@ public abstract class GetOnlineSong implements HttpListener{
         Request request = new Request.Builder().url(GET_SONG_DETAIL_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                onFail(e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onFail(e.toString());
+                    }
+                });
             }
 
             @Override
@@ -142,8 +152,13 @@ public abstract class GetOnlineSong implements HttpListener{
         Request request = new Request.Builder().url(GET_SONG_LRC_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                onFail(e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onFail(e.toString());
+                    }
+                });
             }
 
             @Override

@@ -10,6 +10,7 @@ import android.view.View;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.AlarmClockActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
+import com.minardwu.yiyue.activity.CollectionActivity;
 import com.minardwu.yiyue.activity.FeedbackActivity;
 import com.minardwu.yiyue.activity.InfoActivity;
 import com.minardwu.yiyue.activity.MyArtistActivity;
@@ -86,7 +87,7 @@ public class DrawerItemExecutor {
                 sizeFilterDialog.show();
                 break;
             case "我的收藏":
-                activity.startActivity(new Intent(activity, MySongActivity.class));
+                activity.startActivity(new Intent(activity, CollectionActivity.class));
                 break;
             case "我的歌手":
                 activity.startActivity(new Intent(activity, MyArtistActivity.class));

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.minardwu.yiyue.utils.CoverLoader;
@@ -44,6 +45,7 @@ public class YiYueApplication extends Application{
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
+        Fresco.initialize(this);
         isJustIntoAppAndNotPlay = true;
     }
 

@@ -93,6 +93,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     public void changeMusicImp(final MusicBean music) {
         playingMusic = music;
         isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
+        iv_onlinemusic_download.setSelected(isLoveSong ? true:false);
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 loadCoverByUrl(music.getCoverPath());
@@ -100,7 +101,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 tv_online_music_artist.setText(music.getArtist());
                 String lrc = music.getLrc();
                 if(lrc!=null){
-                    Log.e("lrc",lrc);
+                    Log.v("lrc",lrc);
                     if(lrc.equals("1")){
                         lrc_onlinelmusic.setLabel("尚无歌词");
                     }else if(lrc.equals("2")){
@@ -251,6 +252,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     private void changeIconState(int state){
         if(state==0){
+            iv_onlinemusic_download.setSelected(isLoveSong?true:false);
             iv_onlinemusic_download.setEnabled(false);
             iv_onlinemusic_play.setEnabled(false);
             iv_onlinemusic_next.setEnabled(false);

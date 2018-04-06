@@ -13,6 +13,8 @@ public class ArtistBean {
     private String name;
     private String info;
     private String picUrl;
+    private int musicSize;
+    private int albumSize;
     private ArrayList<MusicBean> songs;
 
     public String getId() {
@@ -45,6 +47,22 @@ public class ArtistBean {
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
+    }
+
+    public int getMusicSize() {
+        return musicSize;
+    }
+
+    public void setMusicSize(int musicSize) {
+        this.musicSize = musicSize;
+    }
+
+    public int getAlbumSize() {
+        return albumSize;
+    }
+
+    public void setAlbumSize(int albumSize) {
+        this.albumSize = albumSize;
     }
 
     public ArrayList<MusicBean> getSongs() {

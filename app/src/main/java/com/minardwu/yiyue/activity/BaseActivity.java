@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     public PlayLocalMusicService getPlayLocalMusicService() {
         PlayLocalMusicService playLocalMusicService = AppCache.getPlayLocalMusicService();
         if (playLocalMusicService == null) {
-            throw new NullPointerException(" service is null");
+            throw new NullPointerException("local service is null");
         }
         return playLocalMusicService;
     }
@@ -34,7 +34,7 @@ public class BaseActivity extends AppCompatActivity {
     public PlayOnlineMusicService getPlayOnlineMusicService() {
         PlayOnlineMusicService playOnlineMusicService = AppCache.getPlayOnlineMusicService();
         if (playOnlineMusicService == null) {
-            throw new NullPointerException("play service is null");
+            throw new NullPointerException("online service is null");
         }
         return playOnlineMusicService;
     }

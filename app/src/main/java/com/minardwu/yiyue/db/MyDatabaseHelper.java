@@ -5,15 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.ListView;
 
-import com.minardwu.yiyue.http.GetOnlineSong;
+import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by MinardWu on 2018/2/9.
@@ -24,7 +21,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static SQLiteDatabase sqLiteDatabase;
 
-    private static final String DATABASE_NAME = "ASDFQW.db";
+    private static final String DATABASE_NAME = "T4.db";
     private static final String TABLE_SEARCH_HISTORY = "search_history";
     private static final String TABLE_FM_HISTORY = "fm_history";
     private static final String TABLE_MY_ARTIST = "my_artist";
@@ -52,7 +49,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "id integer primary key autoincrement," +
             "artistId text," +
             "name text," +
-            "picUrl text" +
+            "picUrl text," +
+            "musicSize integer," +
+            "albumSize integer" +
             ")";
 
     private static final String CREATE_TABLE_MY_SONG = "create table " + TABLE_MY_SONG + "(" +
@@ -144,11 +143,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void followArtist(String artistId, String name,String picUrl) {
+    public void followArtist(ArtistBean artistBean) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("artistId", artistId);
-        contentValues.put("name", name);
-        contentValues.put("picUrl", picUrl);
+        contentValues.put("artistId", artistBean.getId());
+        contentValues.put("name", artistBean.getName());
+        contentValues.put("picUrl", artistBean.getPicUrl());
+        contentValues.put("musicSize", artistBean.getMusicSize());
+        contentValues.put("albumSize", artistBean.getAlbumSize());
         sqLiteDatabase.insert(TABLE_MY_ARTIST, null, contentValues);
     }
 
@@ -160,6 +161,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("picUrl", picUrl);
         sqLiteDatabase.update(TABLE_MY_ARTIST,contentValues,"artistId = ?", new String[]{artistId});
+    }
+
+    public List<ArtistBean> queryFollowedArtist(){
+        List<ArtistBean> list = new ArrayList<ArtistBean>();
+        Cursor cursor = sqLiteDatabase.query(TABLE_MY_ARTIST,null,null,null,null,null,null,null);
+        while (cursor.moveToNext()){
+            ArtistBean artistBean = new ArtistBean();
+            artistBean.setId(cursor.getString(cursor.getColumnIndex("artistId")));
+            artistBean.setName(cursor.getString(cursor.getColumnIndex("name")));
+            artistBean.setPicUrl(cursor.getString(cursor.getColumnIndex("picUrl")));
+            artistBean.setMusicSize(cursor.getInt(cursor.getColumnIndex("musicSize")));
+            artistBean.setAlbumSize(cursor.getInt(cursor.getColumnIndex("albumSize")));
+            list.add(artistBean);
+        }
+        return list;
     }
 
     public void addFMHistory(MusicBean musicBean){

@@ -64,6 +64,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(hotSongs);
     LinearLayoutManager linearLayoutManager;
     MyDatabaseHelper myDatabaseHelper;
+    private ArtistBean artist;
 
     private Intent intent;
     private int song_conut;
@@ -79,6 +80,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
+        myDatabaseHelper = MyDatabaseHelper.init(this);
         intent = getIntent();
         artistName = intent.getStringExtra("artistName");
         artistId = intent.getStringExtra("artistId");
@@ -86,6 +88,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
             @Override
             public void onSuccess(final ArtistBean artistBean) {
+                artist = artistBean;
                 artistPicUrl = artistBean.getPicUrl();
                 initListView(artistBean);
                 ImageUtils.getBitmapByUrl(artistBean.getPicUrl(), new HttpCallback<Bitmap>() {
@@ -122,9 +125,6 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         tv_artist_name.setText(artistName);
         tv_artist_name_below_iv.setText(artistName);
         iv_artist.setImageBitmap(ImageUtils.createCircleImage(BitmapFactory.decodeResource(getResources(),R.drawable.default_cover)));
-        myDatabaseHelper = new MyDatabaseHelper(this,getResources().getString(R.string.database_name),null,1);
-        SQLiteDatabase sqLiteDatabase = myDatabaseHelper.getWritableDatabase();
-        myDatabaseHelper.setSQLiteDataBase(sqLiteDatabase);
         btn_follow_artist.setText(myDatabaseHelper.isFollowArtist(artistId) ? "已关注":"关注");
         btn_follow_artist.setOnClickListener(this);
         iv_back.setOnClickListener(this);
@@ -236,7 +236,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                     myDatabaseHelper.unfollowArtist(artistId);
                     btn_follow_artist.setText("关注");
                 }else {
-                    myDatabaseHelper.followArtist(artistId,artistName,artistPicUrl);
+                    myDatabaseHelper.followArtist(artist);
                     btn_follow_artist.setText("已关注");
                 }
                 break;

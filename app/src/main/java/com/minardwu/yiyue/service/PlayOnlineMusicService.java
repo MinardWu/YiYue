@@ -117,6 +117,18 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             }
         }
     }
+
+    public void updateMusicList(List<MusicBean> list){
+        targetListIds.clear();
+        for(MusicBean musicBean:list)
+            targetListIds.add((int)musicBean.getId());
+    }
+
+    public void clearMusicList(){
+        this.listId = "0";
+        targetListIds.clear();
+    }
+
     public void updataPlayingMusicPosition(int position){
         this.playPosition = position;
     }

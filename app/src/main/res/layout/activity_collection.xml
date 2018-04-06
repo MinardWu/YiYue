@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.minardwu.yiyue.activity.CollectionActivity">
+
+    <!--<RadioGroup-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<RadioButton-->
+            <!--android:checked="true"-->
+            <!--android:padding="10dp"-->
+            <!--android:button="@null"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:id="@+id/rb_song"-->
+            <!--android:text="@string/collection_song"-->
+            <!--android:background="@drawable/collection_act_tab_selector"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<RadioButton-->
+            <!--android:padding="10dp"-->
+            <!--android:button="@null"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:id="@+id/rb_artist"-->
+            <!--android:text="@string/collection_artist"-->
+            <!--android:background="@drawable/collection_act_tab_selector"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content" />-->
+
+
+        <!--<RadioButton-->
+            <!--android:padding="10dp"-->
+            <!--android:button="@null"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:id="@+id/rb_album"-->
+            <!--android:text="@string/collection_album"-->
+            <!--android:background="@drawable/collection_act_tab_selector"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content" />-->
+
+    <!--</RadioGroup>-->
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_tab"
+        app:tabTextColor="@color/black"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabSelectedTextColor="@color/colorGreenLight"
+        app:tabIndicatorColor="@color/colorGreenLight"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/tab_layout_collection_bg">
+
+    </android.support.design.widget.TabLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_collection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

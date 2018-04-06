@@ -46,7 +46,7 @@ public class GetOnlineArtist {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
-                Log.e(TAG,string);
+                Log.v(TAG,string);
                 try {
                     JSONObject root = new JSONObject(string);
                     JSONObject result = root.getJSONObject("result");
@@ -87,6 +87,8 @@ public class GetOnlineArtist {
                         String info = artist.getString("briefDesc");
                         String name = artist.getString("name");
                         String id = artist.getString("id");
+                        int musicSize = artist.getInt("musicSize");
+                        int albumSize = artist.getInt("albumSize");
 
                         ArrayList<MusicBean> list = new ArrayList<MusicBean>();
                         JSONArray hotSongs = root.getJSONArray("hotSongs");
@@ -111,6 +113,8 @@ public class GetOnlineArtist {
                         artistBean.setInfo(info);
                         artistBean.setPicUrl(picUrl);
                         artistBean.setSongs(list);
+                        artistBean.setMusicSize(musicSize);
+                        artistBean.setAlbumSize(albumSize);
                         callback.onSuccess(artistBean);
                     }else {
                         callback.onFail("未找到");
