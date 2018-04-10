@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,8 +19,8 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.SearchResultAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineArtist;
-import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.http.Search;
 import com.minardwu.yiyue.model.ArtistBean;
@@ -30,7 +28,6 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.ButtonLayout;
-import com.minardwu.yiyue.widget.LoadingDialog;
 import com.minardwu.yiyue.widget.LoadingView;
 
 import java.util.ArrayList;
@@ -168,8 +165,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                             }
 
                             @Override
-                            public void onFail(String e) {
-                                Log.e(TAG,e.toString());
+                            public void onFail(FailResult e) {
+                                //Log.e(TAG,e.toString());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

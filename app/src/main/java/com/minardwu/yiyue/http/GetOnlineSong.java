@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.http.result.FailResult;
+import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.MusicBean;
 
 import org.json.JSONException;
@@ -28,10 +30,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
     private static final String GET_SONG_DETAIL_BY_ID="https://api.imjad.cn/cloudmusic/?type=detail&id=";
     private static final String GET_SONG_LRC_BY_ID="https://api.imjad.cn/cloudmusic/?type=lyric&id=";
 
-    public static final int NETWORK_ERROR = 0;
-    public static final int GET_URL_ERROR = 1;
-    public static final int GET_DETAIL_ERROR = 2;
-    public static final int GET_LRC_ERROR = 3;
+
 
     OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -55,7 +54,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        onFail(NETWORK_ERROR);
+                        onFail(new FailResult(ResultCode.NETWORK_ERROR,e.toString()));
                     }
                 });
             }
@@ -78,7 +77,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            onFail(GET_URL_ERROR);
+                            onFail(new FailResult(ResultCode.GET_URL_ERROR,e.toString()));
                         }
                     });
                 }
@@ -100,7 +99,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        onFail(NETWORK_ERROR);
+                        onFail(new FailResult(ResultCode.NETWORK_ERROR,e.toString()));
                     }
                 });
             }
@@ -139,7 +138,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            onFail(GET_DETAIL_ERROR);
+                            onFail(new FailResult(ResultCode.GET_DETAIL_ERROR,e.toString()));
                         }
                     });
                 }
@@ -160,7 +159,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        onFail(NETWORK_ERROR);
+                        onFail(new FailResult(ResultCode.NETWORK_ERROR,e.toString()));
                     }
                 });
             }

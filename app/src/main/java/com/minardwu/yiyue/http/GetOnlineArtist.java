@@ -2,8 +2,12 @@ package com.minardwu.yiyue.http;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.http.result.FailResult;
+import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
 
@@ -14,7 +18,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,8 +41,13 @@ public class GetOnlineArtist {
         final Request request = new Request.Builder().url(URL_GET_ARTIST_ID_BY_NAME +"\""+name+"\"").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                callback.onFail(e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onFail(new FailResult(ResultCode.NETWORK_ERROR,e.toString()));
+                    }
+                });
                 Log.e(TAG,e.toString());
             }
 
@@ -57,7 +65,13 @@ public class GetOnlineArtist {
                     String id = ar.getString("id");
                     getArtistInfoById(id,callback);
                     Log.e(TAG,id);
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFail(new FailResult(ResultCode.GET_ARTIST_INFO_ERROR,e.toString()));
+                        }
+                    });
                     Log.e(TAG,e.toString());
                     e.printStackTrace();
                 }
@@ -70,8 +84,13 @@ public class GetOnlineArtist {
         Request request = new Request.Builder().url(URL_GET_ARTIST_INFO_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                callback.onFail(e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onFail(new FailResult(ResultCode.NETWORK_ERROR,e.toString()));
+                    }
+                });
             }
 
             @Override
@@ -107,7 +126,7 @@ public class GetOnlineArtist {
                             //Log.e(TAG,songAlbumName);
                             list.add(musicBean);
                         }
-                        ArtistBean artistBean = new ArtistBean();
+                        final ArtistBean artistBean = new ArtistBean();
                         artistBean.setId(id);
                         artistBean.setName(name);
                         artistBean.setInfo(info);
@@ -115,12 +134,28 @@ public class GetOnlineArtist {
                         artistBean.setSongs(list);
                         artistBean.setMusicSize(musicSize);
                         artistBean.setAlbumSize(albumSize);
-                        callback.onSuccess(artistBean);
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onSuccess(artistBean);
+                            }
+                        });
                     }else {
-                        callback.onFail("未找到");
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onFail(new FailResult(ResultCode.GET_ARTIST_NO_FOUND,"未找到歌手"));
+                            }
+                        });
                     }
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     e.printStackTrace();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFail(new FailResult(ResultCode.GET_ARTIST_INFO_ERROR,e.toString()));
+                        }
+                    });
                     Log.e(TAG,e.toString());
                 }
             }
@@ -135,23 +170,38 @@ public class GetOnlineArtist {
                 Request request = new Request.Builder().url(artistBean.getPicUrl()).build();
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
-                    public void onFailure(Call call, IOException e) {
-                        getPicCallback.onFail("111111"+e.toString());
+                    public void onFailure(Call call, final IOException e) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                getPicCallback.onFail(new FailResult(ResultCode.NETWORK_ERROR,e.toString()));
+                            }
+                        });
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         InputStream is = response.body().byteStream();
-                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                        final Bitmap bitmap = BitmapFactory.decodeStream(is);
                         is.close();
-                        getPicCallback.onSuccess(bitmap);
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                getPicCallback.onSuccess(bitmap);
+                            }
+                        });
                     }
                 });
             }
 
             @Override
-            public void onFail(String e) {
-                getPicCallback.onFail("2222222"+e.toString());
+            public void onFail(final FailResult result) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPicCallback.onFail(result);
+                    }
+                });
             }
         });
 

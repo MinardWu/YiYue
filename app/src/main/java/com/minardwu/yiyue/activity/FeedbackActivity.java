@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.http.SendEmail;
 import com.minardwu.yiyue.utils.ToastUtils;
@@ -64,7 +65,7 @@ public class FeedbackActivity extends SampleActivity {
                     }
 
                     @Override
-                    public void onFail(String e) {
+                    public void onFail(FailResult e) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

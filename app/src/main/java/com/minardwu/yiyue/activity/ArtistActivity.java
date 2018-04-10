@@ -21,6 +21,7 @@ import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.executor.MoreOptionOfArtistActExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineArtist;
 import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.model.ArtistBean;
@@ -89,28 +90,23 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                 ImageUtils.getBitmapByUrl(artistBean.getPicUrl(), new HttpCallback<Bitmap>() {
                     @Override
                     public void onSuccess(final Bitmap bitmap) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (myDatabaseHelper.isFollowArtist(artistId)){
-                                    myDatabaseHelper.updateArtistPic(artistId,artistPicUrl);
-                                }
-                                iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
-                                iv_bg.setImageBitmap(ImageUtils.blur(ArtistActivity.this,bitmap,0.1f,5));
-                            }
-                        });
+                        if (myDatabaseHelper.isFollowArtist(artistId)){
+                            myDatabaseHelper.updateArtistPic(artistId,artistPicUrl);
+                        }
+                        iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
+                        iv_bg.setImageBitmap(ImageUtils.blur(ArtistActivity.this,bitmap,0.1f,5));
                     }
 
                     @Override
-                    public void onFail(String e) {
-                        loadDataFail(e);
+                    public void onFail(FailResult result) {
+                        loadDataFail(result);
                     }
                 });
             }
 
             @Override
-            public void onFail(String e) {
-                loadDataFail(e);
+            public void onFail(FailResult result) {
+                loadDataFail(result);
             }
         });
     }
@@ -156,60 +152,53 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         hotSongs = artistBean.getSongs();
         adapter = new OnlineMusicRecycleViewAdapter(hotSongs);
         linearLayoutManager = new LinearLayoutManager(this);
-        runOnUiThread(new Runnable() {
+
+        loading_view.setVisibility(View.GONE);
+        rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
+        rl_artist_hot_songs.setAdapter(adapter);
+        adapter.setHeaderText(artistBean.getId());
+        adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
             @Override
-            public void run() {
-                loading_view.setVisibility(View.GONE);
-                rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
-                rl_artist_hot_songs.setAdapter(adapter);
-                adapter.setHeaderText(artistBean.getId());
-                adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
+            public void onItemClick(View view, int position) {
+                if(position==0) {
+                    playOnlineMusicService.startOrStopLoop(artistBean.getId(), hotSongs);
+                    adapter.setHeaderText(artistBean.getId());
+                }else if(playOnlineMusicService.getPlayingMusicId().equals(hotSongs.get(position-1).getId()+"")){
+                    finish();
+                }else {
+                    playOnlineMusicService.stop();
+                    playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
+                    playOnlineMusicService.updataPlayingMusicPosition(position-1);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onMoreClick(View view, final int musicPosition) {
+                final OptionDialogFragment fragment = new OptionDialogFragment();
+                fragment.setHeader_titile("歌曲：");
+                fragment.setHeader_text(hotSongs.get(musicPosition-1).getTitle());
+                fragment.setListViewAdapter(new ImageAndTextAdapter(ArtistActivity.this,R.array.activity_artist_more_img,R.array.activity_artist_more_text));
+                fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                     @Override
-                    public void onItemClick(View view, int position) {
-                        if(position==0) {
-                            playOnlineMusicService.startOrStopLoop(artistBean.getId(), hotSongs);
-                            adapter.setHeaderText(artistBean.getId());
-                        }else if(playOnlineMusicService.getPlayingMusicId().equals(hotSongs.get(position-1).getId()+"")){
-                            finish();
+                    public void onItemClickListener(View view, int position) {
+                        fragment.dismiss();
+                        if(position==0){
+                            onItemClick(view,musicPosition);
                         }else {
-                            playOnlineMusicService.stop();
-                            playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                            playOnlineMusicService.updataPlayingMusicPosition(position-1);
-                            adapter.notifyDataSetChanged();
+                            MoreOptionOfArtistActExecutor.execute(ArtistActivity.this,position,hotSongs.get(musicPosition-1));
                         }
                     }
-
-                    @Override
-                    public void onMoreClick(View view, final int musicPosition) {
-                        final OptionDialogFragment fragment = new OptionDialogFragment();
-                        fragment.setHeader_titile("歌曲：");
-                        fragment.setHeader_text(hotSongs.get(musicPosition-1).getTitle());
-                        fragment.setListViewAdapter(new ImageAndTextAdapter(ArtistActivity.this,R.array.activity_artist_more_img,R.array.activity_artist_more_text));
-                        fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
-                            @Override
-                            public void onItemClickListener(View view, int position) {
-                                fragment.dismiss();
-                                if(position==0){
-                                    onItemClick(view,musicPosition);
-                                }else {
-                                    MoreOptionOfArtistActExecutor.execute(ArtistActivity.this,position,hotSongs.get(musicPosition-1));
-                                }
-                            }
-                        });
-                        fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
-                    }
                 });
+                fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
             }
         });
+
+
     }
 
-    private void loadDataFail(final String error){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ToastUtils.show("加载失败"+error);
-            }
-        });
+    private void loadDataFail(final FailResult result){
+        ToastUtils.show(result.getException());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

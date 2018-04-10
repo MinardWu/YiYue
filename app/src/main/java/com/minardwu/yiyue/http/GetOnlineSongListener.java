@@ -1,5 +1,6 @@
 package com.minardwu.yiyue.http;
 
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.model.MusicBean;
 
 /**
@@ -10,7 +11,7 @@ public interface GetOnlineSongListener {
 
     void onSuccess(MusicBean musicBean);
 
-    void onFail(int resultCode);
+    void onFail(FailResult result);
 
     void exectue(int id);
 }

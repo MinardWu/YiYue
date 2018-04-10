@@ -24,6 +24,7 @@ import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
@@ -176,10 +177,10 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             }
 
             @Override
-            public void onFail(int resultCode) {
+            public void onFail(FailResult result) {
                 playOnlineMusicListener.onPrepareStop();
-                playOnlineMusicListener.onGetSongError(resultCode);
-                Log.e(TAG,Integer.toString(resultCode));
+                playOnlineMusicListener.onGetSongError(result.getResultCode());
+                Log.e(TAG,result.getException());
             }
         }.exectue(id);//114533
     }

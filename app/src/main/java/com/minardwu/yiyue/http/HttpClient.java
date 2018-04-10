@@ -39,33 +39,33 @@ public class HttpClient {
     private static final String GET_SONG_URL_BY_ID="https://api.imjad.cn/cloudmusic/?type=song&id=";
     OkHttpClient okHttpClient = new OkHttpClient();
 
-    public void getSongUrlById(final int id, final HttpCallback<String> callback){
-        String url;
-        Request request = new Request.Builder().url(GET_SONG_URL_BY_ID+id).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                callback.onFail(e.toString());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    JSONObject root = new JSONObject(response.body().string());
-                    JSONObject data = root.getJSONArray("data").getJSONObject(0);
-                    String url = data.getString("url");
-                    if(url.equals("")){
-                        Log.e(TAG,"url为空，找不到歌曲");
-                        getSongUrlById(id+1,callback);
-                    }else {
-                        callback.onSuccess(url);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    callback.onFail(e.toString());
-                }
-            }
-        });
-    }
+//    public void getSongUrlById(final int id, final HttpCallback<String> callback){
+//        String url;
+//        Request request = new Request.Builder().url(GET_SONG_URL_BY_ID+id).build();
+//        okHttpClient.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                callback.onFail(e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                try {
+//                    JSONObject root = new JSONObject(response.body().string());
+//                    JSONObject data = root.getJSONArray("data").getJSONObject(0);
+//                    String url = data.getString("url");
+//                    if(url.equals("")){
+//                        Log.e(TAG,"url为空，找不到歌曲");
+//                        getSongUrlById(id+1,callback);
+//                    }else {
+//                        callback.onSuccess(url);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    callback.onFail(e.toString());
+//                }
+//            }
+//        });
+//    }
 
 }

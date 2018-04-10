@@ -25,6 +25,7 @@ import android.support.annotation.Nullable;
 
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.RequestCode;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.HttpCallback;
 
 import java.io.File;
@@ -312,6 +313,7 @@ public class ImageUtils {
         return target;
     }
 
+
     public static void getBitmapByUrl(final String url, final HttpCallback<Bitmap> callback) {
         new Thread(){
             @Override
@@ -338,9 +340,14 @@ public class ImageUtils {
                             callback.onSuccess(finalBitmap);
                         }
                     });
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     e.printStackTrace();
-                    callback.onFail(e.toString());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFail(new FailResult(1,e.toString()));
+                        }
+                    });
                 }
             }
         }.start();
@@ -352,17 +359,12 @@ public class ImageUtils {
             @Override
             public void onSuccess(Bitmap bitmap) {
                 final Bitmap blur = ImageUtils.blur(YiYueApplication.getAppContext(),bitmap,0.01f,25);
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onSuccess(blur);
-                    }
-                });
+                callback.onSuccess(blur);
             }
 
             @Override
-            public void onFail(String e) {
-                callback.onFail(e);
+            public void onFail(FailResult failResult) {
+                callback.onFail(failResult);
             }
         });
     }

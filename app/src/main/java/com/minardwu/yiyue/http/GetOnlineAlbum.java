@@ -3,10 +3,10 @@ package com.minardwu.yiyue.http;
 import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.model.AlbumBean;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
-import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +15,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -102,7 +101,7 @@ public class GetOnlineAlbum {
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    callback.onFail(e.toString());
+                    callback.onFail(new FailResult(1,e.toString()));
                 }
             }
         });

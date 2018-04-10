@@ -1,5 +1,7 @@
 package com.minardwu.yiyue.http;
 
+import com.minardwu.yiyue.http.result.FailResult;
+
 import java.util.Date;
 import java.util.Properties;
 
@@ -31,7 +33,7 @@ public class SendEmail {
                     callback.onSuccess("success");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    callback.onFail(e.toString());
+                    callback.onFail(new FailResult(0,e.toString()));
                 }
             }
         }).start();

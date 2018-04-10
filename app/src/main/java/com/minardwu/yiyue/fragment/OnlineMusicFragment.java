@@ -19,7 +19,9 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineSong;
+import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
@@ -172,12 +174,12 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     @Override
     public void onGetSongError(int resultCode) {
         switch (resultCode){
-            case GetOnlineSong.NETWORK_ERROR:
+            case ResultCode.NETWORK_ERROR:
                 ToastUtils.show(UIUtils.getString(getContext(),R.string.network_error));
                 break;
-            case GetOnlineSong.GET_URL_ERROR:
-            case GetOnlineSong.GET_DETAIL_ERROR:
-            case GetOnlineSong.GET_LRC_ERROR:
+            case ResultCode.GET_URL_ERROR:
+            case ResultCode.GET_DETAIL_ERROR:
+            case ResultCode.GET_LRC_ERROR:
                 ToastUtils.show(UIUtils.getString(getContext(),R.string.server_error));
         }
     }
@@ -300,7 +302,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             }
 
             @Override
-            public void onFail(int requestCode) {
+            public void onFail(FailResult failResult) {
                 //Log.e(TAG,string);
                 changeIconState(1);
                 ToastUtils.show("服务器出小差了");

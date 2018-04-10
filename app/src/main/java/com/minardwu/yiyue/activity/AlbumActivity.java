@@ -23,6 +23,7 @@ import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.executor.MoreOptionOfAlbumActExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineAlbum;
 import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.model.AlbumBean;
@@ -98,7 +99,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             }
 
             @Override
-            public void onFail(String e) {
+            public void onFail(FailResult e) {
 
             }
         });
@@ -134,7 +135,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             }
 
             @Override
-            public void onFail(String e) {
+            public void onFail(FailResult e) {
 
             }
         });
