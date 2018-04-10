@@ -12,7 +12,7 @@ import com.minardwu.yiyue.model.MusicBean;
  * Created by MinardWu on 2018/3/15.
  */
 
-public class MoreOptionOfArtistActExecutor {
+public class MoreOptionOfActArtistExecutor {
     public static void execute(Activity activity,int position, MusicBean musicBean){
         switch (position){
             case 0:

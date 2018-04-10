@@ -11,7 +11,6 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
-import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
         MusicBean music = list.get(position);
         viewHolder.tv_Title.setText(music.getTitle());
         viewHolder.tv_count.setText(position+1+"");
-        String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
+        String artist = FileUtils.getArtistAndAlbum(music.getArtistName(), music.getAlbum());
         viewHolder.tv_Artist.setText(artist);
         viewHolder.v_Divider.setVisibility(position != AppCache.getLocalMusicList().size() - 1 ? View.VISIBLE : View.GONE);
         viewHolder.iv_More.setOnClickListener(new View.OnClickListener() {

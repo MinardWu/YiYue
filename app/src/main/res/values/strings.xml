@@ -83,6 +83,7 @@
     <string name="alarm_clock_tips">为了使闹钟正常使用，请不要退出一乐</string>
     <string name="network_error">网络连接失败，请检查你的网络设置</string>
     <string name="server_error">服务端开小差了~</string>
+    <string name="artist_no_found">找不到该歌手~</string>
     <string name="wifi_tips">当前处于使用流量状态下，若要播放请关闭\"仅WIFI播放\"开关~</string>
     <string name="lrc_label">暂无歌词</string>
     <string name="multiple_choice">多选</string>

@@ -99,7 +99,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             public void run() {
                 loadCoverByUrl(music.getCoverPath());
                 tv_online_music_title.setText(music.getTitle());
-                tv_online_music_artist.setText(music.getArtist());
+                tv_online_music_artist.setText(music.getArtistName());
                 String lrc = music.getLrc();
                 if(lrc!=null){
                     Log.v("lrc",lrc);

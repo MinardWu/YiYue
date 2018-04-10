@@ -21,11 +21,12 @@ import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
-import com.minardwu.yiyue.executor.MoreOptionOfAlbumActExecutor;
+import com.minardwu.yiyue.executor.MoreOptionOfActAlbumExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineAlbum;
 import com.minardwu.yiyue.http.HttpCallback;
+import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.AlbumBean;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
@@ -99,8 +100,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             }
 
             @Override
-            public void onFail(FailResult e) {
-
+            public void onFail(FailResult result) {
+                handleError(result);
             }
         });
 
@@ -135,7 +136,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             }
 
             @Override
-            public void onFail(FailResult e) {
+            public void onFail(FailResult result) {
 
             }
         });
@@ -179,7 +180,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         if(position==0){
                             onItemClick(view,musicPosition);
                         }else {
-                            MoreOptionOfAlbumActExecutor.execute(AlbumActivity.this,position,list.get(musicPosition-1));
+                            MoreOptionOfActAlbumExecutor.execute(AlbumActivity.this,position,list.get(musicPosition-1));
                         }
                     }
                 });
@@ -217,6 +218,22 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             case R.id.iv_more:
                 MyDatabaseHelper.init(AlbumActivity.this).addCollectedAlbum(albumBean);
                 ToastUtils.show("11");
+        }
+    }
+
+    private void handleError(FailResult result){
+        switch (result.getResultCode()){
+            case ResultCode.NETWORK_ERROR:
+                ToastUtils.show(UIUtils.getString(AlbumActivity.this,R.string.network_error));
+                break;
+            case ResultCode.GET_ALBUM_INFO_ERROR:
+                ToastUtils.show(UIUtils.getString(AlbumActivity.this,R.string.server_error));
+                break;
+            case ResultCode.GET_BITMAP_BY_URL_ERROR:
+                //暂时不作处理
+                break;
+            default:
+                break;
         }
     }
 }

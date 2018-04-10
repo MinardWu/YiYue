@@ -12,7 +12,7 @@ import com.minardwu.yiyue.model.MusicBean;
  * Created by MinardWu on 2018/3/15.
  */
 
-public class MoreOptionOfLoveSongExecutor {
+public class MoreOptionOfActFMHistoryExecutor {
     public static void execute(Activity activity,int position, MusicBean musicBean,IView iView){
         switch (position){
             case 0:
@@ -20,8 +20,8 @@ public class MoreOptionOfLoveSongExecutor {
                 break;
             case 1:
                 Intent artistIntent = new Intent(activity, ArtistActivity.class);
+                artistIntent.putExtra("artistName",musicBean.getArtistName());
                 artistIntent.putExtra("artistId",musicBean.getArtistId());
-                artistIntent.putExtra("artistName",musicBean.getArtist());
                 activity.startActivity(artistIntent);
                 break;
             case 2:
@@ -31,7 +31,7 @@ public class MoreOptionOfLoveSongExecutor {
                 activity.startActivity(albumIntent);
                 break;
             case 3:
-                MyDatabaseHelper.init(activity).deleteCollectedSong(musicBean);
+                MyDatabaseHelper.init(activity).deleteFMHistory(musicBean);
                 iView.updateViewForExecutor();
                 break;
         }

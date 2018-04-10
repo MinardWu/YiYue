@@ -19,16 +19,18 @@ import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
-import com.minardwu.yiyue.executor.MoreOptionOfArtistActExecutor;
+import com.minardwu.yiyue.executor.MoreOptionOfActArtistExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineArtist;
 import com.minardwu.yiyue.http.HttpCallback;
+import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ImageUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -186,7 +188,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                         if(position==0){
                             onItemClick(view,musicPosition);
                         }else {
-                            MoreOptionOfArtistActExecutor.execute(ArtistActivity.this,position,hotSongs.get(musicPosition-1));
+                            MoreOptionOfActArtistExecutor.execute(ArtistActivity.this,position,hotSongs.get(musicPosition-1));
                         }
                     }
                 });
@@ -198,6 +200,22 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void loadDataFail(final FailResult result){
+        switch (result.getResultCode()){
+            case ResultCode.NETWORK_ERROR:
+                ToastUtils.show(UIUtils.getString(ArtistActivity.this,R.string.network_error));
+                break;
+            case ResultCode.GET_ARTIST_INFO_ERROR:
+                ToastUtils.show(UIUtils.getString(ArtistActivity.this,R.string.server_error));
+                break;
+            case ResultCode.GET_ARTIST_NO_FOUND:
+                ToastUtils.show(UIUtils.getString(ArtistActivity.this,R.string.artist_no_found));
+                break;
+            case ResultCode.GET_BITMAP_BY_URL_ERROR:
+                //暂时不作处理
+                break;
+            default:
+                break;
+        }
         ToastUtils.show(result.getException());
     }
 

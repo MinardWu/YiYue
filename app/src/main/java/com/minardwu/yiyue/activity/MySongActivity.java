@@ -14,7 +14,7 @@ import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.executor.IView;
-import com.minardwu.yiyue.executor.MoreOptionOfLoveSongExecutor;
+import com.minardwu.yiyue.executor.MoreOptionOfCollectedSongExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
@@ -84,7 +84,7 @@ public class MySongActivity extends SampleActivity implements IView{
                         if (position==0){
                             onItemClick(view,musicPosition);
                         }else{
-                            MoreOptionOfLoveSongExecutor.execute(MySongActivity.this,position,list.get(musicPosition-1),MySongActivity.this);
+                            MoreOptionOfCollectedSongExecutor.execute(MySongActivity.this,position,list.get(musicPosition-1),MySongActivity.this);
                         }
                     }
                 });

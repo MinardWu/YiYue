@@ -13,7 +13,7 @@ import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.executor.IView;
-import com.minardwu.yiyue.executor.MoreOptionOfLoveSongExecutor;
+import com.minardwu.yiyue.executor.MoreOptionOfCollectedSongExecutor;
 import com.minardwu.yiyue.model.MusicBean;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,7 +78,7 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
                         if (position==0){
                             onItemClick(view,musicPosition);
                         }else{
-                            MoreOptionOfLoveSongExecutor.execute(getActivity(),position,list.get(musicPosition-1),CollectedSongFragment.this);
+                            MoreOptionOfCollectedSongExecutor.execute(getActivity(),position,list.get(musicPosition-1),CollectedSongFragment.this);
                         }
                     }
                 });

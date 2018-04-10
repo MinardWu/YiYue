@@ -97,7 +97,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             MusicBean music = musicList.get(position-1);
             viewHolder.tv_Title.setText(music.getTitle());
             viewHolder.tv_count.setText(position+"");
-            String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
+            String artist = FileUtils.getArtistAndAlbum(music.getArtistName(), music.getAlbum());
             viewHolder.tv_Artist.setText(artist);
             viewHolder.v_Divider.setVisibility(position != musicList.size() ? View.VISIBLE : View.GONE);
             viewHolder.iv_More.setOnClickListener(new View.OnClickListener() {

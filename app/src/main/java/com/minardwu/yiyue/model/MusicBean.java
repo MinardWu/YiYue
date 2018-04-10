@@ -16,7 +16,7 @@ public class MusicBean implements Serializable {
     // 音乐标题
     private String title;
     // 艺术家
-    private String artist;
+    private String artistName;
 
     private String artistId;
     // 专辑
@@ -69,12 +69,12 @@ public class MusicBean implements Serializable {
         this.title = title;
     }
 
-    public String getArtist() {
-        return artist;
+    public String getArtistName() {
+        return artistName;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 
     public String getAlbum() {

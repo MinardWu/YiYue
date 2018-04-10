@@ -12,7 +12,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,7 +68,7 @@ public class FileUtils {
         if (music == null) {
             return null;
         }
-        String lrcFilePath = getLrcDir() + getLrcFileName(music.getArtist(), music.getTitle());
+        String lrcFilePath = getLrcDir() + getLrcFileName(music.getArtistName(), music.getTitle());
         if (!exists(lrcFilePath)) {
             lrcFilePath = null;
         }

@@ -1,8 +1,11 @@
 package com.minardwu.yiyue.http;
 
-import android.support.v4.media.MediaBrowserCompat;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.http.result.FailResult;
+import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
 
@@ -28,7 +31,7 @@ public class Search {
 
     public interface SearchCallback{
         void onSuccess(List<MusicBean> list, ArtistBean artistBean);
-        void onFail(String e);
+        void onFail(FailResult result);
     }
 
     private static final String SEARCH_URL = "https://api.imjad.cn/cloudmusic/?type=search&searchtype=1&s=";
@@ -39,13 +42,18 @@ public class Search {
         final Request request = new Request.Builder().url(SEARCH_URL+"\""+s+"\"").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                searchCallback.onFail(e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        searchCallback.onFail(new FailResult(ResultCode.NETWORK_ERROR,e.toString()));
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                List<MusicBean> musicBeanList = new ArrayList<MusicBean>();
+                final List<MusicBean> musicBeanList = new ArrayList<MusicBean>();
                 String res = response.body().string();
                 Log.e(TAG,res);
                 try {
@@ -54,30 +62,41 @@ public class Search {
                     JSONArray songs = result.getJSONArray("songs");
                     for(int i=0;i<songs.length();i++){
                         MusicBean musicBean = new MusicBean();
-                        ArtistBean artistBean = new ArtistBean();
+                        final ArtistBean artistBean = new ArtistBean();
 
                         JSONObject song = songs.getJSONObject(i);
                         String songId = song.getString("id");
                         String songName = song.getString("name");
                         String songAlbumName = song.getJSONObject("al").getString("name");
                         String songAlbumId = song.getJSONObject("al").getString("id");
-                        String songArtist = song.getJSONArray("ar").getJSONObject(0).getString("name");
+                        String songArtistName = song.getJSONArray("ar").getJSONObject(0).getString("name");
+                        String songArtistId = song.getJSONArray("ar").getJSONObject(0).getString("id");
                         String artistId = songs.getJSONObject(0).getJSONArray("ar").getJSONObject(0).getString("id");
                         String artistName = songs.getJSONObject(0).getJSONArray("ar").getJSONObject(0).getString("name");
 
                         musicBean.setId(Long.parseLong(songId));
                         musicBean.setTitle(songName);
-                        musicBean.setArtist(songArtist);
+                        musicBean.setArtistName(songArtistName);
+                        musicBean.setArtistId(songArtistId);
                         musicBean.setAlbum(songAlbumName);
                         musicBean.setAlbumId(songAlbumId);
                         musicBeanList.add(musicBean);
                         artistBean.setName(artistName);
                         artistBean.setId(artistId);
-                        Log.e(TAG,songName+"="+artistName);
-                        searchCallback.onSuccess(musicBeanList,artistBean);
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                searchCallback.onSuccess(musicBeanList,artistBean);
+                            }
+                        });
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (final JSONException e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            searchCallback.onFail(new FailResult(ResultCode.SEARCH_ERROR,e.toString()));
+                        }
+                    });
                 }
             }
         });

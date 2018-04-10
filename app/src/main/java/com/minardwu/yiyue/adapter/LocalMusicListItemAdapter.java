@@ -84,7 +84,7 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
         Bitmap cover = CoverLoader.getInstance().loadThumbnail(music);
         viewHolder.tv_Title.setText(music.getTitle());
         viewHolder.tv_count.setText(position+1+"");
-        String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
+        String artist = FileUtils.getArtistAndAlbum(music.getArtistName(), music.getAlbum());
         viewHolder.tv_Artist.setText(artist);
         viewHolder.iv_More.setOnClickListener(new View.OnClickListener() {
             @Override

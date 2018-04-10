@@ -13,23 +13,24 @@ import com.minardwu.yiyue.http.SendEmail;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.LoadingDialog;
 
+import butterknife.BindView;
+
 public class FeedbackActivity extends SampleActivity {
 
+    @BindView(R.id.et_feedback)
     EditText et_feedback;
+    @BindView(R.id.tv_thanks)
     TextView tv_thanks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        tv_thanks.setVisibility(View.GONE);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        et_feedback = findViewById(R.id.et_feedback);
-        tv_thanks = findViewById(R.id.tv_thanks);
-        tv_thanks.setVisibility(View.GONE);
     }
 
     @Override
@@ -51,28 +52,17 @@ public class FeedbackActivity extends SampleActivity {
                 SendEmail.sendMail(et_feedback.getText().toString(), new HttpCallback() {
                     @Override
                     public void onSuccess(Object o) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dialog.dismiss();
-                                mid.setText("提交成功");
-                                right.setVisibility(View.GONE);
-                                et_feedback.setVisibility(View.GONE);
-                                tv_thanks.setVisibility(View.VISIBLE);
-                            }
-                        });
-
+                        dialog.dismiss();
+                        mid.setText("提交成功");
+                        right.setVisibility(View.GONE);
+                        et_feedback.setVisibility(View.GONE);
+                        tv_thanks.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onFail(FailResult e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dialog.dismiss();
-                                ToastUtils.show("发送失败");
-                            }
-                        });
+                        dialog.dismiss();
+                        ToastUtils.show("发送失败");
                     }
                 });
             }

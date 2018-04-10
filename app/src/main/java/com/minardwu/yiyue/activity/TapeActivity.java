@@ -61,7 +61,7 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
     @Override
     public void onChangeMusic(MusicBean music) {
         tapeView.setTitle(music.getTitle());
-        tapeView.setArtis(music.getArtist());
+        tapeView.setArtis(music.getArtistName());
     }
 
     @Override

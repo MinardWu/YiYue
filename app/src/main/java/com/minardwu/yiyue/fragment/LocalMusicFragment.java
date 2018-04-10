@@ -218,7 +218,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         //更新Toolbar的UI
         EventBus.getDefault().post(new ChageToolbarTextEvent(music));
         //更新播放界面UI
-        tv_local_music_artist.setText(music.getArtist());
+        tv_local_music_artist.setText(music.getArtistName());
         sb_progress.setMax((int) music.getDuration());
         sb_progress.setProgress((int) getPlayService().getCurrentPosition());
         sb_progress.setSecondaryProgress(0);
@@ -320,7 +320,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             } else {
                 lrc_localmusic.setLabel("正在搜索歌词...");
                 lrc_localmusic_single.setLabel("正在搜索歌词...");
-                new DownloadLrc(music.getArtist(),music.getTitle()){
+                new DownloadLrc(music.getArtistName(),music.getTitle()){
                     @Override
                     public void downloadLrcPrepare() {
                         iv_local_music_player_play.setTag(music);//设置tag防止歌词下载完成后已切换歌曲
@@ -348,7 +348,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                 }.execute();
             }
         } else {
-            String lrcPath = FileUtils.getLrcDir() + FileUtils.getLrcFileName(music.getArtist(), music.getTitle());
+            String lrcPath = FileUtils.getLrcDir() + FileUtils.getLrcFileName(music.getArtistName(), music.getTitle());
             loadLrc(lrcPath);
         }
     }

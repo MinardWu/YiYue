@@ -27,6 +27,7 @@ import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.RequestCode;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.HttpCallback;
+import com.minardwu.yiyue.http.result.ResultCode;
 
 import java.io.File;
 import java.io.IOException;
@@ -345,28 +346,13 @@ public class ImageUtils {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onFail(new FailResult(1,e.toString()));
+                            callback.onFail(new FailResult(ResultCode.GET_BITMAP_BY_URL_ERROR,e.toString()));
                         }
                     });
                 }
             }
         }.start();
         return;
-    }
-
-    public static void getBlurBitmapByUrl(final String url, final HttpCallback<Bitmap> callback) {
-        getBitmapByUrl(url, new HttpCallback<Bitmap>() {
-            @Override
-            public void onSuccess(Bitmap bitmap) {
-                final Bitmap blur = ImageUtils.blur(YiYueApplication.getAppContext(),bitmap,0.01f,25);
-                callback.onSuccess(blur);
-            }
-
-            @Override
-            public void onFail(FailResult failResult) {
-                callback.onFail(failResult);
-            }
-        });
     }
 
     public static void startAlbum(Activity activity) {

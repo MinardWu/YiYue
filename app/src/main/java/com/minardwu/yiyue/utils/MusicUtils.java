@@ -79,7 +79,7 @@ public class MusicUtils {
             musicBean.setId(id);
             musicBean.setType(MusicBean.Type.LOCAL);
             musicBean.setTitle(title);
-            musicBean.setArtist(artist);
+            musicBean.setArtistName(artist);
             musicBean.setAlbum(album);
             musicBean.setAlbumId(albumId+"");
             musicBean.setDuration(duration);
@@ -135,7 +135,7 @@ public class MusicUtils {
                     result = (int)musicBean1.getTitle().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);
                     break;
                 case Preferences.ORDER_BY_SINGER:
-                    result = (int)musicBean1.getArtist().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);
+                    result = (int)musicBean1.getArtistName().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);
                     break;
                 case Preferences.ORDER_BY_ALBUM:
                     result = (int)musicBean1.getAlbum().toLowerCase().charAt(0)-(int)musicBean2.getAlbum().toLowerCase().charAt(0);

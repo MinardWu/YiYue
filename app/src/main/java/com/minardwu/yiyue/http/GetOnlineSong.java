@@ -124,7 +124,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     Log.e(TAG,picUrl);
                     musicBean.setId(id);
                     musicBean.setTitle(title);
-                    musicBean.setArtist(artist);
+                    musicBean.setArtistName(artist);
                     musicBean.setArtistId(artistId);
                     musicBean.setCoverPath(picUrl);
                     musicBean.setAlbum(albumName);

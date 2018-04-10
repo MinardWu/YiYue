@@ -4,7 +4,6 @@ import android.os.Build;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 
 
 import com.minardwu.yiyue.application.AppCache;
@@ -57,9 +56,9 @@ public class MediaSessionManager {
 
         MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, music.getTitle())
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.getArtist())
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.getArtistName())
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.getAlbum())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, music.getArtist())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, music.getArtistName())
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, music.getDuration());
 
         if(music.getType()==MusicBean.Type.LOCAL){

@@ -1,9 +1,13 @@
 package com.minardwu.yiyue.http;
 
+import android.os.Looper;
+
 import com.minardwu.yiyue.http.result.FailResult;
+import com.minardwu.yiyue.http.result.ResultCode;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Handler;
 
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -30,16 +34,28 @@ public class SendEmail {
             public void run() {
                 try {
                     send(content);
-                    callback.onSuccess("success");
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
-                    callback.onFail(new FailResult(0,e.toString()));
+                    new android.os.Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFail(new FailResult(ResultCode.SEND_EMAIL_ERROR,e.toString()));
+                        }
+                    });
+                    return;
                 }
+
+                new android.os.Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess("success");
+                    }
+                });
             }
         }).start();
     }
 
-    public static void send(String content) throws Exception {
+    public static boolean send(String content) throws Exception {
         //创建参数配置, 用于连接邮件服务器的参数配置
         Properties props = System.getProperties();
         props.setProperty("mail.transport.protocol", "smtp");   // 使用的协议（JavaMail规范要求）
@@ -66,6 +82,7 @@ public class SendEmail {
         transport.connect(myEmailAccount, myEmailPassword);
         transport.sendMessage(message, message.getAllRecipients());//发送邮件, 发到所有的收件地址, message.getAllRecipients() 获取到的是在创建邮件对象时添加的所有收件人, 抄送人, 密送人
         transport.close();//关闭连接
+        return true;
     }
 
     static class MyAuthenticator extends javax.mail.Authenticator {

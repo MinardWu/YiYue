@@ -64,7 +64,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
         MusicBean music = musicList.get(position);
         viewHolder.tv_Title.setText(music.getTitle());
-        String artist = FileUtils.getArtistAndAlbum(music.getArtist(), music.getAlbum());
+        String artist = FileUtils.getArtistAndAlbum(music.getArtistName(), music.getAlbum());
         viewHolder.tv_Artist.setText(artist);
         viewHolder.v_Divider.setVisibility(position != musicList.size() ? View.VISIBLE : View.GONE);
         if ((playOnlineMusicService.getPlayingMusicId().equals(musicList.get(position).getId()+""))) {

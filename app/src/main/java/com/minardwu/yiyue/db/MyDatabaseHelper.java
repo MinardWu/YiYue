@@ -211,7 +211,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             contentValues.put("songId", musicBean.getId()+"");
             contentValues.put("artistId", musicBean.getArtistId());
             contentValues.put("title", musicBean.getTitle());
-            contentValues.put("artist", musicBean.getArtist());
+            contentValues.put("artist", musicBean.getArtistName());
             contentValues.put("album", musicBean.getAlbum());
             contentValues.put("albumId", musicBean.getAlbumId());
             contentValues.put("coverUrl", musicBean.getCoverPath());
@@ -230,7 +230,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             musicBean.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("songId"))));
             musicBean.setArtistId(cursor.getString(cursor.getColumnIndex("artistId")));
             musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-            musicBean.setArtist(cursor.getString(cursor.getColumnIndex("artist")));
+            musicBean.setArtistName(cursor.getString(cursor.getColumnIndex("artist")));
             musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("album")));
             musicBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
             list.add(musicBean);
@@ -249,7 +249,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             lastSong[0].setId(Long.parseLong(cursor2.getString(cursor2.getColumnIndex("songId"))));
             lastSong[0].setArtistId(cursor2.getString(cursor2.getColumnIndex("artistId")));
             lastSong[0].setTitle(cursor2.getString(cursor2.getColumnIndex("title")));
-            lastSong[0].setArtist(cursor2.getString(cursor2.getColumnIndex("artist")));
+            lastSong[0].setArtistName(cursor2.getString(cursor2.getColumnIndex("artist")));
             lastSong[0].setAlbum(cursor2.getString(cursor2.getColumnIndex("album")));
             lastSong[0].setAlbumId(cursor2.getString(cursor2.getColumnIndex("albumId")));
             lastSong[0].setCoverPath(cursor2.getString(cursor2.getColumnIndex("coverUrl")));
@@ -284,7 +284,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("songId", musicBean.getId()+"");
         contentValues.put("artistId", musicBean.getArtistId());
         contentValues.put("title", musicBean.getTitle());
-        contentValues.put("artist", musicBean.getArtist());
+        contentValues.put("artist", musicBean.getArtistName());
         contentValues.put("album", musicBean.getAlbum());
         contentValues.put("albumId", musicBean.getAlbumId());
         contentValues.put("time", System.currentTimeMillis());
@@ -303,7 +303,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             musicBean.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("songId"))));
             musicBean.setArtistId(cursor.getString(cursor.getColumnIndex("artistId")));
             musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-            musicBean.setArtist(cursor.getString(cursor.getColumnIndex("artist")));
+            musicBean.setArtistName(cursor.getString(cursor.getColumnIndex("artist")));
             musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("album")));
             musicBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
             list.add(musicBean);

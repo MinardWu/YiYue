@@ -6,10 +6,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.UIUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,7 +121,7 @@ public class GetOnlineArtist {
                             String songAlbumName = hotSong.getJSONObject("al").getString("name");
                             String songAlbumId = hotSong.getJSONObject("al").getString("id");
                             MusicBean musicBean = new MusicBean();
-                            musicBean.setArtist(name);
+                            musicBean.setArtistName(name);
                             musicBean.setId(Long.parseLong(songId));
                             musicBean.setTitle(songName);
                             musicBean.setAlbum(songAlbumName);
@@ -144,7 +147,8 @@ public class GetOnlineArtist {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                callback.onFail(new FailResult(ResultCode.GET_ARTIST_NO_FOUND,"未找到歌手"));
+                                callback.onFail(new FailResult(ResultCode.GET_ARTIST_NO_FOUND,
+                                        UIUtils.getString(YiYueApplication.getAppContext(), R.string.artist_no_found)));
                             }
                         });
                     }

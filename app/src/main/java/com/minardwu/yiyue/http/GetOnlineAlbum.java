@@ -68,7 +68,7 @@ public class GetOnlineAlbum {
                         String songAlbumName = song.getJSONObject("al").getString("name");
                         String songAlbumId = song.getJSONObject("al").getString("id");
                         MusicBean musicBean = new MusicBean();
-                        musicBean.setArtist(albumArtistName);
+                        musicBean.setArtistName(albumArtistName);
                         musicBean.setArtistId(albumArtistId);
                         musicBean.setId(Long.parseLong(songId));
                         musicBean.setTitle(songName);
