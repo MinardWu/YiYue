@@ -70,7 +70,10 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     TextView tv_album_artist;
     @BindView(R.id.tv_album_time)
     TextView tv_album_time;
-    @BindView(R.id.iv_back) ImageView iv_back;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
+    @BindView(R.id.iv_more)
+    ImageView iv_more;
     @BindView(R.id.loading_view)
     LoadingView loading_view;
 
@@ -122,6 +125,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         iv_album_cover.setLayoutParams(albumCoverLayoutParams);
         setTitleToCollapsingToolbarLayout();
         iv_back.setOnClickListener(this);
+        iv_more.setOnClickListener(this);
     }
 
     private void initView(final AlbumBean albumBean){
@@ -216,6 +220,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 artistIntent.putExtra("artistName",albumBean.getArtist().getName());
                 artistIntent.putExtra("artistId",albumBean.getArtist().getId());
                 startActivity(artistIntent);
+            case R.id.iv_more:
+                MyDatabaseHelper.init(AlbumActivity.this).addCollectedAlbum(albumBean);
+                ToastUtils.show("11");
         }
     }
 }

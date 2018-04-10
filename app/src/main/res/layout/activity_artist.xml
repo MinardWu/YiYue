@@ -7,6 +7,7 @@
     tools:context="com.minardwu.yiyue.activity.ArtistActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:theme="@style/AppBarStyle"
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="240dp">
@@ -49,6 +50,7 @@
                     app:layout_collapseParallaxMultiplier="0.7" />
 
                 <TextView
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:id="@+id/tv_artist_name_below_iv"
                     android:layout_marginTop="8dp"
@@ -59,6 +61,7 @@
 
                 <Button
                     android:text="关注"
+                    android:textColor="@color/black"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
                     android:background="@drawable/btn_search_history"
@@ -86,7 +89,7 @@
 
                     <ImageView
                         android:id="@+id/iv_back"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginLeft="18dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_back"
@@ -94,9 +97,12 @@
                         android:layout_height="24dp" />
 
                     <TextView
+                        android:textColor="@color/grey_700_96p"
                         android:id="@+id/tv_artist_name"
-                        android:layout_centerInParent="true"
-                        android:textSize="18sp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/iv_back"
+                        android:layout_marginLeft="14dp"
+                        android:textSize="20sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

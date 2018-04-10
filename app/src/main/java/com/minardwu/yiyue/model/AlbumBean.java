@@ -13,6 +13,7 @@ public class AlbumBean {
     private String picUrl;
     private String info;
     private String company;
+    private String subType;
     private int size;
     private long publishTime;
     private ArtistBean artist;
@@ -88,5 +89,13 @@ public class AlbumBean {
 
     public void setSongs(List<MusicBean> songs) {
         this.songs = songs;
+    }
+
+    public String getSubType() {
+        return subType;
+    }
+
+    public void setSubType(String subType) {
+        this.subType = subType;
     }
 }

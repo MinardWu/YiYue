@@ -53,4 +53,7 @@ public interface OnPlayOnlineMusicListener {
      */
     void onUpdatePosition(int position,String artistId);
 
+
+    void onGetSongError(int resultCode);
+
 }

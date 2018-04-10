@@ -31,6 +31,7 @@ import com.minardwu.yiyue.utils.NetWorkUtils;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -145,15 +146,17 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         playOnlineMusicListener.onPrepareStart();
         if(Preferences.enablePlayWhenOnlyHaveWifi()){
             if(NetWorkUtils.getNetWorkType(this) != NetWorkType.WIFI){
-                ToastUtils.show("当前无WiFi，若想播放请关闭开关");
+                ToastUtils.show(UIUtils.getString(this,R.string.wifi_tips));
+                playOnlineMusicListener.onPrepareStop();
                 return;
             }
         }
         if(NetWorkUtils.getNetWorkType(this) == NetWorkType.NO_NET){
-            ToastUtils.show("当前无网络，请检查网络连接");
+            ToastUtils.show(UIUtils.getString(this,R.string.network_error));
+            playOnlineMusicListener.onPrepareStop();
             return;
         }
-        Log.e(TAG,"playstart:"+id);
+        Log.e(TAG,"id:"+id);
         playingMusicId = id+"";
         mediaPlayer.reset();
         new GetOnlineSong() {
@@ -162,7 +165,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                 playOnlineMusicListener.onPrepareStop();
                 playingMusic = musicBean;
                 playOnlineMusicListener.onChangeMusic(musicBean);
-                Log.e(TAG,"sucess");
                 try {
                     mediaPlayer.setDataSource(musicBean.getPath());
                 } catch (IOException e) {
@@ -174,9 +176,10 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             }
 
             @Override
-            public void onFail(String string) {
+            public void onFail(int resultCode) {
                 playOnlineMusicListener.onPrepareStop();
-                Log.e("GetOnlineSong","播放出错了"+string);
+                playOnlineMusicListener.onGetSongError(resultCode);
+                Log.e(TAG,Integer.toString(resultCode));
             }
         }.exectue(id);//114533
     }
@@ -453,6 +456,11 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
 
     @Override
     public void onUpdatePosition(int position,String artistId) {
+
+    }
+
+    @Override
+    public void onGetSongError(int resultCode) {
 
     }
 

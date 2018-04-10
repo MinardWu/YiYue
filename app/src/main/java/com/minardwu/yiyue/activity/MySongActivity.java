@@ -1,13 +1,11 @@
 package com.minardwu.yiyue.activity;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
@@ -49,7 +47,7 @@ public class MySongActivity extends SampleActivity implements IView{
         linearLayoutManager = new LinearLayoutManager(this);
         rv_fm_history = findViewById(R.id.rv_my_song);
         empty_view = findViewById(R.id.empty_view);
-        list = MyDatabaseHelper.init(this).queryMySong();
+        list = MyDatabaseHelper.init(this).queryCollectedSong();
         rv_fm_history.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
         empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
         adapter = new OnlineMusicRecycleViewAdapter(list);

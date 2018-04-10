@@ -3,7 +3,6 @@ package com.minardwu.yiyue.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -27,6 +25,7 @@ import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LrcView;
 import com.minardwu.yiyue.widget.OnlineMusicCoverView;
 
@@ -92,7 +91,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     public void changeMusicImp(final MusicBean music) {
         playingMusic = music;
-        isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
+        isLoveSong = MyDatabaseHelper.init(getContext()).isCollectedSong(playingMusic);
         iv_onlinemusic_download.setSelected(isLoveSong ? true:false);
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -171,18 +170,31 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     }
 
     @Override
+    public void onGetSongError(int resultCode) {
+        switch (resultCode){
+            case GetOnlineSong.NETWORK_ERROR:
+                ToastUtils.show(UIUtils.getString(getContext(),R.string.network_error));
+                break;
+            case GetOnlineSong.GET_URL_ERROR:
+            case GetOnlineSong.GET_DETAIL_ERROR:
+            case GetOnlineSong.GET_LRC_ERROR:
+                ToastUtils.show(UIUtils.getString(getContext(),R.string.server_error));
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_onlinemusic_download:
-                isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
+                isLoveSong = MyDatabaseHelper.init(getContext()).isCollectedSong(playingMusic);
                 if(isLoveSong){
                     iv_onlinemusic_download.startAnimation(unloveAnimation);
                     iv_onlinemusic_download.setSelected(false);
-                    MyDatabaseHelper.init(getContext()).deleteLoveSong(playingMusic);
+                    MyDatabaseHelper.init(getContext()).deleteCollectedSong(playingMusic);
                 }else {
                     iv_onlinemusic_download.startAnimation(loveAnimation);
                     iv_onlinemusic_download.setSelected(true);
-                    MyDatabaseHelper.init(getContext()).addLoveSong(playingMusic);
+                    MyDatabaseHelper.init(getContext()).addCollectedSong(playingMusic);
                 }
                 break;
             case R.id.iv_onlinemusic_play:
@@ -272,7 +284,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     public void onResume() {
         super.onResume();
         if(playingMusic!=null){
-            isLoveSong = MyDatabaseHelper.init(getContext()).isLoveSong(playingMusic);
+            isLoveSong = MyDatabaseHelper.init(getContext()).isCollectedSong(playingMusic);
             iv_onlinemusic_download.setSelected(isLoveSong?true:false);
         }
     }
@@ -288,8 +300,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             }
 
             @Override
-            public void onFail(String string) {
-                Log.e(TAG,string);
+            public void onFail(int requestCode) {
+                //Log.e(TAG,string);
                 changeIconState(1);
                 ToastUtils.show("服务器出小差了");
             }
