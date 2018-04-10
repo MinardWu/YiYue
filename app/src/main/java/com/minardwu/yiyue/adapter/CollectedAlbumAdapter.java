@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.model.AlbumBean;
 import com.minardwu.yiyue.model.ArtistBean;
 
 import java.util.List;
@@ -22,14 +23,14 @@ import butterknife.ButterKnife;
  * Created by wumingyuan on 2018/4/2.
  */
 
-public class CollectedArtistAdapter extends RecyclerView.Adapter {
+public class CollectedAlbumAdapter extends RecyclerView.Adapter {
 
 
     private Context context;
-    private List<ArtistBean> artistBeanList;
-    public CollectedArtistAdapter(Context context,List<ArtistBean> artistBeanList) {
+    private List<AlbumBean> albumBeanList;
+    public CollectedAlbumAdapter(Context context, List<AlbumBean> albumBeanList) {
         this.context = context;
-        this.artistBeanList = artistBeanList;
+        this.albumBeanList = albumBeanList;
     }
 
     @Override
@@ -41,11 +42,11 @@ public class CollectedArtistAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final ArtistBean bean = artistBeanList.get(position);
+        final AlbumBean bean = albumBeanList.get(position);
         final CollectedArtistHolder collectedArtistHolder = (CollectedArtistHolder) holder;
         collectedArtistHolder.sdv_artist.setImageURI(bean.getPicUrl());
-        collectedArtistHolder.tv_artist_name.setText(bean.getName());
-        collectedArtistHolder.tv_artist_info.setText(context.getResources().getString(R.string.collection_artist_music_and_album_size,bean.getMusicSize(),bean.getAlbumSize()));
+        collectedArtistHolder.tv_artist_name.setText(bean.getAlbumName());
+        collectedArtistHolder.tv_artist_info.setText(context.getResources().getString(R.string.collection_album_music_size,bean.getSize()));
         collectedArtistHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +63,7 @@ public class CollectedArtistAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return artistBeanList.size();
+        return albumBeanList.size();
     }
 
 
@@ -85,14 +86,14 @@ public class CollectedArtistAdapter extends RecyclerView.Adapter {
          }
     }
 
-    public interface CollectedArtistAdapterClickListener{
-        void OnItemClick(View view,ArtistBean artistBean,int position);
-        void OnMoreClick(View view,ArtistBean artistBean,int position);
+    public interface CollectedAlbumAdapterClickListener {
+        void OnItemClick(View view, AlbumBean albumBean, int position);
+        void OnMoreClick(View view, AlbumBean albumBean, int position);
     }
 
-    private CollectedArtistAdapterClickListener listener;
+    private CollectedAlbumAdapterClickListener listener;
 
-    public void setListener(CollectedArtistAdapterClickListener listener) {
+    public void setOnClickListener(CollectedAlbumAdapterClickListener listener) {
         this.listener = listener;
     }
 }

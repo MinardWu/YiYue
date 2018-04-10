@@ -1,31 +1,25 @@
 package com.minardwu.yiyue.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.activity.CollectionActivity;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
-import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
 import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.executor.MoreOptionOfLoveSongExecutor;
 import com.minardwu.yiyue.model.MusicBean;
-import com.minardwu.yiyue.service.PlayOnlineMusicService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CollectedSongFragment extends CollectionBaseFragment implements IView{
@@ -51,7 +45,7 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        list = MyDatabaseHelper.init(getActivity()).queryMySong();
+        list = MyDatabaseHelper.init(getActivity()).queryCollectedSong();
         adapter = new OnlineMusicRecycleViewAdapter(list);
         adapter.setHeaderText("LOVE");
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
@@ -113,7 +107,7 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
     @Override
     public void updateViewForExecutor() {
         list.clear();
-        list.addAll(MyDatabaseHelper.init(getActivity()).queryMySong());
+        list.addAll(MyDatabaseHelper.init(getActivity()).queryCollectedSong());
         recyclerView.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
         empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
         if (list.size()==0){
