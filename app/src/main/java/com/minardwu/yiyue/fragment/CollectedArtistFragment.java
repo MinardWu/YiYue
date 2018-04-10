@@ -14,10 +14,8 @@ import com.minardwu.yiyue.adapter.CollectedArtistAdapter;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.executor.IView;
-import com.minardwu.yiyue.executor.MoreOptionOfArtistActExecutor;
 import com.minardwu.yiyue.executor.MoreOptionOfCollectedArtistExecutor;
 import com.minardwu.yiyue.model.ArtistBean;
-import com.minardwu.yiyue.utils.ToastUtils;
 
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class CollectedArtistFragment extends CollectionBaseFragment implements I
                 final OptionDialogFragment fragment = new OptionDialogFragment();
                 fragment.setHeader_titile("歌手：");
                 fragment.setHeader_text(artistBean.getName());
-                fragment.setListViewAdapter(new ImageAndTextAdapter(getContext(), R.array.collection_artist_more_img,R.array.collection_artist_more_text));
+                fragment.setListViewAdapter(new ImageAndTextAdapter(getContext(), R.array.collected_artist_more_img,R.array.collected_artist_more_text));
                 fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                     @Override
                     public void onItemClickListener(View view, int position) {

@@ -8,15 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.AlbumActivity;
-import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.adapter.CollectedAlbumAdapter;
+import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.executor.IView;
+import com.minardwu.yiyue.executor.MoreOptionOfCollectedAlbumExecutor;
 import com.minardwu.yiyue.model.AlbumBean;
 
 import java.util.List;
 
-public class CollectedAlbumFragment extends CollectionBaseFragment{
+public class CollectedAlbumFragment extends CollectionBaseFragment implements IView{
 
     private List<AlbumBean> albumBeanList;
     private CollectedAlbumAdapter albumAdapter;
@@ -52,11 +55,30 @@ public class CollectedAlbumFragment extends CollectionBaseFragment{
             }
 
             @Override
-            public void OnMoreClick(View view, AlbumBean albumBean, int position) {
-
+            public void OnMoreClick(View view, final AlbumBean albumBean, int albumPosition) {
+                final OptionDialogFragment fragment = new OptionDialogFragment();
+                fragment.setHeader_titile("专辑: ");
+                fragment.setHeader_text(albumBean.getAlbumName());
+                fragment.setListViewAdapter(new ImageAndTextAdapter(getContext(),R.array.collected_artist_more_img,R.array.collected_artist_more_text));
+                fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
+                    @Override
+                    public void onItemClickListener(View view, int position) {
+                        fragment.dismiss();
+                        MoreOptionOfCollectedAlbumExecutor.execute(getActivity(),position,albumBean,CollectedAlbumFragment.this);
+                    }
+                });
+                fragment.show(getFragmentManager(),"OptionDialogFragment");
             }
         });
         return albumAdapter;
     }
 
+    @Override
+    public void updateViewForExecutor() {
+        albumBeanList.clear();
+        albumBeanList.addAll(MyDatabaseHelper.init(getActivity()).queryCollectedAlbum());
+        recyclerView.setVisibility(albumBeanList.size()>0?View.VISIBLE:View.GONE);
+        empty_view.setVisibility(albumBeanList.size()>0?View.GONE:View.VISIBLE);
+        albumAdapter.notifyDataSetChanged();
+    }
 }

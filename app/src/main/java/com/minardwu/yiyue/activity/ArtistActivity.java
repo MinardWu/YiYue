@@ -1,12 +1,10 @@
 package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
@@ -22,7 +19,6 @@ import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
-import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.executor.MoreOptionOfArtistActExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.GetOnlineArtist;
@@ -32,7 +28,6 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ImageUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
-import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -189,7 +184,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                         final OptionDialogFragment fragment = new OptionDialogFragment();
                         fragment.setHeader_titile("歌曲：");
                         fragment.setHeader_text(hotSongs.get(musicPosition-1).getTitle());
-                        fragment.setListViewAdapter(new ImageAndTextAdapter(ArtistActivity.this,R.array.artist_activity_more_img,R.array.artist_activity_more_text));
+                        fragment.setListViewAdapter(new ImageAndTextAdapter(ArtistActivity.this,R.array.activity_artist_more_img,R.array.activity_artist_more_text));
                         fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                             @Override
                             public void onItemClickListener(View view, int position) {

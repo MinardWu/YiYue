@@ -2,23 +2,18 @@ package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.minardwu.yiyue.R;
@@ -27,7 +22,6 @@ import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.executor.MoreOptionOfAlbumActExecutor;
-import com.minardwu.yiyue.executor.MoreOptionOfArtistActExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.GetOnlineAlbum;
 import com.minardwu.yiyue.http.HttpCallback;
@@ -36,7 +30,6 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ImageUtils;
 import com.minardwu.yiyue.utils.ParseUtils;
-import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
@@ -177,7 +170,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 final OptionDialogFragment fragment = new OptionDialogFragment();
                 fragment.setHeader_titile("歌曲：");
                 fragment.setHeader_text(list.get(musicPosition-1).getTitle());
-                fragment.setListViewAdapter(new ImageAndTextAdapter(AlbumActivity.this,R.array.album_activity_more_img,R.array.album_activity_more_text));
+                fragment.setListViewAdapter(new ImageAndTextAdapter(AlbumActivity.this,R.array.activity_album_more_img,R.array.activity_album_more_text));
                 fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                     @Override
                     public void onItemClickListener(View view, int position) {

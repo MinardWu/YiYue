@@ -2,21 +2,21 @@
 <resources>
 
     <string-array name="drawer_title">
-        <item>夜间模式</item>
-        <item>仅Wi-Fi播放</item>
+        <item>@string/drawer_item_night_mode</item>
+        <item>@string/drawer_item_wifi</item>
         <item>empty</item>
-        <item>音效调节</item>
-        <item>定时停止播放</item>
-        <item>文件时间过滤</item>
-        <item>文件大小过滤</item>
-        <item>音乐闹钟</item>
+        <item>@string/drawer_item_sound_effect</item>
+        <item>@string/drawer_item_stop_time</item>
+        <item>@string/drawer_item_filter_time</item>
+        <item>@string/drawer_item_filter_size</item>
+        <item>@string/drawer_item_alarm_clock</item>
         <item>empty</item>
-        <item>我的收藏</item>
-        <item>我的歌手</item>
-        <item>FM足迹</item>
+        <item>@string/drawer_item_collection</item>
+        <item>@string/drawer_item_artist</item>
+        <item>@string/drawer_item_fm_history</item>
         <item>empty</item>
-        <item>反馈</item>
-        <item>关于</item>
+        <item>@string/drawer_item_feedback</item>
+        <item>@string/drawer_item_info</item>
     </string-array>
 
     <integer-array name="drawer_img">
@@ -124,19 +124,6 @@
         <item>删除</item>
     </string-array>
 
-    <integer-array name="love_song_more_img">
-        <item>@drawable/ic_option_play</item>
-        <item>@drawable/ic_option_singer</item>
-        <item>@drawable/ic_option_album</item>
-        <item>@drawable/ic_option_delete</item>
-    </integer-array>
-
-    <string-array name="love_song_more_text">
-        <item>播放</item>
-        <item>歌手</item>
-        <item>专辑</item>
-        <item>删除</item>
-    </string-array>
 
     <integer-array name="fm_history_more_img">
         <item>@drawable/ic_option_play</item>
@@ -152,32 +139,56 @@
         <item>删除</item>
     </string-array>
 
-    <integer-array name="artist_activity_more_img">
+    <integer-array name="activity_artist_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_album</item>
     </integer-array>
 
-    <string-array name="artist_activity_more_text">
+    <string-array name="activity_artist_more_text">
         <item>播放</item>
         <item>专辑</item>
     </string-array>
 
-    <integer-array name="album_activity_more_img">
+    <integer-array name="activity_album_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
     </integer-array>
 
-    <string-array name="album_activity_more_text">
+    <string-array name="activity_album_more_text">
         <item>播放</item>
         <item>歌手</item>
     </string-array>
 
-    <integer-array name="collection_artist_more_img">
+    <integer-array name="collected_song_more_img">
+        <item>@drawable/ic_option_play</item>
+        <item>@drawable/ic_option_singer</item>
+        <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_delete</item>
+    </integer-array>
+
+    <string-array name="collected_song_more_text">
+        <item>播放</item>
+        <item>歌手</item>
+        <item>专辑</item>
+        <item>删除</item>
+    </string-array>
+
+    <integer-array name="collected_artist_more_img">
         <item>@drawable/ic_option_delete</item>
         <item>@drawable/ic_option_singer</item>
     </integer-array>
 
-    <string-array name="collection_artist_more_text">
+    <string-array name="collected_artist_more_text">
+        <item>删除</item>
+        <item>歌手</item>
+    </string-array>
+
+    <integer-array name="collected_album_more_img">
+        <item>@drawable/ic_option_delete</item>
+        <item>@drawable/ic_option_singer</item>
+    </integer-array>
+
+    <string-array name="collected_album_more_text">
         <item>删除</item>
         <item>歌手</item>
     </string-array>

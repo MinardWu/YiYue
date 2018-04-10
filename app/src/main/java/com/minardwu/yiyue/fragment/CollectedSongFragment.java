@@ -69,7 +69,7 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
                 final OptionDialogFragment fragment = new OptionDialogFragment();
                 fragment.setHeader_titile("歌曲：");
                 fragment.setHeader_text(list.get(musicPosition-1).getTitle());
-                fragment.setListViewAdapter(new ImageAndTextAdapter(getActivity(),R.array.love_song_more_img,R.array.love_song_more_text));
+                fragment.setListViewAdapter(new ImageAndTextAdapter(getActivity(),R.array.collected_song_more_img,R.array.collected_song_more_text));
                 fragment.setOptionDialogFragmentClickListener(new OptionDialogFragment.OptionDialogFragmentClickListener() {
                     @Override
                     public void onItemClickListener(View view, int position) {
