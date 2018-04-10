@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.minardwu.yiyue.model.MusicBean;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,12 +21,17 @@ import okhttp3.Response;
  * Created by MinardWu on 2018/1/14.
  */
 
-public abstract class GetOnlineSong implements HttpListener{
+public abstract class GetOnlineSong implements GetOnlineSongListener {
 
     private static final String TAG="GetOnlineSong";
     private static final String GET_SONG_URL_BY_ID="https://api.imjad.cn/cloudmusic/?type=song&id=";
     private static final String GET_SONG_DETAIL_BY_ID="https://api.imjad.cn/cloudmusic/?type=detail&id=";
     private static final String GET_SONG_LRC_BY_ID="https://api.imjad.cn/cloudmusic/?type=lyric&id=";
+
+    public static final int NETWORK_ERROR = 0;
+    public static final int GET_URL_ERROR = 1;
+    public static final int GET_DETAIL_ERROR = 2;
+    public static final int GET_LRC_ERROR = 3;
 
     OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -51,7 +55,7 @@ public abstract class GetOnlineSong implements HttpListener{
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        onFail(e.toString());
+                        onFail(NETWORK_ERROR);
                     }
                 });
             }
@@ -74,7 +78,7 @@ public abstract class GetOnlineSong implements HttpListener{
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            onFail(e.toString());
+                            onFail(GET_URL_ERROR);
                         }
                     });
                 }
@@ -96,7 +100,7 @@ public abstract class GetOnlineSong implements HttpListener{
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        onFail(e.toString());
+                        onFail(NETWORK_ERROR);
                     }
                 });
             }
@@ -135,7 +139,7 @@ public abstract class GetOnlineSong implements HttpListener{
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            onFail(e.toString());
+                            onFail(GET_DETAIL_ERROR);
                         }
                     });
                 }
@@ -156,7 +160,7 @@ public abstract class GetOnlineSong implements HttpListener{
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        onFail(e.toString());
+                        onFail(NETWORK_ERROR);
                     }
                 });
             }
@@ -186,7 +190,10 @@ public abstract class GetOnlineSong implements HttpListener{
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            onFail(e.toString());
+//                            onFail(GET_LRC_ERROR);
+                            //获取不到歌词依旧下发
+                            onSuccess(musicBean);
+                            Log.e(TAG,"getSongLrcById-onResponse："+e.toString());
                         }
                     });
                 }

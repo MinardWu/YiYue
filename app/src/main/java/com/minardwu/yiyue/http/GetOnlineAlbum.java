@@ -46,12 +46,14 @@ public class GetOnlineAlbum {
                 Log.e("GetOnlineAlbum",res);
                 try {
                     JSONObject root = new JSONObject(res);
+                    JSONArray songs = root.getJSONArray("songs");
                     JSONObject album = root.getJSONObject("album");
                     JSONObject artist = album.getJSONObject("artist");
-                    JSONArray songs = root.getJSONArray("songs");
                     String albumId = album.getString("id");
                     String albumName = album.getString("name");
                     String albumPicUrl = album.getString("picUrl");
+                    String albumInfo = album.getString("description");
+                    String albumSubType = album.getString("subType");
                     String albumCompany = album.getString("company");
                     String albumArtistName = artist.getString("name");
                     String albumArtistId = artist.getString("id");
@@ -89,6 +91,8 @@ public class GetOnlineAlbum {
                     albumBean.setPicUrl(albumPicUrl);
                     albumBean.setCompany(albumCompany);
                     albumBean.setPublishTime(albumPublishTime);
+                    albumBean.setInfo(albumInfo);
+                    albumBean.setSubType(albumSubType);
                     albumBean.setSize(size);
                     new android.os.Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
