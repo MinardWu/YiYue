@@ -59,6 +59,10 @@ public class LrcView extends View {
     private GestureDetector gestureDetector;
     private Scroller mScroller;
     private float offset;
+    private float lrcTextSize;
+    private float timelineHeight;
+    private float timeTextSize;
+    private int defDuration;
     private int currentLine;
     private Object flag;
     private boolean isShowTimeline;
@@ -88,23 +92,28 @@ public class LrcView extends View {
 
     private void init(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.LrcView);
-        float lrcTextSize = ta.getDimension(R.styleable.LrcView_lrcTextSize, getResources().getDimension(R.dimen.lrc_text_size));
+        lrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0);
+        lrcTextSize = ta.getDimension(R.styleable.LrcView_lrcTextSize, getResources().getDimension(R.dimen.lrc_text_size));
         dividerHeight = ta.getDimension(R.styleable.LrcView_lrcDividerHeight, getResources().getDimension(R.dimen.lrc_divider_height));
-        int defDuration = getResources().getInteger(R.integer.lrc_animation_duration);
-        animationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, defDuration);
-        animationDuration = (animationDuration < 0) ? defDuration : animationDuration;
         normalTextColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, getResources().getColor(R.color.lrc_normal_text_color));
         currentTextColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, getResources().getColor(R.color.lrc_current_text_color));
-        timelineTextColor = ta.getColor(R.styleable.LrcView_lrcTimelineTextColor, getResources().getColor(R.color.lrc_timeline_text_color));
-        defaultLabel = ta.getString(R.styleable.LrcView_lrcLabel);
-        defaultLabel = TextUtils.isEmpty(defaultLabel) ? getContext().getString(R.string.lrc_label) : defaultLabel;
-        lrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0);
-        timelineColor = ta.getColor(R.styleable.LrcView_lrcTimelineColor, getResources().getColor(R.color.lrc_timeline_color));
-        float timelineHeight = ta.getDimension(R.styleable.LrcView_lrcTimelineHeight, getResources().getDimension(R.dimen.lrc_timeline_height));
+
+        defDuration = getResources().getInteger(R.integer.lrc_animation_duration);
+        animationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, defDuration);
+        animationDuration = (animationDuration < 0) ? defDuration : animationDuration;
+
+        defaultLabel = TextUtils.isEmpty(ta.getString(R.styleable.LrcView_lrcLabel))
+                ? getContext().getString(R.string.lrc_label)
+                : ta.getString(R.styleable.LrcView_lrcLabel);
+
         playDrawable = ta.getDrawable(R.styleable.LrcView_lrcPlayDrawable);
         playDrawable = (playDrawable == null) ? getResources().getDrawable(R.drawable.lrc_play) : playDrawable;
+
+        timelineColor = ta.getColor(R.styleable.LrcView_lrcTimelineColor, getResources().getColor(R.color.lrc_timeline_color));
+        timelineHeight = ta.getDimension(R.styleable.LrcView_lrcTimelineHeight, getResources().getDimension(R.dimen.lrc_timeline_height));
+        timelineTextColor = ta.getColor(R.styleable.LrcView_lrcTimelineTextColor, getResources().getColor(R.color.lrc_timeline_text_color));
         timeTextColor = ta.getColor(R.styleable.LrcView_lrcTimeTextColor, getResources().getColor(R.color.lrc_time_text_color));
-        float timeTextSize = ta.getDimension(R.styleable.LrcView_lrcTimeTextSize, getResources().getDimension(R.dimen.lrc_time_text_size));
+        timeTextSize = ta.getDimension(R.styleable.LrcView_lrcTimeTextSize, getResources().getDimension(R.dimen.lrc_time_text_size));
         ta.recycle();
 
         drawableWidth = (int) getResources().getDimension(R.dimen.lrc_drawable_width);
@@ -113,10 +122,10 @@ public class LrcView extends View {
         lrcTextPaint.setAntiAlias(true);
         lrcTextPaint.setTextSize(lrcTextSize);
         lrcTextPaint.setTextAlign(Paint.Align.LEFT);
+
         timeTextPaint.setAntiAlias(true);
         timeTextPaint.setTextSize(timeTextSize);
         timeTextPaint.setTextAlign(Paint.Align.CENTER);
-        //noinspection SuspiciousNameCombination
         timeTextPaint.setStrokeWidth(timelineHeight);
         timeTextPaint.setStrokeCap(Paint.Cap.ROUND);
         timeFontMetrics = timeTextPaint.getFontMetrics();
@@ -178,27 +187,22 @@ public class LrcView extends View {
      * @param lrcFile 歌词文件
      */
     public void loadLrc(final File lrcFile) {
-        runOnUi(new Runnable() {
+        reset();
+        setFlag(lrcFile);
+        new AsyncTask<File, Integer, List<LrcEntry>>() {
             @Override
-            public void run() {
-                reset();
-                setFlag(lrcFile);
-                new AsyncTask<File, Integer, List<LrcEntry>>() {
-                    @Override
-                    protected List<LrcEntry> doInBackground(File... params) {
-                        return LrcEntry.parseLrc(params[0]);
-                    }
-
-                    @Override
-                    protected void onPostExecute(List<LrcEntry> lrcEntries) {
-                        if (getFlag() == lrcFile) {
-                            onLrcLoaded(lrcEntries);
-                            setFlag(null);
-                        }
-                    }
-                }.execute(lrcFile);
+            protected List<LrcEntry> doInBackground(File... params) {
+                return LrcEntry.parseLrc(params[0]);
             }
-        });
+
+            @Override
+            protected void onPostExecute(List<LrcEntry> lrcEntries) {
+                if (getFlag() == lrcFile) {
+                    onLrcLoaded(lrcEntries);
+                    setFlag(null);
+                }
+            }
+        }.execute(lrcFile);
     }
 
 
@@ -207,27 +211,22 @@ public class LrcView extends View {
      * @param lrcText 歌词文本
      */
     public void loadLrc(final String lrcText) {
-        runOnUi(new Runnable() {
+        reset();
+        setFlag(lrcText);
+        new AsyncTask<String, Integer, List<LrcEntry>>() {
             @Override
-            public void run() {
-                reset();
-                setFlag(lrcText);
-                new AsyncTask<String, Integer, List<LrcEntry>>() {
-                    @Override
-                    protected List<LrcEntry> doInBackground(String... params) {
-                        return LrcEntry.parseLrc(params[0]);
-                    }
-
-                    @Override
-                    protected void onPostExecute(List<LrcEntry> lrcEntries) {
-                        if (getFlag() == lrcText) {
-                            onLrcLoaded(lrcEntries);
-                            setFlag(null);
-                        }
-                    }
-                }.execute(lrcText);
+            protected List<LrcEntry> doInBackground(String... params) {
+                return LrcEntry.parseLrc(params[0]);
             }
-        });
+
+            @Override
+            protected void onPostExecute(List<LrcEntry> lrcEntries) {
+                if (getFlag() == lrcText) {
+                    onLrcLoaded(lrcEntries);
+                    setFlag(null);
+                }
+            }
+        }.execute(lrcText);
     }
 
     private void onLrcLoaded(List<LrcEntry> entryList) {
@@ -307,8 +306,8 @@ public class LrcView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int centerY = getHeight() / 2;
         // 无歌词文件，则只绘制中间的label
+        int centerY = getHeight() / 2;
         if (!hasLrc()) {
             lrcTextPaint.setColor(currentTextColor);
             @SuppressLint("DrawAllocation")
@@ -317,6 +316,7 @@ public class LrcView extends View {
             drawText(canvas, staticLayout, centerY);
             return;
         }
+
         int centerLine = getCenterLine();
         //如果要显示时间线则开始绘制
         if (isShowTimeline) {
@@ -350,7 +350,7 @@ public class LrcView extends View {
 
     /**
      * 画一行歌词
-     * @param y 歌词中心 Y 坐标
+     * @param y 每一行歌词的中心Y坐标
      */
     private void drawText(Canvas canvas, StaticLayout staticLayout, float y) {
         canvas.save();
@@ -374,21 +374,18 @@ public class LrcView extends View {
     private GestureDetector.SimpleOnGestureListener mSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDown(MotionEvent e) {
-            Log.v("getAction","内部down");
             if (hasLrc() && mOnPlayClickListener != null) {
                 mScroller.forceFinished(true);
                 removeCallbacks(hideTimelineRunnable);
                 isTouching = true;
                 invalidate();
-                return true;
             }
-            return false;
+            return true;
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            Log.e("getAction","内部scroll");
-            if(distanceY>50){
+            if(Math.abs(distanceY)>50){
                 isShowTimeline = true;
             }
             if (hasLrc()) {
@@ -416,13 +413,18 @@ public class LrcView extends View {
             if (hasLrc() && isShowTimeline && playDrawable.getBounds().contains((int) e.getX(), (int) e.getY())) {
                 int centerLine = getCenterLine();
                 long centerLineTime = lrcEntries.get(centerLine).getTime();
-                // onPlayClick 消费了才更新 UI
+                // onPlayClick消费了才更新UI
                 if (mOnPlayClickListener != null && mOnPlayClickListener.onPlayClick(centerLineTime)) {
                     isShowTimeline = false;
                     removeCallbacks(hideTimelineRunnable);
                     currentLine = centerLine;
                     invalidate();
                     return true;
+                }
+            }else {
+                post(hideTimelineRunnable);
+                if(listener!=null){
+                    listener.onClick(LrcView.this);
                 }
             }
             return super.onSingleTapConfirmed(e);
@@ -448,7 +450,7 @@ public class LrcView extends View {
      */
     @Override
     public void computeScroll() {
-        //利用mScroller.computeScrollOffset()判断了滑动是否结束，返回true,滑动还没有结束。
+        //利用Scroller.computeScrollOffset()判断了滑动是否结束，返回true表示滑动还没有结束则继续重绘view,在重绘过程中又会调用View自身的computeScroll()方法
         if (mScroller.computeScrollOffset()) {
             offset = mScroller.getCurrY();
             invalidate();
@@ -470,7 +472,7 @@ public class LrcView extends View {
     }
 
     public void reset() {
-        endAnimation();
+        stopAnimation();
         mScroller.forceFinished(true);
         isShowTimeline = false;
         isTouching = false;
@@ -498,7 +500,7 @@ public class LrcView extends View {
 
     private void scrollTo(int line, long duration) {
         float offset = getOffset(line);
-        endAnimation();
+        stopAnimation();
 
         valueAnimator = ValueAnimator.ofFloat(this.offset, offset);
         valueAnimator.setDuration(duration);
@@ -513,7 +515,7 @@ public class LrcView extends View {
         valueAnimator.start();
     }
 
-    private void endAnimation() {
+    private void stopAnimation() {
         if (valueAnimator != null && valueAnimator.isRunning()) {
             valueAnimator.end();
         }
@@ -585,5 +587,15 @@ public class LrcView extends View {
 
     private void setFlag(Object flag) {
         this.flag = flag;
+    }
+
+    public interface OnLrcViewForOutsideUseClickListener{
+        void onClick(View view);
+    }
+
+    private OnLrcViewForOutsideUseClickListener listener;
+
+    public void setOnLrcViewForOutsideUseClickListener(OnLrcViewForOutsideUseClickListener onLrcViewForOutsideUseClickListener){
+        this.listener = onLrcViewForOutsideUseClickListener;
     }
 }

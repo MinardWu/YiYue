@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -24,6 +23,7 @@ import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.enums.PlayModeEnum;
 import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.http.DownloadLrc;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayLocalMusicListener;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
@@ -32,6 +32,7 @@ import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LocalMusicCoverView;
 import com.minardwu.yiyue.widget.LrcView;
 
@@ -51,19 +52,21 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     private AlphaAnimation fade_out;
 
     @BindView(R.id.tv_local_music_artist) TextView tv_local_music_artist;
+
+    @BindView(R.id.tv_local_music_current_time) TextView tv_current_time;
+    @BindView(R.id.tv_local_music_total_time) TextView tv_total_time;
+    @BindView(R.id.sb_local_music_progress)  SeekBar sb_progress;
     @BindView(R.id.iv_local_music_player_playmode) ImageView iv_local_music_player_playmode;
     @BindView(R.id.iv_local_music_player_pre) ImageView iv_local_music_player_pre;
     @BindView(R.id.iv_local_music_player_play) ImageView iv_local_music_player_play;
     @BindView(R.id.iv_local_music_player_next) ImageView iv_local_music_player_next;
     @BindView(R.id.iv_local_music_player_musiclist) ImageView iv_local_music_player_musiclist;
-    @BindView(R.id.tv_local_music_current_time) TextView tv_current_time;
-    @BindView(R.id.tv_local_music_total_time) TextView tv_total_time;
+
+    @BindView(R.id.rl_lrc_and_cover) RelativeLayout rl_lrc_and_cover;
+    @BindView(R.id.rl_cover_and_single_lrc)  RelativeLayout rl_cover_and_single_lrc;
     @BindView(R.id.ac_albumcover) LocalMusicCoverView ac_albumcover;
     @BindView(R.id.lrc_localmusic) LrcView lrc_localmusic;
     @BindView(R.id.lrc_localmusic_single) LrcView lrc_localmusic_single;
-    @BindView(R.id.sb_local_music_progress)  SeekBar sb_progress;
-    @BindView(R.id.rl_lrc_and_cover) RelativeLayout rl_lrc_and_cover;
-    @BindView(R.id.rl_cover)  RelativeLayout rl_cover;
 
 
     @Override
@@ -77,76 +80,44 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ButterKnife.bind(this,getView());
         getPlayService().setOnPlayEventListener(this);
-        fade_in = (AlphaAnimation) AnimationUtils.loadAnimation(getContext(),R.anim.view_fade_in);
-        fade_out = (AlphaAnimation) AnimationUtils.loadAnimation(getContext(),R.anim.view_fade_out);
+
         iv_local_music_player_playmode.setOnClickListener(this);
         iv_local_music_player_pre.setOnClickListener(this);
         iv_local_music_player_play.setOnClickListener(this);
         iv_local_music_player_next.setOnClickListener(this);
         iv_local_music_player_musiclist.setOnClickListener(this);
+
         sb_progress.setOnSeekBarChangeListener(this);
         lrc_localmusic.setOnPlayClickListener(this);
-        iv_local_music_player_playmode.setImageLevel(Preferences.getPlayMode());
 
-        lrc_localmusic.setLongClickable(true);
+        iv_local_music_player_playmode.setImageLevel(Preferences.getPlayMode());
         lrc_localmusic.setVisibility(View.GONE);
-        rl_cover.setVisibility(View.VISIBLE);
-        final float[] downX = new float[1];
-        final float[] downY = new float[1];
-        final float[] upY = new float[1];
-        lrc_localmusic.setOnTouchListener(new View.OnTouchListener() {
+        rl_cover_and_single_lrc.setVisibility(View.VISIBLE);
+
+        fade_in = (AlphaAnimation) AnimationUtils.loadAnimation(getContext(),R.anim.view_fade_in);
+        fade_out = (AlphaAnimation) AnimationUtils.loadAnimation(getContext(),R.anim.view_fade_out);
+        lrc_localmusic.setOnLrcViewForOutsideUseClickListener(new LrcView.OnLrcViewForOutsideUseClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        Log.e("getAction","lrc_down");
-                        downX[0] = motionEvent.getX();
-                        downY[0] = motionEvent.getY();
-                        //加下面这一段是因为若获取不到歌词则捕捉不到lrc的ACTION_UP时间，无法跳转回封面，所以只好放在ACTION_DOWN这里处理
-//                        if(!lrc_localmusic.hasLrc()){
-//                            lrc_localmusic.startAnimation(fade_out);
-//                            lrc_localmusic.setVisibility(View.GONE);
-//                            rl_cover.startAnimation(fade_in);
-//                            rl_cover.setVisibility(View.VISIBLE);
-                            return true;
-//                        }
-//                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        Log.e("getAction","lrc_move");
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        Log.e("getAction","lrc_up");
-                        upY[0] = motionEvent.getY();
-                        if(Math.abs(upY[0]-downY[0])>50){
-                            Log.e("getAction","lrc_up_move");
-                            return false;//拖动的时候onTouch不捕获事件,传递到onTouchEvent中
-                        }else if(lrc_localmusic.getPlayDarwableBounds().contains((int)downX[0],(int)downY[0])){
-                            Log.e("getAction","lrc_up_tran");
-                            return false;//点击三角播放按钮的时候onTouch不捕获事件,也传递到onTouchEvent中
-                        }else {
-                            Log.e("getAction","lrc_up_fade");
-                            lrc_localmusic.startAnimation(fade_out);
-                            lrc_localmusic.setVisibility(View.GONE);
-                            rl_cover.startAnimation(fade_in);
-                            rl_cover.setVisibility(View.VISIBLE);
-                            return true;
-                        }
-                }
-                return false;
+            public void onClick(View view) {
+                Log.e("djsgioasdhgua","outclick");
+                lrc_localmusic.startAnimation(fade_out);
+                lrc_localmusic.setVisibility(View.GONE);
+                rl_cover_and_single_lrc.startAnimation(fade_in);
+                rl_cover_and_single_lrc.setVisibility(View.VISIBLE);
             }
         });
 
-        rl_lrc_and_cover.setOnClickListener(new View.OnClickListener() {
+        rl_cover_and_single_lrc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rl_cover.startAnimation(fade_out);
-                rl_cover.setVisibility(View.GONE);
+                Log.e("djsgioasdhgua","coverclick");
+                rl_cover_and_single_lrc.startAnimation(fade_out);
+                rl_cover_and_single_lrc.setVisibility(View.GONE);
                 lrc_localmusic.startAnimation(fade_in);
                 lrc_localmusic.setVisibility(View.VISIBLE);
             }
@@ -312,44 +283,39 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     }
 
     private void setLrc(final MusicBean music) {
-        if (music.getType() == MusicBean.Type.LOCAL) {
-            final String lrcPath;
-            lrcPath = FileUtils.getLrcFilePath(music);
-            if (lrcPath!=null) {
-                loadLrc(lrcPath);
-            } else {
-                lrc_localmusic.setLabel("正在搜索歌词...");
-                lrc_localmusic_single.setLabel("正在搜索歌词...");
-                new DownloadLrc(music.getArtistName(),music.getTitle()){
-                    @Override
-                    public void downloadLrcPrepare() {
-                        iv_local_music_player_play.setTag(music);//设置tag防止歌词下载完成后已切换歌曲
-                    }
-
-                    @Override
-                    public void downloadLrcSuccess() {
-                        if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
-                            return;
-                        }
-                        iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
-                        String lrc = FileUtils.getLrcFilePath(music);//下载成功后重新获取路径
-                        loadLrc(lrc);
-                    }
-
-                    @Override
-                    public void downloadLrcFail(String e) {
-                        if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
-                            return;
-                        }
-                        iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
-                        lrc_localmusic.setLabel("找不到歌词");
-                        lrc_localmusic_single.setLabel("找不到歌词");
-                    }
-                }.execute();
-            }
-        } else {
-            String lrcPath = FileUtils.getLrcDir() + FileUtils.getLrcFileName(music.getArtistName(), music.getTitle());
+        final String lrcPath;
+        lrcPath = FileUtils.getLrcFilePath(music);
+        if (lrcPath!=null) {
             loadLrc(lrcPath);
+        } else {
+            lrc_localmusic.setLabel(UIUtils.getString(R.string.lrc_searching));
+            lrc_localmusic_single.setLabel(UIUtils.getString(R.string.lrc_searching));
+            new DownloadLrc(music.getArtistName(),music.getTitle()){
+                @Override
+                public void downloadLrcPrepare() {
+                    iv_local_music_player_play.setTag(music);//设置tag防止歌词下载完成后已切换歌曲
+                }
+
+                @Override
+                public void downloadLrcSuccess() {
+                    if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
+                        return;
+                    }
+                    iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
+                    String lrc = FileUtils.getLrcFilePath(music);//下载成功后重新获取路径
+                    loadLrc(lrc);
+                }
+
+                @Override
+                public void downloadLrcFail(FailResult result) {
+                    if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
+                        return;
+                    }
+                    iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
+                    lrc_localmusic.setLabel(UIUtils.getString(R.string.lrc_can_not_find));
+                    lrc_localmusic_single.setLabel(UIUtils.getString(R.string.lrc_can_not_find));
+                }
+            }.execute();
         }
     }
 

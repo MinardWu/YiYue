@@ -7,6 +7,7 @@ package com.minardwu.yiyue.http.result;
 public class ResultCode {
 
     public static final int NETWORK_ERROR = 7;
+    public static final int PARSE_JSON_ERROR = 8;
 
     //歌曲返回
     public static final int GET_URL_ERROR = 101;
@@ -26,6 +27,11 @@ public class ResultCode {
 
     //反馈返回
     public static final int SEND_EMAIL_ERROR = 501;
+
+    //歌词王获取歌词返回
+    public static final int GCW_GET_LRC_ERROR = 501;
+    public static final int GCW_LRC_NO_FOUND = 502;
+    public static final int GCW_CREATE_LRC_FILE_ERROR = 503;
 
     /**
      * 通过url获取图片返回

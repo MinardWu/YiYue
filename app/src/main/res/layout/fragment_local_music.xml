@@ -67,7 +67,7 @@
                 lrc:lrcTimelineTextColor="#131313" />
 
             <RelativeLayout
-                android:id="@+id/rl_cover"
+                android:id="@+id/rl_cover_and_single_lrc"
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

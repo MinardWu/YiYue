@@ -1,5 +1,10 @@
 package com.minardwu.yiyue.http;
 
+import android.os.Handler;
+import android.os.Looper;
+
+import com.minardwu.yiyue.http.result.FailResult;
+import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.utils.FileUtils;
 
 import org.json.JSONArray;
@@ -21,7 +26,7 @@ import okhttp3.Response;
  * Created by MinardWu on 2018/1/3.
  */
 
-public abstract class DownloadLrc implements DownloadLrcListener{
+public abstract class DownloadLrc implements DownloadLrcListener {
 
     private String artist;
     private String title;
@@ -37,45 +42,64 @@ public abstract class DownloadLrc implements DownloadLrcListener{
         getLrcUrl();
     }
 
-
     private void getLrcUrl() {
-        final String getLrcUrl = "http://gecimi.com/api/lyric/"+title+"/"+artist;
+        final String getLrcUrl = "http://gecimi.com/api/lyric/" + title + "/" + artist;
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(getLrcUrl).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                downloadLrcFail(e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadLrcFail(new FailResult(ResultCode.NETWORK_ERROR, e.toString()));
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     JSONObject root = new JSONObject(response.body().string());
-                    if(root.getInt("count")==0){
-                        downloadLrcFail("0 result");
+                    if (root.getInt("count") == 0) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                downloadLrcFail(new FailResult(ResultCode.GCW_LRC_NO_FOUND, "0 result"));
+                            }
+                        });
                         return;
-                    }else {
+                    } else {
                         JSONArray jsonArray = root.getJSONArray("result");
                         String lrcUrl = jsonArray.getJSONObject(0).getString("lrc");
-                        downloadLrc(lrcUrl,FileUtils.getLrcDir());
+                        downloadLrc(lrcUrl, FileUtils.getLrcDir());
                     }
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     e.printStackTrace();
-                    downloadLrcFail(e.toString());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            downloadLrcFail(new FailResult(ResultCode.GCW_GET_LRC_ERROR, e.toString()));
+                        }
+                    });
                 }
             }
         });
     }
 
 
-    private void downloadLrc(String lrcUrl, final String lrcDir){
+    private void downloadLrc(String lrcUrl, final String lrcDir) {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(lrcUrl).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                downloadLrcFail("downloadFail:"+e.toString());
+            public void onFailure(Call call, final IOException e) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadLrcFail(new FailResult(ResultCode.NETWORK_ERROR, e.toString()));
+                    }
+                });
             }
 
             @Override
@@ -86,27 +110,34 @@ public abstract class DownloadLrc implements DownloadLrcListener{
                 FileOutputStream fos = null;
                 try {
                     is = response.body().byteStream();
-                    long total = response.body().contentLength();
-                    File file = new File(lrcDir, artist+" - "+title+".lrc");
+                    File file = new File(lrcDir, artist + " - " + title + ".lrc");
                     fos = new FileOutputStream(file);
                     while ((len = is.read(buf)) != -1) {
                         fos.write(buf, 0, len);
                     }
                     fos.flush();
-                    downloadLrcSuccess();
-                } catch (Exception e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            downloadLrcSuccess();
+                        }
+                    });
+                } catch (final Exception e) {
                     e.printStackTrace();
-                    downloadLrcFail("createFileFail:"+e.toString());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            downloadLrcFail(new FailResult(ResultCode.GCW_CREATE_LRC_FILE_ERROR, e.toString()));
+                        }
+                    });
                 } finally {
                     try {
                         if (is != null)
                             is.close();
-                    } catch (IOException e) {
-                    }
-                    try {
                         if (fos != null)
                             fos.close();
                     } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
 
