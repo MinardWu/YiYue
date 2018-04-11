@@ -211,8 +211,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 break;
             case R.id.tv_online_music_artist:
                 Intent intent = new Intent(getActivity(), ArtistActivity.class);
-                intent.putExtra("artistName",tv_online_music_artist.getText().toString());
-                intent.putExtra("artistId",playingMusic.getArtistId());
+                intent.putExtra(ArtistActivity.ARTIST_ID,playingMusic.getArtistId());
+                intent.putExtra(ArtistActivity.ARTIST_NAME,tv_online_music_artist.getText().toString());
                 startActivity(intent);
                 break;
         }
