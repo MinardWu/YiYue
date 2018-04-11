@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by hzwangchenyan on 2016/10/19.
+ * Created by MinardWu on 2016/10/19.
  */
 class LrcEntry implements Comparable<LrcEntry> {
     private long time;
