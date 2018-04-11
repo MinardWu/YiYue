@@ -1,4 +1,4 @@
-package com.minardwu.yiyue.widget;
+package com.minardwu.yiyue.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

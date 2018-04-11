@@ -94,6 +94,11 @@
     <string name="collection_album_music_size">歌曲:%1$d&#160;&#160;</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="is_delete_fm_history">确定要删除此记录吗?</string>
+    <string name="is_delete_collected_song">确定要删除此歌曲吗?</string>
+    <string name="is_delete_collected_artist">确定要删除此歌手吗?</string>
+    <string name="is_delete_collected_album">确定要删除此专辑吗?</string>
+
     <string name="drawer_item_night_mode">夜间模式</string>
     <string name="drawer_item_wifi">仅Wi-Fi播放</string>
     <string name="drawer_item_sound_effect">音效调节</string>

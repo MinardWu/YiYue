@@ -2,18 +2,22 @@ package com.minardwu.yiyue.executor;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.AlbumActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.UIUtils;
+import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
 /**
  * Created by MinardWu on 2018/3/15.
  */
 
 public class MoreOptionOfCollectedSongExecutor {
-    public static void execute(Activity activity,int position, MusicBean musicBean,IView iView){
+    public static void execute(final Activity activity, int position, final MusicBean musicBean, final IView iView){
         switch (position){
             case 0:
                 //position==0逻辑放在外面执行，不会跳到这里
@@ -31,8 +35,26 @@ public class MoreOptionOfCollectedSongExecutor {
                 activity.startActivity(albumIntent);
                 break;
             case 3:
-                MyDatabaseHelper.init(activity).deleteCollectedSong(musicBean);
-                iView.updateViewForExecutor();
+                YesOrNoDialog dialog = new YesOrNoDialog.Builder()
+                        .context(activity)
+                        .title(UIUtils.getString(R.string.is_delete_collected_song))
+                        .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
+                            @Override
+                            public void OnClick(YesOrNoDialog dialog1,View view) {
+                                MyDatabaseHelper.init(activity).deleteCollectedSong(musicBean);
+                                iView.updateViewForExecutor();
+                                dialog1.dismiss();
+                            }
+                        })
+                        .no(UIUtils.getString(R.string.cancel), new YesOrNoDialog.NegativeClickListener() {
+                            @Override
+                            public void OnClick(YesOrNoDialog dialog1,View view) {
+                                dialog1.dismiss();
+                            }
+                        })
+                        .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                        .build();
+                dialog.show();
                 break;
         }
     }

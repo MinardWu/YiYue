@@ -98,9 +98,9 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
     }
 
     private void switchUI(boolean isAlarmClockTurnOn){
-        tv_alarm_clock_ring.setTextColor(isAlarmClockTurnOn ? UIUtils.getColor(this,R.color.black) : UIUtils.getColor(this,R.color.grey));
-        tv_alarm_clock_song.setTextColor(isAlarmClockTurnOn ? UIUtils.getColor(this,R.color.black) : UIUtils.getColor(this,R.color.grey));
-        tv_alarm_clock_repeat.setTextColor(isAlarmClockTurnOn ? UIUtils.getColor(this,R.color.black) : UIUtils.getColor(this,R.color.grey));
+        tv_alarm_clock_ring.setTextColor(isAlarmClockTurnOn ? UIUtils.getColor(R.color.black) : UIUtils.getColor(R.color.grey));
+        tv_alarm_clock_song.setTextColor(isAlarmClockTurnOn ? UIUtils.getColor(R.color.black) : UIUtils.getColor(R.color.grey));
+        tv_alarm_clock_repeat.setTextColor(isAlarmClockTurnOn ? UIUtils.getColor(R.color.black) : UIUtils.getColor(R.color.grey));
         rl_alarm_clock_song.setClickable(false);
         sw_repeat.setClickable(isAlarmClockTurnOn);
         sw_repeat.setChecked(isAlarmClockTurnOn ?  isReportTuroOn : false);

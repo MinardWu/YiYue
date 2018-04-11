@@ -224,10 +224,10 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private void handleError(FailResult result){
         switch (result.getResultCode()){
             case ResultCode.NETWORK_ERROR:
-                ToastUtils.show(UIUtils.getString(AlbumActivity.this,R.string.network_error));
+                ToastUtils.show(UIUtils.getString(R.string.network_error));
                 break;
             case ResultCode.GET_ALBUM_INFO_ERROR:
-                ToastUtils.show(UIUtils.getString(AlbumActivity.this,R.string.server_error));
+                ToastUtils.show(UIUtils.getString(R.string.server_error));
                 break;
             case ResultCode.GET_BITMAP_BY_URL_ERROR:
                 //暂时不作处理

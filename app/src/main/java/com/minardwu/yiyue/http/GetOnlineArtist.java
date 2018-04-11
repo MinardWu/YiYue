@@ -148,7 +148,7 @@ public class GetOnlineArtist {
                             @Override
                             public void run() {
                                 callback.onFail(new FailResult(ResultCode.GET_ARTIST_NO_FOUND,
-                                        UIUtils.getString(YiYueApplication.getAppContext(), R.string.artist_no_found)));
+                                        UIUtils.getString(R.string.artist_no_found)));
                             }
                         });
                     }

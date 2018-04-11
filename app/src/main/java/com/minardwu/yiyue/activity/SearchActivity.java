@@ -229,10 +229,10 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             public void onFail(final FailResult result) {
                 switch (result.getResultCode()){
                     case ResultCode.NETWORK_ERROR:
-                        ToastUtils.show(UIUtils.getString(SearchActivity.this,R.string.network_error));
+                        ToastUtils.show(UIUtils.getString(R.string.network_error));
                         break;
                     case ResultCode.SEARCH_ERROR:
-                        ToastUtils.show(UIUtils.getString(SearchActivity.this,R.string.server_error));
+                        ToastUtils.show(UIUtils.getString(R.string.server_error));
                         break;
                     default:
                         break;

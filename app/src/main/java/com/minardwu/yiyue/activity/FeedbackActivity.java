@@ -11,7 +11,7 @@ import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.HttpCallback;
 import com.minardwu.yiyue.http.SendEmail;
 import com.minardwu.yiyue.utils.ToastUtils;
-import com.minardwu.yiyue.widget.LoadingDialog;
+import com.minardwu.yiyue.widget.dialog.LoadingDialog;
 
 import butterknife.BindView;
 

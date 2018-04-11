@@ -10,4 +10,5 @@
     <dimen name="drawer_img_width_or_height">18dp</dimen>
     <dimen name="music_list_item_height">60dp</dimen>
     <dimen name="music_list_item_more_list_height">45dp</dimen>
+    <dimen name="btn_alarm_clock_date_margin">5dp</dimen>
 </resources>

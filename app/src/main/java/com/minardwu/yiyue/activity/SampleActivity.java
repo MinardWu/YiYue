@@ -1,14 +1,12 @@
 package com.minardwu.yiyue.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.minardwu.yiyue.R;
 
@@ -18,6 +16,8 @@ import butterknife.OnClick;
 
 public abstract class SampleActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar_sample)
+    Toolbar toolbar;
     @BindView(R.id.iv_toolbar_back) ImageView iv_toolbar_back;
     @BindView(R.id.tv_toolbar_mid_title) TextView tv_toolbar_mid_title;
     @BindView(R.id.tv_toolbar_left_title) TextView tv_toolbar_left_title;
@@ -36,6 +36,7 @@ public abstract class SampleActivity extends BaseActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         conten_view.addView(view,params);
         ButterKnife.bind(this);
+        setToolbar(toolbar);
         setToolbarImage(iv_toolbar_back);
         setToolbarTitle(tv_toolbar_left_title,tv_toolbar_mid_title,tv_toolbar_right_title);
     }
@@ -46,6 +47,8 @@ public abstract class SampleActivity extends BaseActivity {
     }
 
     protected abstract int getContentView();
+
+    protected void setToolbar(Toolbar toolbar){}
 
     protected void setToolbarTitle(TextView left,TextView mid,TextView right) {}
 

@@ -102,6 +102,82 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="@dimen/btn_alarm_clock_date_margin"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="二"
+            android:background="@drawable/btn_alarm_clock_date_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_margin="@dimen/btn_alarm_clock_date_margin"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="一"
+            android:background="@drawable/btn_alarm_clock_date_bg"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_margin="@dimen/btn_alarm_clock_date_margin"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="一"
+            android:background="@drawable/btn_alarm_clock_date_bg"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_margin="@dimen/btn_alarm_clock_date_margin"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="一"
+            android:background="@drawable/btn_alarm_clock_date_bg"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_margin="@dimen/btn_alarm_clock_date_margin"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="一"
+            android:background="@drawable/btn_alarm_clock_date_bg"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_margin="@dimen/btn_alarm_clock_date_margin"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="一"
+            android:background="@drawable/btn_alarm_clock_date_bg"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_margin="@dimen/btn_alarm_clock_date_margin"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="一"
+            android:background="@drawable/btn_alarm_clock_date_bg"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <TextView
         android:layout_marginTop="12dp"
         android:textColor="@color/grey_300"

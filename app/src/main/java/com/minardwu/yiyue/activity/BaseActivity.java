@@ -1,5 +1,6 @@
 package com.minardwu.yiyue.activity;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -7,6 +8,7 @@ import android.os.Build;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 
@@ -21,6 +23,14 @@ public class BaseActivity extends AppCompatActivity {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
+    }
+
+    public Context getContext(){
+        return this;
+    }
+
+    public Context getApplacationContext(){
+        return YiYueApplication.getAppContext();
     }
 
     public PlayLocalMusicService getPlayLocalMusicService() {

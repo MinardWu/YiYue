@@ -3,26 +3,22 @@ package com.minardwu.yiyue.executor;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.icu.text.IDNA;
 import android.media.audiofx.AudioEffect;
 import android.view.View;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.AlarmClockActivity;
-import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.activity.CollectionActivity;
 import com.minardwu.yiyue.activity.FeedbackActivity;
 import com.minardwu.yiyue.activity.InfoActivity;
 import com.minardwu.yiyue.activity.MyArtistActivity;
 import com.minardwu.yiyue.activity.MyFMHistoryActivity;
-import com.minardwu.yiyue.activity.MySongActivity;
-import com.minardwu.yiyue.activity.TapeActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
-import com.minardwu.yiyue.widget.ChooseOptionDialog;
-import com.minardwu.yiyue.widget.StopTimeDialog;
+import com.minardwu.yiyue.widget.dialog.ChooseOptionDialog;
+import com.minardwu.yiyue.widget.dialog.StopTimeDialog;
 
 /**
  * Created by MinardWu on 2018/1/23.

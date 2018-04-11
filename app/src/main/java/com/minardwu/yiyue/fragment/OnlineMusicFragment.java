@@ -175,12 +175,12 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     public void onGetSongError(int resultCode) {
         switch (resultCode){
             case ResultCode.NETWORK_ERROR:
-                ToastUtils.show(UIUtils.getString(getContext(),R.string.network_error));
+                ToastUtils.show(UIUtils.getString(R.string.network_error));
                 break;
             case ResultCode.GET_URL_ERROR:
             case ResultCode.GET_DETAIL_ERROR:
             case ResultCode.GET_LRC_ERROR:
-                ToastUtils.show(UIUtils.getString(getContext(),R.string.server_error));
+                ToastUtils.show(UIUtils.getString(R.string.server_error));
         }
     }
 

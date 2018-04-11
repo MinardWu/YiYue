@@ -6,22 +6,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.LocalMusicListItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.event.UpdateLocalMusicListEvent;
 import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.executor.MoreOptionOfLocalMusicListExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
-import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.SystemUtils;
-import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.CustomPopWindow;
-import com.minardwu.yiyue.widget.MoreDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

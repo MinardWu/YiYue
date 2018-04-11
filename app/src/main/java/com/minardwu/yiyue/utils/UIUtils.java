@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.TypedValue;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.application.YiYueApplication;
 
 /**
  * Created by MinardWu on 2018/3/25.
@@ -63,12 +64,12 @@ public class UIUtils {
         return actionBarHeight;
     }
 
-    public static int getColor(Context context,int id) {
-        return context.getResources().getColor(id);
+    public static int getColor(int id) {
+        return YiYueApplication.getAppContext().getResources().getColor(id);
     }
 
-    public static String getString(Context context,int id) {
-        return context.getResources().getString(id);
+    public static String getString(int id) {
+        return YiYueApplication.getAppContext().getResources().getString(id);
     }
 
 }

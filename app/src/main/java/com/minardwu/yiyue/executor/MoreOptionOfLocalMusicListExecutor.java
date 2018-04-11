@@ -12,14 +12,19 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
+import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
 import java.io.File;
 
@@ -28,7 +33,7 @@ import java.io.File;
  */
 
 public class MoreOptionOfLocalMusicListExecutor {
-    public static void execute(Activity activity,int position, MusicBean musicBean,IView iView){
+    public static void execute(final Activity activity, int position, final MusicBean musicBean, final IView iView){
         switch (position){
             case 0:
                 //position==0逻辑放在外面执行，不会跳到这里
@@ -70,17 +75,35 @@ public class MoreOptionOfLocalMusicListExecutor {
                 }
                 break;
             case 4:
-                if(FileUtils.deleteFile(musicBean.getPath())){
-                    ToastUtils.show("删除成功");
-                    for (int i=0;i<AppCache.getLocalMusicList().size();i++){
-                        if(AppCache.getLocalMusicList().get(i).getId()==musicBean.getId()){
-                            AppCache.getLocalMusicList().remove(i);
-                        }
-                    }
-                    iView.updateViewForExecutor();
-                }else {
-                    ToastUtils.show("删除失败");
-                }
+                YesOrNoDialog dialog = new YesOrNoDialog.Builder()
+                        .context(activity)
+                        .title("确定删除该歌曲？")
+                        .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
+                            @Override
+                            public void OnClick(YesOrNoDialog dialog1,View view) {
+                                dialog1.dismiss();
+                                if(FileUtils.deleteFile(musicBean.getPath())){
+                                    ToastUtils.show("删除成功");
+                                    for (int i=0;i<AppCache.getLocalMusicList().size();i++){
+                                        if(AppCache.getLocalMusicList().get(i).getId()==musicBean.getId()){
+                                            AppCache.getLocalMusicList().remove(i);
+                                        }
+                                    }
+                                    iView.updateViewForExecutor();
+                                }else {
+                                    ToastUtils.show("删除失败");
+                                }
+                            }
+                        })
+                        .no(UIUtils.getString(R.string.cancel), new YesOrNoDialog.NegativeClickListener() {
+                            @Override
+                            public void OnClick(YesOrNoDialog dialog1,View view) {
+                                dialog1.dismiss();
+                            }
+                        })
+                        .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                        .build();
+                dialog.show();
                 break;
         }
     }
