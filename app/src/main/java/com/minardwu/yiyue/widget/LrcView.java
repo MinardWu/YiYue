@@ -205,7 +205,6 @@ public class LrcView extends View {
         }.execute(lrcFile);
     }
 
-
     /**
      * 加载歌词文件
      * @param lrcText 歌词文本
