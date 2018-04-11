@@ -82,14 +82,17 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private Bitmap blurBitmap;
     private AlbumBean albumBean;
 
+    public static final String ALBUM_ID = "albumId";
+    public static final String ALBUM_NAME = "albumName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         ButterKnife.bind(this);
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
-        albumId = getIntent().getStringExtra("albumId");
-        albumName = getIntent().getStringExtra("albumName");
+        albumId = getIntent().getStringExtra(ALBUM_ID);
+        albumName = getIntent().getStringExtra(ALBUM_NAME);
 
         initToolBarView();
         GetOnlineAlbum.getOnlineAlbum(albumId, new HttpCallback<AlbumBean>() {

@@ -56,6 +56,8 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.btn_follow_artist) Button btn_follow_artist;
     @BindView(R.id.loading_view) LoadingView loading_view;
 
+    public static final String ARTIST_ID = "artistId";
+    public static final String ARTIST_NAME = "artistName";
 
     PlayOnlineMusicService playOnlineMusicService;
     List<MusicBean> hotSongs = new ArrayList<MusicBean>();
@@ -80,8 +82,8 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
         myDatabaseHelper = MyDatabaseHelper.init(this);
         intent = getIntent();
-        artistName = intent.getStringExtra("artistName");
-        artistId = intent.getStringExtra("artistId");
+        artistId = intent.getStringExtra(ARTIST_ID);
+        artistName = intent.getStringExtra(ARTIST_NAME);
         initView();
         GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
             @Override

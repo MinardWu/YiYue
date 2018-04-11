@@ -43,8 +43,8 @@ public class MoreOptionOfCollectedAlbumExecutor {
                 break;
             case 1:
                 Intent artistIntent = new Intent(activity, ArtistActivity.class);
-                artistIntent.putExtra("artistId",albumBean.getArtist().getId());
-                artistIntent.putExtra("artistName",albumBean.getArtist().getName());
+                artistIntent.putExtra(ArtistActivity.ARTIST_ID,albumBean.getArtist().getId());
+                artistIntent.putExtra(ArtistActivity.ARTIST_NAME,albumBean.getArtist().getName());
                 activity.startActivity(artistIntent);
                 break;
             default:

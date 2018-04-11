@@ -24,14 +24,14 @@ public class MoreOptionOfActFMHistoryExecutor {
                 break;
             case 1:
                 Intent artistIntent = new Intent(activity, ArtistActivity.class);
-                artistIntent.putExtra("artistName",musicBean.getArtistName());
-                artistIntent.putExtra("artistId",musicBean.getArtistId());
+                artistIntent.putExtra(ArtistActivity.ARTIST_NAME,musicBean.getArtistName());
+                artistIntent.putExtra(ArtistActivity.ARTIST_ID,musicBean.getArtistId());
                 activity.startActivity(artistIntent);
                 break;
             case 2:
                 Intent albumIntent = new Intent(activity, AlbumActivity.class);
-                albumIntent.putExtra("albumId",musicBean.getAlbumId());
-                albumIntent.putExtra("albumName",musicBean.getAlbum());
+                albumIntent.putExtra(AlbumActivity.ALBUM_ID,musicBean.getAlbumId());
+                albumIntent.putExtra(AlbumActivity.ALBUM_NAME,musicBean.getAlbum());
                 activity.startActivity(albumIntent);
                 break;
             case 3:
