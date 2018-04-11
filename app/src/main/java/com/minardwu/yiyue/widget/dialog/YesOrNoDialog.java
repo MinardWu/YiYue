@@ -20,13 +20,9 @@ import com.minardwu.yiyue.utils.SystemUtils;
 
 public class YesOrNoDialog extends Dialog {
 
-//    @BindView(R.id.tv_title)
     TextView tv_title;
-//    @BindView(R.id.tv_content)
     TextView tv_content;
-//    @BindView(R.id.tv_yes)
     TextView tv_yes;
-//    @BindView(R.id.tv_no)
     TextView tv_no;
 
     private static Context context;
@@ -40,7 +36,6 @@ public class YesOrNoDialog extends Dialog {
     private static int noTextColor = 0;
     private static PositiveClickListener positiveClickListener;
     private static NegativeClickListener negativeClickListener;
-
 
     public YesOrNoDialog(@NonNull Context context) {
         super(context);
