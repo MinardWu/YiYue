@@ -35,6 +35,7 @@ import java.util.List;
  * 歌词
  */
 public class LrcView extends View {
+
     private static final long ADJUST_DURATION = 100;
     private static final long TIMELINE_KEEP_TIME = 2 * DateUtils.SECOND_IN_MILLIS;
 
