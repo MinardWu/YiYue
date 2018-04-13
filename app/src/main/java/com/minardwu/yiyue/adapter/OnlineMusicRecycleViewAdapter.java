@@ -14,6 +14,7 @@ import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.FileUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,8 @@ import butterknife.ButterKnife;
 
 public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-    private long playingMusicId;
     private int playingMusicPosition = -1;
     private PlayOnlineMusicService playOnlineMusicService;
-    private boolean justIn = true;
     private List<MusicBean> musicList = new ArrayList<MusicBean>();
 
     public OnlineMusicRecycleViewAdapter(List<MusicBean> list) {
@@ -66,7 +64,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(position==0){
             PlayAllViewHolder playAllViewHolder = (PlayAllViewHolder) holder;
-            playAllViewHolder.tv_play_all.setText(headerText);
+            playAllViewHolder.tv_play_all.setText(UIUtils.getString(R.string.play_all));
             playAllViewHolder.tv_play_all_song_count.setText("(共"+ musicList.size()+"首)");
             playAllViewHolder.rl_play_all.setVisibility(View.VISIBLE);
             playAllViewHolder.rl_play_all.setOnClickListener(new View.OnClickListener() {
@@ -163,23 +161,8 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         }
     }
 
-    public int getPlayingMusicPosition() {
-        return playingMusicPosition;
-    }
-
     public List<MusicBean> getMusicList() {
         return musicList;
-    }
-
-    private String headerText;
-
-    public void setHeaderText(String listId){
-        if(listId.equals(AppCache.getPlayOnlineMusicService().getListId())){
-            headerText = "正在循环";
-        }else {
-            headerText = "开始循环";
-        }
-        notifyDataSetChanged();
     }
 
     public interface OnRecycleViewClickListener{

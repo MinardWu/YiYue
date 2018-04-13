@@ -153,19 +153,17 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         loading_view.setVisibility(View.GONE);
         rl_album_songs.setLayoutManager(linearLayoutManager);
         rl_album_songs.setAdapter(adapter);
-        adapter.setHeaderText(albumId);
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if(position==0) {
-                    playOnlineMusicService.startOrStopLoop(albumId,list);
-                    adapter.setHeaderText(albumId);
+                    playOnlineMusicService.playMusicList(list);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
                     finish();
                 }else {
                     playOnlineMusicService.stop();
                     playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updataPlayingMusicPosition(position-1);
+                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
                     adapter.notifyDataSetChanged();
                 }
             }

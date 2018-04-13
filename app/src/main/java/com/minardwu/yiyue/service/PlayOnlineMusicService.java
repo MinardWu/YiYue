@@ -43,17 +43,18 @@ import org.greenrobot.eventbus.ThreadMode;
  * 音乐播放后台服务
  */
 public class PlayOnlineMusicService extends PlayService implements MediaPlayer.OnCompletionListener, OnPlayOnlineMusicListener {
+
     private static final String TAG = "PlayOnlineMusicService";
     private static final long TIME_UPDATE = 100L;
     private static final int STATE_IDLE = 0;
     private static final int STATE_PREPARING = 1;
     private static final int STATE_PLAYING = 2;
     private static final int STATE_PAUSE = 3;
-    private int playState = STATE_IDLE;//初始化状态
-    private boolean randomPlay = true;//初始化状态
+
+    private int playState = STATE_IDLE;
+    private boolean playList = false;
     private Random random = new Random(System.currentTimeMillis());
     private List<Integer> targetListIds = new ArrayList<Integer>();
-    private String listId="0";
     private int playPosition;
     private String playingMusicId="null";
 
@@ -63,7 +64,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     private AudioFocusManager audioFocusManager;//音乐焦点管理
     private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
     private MusicBean playingMusic;
-    private MyDatabaseHelper myDatabaseHelper;
 
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private OnPlayOnlineMusicListener playOnlineMusicListener;
@@ -77,7 +77,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         EventBus.getDefault().register(this);
         audioFocusManager = new AudioFocusManager();
         mediaSessionManager = new MediaSessionManager();
-        //myDatabaseHelper = new MyDatabaseHelper(this,getResources().getString(R.string.database_name),null,1);
     }
 
     public void setPlayOnlineMusicListener(OnPlayOnlineMusicListener playOnlineMusicListener) {
@@ -96,47 +95,38 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
-    /**
-     * @param listId 使用传过来的listId作为列表的id，如果传过来的id与保存的相同，则说明是要取消循环该列表了。
-     * @param list
-     */
-    public void startOrStopLoop(String listId,List<MusicBean> list){
-        if(this.listId.equals(listId)){
-            this.listId = "0";
-            randomPlay = true;
-            targetListIds.clear();
-        }else {
-            this.listId = listId;
-            randomPlay = false;
-            targetListIds.clear();
-            for(MusicBean musicBean:list)
-                targetListIds.add((int)musicBean.getId());
-            playPosition = 0;
-            for(int i=0;i<list.size();i++){
-                if (getPlayingMusic()!=null&&list.get(i).getId()==getPlayingMusic().getId()){
-                    playPosition = i;
-                }
-            }
-        }
+    public void playMusicList(List<MusicBean> list){
+        replaceMusicList(list);
+        stop();
+        playPosition = 0;
+        play((int)list.get(0).getId());
     }
 
-    public void updateMusicList(List<MusicBean> list){
+    public void replaceMusicList(List<MusicBean> list){
+        playList = true;
+        Preferences.savePlayOnlineList(true);
         targetListIds.clear();
         for(MusicBean musicBean:list)
             targetListIds.add((int)musicBean.getId());
     }
 
+    public void appendMusicList(List<MusicBean> list){
+        playList = true;
+        Preferences.savePlayOnlineList(true);
+        for(MusicBean musicBean:list){
+            if(!targetListIds.contains(musicBean)){
+                targetListIds.add((int)musicBean.getId());
+            }
+        }
+    }
+
     public void clearMusicList(){
-        this.listId = "0";
+        playList = false;
         targetListIds.clear();
     }
 
-    public void updataPlayingMusicPosition(int position){
+    public void updatePlayingMusicPosition(int position){
         this.playPosition = position;
-    }
-
-    public String getListId(){
-        return listId;
     }
 
     public String getPlayingMusicId(){
@@ -195,17 +185,17 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     public void next(){
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
-        if(!randomPlay){
+        if(playList){
             if(playPosition == targetListIds.size()-1){
                 playPosition = 0;
             }else {
                 playPosition = playPosition +1;
             }
             play(targetListIds.get(playPosition));
-            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent(listId));
+            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
         }else {
             play(random.nextInt(100000)+60000);
-            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent("random"));
+            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
         }
         mediaSessionManager.release();//不release再重新创建的话更新不了ui
     }

@@ -160,19 +160,17 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         loading_view.setVisibility(View.GONE);
         rl_artist_hot_songs.setLayoutManager(linearLayoutManager);
         rl_artist_hot_songs.setAdapter(adapter);
-        adapter.setHeaderText(artistBean.getId());
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if(position==0) {
-                    playOnlineMusicService.startOrStopLoop(artistBean.getId(), hotSongs);
-                    adapter.setHeaderText(artistBean.getId());
+                    playOnlineMusicService.playMusicList(hotSongs);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(hotSongs.get(position-1).getId()+"")){
                     finish();
                 }else {
                     playOnlineMusicService.stop();
                     playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updataPlayingMusicPosition(position-1);
+                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
                     adapter.notifyDataSetChanged();
                 }
             }

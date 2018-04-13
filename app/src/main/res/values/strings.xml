@@ -94,6 +94,8 @@
     <string name="collection_album_music_size">歌曲:%1$d&#160;&#160;</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="play_all">播放全部</string>
+
     <string name="feedback_empty">真的不打算写点什么吗？</string>
     <string name="feedback_quit">内容未提交，确定退出吗？</string>
 

@@ -6,19 +6,6 @@ package com.minardwu.yiyue.event;
 
 public class UpdateOnlineMusicListPositionEvent {
 
-    String listId;
-    int position;
-
-    public UpdateOnlineMusicListPositionEvent(String listId) {
-        this.listId = listId;
-    }
-
-    public String getListId() {
-        return listId;
-    }
-
-    public void setListId(String listId) {
-        this.listId = listId;
-    }
+    public UpdateOnlineMusicListPositionEvent() {}
 
 }

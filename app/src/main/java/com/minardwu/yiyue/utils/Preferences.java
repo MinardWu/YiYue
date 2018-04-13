@@ -24,6 +24,7 @@ public class Preferences {
     private static final String QUIT_TILL_SONG_END = "quit_till_song_end";
     private static final String FITLER_TIME_POSITION = "filter_time_position";
     private static final String FITLER_SIZE_POSITION = "filter_size_position";
+    private static final String PLAY_ONLINE_LIST = "play_online_list";
 
     private static final String LOCAL_MUSIC_ORDER_TYPE = "local_music_order_type";
     public static final int ORDER_BY_TIME = 1;
@@ -146,6 +147,14 @@ public class Preferences {
 
     public static void saveAlarmClockRepeat(boolean enable) {
         saveBoolean(ALARM_CLOCK_REPEAT, enable);
+    }
+
+    public static boolean enablePlayOnlineList() {
+        return getBoolean(PLAY_ONLINE_LIST, false);
+    }
+
+    public static void savePlayOnlineList(boolean enable) {
+        saveBoolean(PLAY_ONLINE_LIST, enable);
     }
 
     public static boolean enableAlarmClock() {

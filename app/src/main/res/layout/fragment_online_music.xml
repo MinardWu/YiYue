@@ -67,7 +67,8 @@
             lrc:lrcTimelineColor="#464646"
             lrc:lrcTimelineTextColor="#131313" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:gravity="center_vertical"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="56dp"
             android:layout_width="match_parent"
@@ -75,31 +76,33 @@
 
             <ImageView
                 android:id="@+id/iv_onlinemusic_download"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="32dp"
                 android:src="@drawable/ic_online_fragment_download"
-                android:layout_width="60dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="30dp" />
 
             <ImageView
                 android:id="@+id/iv_onlinemusic_play"
-                android:layout_centerInParent="true"
                 android:src="@drawable/iv_online_music_playorpause"
-                android:layout_width="64dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="32dp" />
 
             <ImageView
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="32dp"
                 android:id="@+id/iv_onlinemusic_next"
-                android:layout_centerInParent="true"
                 android:src="@drawable/ic_online_fragment_next"
-                android:layout_width="64dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="32dp" />
 
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_online_music_list"
+                android:src="@drawable/ic_online_music_list"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="32dp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

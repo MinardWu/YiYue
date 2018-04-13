@@ -51,21 +51,19 @@ public class MyFMHistoryActivity extends SampleActivity implements IView{
         rv_fm_history.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
         empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
         adapter = new OnlineMusicRecycleViewAdapter(list);
-        adapter.setHeaderText("FMH");
         rv_fm_history.setLayoutManager(linearLayoutManager);
         rv_fm_history.setAdapter(adapter);
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if(position == 0){
-                    playOnlineMusicService.startOrStopLoop("FMH", list);
-                    adapter.setHeaderText("FMH");
+                    playOnlineMusicService.playMusicList(list);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
                     finish();
                 }else {
                     playOnlineMusicService.stop();
                     playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updataPlayingMusicPosition(position-1);
+                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
                     adapter.notifyDataSetChanged();
                 }
             }

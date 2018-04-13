@@ -47,19 +47,17 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
     protected RecyclerView.Adapter getAdapter() {
         list = MyDatabaseHelper.init(getActivity()).queryCollectedSong();
         adapter = new OnlineMusicRecycleViewAdapter(list);
-        adapter.setHeaderText("LOVE");
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if(position == 0){
-                    playOnlineMusicService.startOrStopLoop("LOVE", list);
-                    adapter.setHeaderText("LOVE");
+                    playOnlineMusicService.playMusicList(list);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
                     getActivity().finish();
                 }else {
                     playOnlineMusicService.stop();
                     playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updataPlayingMusicPosition(position-1);
+                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -110,11 +108,6 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
         list.addAll(MyDatabaseHelper.init(getActivity()).queryCollectedSong());
         recyclerView.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
         empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
-        if (list.size()==0){
-            playOnlineMusicService.clearMusicList();
-        }else {
-            playOnlineMusicService.updateMusicList(list);
-        }
         adapter.notifyDataSetChanged();
     }
 }
