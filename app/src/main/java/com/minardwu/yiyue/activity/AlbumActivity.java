@@ -199,7 +199,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 if (Math.abs(verticalOffset) == offsetWhenCollapse) {
                     tv_toolbar_album_name.setText(albumName);
                 } else {
-                    tv_toolbar_album_name.setText("专辑");
+                    tv_toolbar_album_name.setText(UIUtils.getString(R.string.album));
                 }
             }
         });
