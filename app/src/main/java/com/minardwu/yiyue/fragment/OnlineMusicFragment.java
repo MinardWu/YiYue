@@ -26,6 +26,7 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.Notifier;
+import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LrcView;
@@ -56,6 +57,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     private boolean isLoveSong;
     private AnimationSet unloveAnimation;
     private AnimationSet loveAnimation;
+    private boolean isPlayList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_next.setOnClickListener(this);
         tv_online_music_artist.setOnClickListener(this);
         iv_onlinemusic_play.setSelected(false);
+        isPlayList = Preferences.enablePlayOnlineList();
+        
         playingMusic = MyDatabaseHelper.init(getContext()).getFMHistoryLastSong();
         if(playingMusic==null){
             changeIconState(0);
