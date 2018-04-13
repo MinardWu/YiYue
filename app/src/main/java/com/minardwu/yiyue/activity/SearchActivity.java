@@ -3,6 +3,7 @@ package com.minardwu.yiyue.activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -232,6 +233,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                         ToastUtils.show(UIUtils.getString(R.string.network_error));
                         break;
                     case ResultCode.SEARCH_ERROR:
+                        Log.e(TAG,result.getException());
                         ToastUtils.show(UIUtils.getString(R.string.server_error));
                         break;
                     default:

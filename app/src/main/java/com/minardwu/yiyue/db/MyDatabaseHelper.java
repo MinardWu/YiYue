@@ -22,12 +22,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static SQLiteDatabase sqLiteDatabase;
 
-    private static final String DATABASE_NAME = "T5.db";
+    private static final String DATABASE_NAME = "T7.db";
     private static final String TABLE_SEARCH_HISTORY = "search_history";
     private static final String TABLE_FM_HISTORY = "fm_history";
     private static final String TABLE_MY_ARTIST = "my_artist";
     private static final String TABLE_MY_SONG = "my_song";
     private static final String TABLE_MY_ALBUM = "my_album";
+    private static final String TABLE_ALARM_CLOCK_DATE = "alarm_clock_date";
 
     private static final String CREATE_TABLE_SEARCH_HISTORY = "create table " + TABLE_SEARCH_HISTORY + "(" +
             "id integer primary key autoincrement," +
@@ -83,6 +84,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             ")";
 
 
+    private static final String CREATE_TABLE_ALARM_CLOCK_DATE = "create table " + TABLE_ALARM_CLOCK_DATE + "(" +
+            "id integer primary key autoincrement," +
+            "date integer"+
+            ")";
+
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
@@ -95,6 +101,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_MY_ARTIST);
         sqLiteDatabase.execSQL(CREATE_TABLE_MY_SONG);
         sqLiteDatabase.execSQL(CREATE_TABLE_MY_ALBUM);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ALARM_CLOCK_DATE);
     }
 
     @Override
@@ -367,4 +374,23 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void addAlarmClockDate(int date){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("date", date);
+        sqLiteDatabase.insert(TABLE_ALARM_CLOCK_DATE,null,contentValues);
+    }
+
+    public void deleteAlarmClockDate(int date){
+        sqLiteDatabase.delete(TABLE_ALARM_CLOCK_DATE,"date = ?",new String[]{Integer.toString(date)});
+    }
+
+    public List<Integer> queryAlarmClockDate(){
+        List<Integer> list = new ArrayList<Integer>();
+        Cursor cursor = sqLiteDatabase.query(TABLE_ALARM_CLOCK_DATE,null,null,null,null,null,null,null);
+        while (cursor.moveToNext()){
+            int date = cursor.getInt(cursor.getColumnIndex("date"));
+            list.add(date);
+        }
+        return list;
+    }
 }

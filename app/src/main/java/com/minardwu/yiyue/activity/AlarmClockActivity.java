@@ -1,25 +1,26 @@
 package com.minardwu.yiyue.activity;
 
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.adapter.AlarmClockDateAdapter;
 import com.minardwu.yiyue.utils.Preferences;
-import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AlarmClockActivity extends SampleActivity implements View.OnClickListener {
 
@@ -39,9 +40,13 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
     Switch sw_time;
     @BindView(R.id.sw_repeat)
     Switch sw_repeat;
+    @BindView(R.id.rv_date)
+    RecyclerView rv_date;
 
-    private boolean isReportTuroOn = false;
+    private boolean isRepeatTurnOn = Preferences.enableAlarmClockRepeat();
     private boolean isAlarmClockTurnOn = Preferences.enableAlarmClock();
+    private LinearLayoutManager layoutManager;
+    private AlarmClockDateAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,11 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
         sw_repeat.setOnClickListener(this);
         sw_time.setChecked(isAlarmClockTurnOn);
         switchUI(isAlarmClockTurnOn);
+        adapter = new AlarmClockDateAdapter(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rv_date.setLayoutManager(layoutManager);
+        rv_date.setAdapter(adapter);
     }
 
     @Override
@@ -92,7 +102,9 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
                 switchUI(isAlarmClockTurnOn);
                 break;
             case R.id.sw_repeat:
-                isReportTuroOn = sw_repeat.isChecked();
+                isRepeatTurnOn = sw_repeat.isChecked();
+                Preferences.saveAlarmClockRepeat(isAlarmClockTurnOn);
+                showDate(isRepeatTurnOn);
                 break;
         }
     }
@@ -103,6 +115,11 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
         tv_alarm_clock_repeat.setTextColor(isAlarmClockTurnOn ? UIUtils.getColor(R.color.black) : UIUtils.getColor(R.color.grey));
         rl_alarm_clock_song.setClickable(false);
         sw_repeat.setClickable(isAlarmClockTurnOn);
-        sw_repeat.setChecked(isAlarmClockTurnOn ?  isReportTuroOn : false);
+        sw_repeat.setChecked(isAlarmClockTurnOn ? isRepeatTurnOn : false);
+        showDate(isAlarmClockTurnOn ? isRepeatTurnOn : false);
+    }
+
+    private void showDate(boolean isRepeatTurnOn){
+        rv_date.setVisibility(isRepeatTurnOn ? View.VISIBLE : View.GONE);
     }
 }

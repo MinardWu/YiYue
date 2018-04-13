@@ -3,6 +3,7 @@ package com.minardwu.yiyue.activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.os.Build;
 
@@ -47,5 +48,9 @@ public class BaseActivity extends AppCompatActivity {
             throw new NullPointerException("online service is null");
         }
         return playOnlineMusicService;
+    }
+
+    protected void log(String string){
+        Log.e(getClass().getName(),string);
     }
 }
