@@ -202,13 +202,13 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     private void loadDataFail(final FailResult result){
         switch (result.getResultCode()){
             case ResultCode.NETWORK_ERROR:
-                ToastUtils.show(UIUtils.getString(R.string.network_error));
+                ToastUtils.showShortToast(UIUtils.getString(R.string.network_error));
                 break;
             case ResultCode.GET_ARTIST_INFO_ERROR:
-                ToastUtils.show(UIUtils.getString(R.string.server_error));
+                ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
                 break;
             case ResultCode.GET_ARTIST_NO_FOUND:
-                ToastUtils.show(UIUtils.getString(R.string.artist_no_found));
+                ToastUtils.showShortToast(UIUtils.getString(R.string.artist_no_found));
                 break;
             case ResultCode.GET_BITMAP_BY_URL_ERROR:
                 //暂时不作处理
@@ -216,7 +216,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
             default:
                 break;
         }
-        ToastUtils.show(result.getException());
+        ToastUtils.showShortToast(result.getException());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

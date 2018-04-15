@@ -218,17 +218,17 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(artistIntent);
             case R.id.iv_more:
                 MyDatabaseHelper.init(AlbumActivity.this).addCollectedAlbum(albumBean);
-                ToastUtils.show("11");
+                ToastUtils.showShortToast("11");
         }
     }
 
     private void handleError(FailResult result){
         switch (result.getResultCode()){
             case ResultCode.NETWORK_ERROR:
-                ToastUtils.show(UIUtils.getString(R.string.network_error));
+                ToastUtils.showShortToast(UIUtils.getString(R.string.network_error));
                 break;
             case ResultCode.GET_ALBUM_INFO_ERROR:
-                ToastUtils.show(UIUtils.getString(R.string.server_error));
+                ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
                 break;
             case ResultCode.GET_BITMAP_BY_URL_ERROR:
                 //暂时不作处理

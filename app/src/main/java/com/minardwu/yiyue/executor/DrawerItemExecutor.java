@@ -40,10 +40,10 @@ public class DrawerItemExecutor {
                         activity.startActivityForResult(intent, 1);
                     } catch (ActivityNotFoundException e) {
                         e.printStackTrace();
-                        ToastUtils.show(R.string.device_not_support);
+                        ToastUtils.showShortToast(R.string.device_not_support);
                     }
                 } else {
-                    ToastUtils.show(R.string.device_not_support);
+                    ToastUtils.showShortToast(R.string.device_not_support);
                 }
                 break;
             case "定时停止播放":
@@ -61,7 +61,7 @@ public class DrawerItemExecutor {
                     public void onClick(View view, int position) {
                         Preferences.saveFilterTimePosition(position);
                         Preferences.saveFilterTime(second[position]);
-                        ToastUtils.show(second[position]+"");
+                        ToastUtils.showShortToast(second[position]+"");
                     }
                 });
                 timeFilterDialog.show();
@@ -77,7 +77,7 @@ public class DrawerItemExecutor {
                     public void onClick(View view, int position) {
                         Preferences.saveFilterSizePosition(position);
                         Preferences.saveFilterSize(size[position]);
-                        ToastUtils.show(size[position]+"");
+                        ToastUtils.showShortToast(size[position]+"");
                     }
                 });
                 sizeFilterDialog.show();
