@@ -2,7 +2,6 @@ package com.minardwu.yiyue.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,7 +51,7 @@ public class FeedbackActivity extends SampleActivity {
             @Override
             public void onClick(View view) {
                 if(et_feedback.getText().toString().trim().equals("")){
-                    ToastUtils.show(UIUtils.getString(R.string.feedback_empty));
+                    ToastUtils.showShortToast(UIUtils.getString(R.string.feedback_empty));
                 }else{
                     final Dialog dialog = LoadingDialog.createLoadingDialog(FeedbackActivity.this);
                     dialog.show();
@@ -70,7 +69,7 @@ public class FeedbackActivity extends SampleActivity {
                         @Override
                         public void onFail(FailResult e) {
                             dialog.dismiss();
-                            ToastUtils.show("发送失败");
+                            ToastUtils.showShortToast("发送失败");
                         }
                     });
                 }
