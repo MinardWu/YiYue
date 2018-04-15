@@ -1,6 +1,5 @@
 package com.minardwu.yiyue.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -267,15 +266,15 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         switch (mode) {
             case LOOP:
                 mode = PlayModeEnum.SHUFFLE;
-                ToastUtils.show(R.string.mode_shuffle);
+                ToastUtils.showShortToast(R.string.mode_shuffle);
                 break;
             case SHUFFLE:
                 mode = PlayModeEnum.SINGLE;
-                ToastUtils.show(R.string.mode_one);
+                ToastUtils.showShortToast(R.string.mode_one);
                 break;
             case SINGLE:
                 mode = PlayModeEnum.LOOP;
-                ToastUtils.show(R.string.mode_loop);
+                ToastUtils.showShortToast(R.string.mode_loop);
                 break;
         }
         Preferences.savePlayMode(mode.value());
