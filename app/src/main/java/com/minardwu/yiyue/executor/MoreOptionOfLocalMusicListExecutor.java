@@ -1,26 +1,20 @@
 package com.minardwu.yiyue.executor;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.FileUtils;
-import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
@@ -51,7 +45,7 @@ public class MoreOptionOfLocalMusicListExecutor {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     // 判断是否有WRITE_SETTINGS权限
                     if(!Settings.System.canWrite(activity)) {
-                        ToastUtils.show("请开通相关权限，否则无法正常使用该功能！");
+                        ToastUtils.showShortToast("请开通相关权限，否则无法正常使用该功能！");
                         Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
                                 Uri.parse("package:" + activity.getPackageName()));
                         activity.startActivityForResult(intent, SystemUtils.REQUEST_WRITE_SETTING);
@@ -83,7 +77,7 @@ public class MoreOptionOfLocalMusicListExecutor {
                             public void OnClick(YesOrNoDialog dialog1,View view) {
                                 dialog1.dismiss();
                                 if(FileUtils.deleteFile(musicBean.getPath())){
-                                    ToastUtils.show("删除成功");
+                                    ToastUtils.showShortToast("删除成功");
                                     for (int i=0;i<AppCache.getLocalMusicList().size();i++){
                                         if(AppCache.getLocalMusicList().get(i).getId()==musicBean.getId()){
                                             AppCache.getLocalMusicList().remove(i);
@@ -91,7 +85,7 @@ public class MoreOptionOfLocalMusicListExecutor {
                                     }
                                     iView.updateViewForExecutor();
                                 }else {
-                                    ToastUtils.show("删除失败");
+                                    ToastUtils.showShortToast("删除失败");
                                 }
                             }
                         })
