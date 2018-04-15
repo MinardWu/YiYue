@@ -63,7 +63,7 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
 //                }
 //            }
 //        });
-//        moreDialog.show();
+//        moreDialog.showShortToast();
     }
 
     LocalMusicListItemAdapter localMusicListItemAdapter = new LocalMusicListItemAdapter();
