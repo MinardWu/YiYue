@@ -19,7 +19,7 @@ public class MoreOptionOfActSearchExecutor {
                 //position==0逻辑放在外面执行，不会跳到这里
                 break;
             case 1:
-                ToastUtils.show("id:"+musicBean.getArtistId());
+                ToastUtils.showShortToast("id:"+musicBean.getArtistId());
                 Intent artistIntent = new Intent(activity, ArtistActivity.class);
                 artistIntent.putExtra("artistId",musicBean.getArtistId());
                 artistIntent.putExtra("artistName",musicBean.getArtistName());
