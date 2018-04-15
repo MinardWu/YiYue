@@ -14,11 +14,11 @@ public class ToastUtils {
         sContext = context.getApplicationContext();
     }
 
-    public static void show(int resId) {
-        show(sContext.getString(resId));
+    public static void showShortToast(int resId) {
+        showShortToast(sContext.getString(resId));
     }
 
-    public static void show(String text) {
+    public static void showShortToast(String text) {
         if (sToast == null) {
             sToast = Toast.makeText(sContext, text, Toast.LENGTH_SHORT);
         } else {

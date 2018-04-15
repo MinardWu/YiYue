@@ -61,10 +61,10 @@ public class StopTimeDialog extends Dialog {
                     AppCache.getPlayLocalMusicService().resetOnCompletion();
                     AppCache.getPlayOnlineMusicService().resetOnCompletion();
                     QuitTimer.getInstance().stop();
-                    ToastUtils.show("定时停止播放已停止");
+                    ToastUtils.showShortToast("定时停止播放已停止");
                 }else {
                     QuitTimer.getInstance().start(i*10*1000);
-                    ToastUtils.show("将在"+i*10+"分钟后停止播放");
+                    ToastUtils.showShortToast("将在"+i*10+"分钟后停止播放");
                 }
             }
         });
