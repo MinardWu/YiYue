@@ -52,9 +52,9 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     private static final int STATE_PAUSE = 3;
 
     private int playState = STATE_IDLE;
-    private boolean playList = false;
+    private boolean isPlayList = false;
     private Random random = new Random(System.currentTimeMillis());
-    private List<Integer> targetListIds = new ArrayList<Integer>();
+    private List<MusicBean> onlineMusicPlayList;
     private int playPosition;
     private String playingMusicId="null";
 
@@ -75,6 +75,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         setPlayOnlineMusicListener(this);
         mediaPlayer.setOnCompletionListener(this);
         EventBus.getDefault().register(this);
+        onlineMusicPlayList = new ArrayList<MusicBean>();
         audioFocusManager = new AudioFocusManager();
         mediaSessionManager = new MediaSessionManager();
     }
@@ -95,6 +96,12 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
+    public void playMusicList(int positon){
+        stop();
+        playPosition = positon;
+        play((int)onlineMusicPlayList.get(positon).getId());
+    }
+
     public void playMusicList(List<MusicBean> list){
         replaceMusicList(list);
         stop();
@@ -103,26 +110,41 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     }
 
     public void replaceMusicList(List<MusicBean> list){
-        playList = true;
+        isPlayList = true;
         Preferences.savePlayOnlineList(true);
-        targetListIds.clear();
-        for(MusicBean musicBean:list)
-            targetListIds.add((int)musicBean.getId());
+        onlineMusicPlayList.clear();
+        onlineMusicPlayList.addAll(list);
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
     }
 
     public void appendMusicList(List<MusicBean> list){
-        playList = true;
+        isPlayList = true;
         Preferences.savePlayOnlineList(true);
         for(MusicBean musicBean:list){
-            if(!targetListIds.contains(musicBean)){
-                targetListIds.add((int)musicBean.getId());
+            if(!onlineMusicPlayList.contains(musicBean)){
+                onlineMusicPlayList.add(musicBean);
             }
         }
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+    }
+
+    public void deleteMusic(MusicBean musicBean){
+        for(int i=0;i<onlineMusicPlayList.size();i++){
+            if (onlineMusicPlayList.get(i).getId() == musicBean.getId()){
+                onlineMusicPlayList.remove(i);
+            }
+        }
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
     }
 
     public void clearMusicList(){
-        playList = false;
-        targetListIds.clear();
+        isPlayList = false;
+        onlineMusicPlayList.clear();
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+    }
+
+    public List<MusicBean> getMusicList(){
+        return onlineMusicPlayList;
     }
 
     public void updatePlayingMusicPosition(int position){
@@ -185,13 +207,13 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     public void next(){
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
-        if(playList){
-            if(playPosition == targetListIds.size()-1){
+        if(isPlayList){
+            if(playPosition == onlineMusicPlayList.size()-1){
                 playPosition = 0;
             }else {
                 playPosition = playPosition +1;
             }
-            play(targetListIds.get(playPosition));
+            play((int)onlineMusicPlayList.get(playPosition).getId());
             EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
         }else {
             play(random.nextInt(100000)+60000);
@@ -452,6 +474,11 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
 
     @Override
     public void onGetSongError(int resultCode) {
+
+    }
+
+    @Override
+    public void onUpdateOnlineMusicList(List<MusicBean> list) {
 
     }
 

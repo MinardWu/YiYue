@@ -14,10 +14,6 @@ public class ToastUtils {
         sContext = context.getApplicationContext();
     }
 
-    public static void showShortToast(int resId) {
-        showShortToast(sContext.getString(resId));
-    }
-
     public static void showShortToast(String text) {
         if (sToast == null) {
             sToast = Toast.makeText(sContext, text, Toast.LENGTH_SHORT);
@@ -34,5 +30,13 @@ public class ToastUtils {
             sToast.setText(text);
         }
         sToast.show();
+    }
+
+    public static void showShortToast(int resId) {
+        showShortToast(sContext.getString(resId));
+    }
+
+    public static void showLongToast(int resId) {
+        showLongToast(sContext.getString(resId));
     }
 }

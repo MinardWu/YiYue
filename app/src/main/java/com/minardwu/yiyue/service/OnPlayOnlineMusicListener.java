@@ -2,6 +2,8 @@ package com.minardwu.yiyue.service;
 
 import com.minardwu.yiyue.model.MusicBean;
 
+import java.util.List;
+
 /**
  * Created by MinardWu on 2018/1/11.
  */
@@ -55,5 +57,7 @@ public interface OnPlayOnlineMusicListener {
 
 
     void onGetSongError(int resultCode);
+
+    void onUpdateOnlineMusicList(List<MusicBean> list);
 
 }

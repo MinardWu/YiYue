@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,27 +9,70 @@
         android:gravity="center_vertical"
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/online_music_list_item_height">
 
         <ImageView
-            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/play_mode_level_list"
+            android:layout_marginLeft="12dp"
             android:layout_alignParentLeft="true"
             android:id="@+id/iv_play_mode"
             android:layout_width="20dp"
             android:layout_height="20dp" />
 
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_online_music_play_list_title"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/online_music_play_list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_online_music_play_list_song_count"
+                android:textSize="14sp"
+                android:text="@string/online_music_play_list_song_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
         <ImageView
-            android:layout_marginRight="8dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_online_music_list_clear"
+            android:layout_marginRight="12dp"
             android:layout_alignParentRight="true"
             android:id="@+id/iv_clear_list"
             android:layout_width="20dp"
             android:layout_height="20dp" />
+
+        <!--<RelativeLayout-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0.1dp">-->
+            <!--<View-->
+                <!--android:padding="0dp"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--android:layout_marginBottom="0dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:background="?android:attr/listDivider"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.1dp"/>-->
+
+        <!--</RelativeLayout>-->
 
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_online_music_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

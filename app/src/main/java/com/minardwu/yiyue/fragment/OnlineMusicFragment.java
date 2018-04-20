@@ -37,6 +37,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +53,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     @BindView(R.id.iv_onlinemusic_download) ImageView iv_onlinemusic_download;
     @BindView(R.id.iv_onlinemusic_play) ImageView iv_onlinemusic_play;
     @BindView(R.id.iv_onlinemusic_next) ImageView iv_onlinemusic_next;
+    @BindView(R.id.iv_online_music_list) ImageView iv_online_music_list;
 
     private static final String TAG = "OnlineMusicFragment" ;
     private MusicBean playingMusic;
@@ -58,6 +61,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     private AnimationSet unloveAnimation;
     private AnimationSet loveAnimation;
     private boolean isPlayList;
+    private List<MusicBean> playList;
+    private OnlineMusicListDialogFragment onlineMusicListDialogFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,10 +84,13 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         iv_onlinemusic_play.setOnClickListener(this);
         iv_onlinemusic_next.setOnClickListener(this);
         tv_online_music_artist.setOnClickListener(this);
+        iv_online_music_list.setOnClickListener(this);
         iv_onlinemusic_play.setSelected(false);
         isPlayList = Preferences.enablePlayOnlineList();
         
         playingMusic = MyDatabaseHelper.init(getContext()).getFMHistoryLastSong();
+        playList = new ArrayList<MusicBean>();
+        onlineMusicListDialogFragment = OnlineMusicListDialogFragment.newInstance(playList);
         if(playingMusic==null){
             changeIconState(0);
             setFirstInData();
@@ -91,6 +99,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             changeMusicImp(playingMusic);
             Notifier.showPause(playingMusic);
         }
+        iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);
         unloveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_unlove);
         loveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_love);
     }
@@ -189,6 +198,14 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     }
 
     @Override
+    public void onUpdateOnlineMusicList(List<MusicBean> list) {
+        playList.clear();
+        playList.addAll(list);
+        iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);
+        onlineMusicListDialogFragment.updateMusicList(list);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_onlinemusic_download:
@@ -212,6 +229,10 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 break;
             case R.id.iv_onlinemusic_next:
                 getPlayOnlineMusicService().next();
+                break;
+            case R.id.iv_online_music_list:
+                onlineMusicListDialogFragment.updateMusicList(playList);
+                onlineMusicListDialogFragment.show(getFragmentManager(), "OnlineMusicListDialogFragment");
                 break;
             case R.id.tv_online_music_artist:
                 Intent intent = new Intent(getActivity(), ArtistActivity.class);
