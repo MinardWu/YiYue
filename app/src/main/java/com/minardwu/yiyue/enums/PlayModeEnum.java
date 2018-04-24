@@ -16,12 +16,12 @@ public enum PlayModeEnum {
 
     public static PlayModeEnum valueOf(int value) {
         switch (value) {
+            case 0:
+                return LOOP;
             case 1:
                 return SHUFFLE;
             case 2:
                 return SINGLE;
-            case 0:
-                return LOOP;
             default:
                 return LOOP;
         }

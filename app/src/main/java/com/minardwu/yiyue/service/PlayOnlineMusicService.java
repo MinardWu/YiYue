@@ -21,6 +21,7 @@ import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.constants.NetWorkType;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.enums.PlayModeEnum;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
@@ -136,6 +137,9 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                 onlineMusicPlayList.remove(i);
                 MyDatabaseHelper.init(getApplicationContext()).deleteOnlineMusic(musicBean);
             }
+            if (onlineMusicPlayList.size()==0){
+                isPlayList = false;
+            }
         }
         playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
     }
@@ -221,12 +225,22 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
         if(isPlayList){
-            if(playPosition == onlineMusicPlayList.size()-1){
-                playPosition = 0;
-            }else {
-                playPosition = playPosition +1;
+            PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getOnlinePlayMode());
+            switch (mode) {
+                case SHUFFLE:
+                    playPosition = new Random().nextInt(onlineMusicPlayList.size());
+                    play((int)onlineMusicPlayList.get(playPosition).getId());
+                    break;
+                case SINGLE:
+                case LOOP:
+                default:
+                    if(playPosition == onlineMusicPlayList.size()-1){
+                        playPosition = 0;
+                    }else {
+                        playPosition = playPosition +1;
+                    }
+                    play((int)onlineMusicPlayList.get(playPosition).getId());
             }
-            play((int)onlineMusicPlayList.get(playPosition).getId());
             EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
         }else {
             play(random.nextInt(100000)+60000);
@@ -375,7 +389,29 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
      */
     @Override
     public void onCompletion(MediaPlayer mp) {
-        next();
+        onCompletionImpl(mp);
+    }
+
+    public void onCompletionImpl(MediaPlayer mp) {
+        if(isPlayList){
+            PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getLocalPlayMode());
+            switch (mode) {
+                case SHUFFLE:
+                    playPosition = new Random().nextInt(AppCache.getLocalMusicList().size());
+                    play(playPosition);
+                    break;
+                case SINGLE:
+                    play(playPosition);
+                    break;
+                case LOOP:
+                default:
+                    play(playPosition + 1);
+                    break;
+            }
+        }else {
+            next();
+        }
+
     }
 
     /**

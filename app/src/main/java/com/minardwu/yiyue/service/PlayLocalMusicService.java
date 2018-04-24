@@ -147,7 +147,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         if (AppCache.getLocalMusicList().isEmpty()) {
             return;
         }
-        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getPlayMode());
+        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getLocalPlayMode());
         switch (mode) {
             case SHUFFLE:
                 playingPosition = new Random().nextInt(AppCache.getLocalMusicList().size());
@@ -296,7 +296,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         if (AppCache.getLocalMusicList().isEmpty()) {
             return;
         }
-        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getPlayMode());
+        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getLocalPlayMode());
         switch (mode) {
             case SHUFFLE:
                 playingPosition = new Random().nextInt(AppCache.getLocalMusicList().size());
@@ -315,7 +315,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         if (AppCache.getLocalMusicList().isEmpty()) {
             return;
         }
-        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getPlayMode());
+        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getLocalPlayMode());
         switch (mode) {
             case SHUFFLE:
                 playingPosition = new Random().nextInt(AppCache.getLocalMusicList().size());

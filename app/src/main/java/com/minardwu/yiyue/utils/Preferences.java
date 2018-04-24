@@ -15,7 +15,8 @@ public class Preferences {
     private static final String MUSIC_ID = "music_id";
     private static final String MUSIC_POSITION = "music_position";
     private static final String MUSIC_TITLE = "music_title";
-    private static final String PLAY_MODE = "play_mode";
+    private static final String LOCAL_PLAY_MODE = "local_play_mode";
+    private static final String ONLINE_PLAY_MODE = "online_play_mode";
     private static final String SPLASH_URL = "splash_url";
     private static final String NIGHT_MODE = "night_mode";
     private static final String ALARM_CLOCK = "alarm_clock";
@@ -109,12 +110,20 @@ public class Preferences {
         saveString(MUSIC_TITLE, value);
     }
 
-    public static int getPlayMode() {
-        return getInt(PLAY_MODE, 0);
+    public static int getLocalPlayMode() {
+        return getInt(LOCAL_PLAY_MODE, 0);
     }
 
-    public static void savePlayMode(int mode) {
-        saveInt(PLAY_MODE, mode);
+    public static void saveLocalPlayMode(int mode) {
+        saveInt(LOCAL_PLAY_MODE, mode);
+    }
+
+    public static int getOnlinePlayMode() {
+        return getInt(ONLINE_PLAY_MODE, 0);
+    }
+
+    public static void saveOnlineMode(int mode) {
+        saveInt(ONLINE_PLAY_MODE, mode);
     }
 
     public static int getStopTime() {

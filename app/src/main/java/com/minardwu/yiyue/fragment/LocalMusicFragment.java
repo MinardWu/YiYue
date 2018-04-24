@@ -94,7 +94,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         sb_progress.setOnSeekBarChangeListener(this);
         lrc_localmusic.setOnPlayClickListener(this);
 
-        iv_local_music_player_playmode.setImageLevel(Preferences.getPlayMode());
+        iv_local_music_player_playmode.setImageLevel(Preferences.getLocalPlayMode());
         lrc_localmusic.setVisibility(View.GONE);
         rl_cover_and_single_lrc.setVisibility(View.VISIBLE);
 
@@ -262,7 +262,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     }
 
     private void switchPlayMode() {
-        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getPlayMode());
+        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getLocalPlayMode());
         switch (mode) {
             case LOOP:
                 mode = PlayModeEnum.SHUFFLE;
@@ -277,7 +277,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
                 ToastUtils.showShortToast(R.string.mode_loop);
                 break;
         }
-        Preferences.savePlayMode(mode.value());
+        Preferences.saveLocalPlayMode(mode.value());
         iv_local_music_player_playmode.setImageLevel(mode.value());
     }
 

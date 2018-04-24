@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,11 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.OnlineMusicListAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.application.YiYueApplication;
+import com.minardwu.yiyue.enums.PlayModeEnum;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
-import com.minardwu.yiyue.utils.UIUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -75,6 +77,7 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
         iv_playmode.setOnClickListener(this);
         iv_clear_list.setOnClickListener(this);
         tv_list_song_count.setText(getContext().getResources().getString(R.string.online_music_play_list_song_count,songCount));
+        iv_playmode.setImageLevel(Preferences.getOnlinePlayMode());
         return view;
     }
 
@@ -99,6 +102,7 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
     }
 
     public void updateMusicList(List<MusicBean> musicBeanList){
+        Log.e("dsfgiuaweshfjkde","3333333");
         list.clear();
         list.addAll(musicBeanList);
         adapter.notifyDataSetChanged();
@@ -129,12 +133,32 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_play_mode:
-
+                switchPlayMode();
                 break;
             case R.id.iv_clear_list:
                 AppCache.getPlayOnlineMusicService().clearMusicList();
                 break;
         }
+    }
+
+    private void switchPlayMode() {
+        PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getOnlinePlayMode());
+        switch (mode) {
+            case LOOP:
+                mode = PlayModeEnum.SHUFFLE;
+                ToastUtils.showShortToast(R.string.mode_shuffle);
+                break;
+            case SHUFFLE:
+                mode = PlayModeEnum.SINGLE;
+                ToastUtils.showShortToast(R.string.mode_one);
+                break;
+            case SINGLE:
+                mode = PlayModeEnum.LOOP;
+                ToastUtils.showShortToast(R.string.mode_loop);
+                break;
+        }
+        Preferences.saveOnlineMode(mode.value());
+        iv_playmode.setImageLevel(mode.value());
     }
 
     public interface OptionDialogFragmentClickListener{
