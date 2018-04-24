@@ -22,13 +22,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static SQLiteDatabase sqLiteDatabase;
 
-    private static final String DATABASE_NAME = "T7.db";
+    private static final String DATABASE_NAME = "T9.db";
     private static final String TABLE_SEARCH_HISTORY = "search_history";
     private static final String TABLE_FM_HISTORY = "fm_history";
     private static final String TABLE_MY_ARTIST = "my_artist";
     private static final String TABLE_MY_SONG = "my_song";
     private static final String TABLE_MY_ALBUM = "my_album";
     private static final String TABLE_ALARM_CLOCK_DATE = "alarm_clock_date";
+    private static final String TABLE_ONLINE_MUSIC_LIST = "online_music_list";
 
     private static final String CREATE_TABLE_SEARCH_HISTORY = "create table " + TABLE_SEARCH_HISTORY + "(" +
             "id integer primary key autoincrement," +
@@ -56,6 +57,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "artist text," +
             "album text," +
             "albumId text," +
+            "coverUrl text," +
             "time integer" +
             ")";
 
@@ -89,6 +91,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "date integer"+
             ")";
 
+    private static final String CREATE_TABLE_ONLINE_MUSIC_LIST = "create table " + TABLE_ONLINE_MUSIC_LIST + "(" +
+            "id integer primary key autoincrement," +
+            "songId text," +
+            "artistId text," +
+            "title text," +
+            "artist text," +
+            "album text," +
+            "albumId text," +
+            "coverUrl text," +
+            "time integer" +
+            ")";
+
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
@@ -102,6 +116,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_MY_SONG);
         sqLiteDatabase.execSQL(CREATE_TABLE_MY_ALBUM);
         sqLiteDatabase.execSQL(CREATE_TABLE_ALARM_CLOCK_DATE);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ONLINE_MUSIC_LIST);
     }
 
     @Override
@@ -234,6 +249,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.query(TABLE_FM_HISTORY,null,null,null,null,null,"time desc","50");
         while (cursor.moveToNext()){
             MusicBean musicBean = new MusicBean();
+            musicBean.setType(MusicBean.Type.ONLINE);
             musicBean.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("songId"))));
             musicBean.setArtistId(cursor.getString(cursor.getColumnIndex("artistId")));
             musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
@@ -294,6 +310,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("artist", musicBean.getArtistName());
         contentValues.put("album", musicBean.getAlbum());
         contentValues.put("albumId", musicBean.getAlbumId());
+        contentValues.put("coverUrl", musicBean.getCoverPath());
         contentValues.put("time", System.currentTimeMillis());
         sqLiteDatabase.insert(TABLE_MY_SONG,null,contentValues);
     }
@@ -307,12 +324,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.query(TABLE_MY_SONG,null,null,null,null,null,"time desc",null);
         while (cursor.moveToNext()){
             MusicBean musicBean = new MusicBean();
+            musicBean.setType(MusicBean.Type.ONLINE);
             musicBean.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("songId"))));
             musicBean.setArtistId(cursor.getString(cursor.getColumnIndex("artistId")));
             musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
             musicBean.setArtistName(cursor.getString(cursor.getColumnIndex("artist")));
             musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("album")));
             musicBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
+            musicBean.setCoverPath(cursor.getString(cursor.getColumnIndex("coverUrl")));
             list.add(musicBean);
         }
         return list;
@@ -392,5 +411,60 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             list.add(date);
         }
         return list;
+    }
+
+    public void addOnlineMusic(MusicBean musicBean){
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_ONLINE_MUSIC_LIST + " WHERE songId = ?", new String[]{musicBean.getId()+""});
+        cursor.moveToFirst();
+        Long count = cursor.getLong(0);
+        if (count > 0) {
+            return;
+        } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("songId", musicBean.getId()+"");
+            contentValues.put("artistId", musicBean.getArtistId());
+            contentValues.put("title", musicBean.getTitle());
+            contentValues.put("artist", musicBean.getArtistName());
+            contentValues.put("album", musicBean.getAlbum());
+            contentValues.put("albumId", musicBean.getAlbumId());
+            contentValues.put("coverUrl", musicBean.getCoverPath());
+            sqLiteDatabase.insert(TABLE_ONLINE_MUSIC_LIST,null,contentValues);
+            return;
+        }
+    }
+
+    public void deleteOnlineMusic(MusicBean musicBean){
+        sqLiteDatabase.delete(TABLE_ONLINE_MUSIC_LIST,"songId = ?",new String[]{musicBean.getId()+""});
+    }
+
+    public void replaceOnlineMusicList(List<MusicBean> list){
+        sqLiteDatabase.delete(TABLE_ONLINE_MUSIC_LIST, null, null);
+        if(list!=null){
+            for(int i=0;i<list.size();i++){
+                addOnlineMusic(list.get(i));
+            }
+        }
+    }
+
+    public List<MusicBean> queryOnlineMusicList(){
+        List<MusicBean> list = new ArrayList<MusicBean>();
+        Cursor cursor = sqLiteDatabase.query(TABLE_ONLINE_MUSIC_LIST,null,null,null,null,null,null,null);
+        while (cursor.moveToNext()){
+            MusicBean musicBean = new MusicBean();
+            musicBean.setType(MusicBean.Type.ONLINE);
+            musicBean.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("songId"))));
+            musicBean.setArtistId(cursor.getString(cursor.getColumnIndex("artistId")));
+            musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+            musicBean.setArtistName(cursor.getString(cursor.getColumnIndex("artist")));
+            musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("album")));
+            musicBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
+            musicBean.setCoverPath(cursor.getString(cursor.getColumnIndex("coverUrl")));
+            list.add(musicBean);
+        }
+        return list;
+    }
+
+    public void clearOnlineMusicList(){
+        sqLiteDatabase.delete(TABLE_ONLINE_MUSIC_LIST,null,null);
     }
 }

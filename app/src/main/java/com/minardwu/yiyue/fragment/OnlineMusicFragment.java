@@ -60,9 +60,9 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     private boolean isLoveSong;
     private AnimationSet unloveAnimation;
     private AnimationSet loveAnimation;
-    private boolean isPlayList;
     private List<MusicBean> playList;
     private OnlineMusicListDialogFragment onlineMusicListDialogFragment;
+    private boolean isDialogShow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,11 +86,11 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         tv_online_music_artist.setOnClickListener(this);
         iv_online_music_list.setOnClickListener(this);
         iv_onlinemusic_play.setSelected(false);
-        isPlayList = Preferences.enablePlayOnlineList();
-        
+        unloveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_unlove);
+        loveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_love);
+
         playingMusic = MyDatabaseHelper.init(getContext()).getFMHistoryLastSong();
-        playList = new ArrayList<MusicBean>();
-        onlineMusicListDialogFragment = OnlineMusicListDialogFragment.newInstance(playList);
+        playList = MyDatabaseHelper.init(getContext()).queryOnlineMusicList();
         if(playingMusic==null){
             changeIconState(0);
             setFirstInData();
@@ -98,10 +98,11 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             changeIconState(1);
             changeMusicImp(playingMusic);
             Notifier.showPause(playingMusic);
+            getPlayOnlineMusicService().setPlayingMusic(playingMusic);
         }
+        onlineMusicListDialogFragment = OnlineMusicListDialogFragment.newInstance(playList);
+        getPlayOnlineMusicService().replaceMusicList(playList);
         iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);
-        unloveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_unlove);
-        loveAnimation = (AnimationSet) AnimationUtils.loadAnimation(getContext(),R.anim.action_love);
     }
 
     public void changeMusicImp(final MusicBean music) {
@@ -202,7 +203,10 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         playList.clear();
         playList.addAll(list);
         iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);
-        onlineMusicListDialogFragment.updateMusicList(list);
+        if(isDialogShow && list.size()==0){
+            onlineMusicListDialogFragment.dismiss();
+            isDialogShow = false;
+        }
     }
 
     @Override
@@ -231,6 +235,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 getPlayOnlineMusicService().next();
                 break;
             case R.id.iv_online_music_list:
+                isDialogShow = true;
                 onlineMusicListDialogFragment.updateMusicList(playList);
                 onlineMusicListDialogFragment.show(getFragmentManager(), "OnlineMusicListDialogFragment");
                 break;
@@ -322,6 +327,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             public void onSuccess(MusicBean musicBean) {
                 playingMusic = musicBean;
                 changeMusicImp(playingMusic);
+                getPlayOnlineMusicService().setPlayingMusic(playingMusic);
                 changeIconState(1);
                 Notifier.showPause(playingMusic);
             }

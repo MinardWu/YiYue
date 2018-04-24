@@ -165,6 +165,9 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(View view, int position) {
                 if(position==0) {
                     playOnlineMusicService.playMusicList(hotSongs);
+                    Intent intent = new Intent(ArtistActivity.this,MainActivity.class);
+                    intent.putExtra(MainActivity.INDEX,MainActivity.ONLINE);
+                    startActivity(intent);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(hotSongs.get(position-1).getId()+"")){
                     finish();
                 }else {

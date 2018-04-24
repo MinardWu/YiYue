@@ -1,5 +1,6 @@
 package com.minardwu.yiyue.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.ArtistActivity;
+import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
@@ -51,6 +54,9 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
             @Override
             public void onItemClick(View view, int position) {
                 if(position == 0){
+                    Intent intent = new Intent(getActivity(),MainActivity.class);
+                    intent.putExtra(MainActivity.INDEX,MainActivity.ONLINE);
+                    startActivity(intent);
                     playOnlineMusicService.playMusicList(list);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
                     getActivity().finish();

@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.OnlineMusicListAdapter;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.SystemUtils;
+import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 
 import java.io.Serializable;
@@ -32,7 +34,7 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private List<MusicBean> list = new ArrayList<MusicBean>();
-    private OnlineMusicListAdapter adapter = new OnlineMusicListAdapter(getContext(),list);;
+    private OnlineMusicListAdapter adapter = new OnlineMusicListAdapter(getContext(),this,list);;
     private TextView tv_list_song_count;
     private ImageView iv_playmode;
     private ImageView iv_clear_list;
@@ -43,8 +45,9 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomDatePickerDialog);//要在onCreate这里设置
 
+        list.clear();
         list.addAll((List<MusicBean>) getArguments().getSerializable("musicList"));
-        adapter = new OnlineMusicListAdapter(getContext(),list);
+        adapter = new OnlineMusicListAdapter(getContext(),this,list);
         songCount = list.size();
     }
 
@@ -64,7 +67,7 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
         iv_playmode = view.findViewById(R.id.iv_play_mode);
         iv_clear_list = view.findViewById(R.id.iv_clear_list);
         recyclerView = view.findViewById(R.id.rv_online_music_list);
-        adapter = new OnlineMusicListAdapter(getContext(),list);
+        adapter = new OnlineMusicListAdapter(getContext(),this,list);
         linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -89,17 +92,23 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
         return fragment;
     }
 
+    public void setMusicList(List<MusicBean> musicBeanList){
+        list.clear();
+        list.addAll(musicBeanList);
+        songCount = list.size();
+    }
+
     public void updateMusicList(List<MusicBean> musicBeanList){
         list.clear();
         list.addAll(musicBeanList);
         adapter.notifyDataSetChanged();
         songCount = list.size();
         if (tv_list_song_count!=null){
-            tv_list_song_count.setText(getContext().getResources().getString(R.string.online_music_play_list_song_count,songCount));
+            tv_list_song_count.setText(YiYueApplication.getAppContext().getResources().getString(R.string.online_music_play_list_song_count,songCount));
         }
-        if(list.size()==0){
-            this.dismiss();
-        }
+//        if(list.size()==0){
+//            this.dismiss();
+//        }
     }
 
 

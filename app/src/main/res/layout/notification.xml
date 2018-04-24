@@ -11,7 +11,7 @@
         android:layout_gravity="center_vertical"
         android:contentDescription="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/icon_logo" />
+        android:src="@drawable/default_cover" />
 
     <RelativeLayout
         android:id="@+id/ll_right_all"

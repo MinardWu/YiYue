@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.executor.IView;
+import com.minardwu.yiyue.fragment.OnlineMusicListDialogFragment;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.UIUtils;
@@ -28,10 +29,12 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
 
     private List<MusicBean> list;
     private Context context;
+    private OnlineMusicListDialogFragment fragment;
     private PlayOnlineMusicService playOnlineMusicService;
 
-    public OnlineMusicListAdapter(Context context,List<MusicBean> list) {
+    public OnlineMusicListAdapter(Context context, OnlineMusicListDialogFragment fragment,List<MusicBean> list) {
         this.list = list;
+        this.fragment = fragment;
         this.context = context;
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
     }
@@ -55,7 +58,12 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playOnlineMusicService.playMusicList(position);
+                if(isPlayingMusic){
+                    fragment.dismiss();
+                }else {
+                    playOnlineMusicService.playMusicList(position);
+                    notifyDataSetChanged();
+                }
             }
         });
 
@@ -64,7 +72,16 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 playOnlineMusicService.deleteMusic(musicBean);
                 if(isPlayingMusic){
-                    playOnlineMusicService.playMusicList(position);
+                    if(playOnlineMusicService.isPlaying()){
+                        if(playOnlineMusicService.getMusicList().size()!=0){
+                            playOnlineMusicService.playMusicList(position);
+                        }else {
+                            playOnlineMusicService.pause();
+                            fragment.dismiss();
+                        }
+                    }else {
+                        playOnlineMusicService.updateOnlineMusicFragment(playOnlineMusicService.getMusicList().get(position));
+                    }
                 }
             }
         });

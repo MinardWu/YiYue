@@ -80,7 +80,7 @@ public class Notifier {
         if (cover != null) {
             remoteViews.setImageViewBitmap(R.id.iv_icon, cover);
         } else {
-            remoteViews.setImageViewResource(R.id.iv_icon, R.drawable.icon_logo);
+            remoteViews.setImageViewResource(R.id.iv_icon, R.drawable.default_cover);
         }
         remoteViews.setTextViewText(R.id.tv_title, title);
         remoteViews.setTextViewText(R.id.tv_subtitle, subtitle);

@@ -51,6 +51,9 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
+    public static final String INDEX = "index";
+    public static final String LOCAL = "local";
+    public static final String ONLINE = "online";
     private int currentFragment = 0;
     private DrawerItemAdapter drawerItemAdapter;
     private FragmentPagerAdapter fragmentPagerAdapter;
@@ -129,11 +132,24 @@ public class MainActivity extends BaseActivity {
                 viewPager.setCurrentItem(0);
                 changeIcon(0);
             }else if(type.equals("ONLINE")){
-                currentFragment = 0;
+                currentFragment = 1;
                 viewPager.setCurrentItem(1);
                 changeIcon(1);
             }
             setIntent(new Intent());
+        }
+
+        if (newIntent.hasExtra(MainActivity.INDEX)) {
+            String index = newIntent.getStringExtra(INDEX);
+            if (index.equals(LOCAL)){
+                currentFragment = 0;
+                viewPager.setCurrentItem(0);
+                changeIcon(0);
+            }else if(index.equals(ONLINE)){
+                currentFragment = 1;
+                viewPager.setCurrentItem(1);
+                changeIcon(1);
+            }
         }
     }
 

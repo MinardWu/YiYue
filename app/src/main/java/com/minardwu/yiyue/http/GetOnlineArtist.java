@@ -118,12 +118,15 @@ public class GetOnlineArtist {
                             JSONObject hotSong = hotSongs.getJSONObject(i);
                             String songId = hotSong.getString("id");
                             String songName = hotSong.getString("name");
+                            String songCoverUrl = hotSong.getJSONObject("al").getString("picUrl");
                             String songAlbumName = hotSong.getJSONObject("al").getString("name");
                             String songAlbumId = hotSong.getJSONObject("al").getString("id");
                             MusicBean musicBean = new MusicBean();
+                            musicBean.setType(MusicBean.Type.ONLINE);
                             musicBean.setArtistName(name);
                             musicBean.setId(Long.parseLong(songId));
                             musicBean.setTitle(songName);
+                            musicBean.setCoverPath(songCoverUrl);
                             musicBean.setAlbum(songAlbumName);
                             musicBean.setAlbumId(songAlbumId);
                             //Log.e(TAG,songAlbumName);

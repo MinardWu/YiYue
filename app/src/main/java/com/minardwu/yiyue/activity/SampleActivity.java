@@ -16,8 +16,7 @@ import butterknife.OnClick;
 
 public abstract class SampleActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar_sample)
-    Toolbar toolbar;
+    @BindView(R.id.toolbar_sample) android.support.v7.widget.Toolbar toolbar;
     @BindView(R.id.iv_toolbar_back) ImageView iv_toolbar_back;
     @BindView(R.id.tv_toolbar_mid_title) TextView tv_toolbar_mid_title;
     @BindView(R.id.tv_toolbar_left_title) TextView tv_toolbar_left_title;

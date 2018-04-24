@@ -30,6 +30,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LocalMusicListActivity"
