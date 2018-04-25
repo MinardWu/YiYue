@@ -200,9 +200,11 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     @Override
     public void onUpdateOnlineMusicList(List<MusicBean> list) {
+        Log.e("dsfgiuaweshfjkde","222222222222");
         playList.clear();
         playList.addAll(list);
         iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);
+        onlineMusicListDialogFragment.updateMusicList(list);
         if(isDialogShow && list.size()==0){
             onlineMusicListDialogFragment.dismiss();
             isDialogShow = false;

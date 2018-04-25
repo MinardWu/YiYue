@@ -160,6 +160,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView(){
+        setStatusBarDarkModeForM(this.getWindow());
         changeIcon(currentFragment);
         if(AppCache.getLocalMusicList().size()>0&&AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle()!= null){
             tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());

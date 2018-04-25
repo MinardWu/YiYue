@@ -1,9 +1,12 @@
 package com.minardwu.yiyue.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.os.Build;
 
@@ -48,6 +51,17 @@ public class BaseActivity extends AppCompatActivity {
             throw new NullPointerException("online service is null");
         }
         return playOnlineMusicService;
+    }
+
+    public void setStatusBarDarkModeForM(Window window) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            window.getDecorView().setSystemUiVisibility(systemUiVisibility);
+        }
     }
 
     protected void log(String string){

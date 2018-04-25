@@ -62,7 +62,7 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
                     fragment.dismiss();
                 }else {
                     playOnlineMusicService.playMusicList(position);
-                    notifyDataSetChanged();
+                    //notifyDataSetChanged();
                 }
             }
         });
