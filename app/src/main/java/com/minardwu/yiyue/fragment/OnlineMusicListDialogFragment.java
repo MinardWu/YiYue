@@ -102,7 +102,7 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
     }
 
     public void updateMusicList(List<MusicBean> musicBeanList){
-        Log.e("dsfgiuaweshfjkde","3333333");
+        Log.e("dsfgiuaweshfjkde","333333");
         list.clear();
         list.addAll(musicBeanList);
         adapter.notifyDataSetChanged();
