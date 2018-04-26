@@ -101,7 +101,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         stop();
         playPosition = position;
         play((int)onlineMusicPlayList.get(position).getId());
-        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);//更新播放位置
     }
 
     public void playMusicList(List<MusicBean> list){

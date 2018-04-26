@@ -22,6 +22,7 @@ import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.executor.MoreOptionOfActAlbumExecutor;
+import com.minardwu.yiyue.fragment.AlbumInfoFragment;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineAlbum;
@@ -79,6 +80,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private OnlineMusicRecycleViewAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private MyDatabaseHelper myDatabaseHelper;
+    private Bitmap coverBitmap;
     private Bitmap blurBitmap;
     private AlbumBean albumBean;
 
@@ -124,6 +126,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         setTitleToCollapsingToolbarLayout();
         iv_back.setOnClickListener(this);
         iv_more.setOnClickListener(this);
+        iv_album_cover.setOnClickListener(this);
     }
 
     private void initView(final AlbumBean albumBean){
@@ -131,7 +134,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onSuccess(final Bitmap bitmap) {
-                blurBitmap = ImageUtils.blur(AlbumActivity.this,bitmap,0.01f,25);
+                coverBitmap = bitmap;
+                blurBitmap = ImageUtils.getBlurBitmap(bitmap);
                 toolbar.setBackground(new BitmapDrawable(blurBitmap));
                 toolbar.getBackground().setAlpha(0);
                 iv_bg.setImageBitmap(blurBitmap);
@@ -211,14 +215,20 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.iv_album_cover:
+                AlbumInfoFragment albumInfoFragment = AlbumInfoFragment.newInstance(albumBean,coverBitmap);
+                albumInfoFragment.show(getFragmentManager(),"albumInfoFragment");
+                break;
             case R.id.tv_album_artist:
                 Intent artistIntent = new Intent(this,ArtistActivity.class);
                 artistIntent.putExtra("artistName",albumBean.getArtist().getName());
                 artistIntent.putExtra("artistId",albumBean.getArtist().getId());
                 startActivity(artistIntent);
+                break;
             case R.id.iv_more:
                 MyDatabaseHelper.init(AlbumActivity.this).addCollectedAlbum(albumBean);
                 ToastUtils.showShortToast("11");
+                break;
         }
     }
 

@@ -18,6 +18,7 @@ import com.minardwu.yiyue.executor.MoreOptionOfActFMHistoryExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
+import com.minardwu.yiyue.utils.SystemUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,8 +59,11 @@ public class MyFMHistoryActivity extends SampleActivity implements IView{
             public void onItemClick(View view, int position) {
                 if(position == 0){
                     playOnlineMusicService.playMusicList(list);
+                    finish();
+                    SystemUtils.startMainActivity(MyFMHistoryActivity.this,MainActivity.ONLINE);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
                     finish();
+                    SystemUtils.startMainActivity(MyFMHistoryActivity.this,MainActivity.ONLINE);
                 }else {
                     playOnlineMusicService.stop();
                     playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());

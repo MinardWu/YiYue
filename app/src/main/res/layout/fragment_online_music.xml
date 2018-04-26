@@ -53,11 +53,10 @@
             android:scrollHorizontally="true"/>
 
         <com.minardwu.yiyue.widget.LrcView
-            android:layout_below="@+id/tv_online_music_artist"
+            android:layout_above="@+id/ll_control"
             android:id="@+id/lrc_onlinelmusic"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="24dp"
             lrc:lrcAnimationDuration="1000"
             lrc:lrcCurrentTextColor="@color/grey"
             lrc:lrcDividerHeight="24dp"
@@ -68,6 +67,7 @@
             lrc:lrcTimelineTextColor="#131313" />
 
         <LinearLayout
+            android:id="@+id/ll_control"
             android:gravity="center_vertical"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="56dp"

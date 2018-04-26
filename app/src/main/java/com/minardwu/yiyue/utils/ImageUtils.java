@@ -22,7 +22,6 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
 
 
-
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.RequestCode;
 import com.minardwu.yiyue.http.result.FailResult;
@@ -42,8 +41,38 @@ import java.net.URL;
 public class ImageUtils {
     private static final int BLUR_RADIUS = 500;
 
+    @Nullable
+    public static Bitmap getBlurBitmap(Bitmap source) {
+        if (source == null) {
+            return null;
+        }
+        try {
+            return getBlurBitmap(source, 0.01f,25);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return source;
+        }
+    }
+
+    public static Bitmap getFullScreenBlurBitmap(Bitmap source){
+        if (source == null) {
+            return null;
+        }
+        try {
+            Bitmap blur = getBlurBitmap(source);
+            Bitmap fullScreenBlurBitmap = Bitmap.createScaledBitmap(blur,
+                    SystemUtils.getScreenWidth()/blur.getWidth(),
+                    SystemUtils.getScreenHeight()/blur.getWidth(),
+                    false);
+            return fullScreenBlurBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return source;
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static Bitmap blur(Context context, Bitmap bitmap, float bitmap_scale, int blur_radius) {
+    public static Bitmap getBlurBitmap(Bitmap bitmap, float bitmap_scale, int blur_radius) {
         //先对图片进行压缩然后再blur
         Bitmap inputBitmap = Bitmap.createScaledBitmap(bitmap,
                 Math.round(bitmap.getWidth() * bitmap_scale),
@@ -52,7 +81,7 @@ public class ImageUtils {
         //创建空的Bitmap用于输出
         Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
         //①、初始化Renderscript
-        RenderScript rs = RenderScript.create(context);
+        RenderScript rs = RenderScript.create(YiYueApplication.getAppContext());
         //②、Create an Intrinsic Blur Script using the Renderscript
         ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
         //③、native层分配内存空间
@@ -70,21 +99,11 @@ public class ImageUtils {
         return outputBitmap;
     }
 
-    @Nullable
-    public static Bitmap blur(Bitmap source) {
-        if (source == null) {
-            return null;
-        }
 
-        try {
-            return blur(source, BLUR_RADIUS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return source;
-        }
-    }
 
-    private static Bitmap blur(Bitmap source, int radius) {
+
+
+    private static Bitmap getBlurBitmap(Bitmap source, int radius) {
         Bitmap bitmap = source.copy(source.getConfig(), true);
 
         if (radius < 1) {

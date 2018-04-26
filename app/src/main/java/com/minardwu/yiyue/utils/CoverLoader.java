@@ -144,7 +144,7 @@ public class CoverLoader {
 
         switch (type) {
             case BLUR:
-                return ImageUtils.blur(bitmap);
+                return ImageUtils.getBlurBitmap(bitmap);
             case ROUND:
                 bitmap = ImageUtils.resizeImage(bitmap, SystemUtils.getScreenWidth() / 2, SystemUtils.getScreenWidth() / 2);
                 return ImageUtils.createCircleImage(bitmap);

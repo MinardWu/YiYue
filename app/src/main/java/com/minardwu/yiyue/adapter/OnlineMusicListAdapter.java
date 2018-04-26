@@ -2,6 +2,7 @@ package com.minardwu.yiyue.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final MusicBean musicBean = list.get(position);
-        final boolean isPlayingMusic = playOnlineMusicService.getPlayingMusic().equals(list.get(position));
+        final boolean isPlayingMusic = playOnlineMusicService.getPlayingMusicId().equals(list.get(position).getId()+"");
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.tv_title.setText(musicBean.getTitle());
         viewHolder.tv_artist.setText(context.getResources().getString(R.string.online_music_list_artist,musicBean.getArtistName()));
@@ -62,7 +63,7 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
                     fragment.dismiss();
                 }else {
                     playOnlineMusicService.playMusicList(position);
-                    //notifyDataSetChanged();
+                    notifyDataSetChanged();
                 }
             }
         });

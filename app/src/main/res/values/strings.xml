@@ -95,6 +95,9 @@
     <string name="online_music_list_artist">&#160;-&#160;%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="album_company">发型公司:%s</string>
+    <string name="album_type">专辑类型:%s</string>
+
     <string name="online_music_play_list_title">播放列表</string>
     <string name="online_music_play_list_song_count">(共%1$d首)</string>
 

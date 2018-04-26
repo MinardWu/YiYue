@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
@@ -17,6 +18,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.ArtistActivity;
+import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.application.YiYueApplication;
 
 import java.lang.reflect.Method;
@@ -132,6 +135,12 @@ public class SystemUtils {
         } else {
             Toast.makeText(activity, "授权成功！", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static void startMainActivity(Activity activity,String index){
+        Intent intent = new Intent(activity,MainActivity.class);
+        intent.putExtra(MainActivity.INDEX,index);
+        activity.startActivity(intent);
     }
 
 }

@@ -59,6 +59,16 @@
         <item name="android:windowExitAnimation">@anim/dialog_out_bottom</item>
     </style>
 
+    <style name="AlbumInfoDialog" parent="@style/AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowEnterAnimation">@anim/dialog_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out_bottom</item>
+    </style>
+
     <style name="dialog_fragment_animation">
         <item name="android:windowEnterAnimation">@anim/dialog_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/dialog_out_bottom</item>

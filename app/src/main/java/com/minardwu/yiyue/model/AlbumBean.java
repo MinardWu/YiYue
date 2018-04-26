@@ -1,12 +1,16 @@
 package com.minardwu.yiyue.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by wumingyuan on 2018/3/23.
  */
 
-public class AlbumBean {
+public class AlbumBean implements Parcelable {
 
     private String albumId;
     private String albumName;
@@ -98,4 +102,52 @@ public class AlbumBean {
     public void setSubType(String subType) {
         this.subType = subType;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.albumId);
+        dest.writeString(this.albumName);
+        dest.writeString(this.picUrl);
+        dest.writeString(this.info);
+        dest.writeString(this.company);
+        dest.writeString(this.subType);
+        dest.writeInt(this.size);
+        dest.writeLong(this.publishTime);
+        dest.writeParcelable(this.artist, flags);
+        dest.writeList(this.songs);
+    }
+
+    public AlbumBean() {
+    }
+
+    protected AlbumBean(Parcel in) {
+        this.albumId = in.readString();
+        this.albumName = in.readString();
+        this.picUrl = in.readString();
+        this.info = in.readString();
+        this.company = in.readString();
+        this.subType = in.readString();
+        this.size = in.readInt();
+        this.publishTime = in.readLong();
+        this.artist = in.readParcelable(ArtistBean.class.getClassLoader());
+        this.songs = new ArrayList<MusicBean>();
+        in.readList(this.songs, MusicBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<AlbumBean> CREATOR = new Parcelable.Creator<AlbumBean>() {
+        @Override
+        public AlbumBean createFromParcel(Parcel source) {
+            return new AlbumBean(source);
+        }
+
+        @Override
+        public AlbumBean[] newArray(int size) {
+            return new AlbumBean[size];
+        }
+    };
 }

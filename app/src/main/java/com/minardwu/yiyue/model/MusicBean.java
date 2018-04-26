@@ -1,6 +1,8 @@
 package com.minardwu.yiyue.model;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * 单曲信息
  * Created by wcy on 2015/11/27.
  */
-public class MusicBean implements Serializable {
+public class MusicBean implements Parcelable {
     // 歌曲类型:本地/网络
     private Type type;
     // [本地歌曲]歌曲id
@@ -173,4 +175,62 @@ public class MusicBean implements Serializable {
     public boolean equals(Object o) {
         return o instanceof MusicBean && this.getId() == ((MusicBean) o).getId();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeLong(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.artistName);
+        dest.writeString(this.artistId);
+        dest.writeString(this.album);
+        dest.writeString(this.albumId);
+        dest.writeString(this.coverPath);
+        dest.writeLong(this.duration);
+        dest.writeString(this.path);
+        dest.writeString(this.fileName);
+        dest.writeLong(this.fileSize);
+        dest.writeString(this.lrc);
+        dest.writeParcelable(this.onlineMusicCover, flags);
+        dest.writeLong(this.addTime);
+    }
+
+    public MusicBean() {
+    }
+
+    protected MusicBean(Parcel in) {
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : Type.values()[tmpType];
+        this.id = in.readLong();
+        this.title = in.readString();
+        this.artistName = in.readString();
+        this.artistId = in.readString();
+        this.album = in.readString();
+        this.albumId = in.readString();
+        this.coverPath = in.readString();
+        this.duration = in.readLong();
+        this.path = in.readString();
+        this.fileName = in.readString();
+        this.fileSize = in.readLong();
+        this.lrc = in.readString();
+        this.onlineMusicCover = in.readParcelable(Bitmap.class.getClassLoader());
+        this.addTime = in.readLong();
+    }
+
+    public static final Parcelable.Creator<MusicBean> CREATOR = new Parcelable.Creator<MusicBean>() {
+        @Override
+        public MusicBean createFromParcel(Parcel source) {
+            return new MusicBean(source);
+        }
+
+        @Override
+        public MusicBean[] newArray(int size) {
+            return new MusicBean[size];
+        }
+    };
 }

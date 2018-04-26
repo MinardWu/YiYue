@@ -446,8 +446,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public List<MusicBean> queryOnlineMusicList(){
-        List<MusicBean> list = new ArrayList<MusicBean>();
+    public ArrayList<MusicBean> queryOnlineMusicList(){
+        ArrayList<MusicBean> list = new ArrayList<MusicBean>();
         Cursor cursor = sqLiteDatabase.query(TABLE_ONLINE_MUSIC_LIST,null,null,null,null,null,null,null);
         while (cursor.moveToNext()){
             MusicBean musicBean = new MusicBean();

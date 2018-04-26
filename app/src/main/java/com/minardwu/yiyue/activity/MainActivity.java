@@ -110,10 +110,10 @@ public class MainActivity extends BaseActivity {
             SystemUtils.checkPermission(this,1);
         }
 //        startActivity(new Intent(this,CollectionActivity.class));
-//        Intent albumIntent = new Intent(this, AlbumActivity.class);
-//        albumIntent.putExtra("albumId","18905");
-//        albumIntent.putExtra("albumName","18905");
-//        startActivity(albumIntent);
+        Intent albumIntent = new Intent(this, AlbumActivity.class);
+        albumIntent.putExtra("albumId","18905");
+        albumIntent.putExtra("albumName","18905");
+        startActivity(albumIntent);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView(){
-        setStatusBarDarkModeForM(this.getWindow());
+//        setStatusBarDarkModeForM(this.getWindow());
         changeIcon(currentFragment);
         if(AppCache.getLocalMusicList().size()>0&&AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle()!= null){
             tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());

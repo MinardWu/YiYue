@@ -60,7 +60,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     private boolean isLoveSong;
     private AnimationSet unloveAnimation;
     private AnimationSet loveAnimation;
-    private List<MusicBean> playList;
+    private ArrayList<MusicBean> playList;
     private OnlineMusicListDialogFragment onlineMusicListDialogFragment;
     private boolean isDialogShow;
 
@@ -200,7 +200,6 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     @Override
     public void onUpdateOnlineMusicList(List<MusicBean> list) {
-        Log.e("dsfgiuaweshfjkde","222222222222");
         playList.clear();
         playList.addAll(list);
         iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);

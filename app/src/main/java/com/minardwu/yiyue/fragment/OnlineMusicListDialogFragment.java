@@ -35,7 +35,7 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private List<MusicBean> list = new ArrayList<MusicBean>();
+    private ArrayList<MusicBean> list = new ArrayList<MusicBean>();
     private OnlineMusicListAdapter adapter = new OnlineMusicListAdapter(getContext(),this,list);;
     private TextView tv_list_song_count;
     private ImageView iv_playmode;
@@ -46,9 +46,10 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomDatePickerDialog);//要在onCreate这里设置
-
-        list.clear();
-        list.addAll((List<MusicBean>) getArguments().getSerializable("musicList"));
+        if (getArguments()!=null){
+            list.clear();
+            list = getArguments().getParcelableArrayList("musicList");
+        }
         adapter = new OnlineMusicListAdapter(getContext(),this,list);
         songCount = list.size();
     }
@@ -87,10 +88,10 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
 
     }
 
-    public static OnlineMusicListDialogFragment newInstance(List<MusicBean> list){
+    public static OnlineMusicListDialogFragment newInstance(ArrayList<MusicBean> list){
         OnlineMusicListDialogFragment fragment = new OnlineMusicListDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("musicList", (Serializable) list);
+        bundle.putParcelableArrayList("musicList",list);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -110,9 +111,6 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
         if (tv_list_song_count!=null){
             tv_list_song_count.setText(YiYueApplication.getAppContext().getResources().getString(R.string.online_music_play_list_song_count,songCount));
         }
-//        if(list.size()==0){
-//            this.dismiss();
-//        }
     }
 
 

@@ -29,6 +29,7 @@ import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ImageUtils;
+import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
@@ -98,7 +99,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                             myDatabaseHelper.updateArtistPic(artistId,artistPicUrl);
                         }
                         iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
-                        iv_bg.setImageBitmap(ImageUtils.blur(ArtistActivity.this,bitmap,0.1f,5));
+                        iv_bg.setImageBitmap(ImageUtils.getBlurBitmap(bitmap));
                     }
 
                     @Override
@@ -165,11 +166,14 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(View view, int position) {
                 if(position==0) {
                     playOnlineMusicService.playMusicList(hotSongs);
-                    Intent intent = new Intent(ArtistActivity.this,MainActivity.class);
-                    intent.putExtra(MainActivity.INDEX,MainActivity.ONLINE);
-                    startActivity(intent);
+                    finish();
+                    SystemUtils.startMainActivity(ArtistActivity.this,MainActivity.ONLINE);
+//                    Intent intent = new Intent(ArtistActivity.this,MainActivity.class);
+//                    intent.putExtra(MainActivity.INDEX,MainActivity.ONLINE);
+//                    startActivity(intent);
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(hotSongs.get(position-1).getId()+"")){
                     finish();
+                    SystemUtils.startMainActivity(ArtistActivity.this,MainActivity.ONLINE);
                 }else {
                     playOnlineMusicService.stop();
                     playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
