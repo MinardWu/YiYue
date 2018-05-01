@@ -1,6 +1,7 @@
 package com.minardwu.yiyue.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 import com.minardwu.yiyue.R;
@@ -72,4 +73,7 @@ public class UIUtils {
         return YiYueApplication.getAppContext().getResources().getString(id);
     }
 
+    public static Drawable getDrawable(int id) {
+        return YiYueApplication.getAppContext().getResources().getDrawable(id);
+    }
 }

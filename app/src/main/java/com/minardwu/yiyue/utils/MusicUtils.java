@@ -11,6 +11,7 @@ import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 
+import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 
 import java.util.ArrayList;
@@ -148,5 +149,24 @@ public class MusicUtils {
         public boolean equals(Object o) {
             return false;
         }
+    }
+
+    public static MusicBean getAlarmMusic(long id){
+        for (int i =0;i < AppCache.getLocalMusicList().size();i++){
+            if (AppCache.getLocalMusicList().get(i).getId() == id){
+                return AppCache.getLocalMusicList().get(i);
+            }
+        }
+        if (AppCache.getLocalMusicList().size() > 0) {
+            return AppCache.getLocalMusicList().get(0);
+        }
+        return null;
+    }
+
+    public static MusicBean getDefaultMusic(){
+        if (AppCache.getLocalMusicList().size() > 0) {
+            return AppCache.getLocalMusicList().get(0);
+        }
+        return null;
     }
 }

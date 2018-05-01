@@ -28,6 +28,7 @@ public class AlarmClockDateAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private String[] dates = new String[]{"一","二","三","四","五","六","七"};
+    private int[] count = new int[]{2,3,4,5,6,7,1};
     private List<Integer> checkDates = new ArrayList<Integer>();
 
     public AlarmClockDateAdapter(Context context){
@@ -63,9 +64,9 @@ public class AlarmClockDateAdapter extends RecyclerView.Adapter {
                         ? UIUtils.getColor(R.color.colorGreenLight)
                         : UIUtils.getColor(R.color.grey));
                 if (viewHolder.button.isSelected()){
-                    MyDatabaseHelper.init(context).addAlarmClockDate(position+1);
+                    MyDatabaseHelper.init(context).addAlarmClockDate(count[position]);
                 }else {
-                    MyDatabaseHelper.init(context).deleteAlarmClockDate(position+1);
+                    MyDatabaseHelper.init(context).deleteAlarmClockDate(count[position]);
                 }
             }
         });

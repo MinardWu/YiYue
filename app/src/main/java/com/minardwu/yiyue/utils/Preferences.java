@@ -27,6 +27,10 @@ public class Preferences {
     private static final String FITLER_SIZE_POSITION = "filter_size_position";
     private static final String PLAY_ONLINE_LIST = "play_online_list";
 
+    private static final String ALARM_MUSIC_ID = "alarm_music_id";
+    private static final String ALARM_HOUR = "alarm_hour";
+    private static final String ALARM_MINUTE = "alarm_minute";
+
     private static final String LOCAL_MUSIC_ORDER_TYPE = "local_music_order_type";
     public static final int ORDER_BY_TIME = 1;
     public static final int ORDER_BY_TITLE = 2;
@@ -84,6 +88,30 @@ public class Preferences {
 
     public static void setLocalMusicOrderType(int position) {
         saveInt(LOCAL_MUSIC_ORDER_TYPE, position);
+    }
+
+    public static long getAlarmMusicId() {
+        return getLong(ALARM_MUSIC_ID, -1);
+    }
+
+    public static void saveAlarmMusicId(long id) {
+        saveLong(ALARM_MUSIC_ID, id);
+    }
+
+    public static int getAlarmHour() {
+        return getInt(ALARM_HOUR, 12);
+    }
+
+    public static void saveAlarmHour(int hour) {
+        saveInt(ALARM_HOUR, hour);
+    }
+
+    public static int getAlarmMinute() {
+        return getInt(ALARM_MINUTE, 0);
+    }
+
+    public static void saveAlarmMinute(int minute) {
+        saveInt(ALARM_MINUTE, minute);
     }
 
     public static long getCurrentSongId() {
