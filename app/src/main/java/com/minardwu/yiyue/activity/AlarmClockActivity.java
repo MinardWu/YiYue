@@ -177,5 +177,4 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
         sw_time.setChecked(Preferences.enableAlarmClock());
         switchUI(false);
     }
-
 }
