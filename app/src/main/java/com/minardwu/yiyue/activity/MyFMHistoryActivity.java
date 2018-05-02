@@ -65,10 +65,14 @@ public class MyFMHistoryActivity extends SampleActivity implements IView{
                     finish();
                     SystemUtils.startMainActivity(MyFMHistoryActivity.this,MainActivity.ONLINE);
                 }else {
-                    playOnlineMusicService.stop();
-                    playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
-                    adapter.notifyDataSetChanged();
+                    if(playOnlineMusicService.isPlayList()){
+                        playOnlineMusicService.playOtherWhenPlayList(adapter.getMusicList().get(position-1));
+                    }else {
+                        playOnlineMusicService.stop();
+                        playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
+                        playOnlineMusicService.updatePlayingMusicPosition(position-1);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
 

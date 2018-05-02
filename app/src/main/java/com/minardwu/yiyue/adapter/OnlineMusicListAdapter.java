@@ -81,7 +81,9 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
                             fragment.dismiss();
                         }
                     }else {
-                        playOnlineMusicService.updateOnlineMusicFragment(playOnlineMusicService.getMusicList().get(position));
+                        if(playOnlineMusicService.getMusicList().size()!=0){
+                            playOnlineMusicService.updateOnlineMusicFragment(playOnlineMusicService.getMusicList().get(position));
+                        }
                     }
                 }
             }

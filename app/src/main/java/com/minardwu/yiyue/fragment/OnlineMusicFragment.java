@@ -26,7 +26,6 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.Notifier;
-import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LrcView;
@@ -101,7 +100,9 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             getPlayOnlineMusicService().setPlayingMusic(playingMusic);
         }
         onlineMusicListDialogFragment = OnlineMusicListDialogFragment.newInstance(playList);
-        getPlayOnlineMusicService().replaceMusicList(playList);
+        if(playList.size()!=0){
+            getPlayOnlineMusicService().replaceMusicList(playList);
+        }
         iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);
     }
 
@@ -237,7 +238,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 break;
             case R.id.iv_online_music_list:
                 isDialogShow = true;
-                onlineMusicListDialogFragment.updateMusicList(playList);
+                onlineMusicListDialogFragment = OnlineMusicListDialogFragment.newInstance(playList);
                 onlineMusicListDialogFragment.show(getFragmentManager(), "OnlineMusicListDialogFragment");
                 break;
             case R.id.tv_online_music_artist:
@@ -339,7 +340,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 changeIconState(1);
                 ToastUtils.showShortToast("服务器出小差了");
             }
-        }.exectue(AppCache.defaultMusicId);
+        }.execute(AppCache.defaultMusicId,false);
     }
 
 }

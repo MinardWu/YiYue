@@ -13,5 +13,5 @@ public interface GetOnlineSongListener {
 
     void onFail(FailResult result);
 
-    void exectue(int id);
+    void execute(int id, boolean isClick);
 }

@@ -165,10 +165,14 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
                     finish();
                 }else {
-                    playOnlineMusicService.stop();
-                    playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
-                    adapter.notifyDataSetChanged();
+                    if(playOnlineMusicService.isPlayList()){
+                        playOnlineMusicService.playOtherWhenPlayList(list.get(position-1));
+                    }else {
+                        playOnlineMusicService.stop();
+                        playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
+                        playOnlineMusicService.updatePlayingMusicPosition(position-1);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
 

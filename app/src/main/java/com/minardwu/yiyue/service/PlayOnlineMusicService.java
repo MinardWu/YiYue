@@ -141,7 +141,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                 isPlayList = false;
             }
         }
-        Log.e("dsfgiuaweshfjkde","111111111111");
         playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
     }
 
@@ -156,8 +155,31 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         return onlineMusicPlayList;
     }
 
+    public boolean isPlayList(){
+        return isPlayList;
+    }
+
     public void updatePlayingMusicPosition(int position){
         this.playPosition = position;
+    }
+
+    /**
+     * 当在线列表存在时，若在其他界面点击播放歌曲则在播放列表中加入该歌曲
+     * @param musicBean 加入歌曲
+     */
+    public void playOtherWhenPlayList(MusicBean musicBean){
+        boolean isContainMusic = false;
+        for(int i=0;i<onlineMusicPlayList.size();i++){
+            if(musicBean.getId() == onlineMusicPlayList.get(i).getId()){
+                playMusicList(i);
+                isContainMusic = true;
+                break;
+            }
+        }
+        if (!isContainMusic){
+            onlineMusicPlayList.add(0,musicBean);
+            playMusicList(0);
+        }
     }
 
     /**
@@ -166,15 +188,26 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
      */
     public void updateOnlineMusicFragment(MusicBean musicBean){
         playOnlineMusicListener.onChangeMusic(musicBean);
+        setPlayingMusic(musicBean);
         MyDatabaseHelper.init(this).addFMHistory(musicBean);
+        if(isPlayList()){
+            playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+        }
     }
 
     public String getPlayingMusicId(){
         return playingMusicId;
     }
 
+    // todo 版权提示
     public void play(int id){
         playOnlineMusicListener.onPrepareStart();
+        playingMusicId = id+"";
+        //列表播放时肯定是有歌曲一部分信息的，无论如何可以展示出来
+        if(isPlayList()){
+            setPlayingMusic(onlineMusicPlayList.get(playPosition));
+            playOnlineMusicListener.onChangeMusic(onlineMusicPlayList.get(playPosition));
+        }
         if(Preferences.enablePlayWhenOnlyHaveWifi()){
             if(NetWorkUtils.getNetWorkType(this) != NetWorkType.WIFI){
                 ToastUtils.showShortToast(UIUtils.getString(R.string.wifi_tips));
@@ -187,8 +220,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             playOnlineMusicListener.onPrepareStop();
             return;
         }
-        Log.e(TAG,"id:"+id);
-        playingMusicId = id+"";
         mediaPlayer.reset();
         new GetOnlineSong() {
             @Override
@@ -212,7 +243,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                 playOnlineMusicListener.onGetSongError(result.getResultCode());
                 Log.e(TAG,result.getException());
             }
-        }.exectue(id);//114533
+        }.execute(id,false);//114533
     }
 
     MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {
@@ -427,6 +458,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
      */
     public void setPlayingMusic(MusicBean musicBean) {
         this.playingMusic = musicBean;
+        this.playingMusicId = musicBean.getId()+"";
     }
 
 

@@ -13,6 +13,7 @@ public class ResultCode {
     public static final int GET_URL_ERROR = 101;
     public static final int GET_DETAIL_ERROR = 102;
     public static final int GET_LRC_ERROR = 103;
+    public static final int GET_SONG_NO_COPYRIGHT = 104;
 
     //歌手返回
     public static final int GET_ARTIST_INFO_ERROR = 201;

@@ -34,16 +34,20 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
 
     OkHttpClient okHttpClient = new OkHttpClient();
 
+    /**
+     * @param id 歌曲id
+     * @param isClick 用户是点击具体歌曲还是fm过来的
+     */
     @Override
-    public void exectue(int id) {
-        getSongUrlById(id);
+    public void execute(int id, boolean isClick) {
+        getSongUrlById(id,isClick);
     }
 
     /**
      * 获取歌曲url
      * @param id 歌曲id
      */
-    public void getSongUrlById(final int id){
+    public void getSongUrlById(final int id, final boolean isClick){
         final int[] temp = new int[1];
         temp[0] = id;
         String url;
@@ -66,9 +70,19 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     JSONObject data = root.getJSONArray("data").getJSONObject(0);
                     String url = data.getString("url");
                     if(url.equals("")){
-                        Log.e(TAG,"url为空，找不到歌曲");
-                        temp[0] = id+10;
-                        getSongUrlById(id+10);
+                        //如果是点击过来的则报无版权，不会接着往下找
+                        if(isClick){
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    onFail(new FailResult(ResultCode.GET_SONG_NO_COPYRIGHT,"no copyright"));
+                                }
+                            });
+                        }else {
+                            Log.e(TAG,"url为空，找不到歌曲");
+                            temp[0] = id+10;
+                            getSongUrlById(id+10,isClick);
+                        }
                     }else {
                         getSongDetailById(temp[0],url);
                     }
