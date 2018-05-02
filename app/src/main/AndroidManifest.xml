@@ -78,7 +78,8 @@
         </receiver>
 
         <activity android:name=".activity.AlarmActivity" />
-        <activity android:name=".activity.AlarmMusicChoseActivity"></activity>
+        <activity android:name=".activity.AlarmMusicChoseActivity" />
+        <activity android:name=".activity.SearchLocalMusicActivity"></activity>
     </application>
 
 </manifest>

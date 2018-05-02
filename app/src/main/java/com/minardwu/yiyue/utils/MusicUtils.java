@@ -169,4 +169,19 @@ public class MusicUtils {
         }
         return null;
     }
+
+    public static ArrayList<MusicBean> searchLocalMusic(String content){
+        content = content.toLowerCase();
+        ArrayList<MusicBean> list = new ArrayList<MusicBean>();
+        if(AppCache.getLocalMusicList().size()>0){
+            for (MusicBean musicBean:AppCache.getLocalMusicList()){
+                if(musicBean.getTitle().toLowerCase().contains(content)
+                        || musicBean.getArtistName().toLowerCase().contains(content)
+                        || musicBean.getAlbum().toLowerCase().contains(content)){
+                    list.add(musicBean);
+                }
+            }
+        }
+        return list;
+    }
 }

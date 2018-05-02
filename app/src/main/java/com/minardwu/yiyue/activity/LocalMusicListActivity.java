@@ -1,5 +1,6 @@
 package com.minardwu.yiyue.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -45,6 +46,9 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
 
     @OnClick(R.id.iv_back) void back(){
         finish();
+    }
+    @OnClick(R.id.iv_search) void search(){
+        startActivity(new Intent(LocalMusicListActivity.this,SearchLocalMusicActivity.class));
     }
     @OnClick(R.id.iv_more) void more(){
         CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(this)
