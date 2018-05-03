@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.constants.Lrc;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.MusicBean;
@@ -184,9 +185,9 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     JSONObject root = new JSONObject(response.body().string());
                     Log.e(TAG,root.toString());
                     if(root.has("uncollected")){//无歌词
-                        musicBean.setLrc("1");
+                        musicBean.setLrc(Lrc.LRC_NO_EXIST);
                     }else if(root.has("nolyric")){//纯音乐无歌词
-                        musicBean.setLrc("2");
+                        musicBean.setLrc(Lrc.LRC_PURE_MUSIC);
                     }else {
                         JSONObject lrc = root.getJSONObject("lrc");
                         String lyric = lrc.getString("lyric");

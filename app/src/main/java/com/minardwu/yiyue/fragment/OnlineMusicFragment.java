@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.constants.Lrc;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineSong;
@@ -118,9 +119,9 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 String lrc = music.getLrc();
                 if(lrc!=null){
                     Log.v("lrc",lrc);
-                    if(lrc.equals("1")){
+                    if(lrc.equals(Lrc.LRC_NO_EXIST)){
                         lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_no_exist));
-                    }else if(lrc.equals("2")){
+                    }else if(lrc.equals(Lrc.LRC_PURE_MUSIC)){
                         lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_pure_music));
                     }else{
                         lrc_onlinelmusic.loadLrc(lrc);
