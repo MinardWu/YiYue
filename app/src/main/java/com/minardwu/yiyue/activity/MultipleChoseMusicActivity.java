@@ -52,4 +52,12 @@ public class MultipleChoseMusicActivity extends SampleActivity {
     protected int getContentView() {
         return R.layout.activity_multiple_chose_music;
     }
+
+    @Override
+    protected void setToolbarTitle(TextView left, TextView mid, TextView right) {
+        super.setToolbarTitle(left, mid, right);
+        left.setText("选择音乐");
+        mid.setVisibility(View.GONE);
+        right.setVisibility(View.GONE);
+    }
 }
