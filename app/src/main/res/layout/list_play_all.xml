@@ -44,25 +44,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:text="@string/multiple_choice"
-        android:id="@+id/tv_multiple_choice"
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:textSize="13sp"
-        android:textColor="@color/black"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:minHeight="@dimen/music_list_item_height"
+        android:layout_height="@dimen/music_list_item_height">
 
-    <ImageView
-        android:layout_toLeftOf="@+id/tv_multiple_choice"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_multiple_choice"
-        android:layout_width="16dp"
-        android:layout_height="16dp" />
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="4dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_multiple_choice"
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/multiple_choice"
+            android:id="@+id/tv_multiple_choice"
+            android:textSize="13sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/v_line"

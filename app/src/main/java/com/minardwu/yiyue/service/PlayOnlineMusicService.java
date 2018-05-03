@@ -199,6 +199,13 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         return playingMusicId;
     }
 
+
+    public void playPosition(int position){
+        if(position>0 && position<onlineMusicPlayList.size()){
+            play((int)onlineMusicPlayList.get(position).getId());
+        }
+    }
+
     // todo 版权提示
     public void play(int id){
         playOnlineMusicListener.onPrepareStart();
@@ -261,7 +268,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             switch (mode) {
                 case SHUFFLE:
                     playPosition = new Random().nextInt(onlineMusicPlayList.size());
-                    play((int)onlineMusicPlayList.get(playPosition).getId());
+                    playPosition(playPosition);
                     break;
                 case SINGLE:
                 case LOOP:
@@ -271,7 +278,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     }else {
                         playPosition = playPosition +1;
                     }
-                    play((int)onlineMusicPlayList.get(playPosition).getId());
+                    playPosition(playPosition);
             }
             EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
         }else {
@@ -425,21 +432,28 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     }
 
     public void onCompletionImpl(MediaPlayer mp) {
+        handler.removeCallbacks(updateProgressRunable);
+        playOnlineMusicListener.onPublish(0);
         if(isPlayList){
-            PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getLocalPlayMode());
+            PlayModeEnum mode = PlayModeEnum.valueOf(Preferences.getOnlinePlayMode());
             switch (mode) {
                 case SHUFFLE:
-                    playPosition = new Random().nextInt(AppCache.getLocalMusicList().size());
-                    play(playPosition);
+                    playPosition = new Random().nextInt(onlineMusicPlayList.size());
+                    play((int)onlineMusicPlayList.get(playPosition).getId());
                     break;
                 case SINGLE:
-                    play(playPosition);
+                    playPosition(playPosition);
                     break;
                 case LOOP:
                 default:
-                    play(playPosition + 1);
-                    break;
+                    if(playPosition == onlineMusicPlayList.size()-1){
+                        playPosition = 0;
+                    }else {
+                        playPosition = playPosition +1;
+                    }
+                    play((int)onlineMusicPlayList.get(playPosition).getId());
             }
+            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
         }else {
             next();
         }
