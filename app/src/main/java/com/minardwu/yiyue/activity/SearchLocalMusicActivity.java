@@ -43,7 +43,7 @@ public class SearchLocalMusicActivity extends BaseActivity implements TextWatche
         setContentView(R.layout.activity_search_local_music);
         ButterKnife.bind(this);
         list = new ArrayList<MusicBean>();
-        adapter = new SearchLocalMusicAdapter(list);
+        adapter = new SearchLocalMusicAdapter(this,list);
         et_search.addTextChangedListener(this);
         rv_local_music_search_result.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_local_music_search_result.setAdapter(adapter);

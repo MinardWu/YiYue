@@ -61,8 +61,8 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     public static final String ARTIST_NAME = "artistName";
 
     PlayOnlineMusicService playOnlineMusicService;
-    List<MusicBean> hotSongs = new ArrayList<MusicBean>();
-    OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(hotSongs);
+    ArrayList<MusicBean> hotSongs = new ArrayList<MusicBean>();
+    OnlineMusicRecycleViewAdapter adapter = new OnlineMusicRecycleViewAdapter(ArtistActivity.this,hotSongs);
     LinearLayoutManager linearLayoutManager;
     MyDatabaseHelper myDatabaseHelper;
     private ArtistBean artist;
@@ -155,7 +155,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         song_conut = artistBean.getSongs().size();
         artistId = artistBean.getId();
         hotSongs = artistBean.getSongs();
-        adapter = new OnlineMusicRecycleViewAdapter(hotSongs);
+        adapter = new OnlineMusicRecycleViewAdapter(this,hotSongs);
         linearLayoutManager = new LinearLayoutManager(this);
 
         loading_view.setVisibility(View.GONE);

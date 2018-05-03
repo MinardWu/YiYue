@@ -79,7 +79,8 @@
 
         <activity android:name=".activity.AlarmActivity" />
         <activity android:name=".activity.AlarmMusicChoseActivity" />
-        <activity android:name=".activity.SearchLocalMusicActivity"></activity>
+        <activity android:name=".activity.SearchLocalMusicActivity" />
+        <activity android:name=".activity.MultipleChoseMusicActivity"></activity>
     </application>
 
 </manifest>

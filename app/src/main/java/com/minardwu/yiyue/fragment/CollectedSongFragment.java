@@ -23,12 +23,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollectedSongFragment extends CollectionBaseFragment implements IView{
 
     private OnlineMusicRecycleViewAdapter adapter;
-    private List<MusicBean> list;
+    private ArrayList<MusicBean> list;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
     @Override
     protected RecyclerView.Adapter getAdapter() {
         list = MyDatabaseHelper.init(getActivity()).queryCollectedSong();
-        adapter = new OnlineMusicRecycleViewAdapter(list);
+        adapter = new OnlineMusicRecycleViewAdapter(getActivity(),list);
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {

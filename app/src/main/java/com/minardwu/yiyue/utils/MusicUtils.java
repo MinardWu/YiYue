@@ -171,17 +171,26 @@ public class MusicUtils {
     }
 
     public static ArrayList<MusicBean> searchLocalMusic(String content){
-        content = content.toLowerCase();
+        content = content.toLowerCase().replace(" ","");//1.转为小写 2.去掉空格
         ArrayList<MusicBean> list = new ArrayList<MusicBean>();
         if(AppCache.getLocalMusicList().size()>0){
             for (MusicBean musicBean:AppCache.getLocalMusicList()){
-                if(musicBean.getTitle().toLowerCase().contains(content)
-                        || musicBean.getArtistName().toLowerCase().contains(content)
-                        || musicBean.getAlbum().toLowerCase().contains(content)){
+                if(musicBean.getTitle().toLowerCase().replace(" ","").contains(content)
+                        || musicBean.getArtistName().toLowerCase().replace(" ","").contains(content)
+                        || musicBean.getAlbum().toLowerCase().replace(" ","").contains(content)){
                     list.add(musicBean);
                 }
             }
         }
         return list;
+    }
+
+    public static int getLocalMusicPosition(long id){
+        for (int i = 0;i<AppCache.getLocalMusicList().size();i++){
+            if (AppCache.getLocalMusicList().get(i).getId() == id){
+                return i;
+            }
+        }
+        return 0;
     }
 }

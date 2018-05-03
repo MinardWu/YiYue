@@ -37,6 +37,7 @@ import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -147,8 +148,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
             }
         });
-        final List<MusicBean> list = albumBean.getSongs();
-        adapter = new OnlineMusicRecycleViewAdapter(list);
+        final ArrayList<MusicBean> list = albumBean.getSongs();
+        adapter = new OnlineMusicRecycleViewAdapter(this,list);
         linearLayoutManager = new LinearLayoutManager(this);
         tv_album_name.setText(albumBean.getAlbumName());
         tv_album_artist.setText("歌手："+albumBean.getArtist().getName()+" >");

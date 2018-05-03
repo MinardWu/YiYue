@@ -244,8 +244,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<MusicBean> queryFMHistory(){
-        List<MusicBean> list = new ArrayList<MusicBean>();
+    public ArrayList<MusicBean> queryFMHistory(){
+        ArrayList<MusicBean> list = new ArrayList<MusicBean>();
         Cursor cursor = sqLiteDatabase.query(TABLE_FM_HISTORY,null,null,null,null,null,"time desc","50");
         while (cursor.moveToNext()){
             MusicBean musicBean = new MusicBean();
@@ -319,8 +319,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(TABLE_MY_SONG,"songId = ?",new String[]{musicBean.getId()+""});
     }
 
-    public List<MusicBean> queryCollectedSong(){
-        List<MusicBean> list = new ArrayList<MusicBean>();
+    public ArrayList<MusicBean> queryCollectedSong(){
+        ArrayList<MusicBean> list = new ArrayList<MusicBean>();
         Cursor cursor = sqLiteDatabase.query(TABLE_MY_SONG,null,null,null,null,null,"time desc",null);
         while (cursor.moveToNext()){
             MusicBean musicBean = new MusicBean();

@@ -1,5 +1,7 @@
 package com.minardwu.yiyue.adapter;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.MultipleChoseMusicActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
@@ -28,11 +31,13 @@ import butterknife.ButterKnife;
 
 public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private Activity activity;
     private int playingMusicPosition = -1;
     private PlayOnlineMusicService playOnlineMusicService;
-    private List<MusicBean> musicList = new ArrayList<MusicBean>();
+    private ArrayList<MusicBean> musicList = new ArrayList<MusicBean>();
 
-    public OnlineMusicRecycleViewAdapter(List<MusicBean> list) {
+    public OnlineMusicRecycleViewAdapter(Activity activity,ArrayList<MusicBean> list) {
+        this.activity = activity;
         this.musicList = list;
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
     }
@@ -67,6 +72,14 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             playAllViewHolder.tv_play_all.setText(UIUtils.getString(R.string.play_all));
             playAllViewHolder.tv_play_all_song_count.setText("(共"+ musicList.size()+"首)");
             playAllViewHolder.rl_play_all.setVisibility(View.VISIBLE);
+            playAllViewHolder.tv_multiple_choice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, MultipleChoseMusicActivity.class);
+                    intent.putParcelableArrayListExtra("musicList",musicList);
+                    activity.startActivity(intent);
+                }
+            });
             playAllViewHolder.rl_play_all.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -153,6 +166,8 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         TextView tv_play_all;
         @BindView(R.id.rl_play_all)
         RelativeLayout rl_play_all;
+        @BindView(R.id.tv_multiple_choice)
+        TextView tv_multiple_choice;
 
         public PlayAllViewHolder(View itemView) {
             super(itemView);

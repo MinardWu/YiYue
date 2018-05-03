@@ -21,7 +21,7 @@ public class AlbumBean implements Parcelable {
     private int size;
     private long publishTime;
     private ArtistBean artist;
-    private List<MusicBean> songs;
+    private ArrayList<MusicBean> songs;
 
     public String getAlbumId() {
         return albumId;
@@ -87,11 +87,11 @@ public class AlbumBean implements Parcelable {
         this.artist = artist;
     }
 
-    public List<MusicBean> getSongs() {
+    public ArrayList<MusicBean> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<MusicBean> songs) {
+    public void setSongs(ArrayList<MusicBean> songs) {
         this.songs = songs;
     }
 

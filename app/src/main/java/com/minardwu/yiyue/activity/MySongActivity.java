@@ -23,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySongActivity extends SampleActivity implements IView{
@@ -30,7 +31,7 @@ public class MySongActivity extends SampleActivity implements IView{
     private RecyclerView rv_fm_history;
     private LinearLayout empty_view;
     private OnlineMusicRecycleViewAdapter adapter;
-    private List<MusicBean> list;
+    private ArrayList<MusicBean> list;
     private PlayOnlineMusicService playOnlineMusicService;
     private LinearLayoutManager linearLayoutManager;
 
@@ -50,7 +51,7 @@ public class MySongActivity extends SampleActivity implements IView{
         list = MyDatabaseHelper.init(this).queryCollectedSong();
         rv_fm_history.setVisibility(list.size()>0?View.VISIBLE:View.GONE);
         empty_view.setVisibility(list.size()>0?View.GONE:View.VISIBLE);
-        adapter = new OnlineMusicRecycleViewAdapter(list);
+        adapter = new OnlineMusicRecycleViewAdapter(this,list);
         rv_fm_history.setLayoutManager(linearLayoutManager);
         rv_fm_history.setAdapter(adapter);
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {

@@ -60,7 +60,7 @@ public class GetOnlineAlbum {
                     long albumPublishTime = album.getLong("publishTime");
                     int size = album.getInt("size");
 
-                    List<MusicBean> list = new ArrayList<MusicBean>();
+                    ArrayList<MusicBean> list = new ArrayList<MusicBean>();
                     for (int i=0;i<size;i++){
                         JSONObject song = songs.getJSONObject(i);
                         String songId = song.getString("id");
