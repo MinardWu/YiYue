@@ -1,9 +1,5 @@
 package com.minardwu.yiyue.constants;
 
-/**
- * Actions
- * Created by hzwangchenyan on 2016/1/22.
- */
 public interface Actions {
     String ACTION_MEDIA_PLAY_PAUSE = "com.minardwu.imusic.ACTION_MEDIA_PLAY_PAUSE";
     String ACTION_MEDIA_NEXT = "com.minardwu.imusic.ACTION_MEDIA_NEXT";
