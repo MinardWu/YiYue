@@ -109,7 +109,9 @@
     <string name="feedback_quit">内容未提交，确定退出吗？</string>
 
     <string name="lrc_searching">正在搜索歌词...</string>
-    <string name="lrc_can_not_find">"找不到歌词"</string>
+    <string name="lrc_can_not_find">找不到歌词</string>
+    <string name="lrc_pure_music">纯音乐，请欣赏</string>
+    <string name="lrc_no_exist">尚无歌词</string>
 
     <string name="is_delete_fm_history">确定要删除此记录吗?</string>
     <string name="is_delete_collected_song">确定要删除此歌曲吗?</string>

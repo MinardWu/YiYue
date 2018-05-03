@@ -119,9 +119,9 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 if(lrc!=null){
                     Log.v("lrc",lrc);
                     if(lrc.equals("1")){
-                        lrc_onlinelmusic.setLabel("尚无歌词");
+                        lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_no_exist));
                     }else if(lrc.equals("2")){
-                        lrc_onlinelmusic.setLabel("纯音乐，请欣赏");
+                        lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_pure_music));
                     }else{
                         lrc_onlinelmusic.loadLrc(lrc);
                     }
