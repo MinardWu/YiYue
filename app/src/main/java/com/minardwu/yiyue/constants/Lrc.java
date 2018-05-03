@@ -5,6 +5,7 @@ package com.minardwu.yiyue.constants;
  */
 
 public interface Lrc {
+
     String LRC_NO_EXIST = "lrc_no_exit";
     String LRC_PURE_MUSIC = "lrc_pure_music";
 }
