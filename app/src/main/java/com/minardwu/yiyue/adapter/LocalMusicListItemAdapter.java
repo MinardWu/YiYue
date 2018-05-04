@@ -77,7 +77,7 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
             viewHolder.tv_count.setVisibility(View.VISIBLE);
             viewHolder.iv_playing.setVisibility(View.GONE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
-            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_l));
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_80));
             viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
         }
         MusicBean music = AppCache.getLocalMusicList().get(position);

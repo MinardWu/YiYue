@@ -5,14 +5,27 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">@android:color/white</color>
-    <color name="white_8p">#14FFFFFF</color>
-    <color name="white_16p">#29FFFFFF</color>
-    <color name="white_24p">#3DFFFFFF</color>
-    <color name="white_50p">#80FFFFFF</color>
-    <color name="white_96p">#F5FFFFFF</color>
+    <color name="white_90">#E6FFFFFF</color>
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="white_60">#99FFFFFF</color>
+    <color name="white_50">#80FFFFFF</color>
+    <color name="white_40">#66FFFFFF</color>
+    <color name="white_30">#4DFFFFFF</color>
+    <color name="white_20">#33FFFFFF</color>
+    <color name="white_10">#1AFFFFFF</color>
+
     <color name="black">@android:color/black</color>
-    <color name="black_50p">#80000000</color>
-    <color name="black_l">#aa000000</color>
+    <color name="black_90">#E6000000</color>
+    <color name="black_80">#CC000000</color>
+    <color name="black_70">#B3000000</color>
+    <color name="black_60">#99000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="black_30">#4D000000</color>
+    <color name="black_20">#33000000</color>
+    <color name="black_10">#1A000000</color>
+
     <color name="red">#F44336</color>
     <color name="red_30p">#4CF44336</color>
     <color name="blue">#2196F3</color>

@@ -2,6 +2,7 @@ package com.minardwu.yiyue.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,10 +13,14 @@ import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.UIUtils;
+import com.minardwu.yiyue.widget.RippleView;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +29,14 @@ public class AlarmActivity extends BaseActivity implements MediaPlayer.OnPrepare
 
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_time)
+    TextView tv_time;
     @BindView(R.id.tv_tips)
     TextView tv_tips;
     @BindView(R.id.iv_alarm_bg)
     ImageView iv_alarm_bg;
+    @BindView(R.id.ripple_view)
+    RippleView rippleView;
 
     private MediaPlayer mediaPlayer;
 
@@ -36,6 +45,16 @@ public class AlarmActivity extends BaseActivity implements MediaPlayer.OnPrepare
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         ButterKnife.bind(this);
+
+        SimpleDateFormat formatter =  new SimpleDateFormat("HH:mm");
+        String str = formatter.format(new Date(System.currentTimeMillis()));
+        tv_time.setText(str);
+        rippleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         if(getIntent() != null){
             MusicBean alarmMusic = MusicUtils.getAlarmMusic(Preferences.getAlarmMusicId());
             if (alarmMusic == null){

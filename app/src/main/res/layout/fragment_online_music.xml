@@ -60,7 +60,7 @@
             lrc:lrcAnimationDuration="1000"
             lrc:lrcCurrentTextColor="@color/grey"
             lrc:lrcDividerHeight="24dp"
-            lrc:lrcNormalTextColor="@color/black_50p"
+            lrc:lrcNormalTextColor="@color/black_60"
             lrc:lrcPadding="40dp"
             lrc:lrcTextSize="16sp"
             lrc:lrcTimelineColor="#464646"

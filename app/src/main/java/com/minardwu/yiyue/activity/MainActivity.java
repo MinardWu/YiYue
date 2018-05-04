@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
         if(YiYueApplication.isNeedQequestReadExteranlStorage){
             SystemUtils.checkPermission(this,1);
         }
-        startActivity(new Intent(this,AlarmClockActivity.class));
+        startActivity(new Intent(this,AlarmActivity.class));
 //        Intent albumIntent = new Intent(this, AlbumActivity.class);
 //        albumIntent.putExtra("albumId","18905");
 //        albumIntent.putExtra("albumName","18905");

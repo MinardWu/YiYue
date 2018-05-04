@@ -69,7 +69,7 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
         } else {
             viewHolder.v_Playing.setVisibility(View.INVISIBLE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
-            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_l));
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_80));
             viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
         }
         MusicBean music = list.get(position);

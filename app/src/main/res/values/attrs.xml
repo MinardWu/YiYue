@@ -28,4 +28,9 @@
         <attr name="loading_text_color" format="color"/>
         <attr name="loading_text_size" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="RippleView">
+        <attr name="radios" format="dimension"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
 </resources>

@@ -18,9 +18,27 @@
         android:layout_height="match_parent"/>
 
     <TextView
+        android:visibility="gone"
         android:layout_centerInParent="true"
         android:textColor="@color/white"
         android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="80sp"
+        android:id="@+id/tv_time"
+        android:layout_above="@+id/ripple_view"
+        android:layout_marginBottom="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.minardwu.yiyue.widget.RippleView
+        android:id="@+id/ripple_view"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -30,7 +48,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="24dp"
         android:id="@+id/tv_tips"
-        android:text="上滑停止闹钟"
+        android:text="不要再赖在床上了╰(￣▽￣)╭"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
