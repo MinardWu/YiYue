@@ -72,17 +72,22 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 playOnlineMusicService.deleteMusic(musicBean);
+                //删除的歌曲为当前选中播放的歌曲
                 if(isPlayingMusic){
+                    //删除的歌曲正在播放
                     if(playOnlineMusicService.isPlaying()){
+                        //列表中删除后还有歌曲，则接着播放，负责停止播放，隐藏列表
                         if(playOnlineMusicService.getMusicList().size()!=0){
                             playOnlineMusicService.playMusicList(position);
                         }else {
                             playOnlineMusicService.pause();
                             fragment.dismiss();
                         }
-                    }else {
+                    }else {//删除歌曲不在播放则只更新到下首ui
                         if(playOnlineMusicService.getMusicList().size()!=0){
                             playOnlineMusicService.updateOnlineMusicFragment(playOnlineMusicService.getMusicList().get(position));
+                        }else {
+                            fragment.dismiss();
                         }
                     }
                 }

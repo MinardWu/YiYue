@@ -99,8 +99,10 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
 
     public void playMusicList(int position){
         stop();
-        playPosition = position;
-        play((int)onlineMusicPlayList.get(position).getId());
+        if(position >=0 && position < onlineMusicPlayList.size()){
+            playPosition = position;
+            play((int)onlineMusicPlayList.get(position).getId());
+        }
     }
 
     public void playMusicList(List<MusicBean> list){
@@ -136,6 +138,9 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             if (onlineMusicPlayList.get(i).getId() == musicBean.getId()){
                 onlineMusicPlayList.remove(i);
                 MyDatabaseHelper.init(getApplicationContext()).deleteOnlineMusic(musicBean);
+                if(i<playPosition){
+                    playPosition -= 1;
+                }
             }
             if (onlineMusicPlayList.size()==0){
                 isPlayList = false;
@@ -188,6 +193,8 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
      */
     public void updateOnlineMusicFragment(MusicBean musicBean){
         playOnlineMusicListener.onChangeMusic(musicBean);
+        handler.removeCallbacks(updateProgressRunable);
+        playOnlineMusicListener.onPublish(0);
         setPlayingMusic(musicBean);
         MyDatabaseHelper.init(this).addFMHistory(musicBean);
         if(isPlayList()){
@@ -199,17 +206,11 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         return playingMusicId;
     }
 
-
-    public void playPosition(int position){
-        if(position>0 && position<onlineMusicPlayList.size()){
-            play((int)onlineMusicPlayList.get(position).getId());
-        }
-    }
-
     // todo 版权提示
     public void play(int id){
         playOnlineMusicListener.onPrepareStart();
         playingMusicId = id+"";
+        Log.e("playingMusicId",playingMusicId);
         //列表播放时肯定是有歌曲一部分信息的，无论如何可以展示出来
         if(isPlayList()){
             setPlayingMusic(onlineMusicPlayList.get(playPosition));
@@ -248,7 +249,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             public void onFail(FailResult result) {
                 playOnlineMusicListener.onPrepareStop();
                 playOnlineMusicListener.onGetSongError(result.getResultCode());
-                Log.e(TAG,result.getException());
+                Log.e(TAG,result.getResultCode()+":"+result.getException());
             }
         }.execute(id,false);//114533
     }
@@ -268,7 +269,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             switch (mode) {
                 case SHUFFLE:
                     playPosition = new Random().nextInt(onlineMusicPlayList.size());
-                    playPosition(playPosition);
+                    playMusicList(playPosition);
                     break;
                 case SINGLE:
                 case LOOP:
@@ -278,7 +279,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     }else {
                         playPosition = playPosition +1;
                     }
-                    playPosition(playPosition);
+                    playMusicList(playPosition);
             }
             EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
         }else {
@@ -442,7 +443,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     play((int)onlineMusicPlayList.get(playPosition).getId());
                     break;
                 case SINGLE:
-                    playPosition(playPosition);
+                    playMusicList(playPosition);
                     break;
                 case LOOP:
                 default:
@@ -473,8 +474,14 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     public void setPlayingMusic(MusicBean musicBean) {
         this.playingMusic = musicBean;
         this.playingMusicId = musicBean.getId()+"";
+        if (isPlayList()){
+            for (int i=0;i<onlineMusicPlayList.size();i++){
+                if (musicBean.getId()==onlineMusicPlayList.get(i).getId()){
+                    playPosition = i;
+                }
+            }
+        }
     }
-
 
     @Override
     public void onDestroy() {

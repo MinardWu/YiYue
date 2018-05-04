@@ -91,6 +91,10 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
         playingMusic = MyDatabaseHelper.init(getContext()).getFMHistoryLastSong();
         playList = MyDatabaseHelper.init(getContext()).queryOnlineMusicList();
+        onlineMusicListDialogFragment = OnlineMusicListDialogFragment.newInstance(playList);
+        if(playList.size()!=0){
+            getPlayOnlineMusicService().replaceMusicList(playList);
+        }
         if(playingMusic==null){
             changeIconState(0);
             setFirstInData();
@@ -99,10 +103,6 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             changeMusicImp(playingMusic);
             Notifier.showPause(playingMusic);
             getPlayOnlineMusicService().setPlayingMusic(playingMusic);
-        }
-        onlineMusicListDialogFragment = OnlineMusicListDialogFragment.newInstance(playList);
-        if(playList.size()!=0){
-            getPlayOnlineMusicService().replaceMusicList(playList);
         }
         iv_online_music_list.setVisibility(playList.size() == 0 ? View.GONE :View.VISIBLE);
     }

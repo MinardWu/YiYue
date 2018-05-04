@@ -17,6 +17,7 @@ public class Preferences {
     private static final String MUSIC_TITLE = "music_title";
     private static final String LOCAL_PLAY_MODE = "local_play_mode";
     private static final String ONLINE_PLAY_MODE = "online_play_mode";
+    private static final String ONLINE_PLAY_POSITION = "online_play_position";
     private static final String SPLASH_URL = "splash_url";
     private static final String NIGHT_MODE = "night_mode";
     private static final String ALARM_CLOCK = "alarm_clock";
@@ -128,6 +129,14 @@ public class Preferences {
 
     public static void saveCurrentSongPosition(int position) {
         saveInt(MUSIC_POSITION, position);
+    }
+
+    public static int getOnlinePlayPosition() {
+        return getInt(ONLINE_PLAY_POSITION, 0);
+    }
+
+    public static void saveOnlinePlayPosition(int position) {
+        saveInt(ONLINE_PLAY_POSITION, position);
     }
 
     public static String getCurrentSongTitle() {

@@ -204,7 +204,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-//                            onFail(GET_LRC_ERROR);
+                            //onFail(GET_LRC_ERROR);
                             //获取不到歌词依旧下发
                             onSuccess(musicBean);
                             Log.e(TAG,"getSongLrcById-onResponse："+e.toString());
