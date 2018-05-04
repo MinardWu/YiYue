@@ -59,7 +59,7 @@ public class MySongActivity extends SampleActivity implements IView{
             public void onItemClick(View view, int position) {
                 if(position == 0){
                     playOnlineMusicService.playMusicList(list);
-                }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
+                }else if(playOnlineMusicService.getPlayingMusicId()==list.get(position-1).getId()){
                     finish();
                 }else {
                     playOnlineMusicService.stop();

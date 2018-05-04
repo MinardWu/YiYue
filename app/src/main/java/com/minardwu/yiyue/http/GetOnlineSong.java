@@ -40,7 +40,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
      * @param isClick 用户是点击具体歌曲还是fm过来的
      */
     @Override
-    public void execute(int id, boolean isClick) {
+    public void execute(long id, boolean isClick) {
         getSongUrlById(id,isClick);
     }
 
@@ -48,8 +48,8 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
      * 获取歌曲url
      * @param id 歌曲id
      */
-    public void getSongUrlById(final int id, final boolean isClick){
-        final int[] temp = new int[1];
+    public void getSongUrlById(final long id, final boolean isClick){
+        final long[] temp = new long[1];
         temp[0] = id;
         String url;
         Request request = new Request.Builder().url(GET_SONG_URL_BY_ID+id).build();
@@ -105,7 +105,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
      * @param id 歌曲id
      * @param musicUrl 这个主要是为了保存上一个函数中或得到的url，在本函数将其保存到musicbean中
      */
-    public void getSongDetailById(final int id, final String musicUrl){
+    public void getSongDetailById(final long id, final String musicUrl){
         final MusicBean musicBean = new MusicBean();
         Request request = new Request.Builder().url(GET_SONG_DETAIL_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -166,7 +166,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
      * @param id 歌曲id
      * @param musicBean 歌曲实体，这个是为了获得上一个函数中或得到的music
      */
-    public void getSongLrcById(final int id,final MusicBean musicBean){
+    public void getSongLrcById(final long id,final MusicBean musicBean){
         Request request = new Request.Builder().url(GET_SONG_LRC_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

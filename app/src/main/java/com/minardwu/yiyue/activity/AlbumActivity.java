@@ -163,7 +163,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             public void onItemClick(View view, int position) {
                 if(position==0) {
                     playOnlineMusicService.playMusicList(list);
-                }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
+                }else if(playOnlineMusicService.getPlayingMusicId()==list.get(position-1).getId()){
                     finish();
                 }else {
                     if(playOnlineMusicService.isPlayList()){

@@ -194,7 +194,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 adapter.setOnSearchResultViewClickListener(new SearchResultAdapter.OnSearchResultViewClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position).getId()+"")){
+                        if(playOnlineMusicService.getPlayingMusicId()==list.get(position).getId()){
                             finish();
                         }else {
                             playOnlineMusicService.stop();

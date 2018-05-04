@@ -92,7 +92,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             MyViewHolder viewHolder = (MyViewHolder) holder;
             //因为进入到这块说明position不为0，所以position必须要减一才能获得musicList中下标为0的元素
             //所以这个recycleView涉及到musicList的position都要-1，其他的不用，如adapter.updatePlayingMusicPosition时直接传入position即可
-            if ((playOnlineMusicService.getPlayingMusicId().equals(musicList.get(position-1).getId()+""))) {
+            if ((playOnlineMusicService.getPlayingMusicId()==musicList.get(position-1).getId())) {
                 viewHolder.tv_count.setVisibility(View.GONE);
                 viewHolder.iv_playing.setVisibility(View.VISIBLE);
                 viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));

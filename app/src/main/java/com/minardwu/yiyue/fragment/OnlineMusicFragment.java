@@ -231,7 +231,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 if(playingMusic==null){
                     getPlayOnlineMusicService().play(AppCache.defaultMusicId);
                 }else {
-                    getPlayOnlineMusicService().playOrPause((int)playingMusic.getId());
+                    getPlayOnlineMusicService().playOrPause(playingMusic.getId());
                 }
                 break;
             case R.id.iv_onlinemusic_next:

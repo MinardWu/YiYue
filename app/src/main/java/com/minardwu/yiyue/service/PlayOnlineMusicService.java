@@ -43,7 +43,7 @@ import org.greenrobot.eventbus.ThreadMode;
 /**
  * 音乐播放后台服务
  */
-public class PlayOnlineMusicService extends PlayService implements MediaPlayer.OnCompletionListener, OnPlayOnlineMusicListener {
+public class PlayOnlineMusicService extends PlayService implements MediaPlayer.OnCompletionListener{
 
     private static final String TAG = "PlayOnlineMusicService";
     private static final long TIME_UPDATE = 100L;
@@ -51,31 +51,29 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     private static final int STATE_PREPARING = 1;
     private static final int STATE_PLAYING = 2;
     private static final int STATE_PAUSE = 3;
-
     private int playState = STATE_IDLE;
+
     private boolean isPlayList = false;
-    private Random random = new Random(System.currentTimeMillis());
     private List<MusicBean> onlineMusicPlayList;
     private int playPosition;
-    private String playingMusicId="null";
-
-    private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();//广播在start的时候注册，pause的时候注销
-    private final IntentFilter noisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-
-    private AudioFocusManager audioFocusManager;//音乐焦点管理
-    private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
+    private long playingMusicId;
     private MusicBean playingMusic;
 
-    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private Random random = new Random(System.currentTimeMillis());
+    private final NoisyAudioStreamReceiver noisyReceiver = new NoisyAudioStreamReceiver();//广播在start的时候注册，pause的时候注销
+    private final IntentFilter noisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private MediaPlayer mediaPlayer;
+    private AudioFocusManager audioFocusManager;//音乐焦点管理
+    private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
     private OnPlayOnlineMusicListener playOnlineMusicListener;
     private final Handler handler = new Handler();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        setPlayOnlineMusicListener(this);
-        mediaPlayer.setOnCompletionListener(this);
         EventBus.getDefault().register(this);
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(this);
         onlineMusicPlayList = new ArrayList<MusicBean>();
         audioFocusManager = new AudioFocusManager();
         mediaSessionManager = new MediaSessionManager();
@@ -85,7 +83,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         this.playOnlineMusicListener = playOnlineMusicListener;
     }
 
-    public void playOrPause(int id) {
+    public void playOrPause(long id) {
         if (isPreparing()) {
             stop();
         } else if (isPlaying()) {
@@ -95,77 +93,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         } else {
             play(id);
         }
-    }
-
-    public void playMusicList(int position){
-        stop();
-        if(position >=0 && position < onlineMusicPlayList.size()){
-            playPosition = position;
-            play((int)onlineMusicPlayList.get(position).getId());
-        }
-    }
-
-    public void playMusicList(List<MusicBean> list){
-        replaceMusicList(list);
-        stop();
-        playPosition = 0;
-        play((int)list.get(0).getId());
-    }
-
-    public void replaceMusicList(List<MusicBean> list){
-        isPlayList = true;
-        Preferences.savePlayOnlineList(true);
-        onlineMusicPlayList.clear();
-        onlineMusicPlayList.addAll(list);
-        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
-        MyDatabaseHelper.init(getApplicationContext()).replaceOnlineMusicList(onlineMusicPlayList);
-    }
-
-    public void appendMusicList(List<MusicBean> list){
-        isPlayList = true;
-        Preferences.savePlayOnlineList(true);
-        for(MusicBean musicBean:list){
-            if(!onlineMusicPlayList.contains(musicBean)){
-                onlineMusicPlayList.add(musicBean);
-                MyDatabaseHelper.init(getApplicationContext()).addOnlineMusic(musicBean);
-            }
-        }
-        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
-    }
-
-    public void deleteMusic(MusicBean musicBean){
-        for(int i=0;i<onlineMusicPlayList.size();i++){
-            if (onlineMusicPlayList.get(i).getId() == musicBean.getId()){
-                onlineMusicPlayList.remove(i);
-                MyDatabaseHelper.init(getApplicationContext()).deleteOnlineMusic(musicBean);
-                if(i<playPosition){
-                    playPosition -= 1;
-                }
-            }
-            if (onlineMusicPlayList.size()==0){
-                isPlayList = false;
-            }
-        }
-        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
-    }
-
-    public void clearMusicList(){
-        isPlayList = false;
-        onlineMusicPlayList.clear();
-        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
-        MyDatabaseHelper.init(getApplicationContext()).clearOnlineMusicList();
-    }
-
-    public List<MusicBean> getMusicList(){
-        return onlineMusicPlayList;
-    }
-
-    public boolean isPlayList(){
-        return isPlayList;
-    }
-
-    public void updatePlayingMusicPosition(int position){
-        this.playPosition = position;
     }
 
     /**
@@ -187,30 +114,13 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
-    /**
-     * 用来更新OnlineMusicFragment界面ui，但是不播放歌曲
-     * @param musicBean
-     */
-    public void updateOnlineMusicFragment(MusicBean musicBean){
-        playOnlineMusicListener.onChangeMusic(musicBean);
+    // todo 版权提示
+    public void play(long id){
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
-        setPlayingMusic(musicBean);
-        MyDatabaseHelper.init(this).addFMHistory(musicBean);
-        if(isPlayList()){
-            playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
-        }
-    }
-
-    public String getPlayingMusicId(){
-        return playingMusicId;
-    }
-
-    // todo 版权提示
-    public void play(int id){
+        playingMusicId = id;
         playOnlineMusicListener.onPrepareStart();
-        playingMusicId = id+"";
-        Log.e("playingMusicId",playingMusicId);
+        Log.e("playingMusicId",Long.toString(playingMusicId));
         //列表播放时肯定是有歌曲一部分信息的，无论如何可以展示出来
         if(isPlayList()){
             setPlayingMusic(onlineMusicPlayList.get(playPosition));
@@ -375,17 +285,6 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         return playState == STATE_IDLE;
     }
 
-    @Override
-    public boolean onUnbind(Intent intent) {
-        return super.onUnbind(intent);
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return new PlayBinder();
-    }
-
     private float progress;
     private Runnable updateProgressRunable = new Runnable() {
         @Override
@@ -462,18 +361,11 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     }
 
     /**
-     * 获取正在播放的歌曲
-     */
-    public MusicBean getPlayingMusic() {
-        return playingMusic;
-    }
-
-    /**
      * 设置播放的歌曲，不一定正在播放，但一定正显示在界面上
      */
     public void setPlayingMusic(MusicBean musicBean) {
         this.playingMusic = musicBean;
-        this.playingMusicId = musicBean.getId()+"";
+        this.playingMusicId = musicBean.getId();
         if (isPlayList()){
             for (int i=0;i<onlineMusicPlayList.size();i++){
                 if (musicBean.getId()==onlineMusicPlayList.get(i).getId()){
@@ -483,18 +375,98 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        mediaPlayer.reset();
-        mediaPlayer.release();
-        mediaPlayer = null;
-        audioFocusManager.abandonAudioFocus();
-        mediaSessionManager.release();
-        Notifier.cancelAll();
-        AppCache.setPlayOnlineMusicService(null);
-        Log.i(TAG, "onDestroy: " + getClass().getSimpleName());
+    public MusicBean getPlayingMusic() {
+        return playingMusic;
+    }
+
+    public long getPlayingMusicId(){
+        return playingMusicId;
+    }
+
+    public List<MusicBean> getMusicList(){
+        return onlineMusicPlayList;
+    }
+
+    public boolean isPlayList(){
+        return isPlayList;
+    }
+
+    public void updatePlayingMusicPosition(int position){
+        this.playPosition = position;
+    }
+
+    public void playMusicList(int position){
+        stop();
+        if(position >=0 && position < onlineMusicPlayList.size()){
+            playPosition = position;
+            play((int)onlineMusicPlayList.get(position).getId());
+        }
+    }
+
+    public void playMusicList(List<MusicBean> list){
+        replaceMusicList(list);
+        stop();
+        playPosition = 0;
+        play((int)list.get(0).getId());
+    }
+
+    public void replaceMusicList(List<MusicBean> list){
+        isPlayList = true;
+        Preferences.savePlayOnlineList(true);
+        onlineMusicPlayList.clear();
+        onlineMusicPlayList.addAll(list);
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+        MyDatabaseHelper.init(getApplicationContext()).replaceOnlineMusicList(onlineMusicPlayList);
+    }
+
+    public void appendMusicList(List<MusicBean> list){
+        isPlayList = true;
+        Preferences.savePlayOnlineList(true);
+        for(MusicBean musicBean:list){
+            if(!onlineMusicPlayList.contains(musicBean)){
+                onlineMusicPlayList.add(musicBean);
+                MyDatabaseHelper.init(getApplicationContext()).addOnlineMusic(musicBean);
+            }
+        }
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+    }
+
+    public void deleteMusic(MusicBean musicBean){
+        for(int i=0;i<onlineMusicPlayList.size();i++){
+            if (onlineMusicPlayList.get(i).getId() == musicBean.getId()){
+                onlineMusicPlayList.remove(i);
+                MyDatabaseHelper.init(getApplicationContext()).deleteOnlineMusic(musicBean);
+                if(i<playPosition){
+                    playPosition -= 1;
+                }
+            }
+            if (onlineMusicPlayList.size()==0){
+                isPlayList = false;
+            }
+        }
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+    }
+
+    public void clearMusicList(){
+        isPlayList = false;
+        onlineMusicPlayList.clear();
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+        MyDatabaseHelper.init(getApplicationContext()).clearOnlineMusicList();
+    }
+
+    /**
+     * 用来更新OnlineMusicFragment界面ui，但是不播放歌曲
+     * @param musicBean
+     */
+    public void updateOnlineMusicFragment(MusicBean musicBean){
+        playOnlineMusicListener.onChangeMusic(musicBean);
+        handler.removeCallbacks(updateProgressRunable);
+        playOnlineMusicListener.onPublish(0);
+        setPlayingMusic(musicBean);
+        MyDatabaseHelper.init(this).addFMHistory(musicBean);
+        if(isPlayList()){
+            playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+        }
     }
 
     /**
@@ -538,63 +510,33 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
     }
 
     @Override
-    public void onPrepareStart() {
-
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
     }
 
+    @Nullable
     @Override
-    public void onPrepareStop() {
-
-    }
-
-    @Override
-    public void onChangeMusic(MusicBean music) {
-
-    }
-
-    @Override
-    public void onPlayerStart() {
-
-    }
-
-    @Override
-    public void onPlayerPause() {
-
-    }
-
-    @Override
-    public void onPublish(float progress) {
-
-    }
-
-    @Override
-    public void onBufferingUpdate(int percent) {
-
-    }
-
-    @Override
-    public void onTimer(long remain) {
-
-    }
-
-    @Override
-    public void onUpdatePosition(int position,String artistId) {
-
-    }
-
-    @Override
-    public void onGetSongError(int resultCode) {
-
-    }
-
-    @Override
-    public void onUpdateOnlineMusicList(List<MusicBean> list) {
-
+    public IBinder onBind(Intent intent) {
+        return new PlayBinder();
     }
 
     public class PlayBinder extends Binder {
         public PlayOnlineMusicService getService() {
             return PlayOnlineMusicService.this;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        mediaPlayer.reset();
+        mediaPlayer.release();
+        mediaPlayer = null;
+        audioFocusManager.abandonAudioFocus();
+        mediaSessionManager.release();
+        Notifier.cancelAll();
+        AppCache.setPlayOnlineMusicService(null);
+        Log.i(TAG, "onDestroy: " + getClass().getSimpleName());
     }
 }

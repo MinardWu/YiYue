@@ -62,7 +62,7 @@ public class MyFMHistoryActivity extends SampleActivity implements IView{
                     playOnlineMusicService.playMusicList(list);
                     finish();
                     SystemUtils.startMainActivity(MyFMHistoryActivity.this,MainActivity.ONLINE);
-                }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
+                }else if(playOnlineMusicService.getPlayingMusicId()==list.get(position-1).getId()){
                     finish();
                     SystemUtils.startMainActivity(MyFMHistoryActivity.this,MainActivity.ONLINE);
                 }else {

@@ -11,35 +11,49 @@ import java.io.Serializable;
  * Created by wcy on 2015/11/27.
  */
 public class MusicBean implements Parcelable {
-    // 歌曲类型:本地/网络
+    //歌曲类型:本地/网络
     private Type type;
-    // [本地歌曲]歌曲id
-    private long id;
-    // 音乐标题
+
+    //歌曲名
     private String title;
-    // 艺术家
+
+    //歌曲id
+    private long id;
+
+    //歌手名
     private String artistName;
 
+    //歌手id
     private String artistId;
-    // 专辑
+
+    //专辑名
     private String album;
-    // [本地歌曲]专辑ID
+
+    //专辑id
     private String albumId;
-    // [在线歌曲]专辑封面路径
+
+    //专辑封面路径
     private String coverPath;
-    // 持续时间
+
+    //歌曲时间
     private long duration;
-    // 音乐路径
+
+    //音乐路径
     private String path;
-    // 文件名
+
+    //文件名
     private String fileName;
-    // 文件大小
+
+    //文件大小
     private long fileSize;
-    // 歌词
+
+    //歌词
     private String lrc;
-    // 网络歌曲封面
+
+    //网络歌曲封面
     private Bitmap onlineMusicCover;
-    // 添加时间
+
+    //添加时间
     private long addTime;
 
     public enum Type {
@@ -158,7 +172,6 @@ public class MusicBean implements Parcelable {
     public void setArtistId(String artistId) {
         this.artistId = artistId;
     }
-
 
     public long getAddTime() {
         return addTime;

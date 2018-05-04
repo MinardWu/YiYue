@@ -50,7 +50,7 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final MusicBean musicBean = list.get(position);
-        final boolean isPlayingMusic = playOnlineMusicService.getPlayingMusicId().equals(list.get(position).getId()+"");
+        final boolean isPlayingMusic = playOnlineMusicService.getPlayingMusicId()==list.get(position).getId() ? true :false;
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.tv_title.setText(musicBean.getTitle());
         viewHolder.tv_artist.setText(context.getResources().getString(R.string.online_music_list_artist,musicBean.getArtistName()));

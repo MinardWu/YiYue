@@ -59,7 +59,7 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
                     intent.putExtra(MainActivity.INDEX,MainActivity.ONLINE);
                     startActivity(intent);
                     playOnlineMusicService.playMusicList(list);
-                }else if(playOnlineMusicService.getPlayingMusicId().equals(list.get(position-1).getId()+"")){
+                }else if(playOnlineMusicService.getPlayingMusicId()==list.get(position-1).getId()){
                     getActivity().finish();
                 }else {
                     playOnlineMusicService.stop();
