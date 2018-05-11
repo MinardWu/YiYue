@@ -148,7 +148,7 @@
                 android:id="@+id/iv_local_music_player_playmode"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginRight="24dp"
                 android:src="@drawable/play_mode_level_list" />
 
             <ImageView
