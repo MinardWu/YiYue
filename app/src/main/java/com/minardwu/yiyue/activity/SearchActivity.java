@@ -197,9 +197,14 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                         if(playOnlineMusicService.getPlayingMusicId()==list.get(position).getId()){
                             finish();
                         }else {
-                            playOnlineMusicService.stop();
-                            playOnlineMusicService.play((int) list.get(position).getId());
-                            adapter.notifyDataSetChanged();
+                            if(playOnlineMusicService.isPlayList()){
+                                playOnlineMusicService.playOtherWhenPlayList(list.get(position));
+                                adapter.notifyDataSetChanged();
+                            }else {
+                                playOnlineMusicService.stop();
+                                playOnlineMusicService.play(list.get(position).getId());
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
 

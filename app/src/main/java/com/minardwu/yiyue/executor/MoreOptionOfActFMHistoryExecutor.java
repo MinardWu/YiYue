@@ -7,6 +7,7 @@ import android.view.View;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.AlbumActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
+import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.UIUtils;
@@ -35,6 +36,9 @@ public class MoreOptionOfActFMHistoryExecutor {
                 activity.startActivity(albumIntent);
                 break;
             case 3:
+                AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
+                break;
+            case 4:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
                         .title(UIUtils.getString(R.string.is_delete_fm_history))

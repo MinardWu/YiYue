@@ -111,6 +111,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         if (!isContainMusic){
             onlineMusicPlayList.add(0,musicBean);
             playMusicList(0);
+            playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
         }
     }
 
@@ -399,7 +400,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         stop();
         if(position >=0 && position < onlineMusicPlayList.size()){
             playPosition = position;
-            play((int)onlineMusicPlayList.get(position).getId());
+            play(onlineMusicPlayList.get(position).getId());
         }
     }
 
@@ -427,6 +428,16 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                 onlineMusicPlayList.add(musicBean);
                 MyDatabaseHelper.init(getApplicationContext()).addOnlineMusic(musicBean);
             }
+        }
+        playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
+    }
+
+    public void appendMusicList(MusicBean musicBean){
+        isPlayList = true;
+        Preferences.savePlayOnlineList(true);
+        if(!onlineMusicPlayList.contains(musicBean)){
+            onlineMusicPlayList.add(musicBean);
+            MyDatabaseHelper.init(getApplicationContext()).addOnlineMusic(musicBean);
         }
         playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
     }

@@ -94,11 +94,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onEvent(Long aLong) {
                 if (aLong== StopTimeAction.CLEAR_INFO){
-                    drawerItemAdapter.setDrawerItemBeanInfo(4,"");
+                    drawerItemAdapter.setDrawerItemBeanInfo(3,"");
                 }else if (aLong==StopTimeAction.UNTIL_SONG_END){
-                    drawerItemAdapter.setDrawerItemBeanInfo(4,"播完后关闭");
+                    drawerItemAdapter.setDrawerItemBeanInfo(3,"播完后关闭");
                 }else {
-                    drawerItemAdapter.setDrawerItemBeanInfo(4,ParseUtils.formatTime("(mm:ss)",aLong));
+                    drawerItemAdapter.setDrawerItemBeanInfo(3,ParseUtils.formatTime("(mm:ss)",aLong));
                 }
                 Log.e(TAG, ParseUtils.formatTime("(mm:ss)",aLong));
             }
@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
         if(YiYueApplication.isNeedQequestReadExteranlStorage){
             SystemUtils.checkPermission(this,1);
         }
-        startActivity(new Intent(this,AlarmActivity.class));
+//        startActivity(new Intent(this,AlarmActivity.class));
 //        Intent albumIntent = new Intent(this, AlbumActivity.class);
 //        albumIntent.putExtra("albumId","18905");
 //        albumIntent.putExtra("albumName","18905");

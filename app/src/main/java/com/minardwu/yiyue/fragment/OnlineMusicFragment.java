@@ -267,30 +267,32 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                try {
-                    HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                    is.close();
-                    final Bitmap finalBitmap = bitmap;
-                    //刷新notification的封面
-                    playingMusic.setOnlineMusicCover(finalBitmap);
-                    if (getPlayOnlineMusicService().isPlaying()){
-                        Notifier.showPlay(playingMusic);
-                    }else {
-                        Notifier.showPause(playingMusic);
-                    }
-                    //刷新播放界面封面
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            online_music_cover.loadCover(finalBitmap);
+                if(myFileUrl!=null){
+                    try {
+                        HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+                        InputStream is = conn.getInputStream();
+                        bitmap = BitmapFactory.decodeStream(is);
+                        is.close();
+                        final Bitmap finalBitmap = bitmap;
+                        //刷新notification的封面
+                        playingMusic.setOnlineMusicCover(finalBitmap);
+                        if (getPlayOnlineMusicService().isPlaying()){
+                            Notifier.showPlay(playingMusic);
+                        }else {
+                            Notifier.showPause(playingMusic);
                         }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        //刷新播放界面封面
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                online_music_cover.loadCover(finalBitmap);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.start();

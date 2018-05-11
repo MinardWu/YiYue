@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.minardwu.yiyue.activity.AlbumActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
+import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.MusicBean;
 
@@ -23,6 +24,9 @@ public class MoreOptionOfActArtistExecutor {
                 albumIntent.putExtra("albumId",musicBean.getAlbumId());
                 albumIntent.putExtra("albumName",musicBean.getAlbum());
                 activity.startActivity(albumIntent);
+                break;
+            case 2:
+                AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
                 break;
         }
     }

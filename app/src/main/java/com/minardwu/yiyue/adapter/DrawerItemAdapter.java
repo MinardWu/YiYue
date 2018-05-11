@@ -45,9 +45,8 @@ public class DrawerItemAdapter extends BaseAdapter {
         for(int i=0;i<titles.length;i++){
             drawerItemBeanList.add(new DrawerItemBean(types[i],resIds[i],titles[i],"",false));
         }
-        setDrawerItemBeanState(0,false);
-        setDrawerItemBeanState(1, Preferences.enablePlayWhenOnlyHaveWifi());
-        setDrawerItemBeanInfo(12,"帮助我们");
+        setDrawerItemBeanState(0, Preferences.enablePlayWhenOnlyHaveWifi());
+        setDrawerItemBeanInfo(11,"帮助我们");
     }
 
     public void setDrawerItemBeanInfo(int position,String info){
