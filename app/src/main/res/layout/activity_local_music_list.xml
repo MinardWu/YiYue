@@ -43,7 +43,7 @@
                 android:id="@+id/tv_local_music_list_songnum"
                 android:textSize="14sp"
                 android:layout_alignBottom="@+id/tv_local_music_list_titile"
-                android:textColor="#979696"
+                android:textColor="@color/white"
                 android:layout_toRightOf="@+id/tv_local_music_list_titile"
                 android:layout_marginLeft="0dp"
                 android:text=""
@@ -55,7 +55,7 @@
                 android:id="@+id/iv_search"
                 android:layout_marginRight="12dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_search"
+                android:src="@drawable/ic_search_white"
                 android:layout_width="24dp"
                 android:layout_height="24dp" />
 
@@ -64,7 +64,7 @@
                 android:id="@+id/iv_more"
                 android:layout_marginRight="14dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_more"
+                android:src="@drawable/ic_more_white"
                 android:layout_width="24dp"
                 android:layout_height="24dp" />
 

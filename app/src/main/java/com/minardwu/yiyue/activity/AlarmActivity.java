@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.event.CloseAlarmClockEvent;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.CoverLoader;
@@ -75,8 +76,9 @@ public class AlarmActivity extends BaseActivity implements MediaPlayer.OnPrepare
                 iv_alarm_bg.setImageDrawable(UIUtils.getDrawable(R.drawable.default_cover));
                 tv_title.setText("暂无本地音乐哦");
             }
-            //如果闹钟不是重复的话，响过一次后就把它关掉
-            if(!Preferences.enableAlarmClockRepeat()){
+            //如果闹钟不是重复的，或者即使重复但是没有选择任何一个重复日期，那么就关闭闹钟
+            if(!Preferences.enableAlarmClockRepeat()
+                    ||(Preferences.enableAlarmClockRepeat() && MyDatabaseHelper.init(getContext()).queryAlarmClockDate().size()==0)){
                 Preferences.saveAlarmClock(false);
                 EventBus.getDefault().post(new CloseAlarmClockEvent());//刷新闹钟设置界面ui
             }
