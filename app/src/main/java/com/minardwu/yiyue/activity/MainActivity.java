@@ -65,8 +65,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.iv_top_left) ImageView iv_top_left;
     @BindView(R.id.iv_menu) ImageView iv_menu;
-    @BindView(R.id.iv_localmusic) ImageView iv_localmusic;
-    @BindView(R.id.iv_onlinemusic) ImageView iv_onlinemusic;
     @BindView(R.id.lv_drawer) ListView listView;
     @BindView(R.id.vp) ViewPager viewPager;
 
@@ -165,7 +163,6 @@ public class MainActivity extends BaseActivity {
         if(AppCache.getLocalMusicList().size()>0&&AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle()!= null){
             tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());
         }
-        iv_localmusic.setSelected(true);
         //4.4以上、5.0以下的需要为drawlayout设置沉浸式
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
             //将侧边栏顶部延伸至status bar
@@ -224,15 +221,11 @@ public class MainActivity extends BaseActivity {
                 switch (position) {
                     case 0:
                         tv_toolbar.setText(Preferences.getCurrentSongTitle());
-                        iv_localmusic.setSelected(true);
-                        iv_onlinemusic.setSelected(false);
                         currentFragment = 0;
                         changeIcon(currentFragment);
                         break;
                     case 1:
                         tv_toolbar.setText(getResources().getString(R.string.fm_name));
-                        iv_localmusic.setSelected(false);
-                        iv_onlinemusic.setSelected(true);
                         currentFragment = 1;
                         changeIcon(currentFragment);
                         break;

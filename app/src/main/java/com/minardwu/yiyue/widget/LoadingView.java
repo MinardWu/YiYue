@@ -90,7 +90,7 @@ public class LoadingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //画图标
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_loading);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_loading_album);
         bitmap = Bitmap.createScaledBitmap(bitmap,(int)loadindiconWidth,(int)loadindiconWidth,true);
         matrix.setRotate(rotation,bitmap.getWidth()/2,bitmap.getHeight()/2);
         matrix.preTranslate(0,0);

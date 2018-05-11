@@ -108,7 +108,7 @@ public class LrcView extends View {
                 : ta.getString(R.styleable.LrcView_lrcLabel);
 
         playDrawable = ta.getDrawable(R.styleable.LrcView_lrcPlayDrawable);
-        playDrawable = (playDrawable == null) ? getResources().getDrawable(R.drawable.lrc_play) : playDrawable;
+        playDrawable = (playDrawable == null) ? getResources().getDrawable(R.drawable.ic_lrc_play) : playDrawable;
 
         timelineColor = ta.getColor(R.styleable.LrcView_lrcTimelineColor, getResources().getColor(R.color.lrc_timeline_color));
         timelineHeight = ta.getDimension(R.styleable.LrcView_lrcTimelineHeight, getResources().getDimension(R.dimen.lrc_timeline_height));

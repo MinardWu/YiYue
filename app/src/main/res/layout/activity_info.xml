@@ -16,7 +16,7 @@
         <ImageView
             android:layout_centerHorizontal="true"
             android:id="@+id/iv_info_logo"
-            android:src="@drawable/icon_logo"
+            android:src="@drawable/ic_logo"
             android:layout_width="100dp"
             android:layout_height="100dp" />
 

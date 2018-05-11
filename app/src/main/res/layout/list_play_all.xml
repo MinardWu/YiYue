@@ -19,7 +19,7 @@
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
             android:id="@+id/iv_play_all"
-            android:src="@drawable/pause"
+            android:src="@drawable/ic_local_music_play_pause"
             android:layout_width="24dp"
             android:layout_height="24dp" />
 

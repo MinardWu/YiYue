@@ -58,23 +58,6 @@
                         android:focusableInTouchMode="true"
                         />
 
-                    <ImageView
-                        android:visibility="gone"
-                        android:id="@+id/iv_localmusic"
-                        android:layout_marginRight="24dp"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:gravity="center"
-                        android:background="@drawable/icon_localmusic_selector"/>
-
-                    <ImageView
-                        android:visibility="gone"
-                        android:id="@+id/iv_onlinemusic"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:gravity="center"
-                        android:background="@drawable/icon_onlinemusic_selector"/>
-
                 </RelativeLayout>
 
                 <ImageView
@@ -178,7 +161,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@drawable/icon_exit"
+                        android:src="@drawable/ic_exit"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/tv_drawer_exit"
                         android:layout_marginRight="8dp"

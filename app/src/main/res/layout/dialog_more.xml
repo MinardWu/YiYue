@@ -2,7 +2,7 @@
 <RelativeLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/dialog_bg"
+    android:background="@drawable/dialog_radius_bg"
     android:paddingTop="24dp"
     android:paddingBottom="24dp"
     android:minWidth="200dp"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@drawable/icon_clock"
+            android:src="@drawable/ic_clock"
             android:layout_width="20dp"
             android:layout_height="20dp" />
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@drawable/icon_filter"
+            android:src="@drawable/ic_filter"
             android:layout_width="20dp"
             android:layout_height="20dp" />
 

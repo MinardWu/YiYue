@@ -20,13 +20,13 @@
     </string-array>
 
     <integer-array name="drawer_img">
-        <!--<item>@drawable/icon_night</item>-->
-        <item>@drawable/icon_mobiledata</item>
+        <!--<item>@drawaic_nightight</item>-->
+        <item>@drawable/ic_mobiledata</item>
         <item>@null</item>
-        <item>@drawable/icon_balancer</item>
-        <item>@drawable/icon_clock</item>
-        <item>@drawable/icon_filter</item>
-        <item>@drawable/icon_filter</item>
+        <item>@drawable/ic_balancer</item>
+        <item>@drawable/ic_clock</item>
+        <item>@drawable/ic_filter</item>
+        <item>@drawable/ic_filter</item>
         <item>@drawable/ic_alarm_clock</item>
         <item>@null</item>
         <item>@drawable/ic_love</item>
@@ -34,7 +34,7 @@
         <item>@drawable/ic_foot</item>
         <item>@null</item>
         <item>@drawable/ic_feedback</item>
-        <item>@drawable/icon_info</item>
+        <item>@drawable/ic_info</item>
     </integer-array>
 
     <integer-array name="drawer_type">

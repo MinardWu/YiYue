@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:padding="10dp"
         android:scaleType="fitXY"
-        android:src="@drawable/pause" />
+        android:src="@drawable/ic_local_music_play_pause" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                 android:layout_height="24dp"
                 android:background="@drawable/bg_pressed"
                 android:scaleType="fitXY"
-                android:src="@drawable/icon_chose" />
+                android:src="@drawable/ic_chose" />
         </LinearLayout>
 
         <View

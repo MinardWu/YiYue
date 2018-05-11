@@ -156,27 +156,27 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginRight="16dp"
-                android:src="@drawable/pre" />
+                android:src="@drawable/ic_local_music_play_pre" />
 
             <ImageView
                 android:id="@+id/iv_local_music_player_play"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginRight="16dp"
-                android:src="@drawable/play_bar_btn_play_pause_selector" />
+                android:src="@drawable/ic_local_music_play_selector" />
 
             <ImageView
                 android:id="@+id/iv_local_music_player_next"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginRight="32dp"
-                android:src="@drawable/next" />
+                android:src="@drawable/ic_local_music_play_next" />
 
             <ImageView
                 android:id="@+id/iv_local_music_player_musiclist"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/list" />
+                android:src="@drawable/ic_local_music_play_list" />
 
         </LinearLayout>
 
