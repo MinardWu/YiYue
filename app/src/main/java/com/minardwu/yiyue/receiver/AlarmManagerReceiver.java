@@ -25,7 +25,6 @@ public class AlarmManagerReceiver extends BroadcastReceiver {
         int minute = intent.getIntExtra("minute",0);
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
-        ToastUtils.showLongToast("闹钟！"+hour+":"+minute);
         //如果闹钟是重复的话则应该检测是否在日期内，而且4.4版本后的要接着设置一次
         if(Preferences.enableAlarmClockRepeat()){
             if(MyDatabaseHelper.init(context).queryAlarmClockDate().contains(day)){

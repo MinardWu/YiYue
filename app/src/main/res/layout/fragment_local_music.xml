@@ -170,7 +170,7 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginRight="32dp"
-                android:src="@drawable/ic_local_music_play_next" />
+                android:src="@drawable/ic_local_music_play_next_selector" />
 
             <ImageView
                 android:id="@+id/iv_local_music_player_musiclist"
