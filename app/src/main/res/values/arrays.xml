@@ -2,7 +2,7 @@
 <resources>
 
     <string-array name="drawer_title">
-        <item>@string/drawer_item_night_mode</item>
+        <!--<item>@string/drawer_item_night_mode</item>-->
         <item>@string/drawer_item_wifi</item>
         <item>empty</item>
         <item>@string/drawer_item_sound_effect</item>
@@ -12,7 +12,7 @@
         <item>@string/drawer_item_alarm_clock</item>
         <item>empty</item>
         <item>@string/drawer_item_collection</item>
-        <item>@string/drawer_item_artist</item>
+        <!--<item>@string/drawer_item_artist</item>-->
         <item>@string/drawer_item_fm_history</item>
         <item>empty</item>
         <item>@string/drawer_item_feedback</item>
@@ -20,7 +20,7 @@
     </string-array>
 
     <integer-array name="drawer_img">
-        <item>@drawable/icon_night</item>
+        <!--<item>@drawable/icon_night</item>-->
         <item>@drawable/icon_mobiledata</item>
         <item>@null</item>
         <item>@drawable/icon_balancer</item>
@@ -30,7 +30,7 @@
         <item>@drawable/ic_alarm_clock</item>
         <item>@null</item>
         <item>@drawable/ic_love</item>
-        <item>@drawable/ic_artist</item>
+        <!--<item>@drawable/ic_artist</item>-->
         <item>@drawable/ic_foot</item>
         <item>@null</item>
         <item>@drawable/ic_feedback</item>
@@ -38,7 +38,7 @@
     </integer-array>
 
     <integer-array name="drawer_type">
-        <item>1</item>
+        <!--<item>1</item>-->
         <item>1</item>
         <item>2</item>
         <item>0</item>
@@ -48,7 +48,7 @@
         <item>0</item>
         <item>2</item>
         <item>0</item>
-        <item>0</item>
+        <!--<item>0</item>-->
         <item>0</item>
         <item>2</item>
         <item>0</item>
@@ -129,6 +129,7 @@
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
         <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_add</item>
         <item>@drawable/ic_option_delete</item>
     </integer-array>
 
@@ -136,45 +137,53 @@
         <item>播放</item>
         <item>歌手</item>
         <item>专辑</item>
+        <item>添加到播放列表</item>
         <item>删除</item>
     </string-array>
 
     <integer-array name="activity_artist_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_add</item>
     </integer-array>
 
     <string-array name="activity_artist_more_text">
         <item>播放</item>
         <item>专辑</item>
+        <item>添加到播放列表</item>
     </string-array>
 
     <integer-array name="activity_album_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
+        <item>@drawable/ic_option_add</item>
     </integer-array>
 
     <string-array name="activity_album_more_text">
         <item>播放</item>
         <item>歌手</item>
+        <item>添加到播放列表</item>
     </string-array>
 
     <integer-array name="activity_search_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
         <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_add</item>
     </integer-array>
 
     <string-array name="activity_search_more_text">
         <item>播放</item>
         <item>歌手</item>
         <item>专辑</item>
+        <item>添加到播放列表</item>
     </string-array>
 
     <integer-array name="collected_song_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
         <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_add</item>
         <item>@drawable/ic_option_delete</item>
     </integer-array>
 
@@ -182,6 +191,7 @@
         <item>播放</item>
         <item>歌手</item>
         <item>专辑</item>
+        <item>添加到播放列表</item>
         <item>删除</item>
     </string-array>
 
