@@ -175,10 +175,15 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                     finish();
                     SystemUtils.startMainActivity(ArtistActivity.this,MainActivity.ONLINE);
                 }else {
-                    playOnlineMusicService.stop();
-                    playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
-                    adapter.notifyDataSetChanged();
+                    if(playOnlineMusicService.isPlayList()){
+                        playOnlineMusicService.playOtherWhenPlayList(hotSongs.get(position-1));
+                        adapter.notifyDataSetChanged();
+                    }else {
+                        playOnlineMusicService.stop();
+                        playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
+                        playOnlineMusicService.updatePlayingMusicPosition(position-1);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
 

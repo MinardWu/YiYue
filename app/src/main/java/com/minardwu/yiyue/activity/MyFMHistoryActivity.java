@@ -68,6 +68,7 @@ public class MyFMHistoryActivity extends SampleActivity implements IView{
                 }else {
                     if(playOnlineMusicService.isPlayList()){
                         playOnlineMusicService.playOtherWhenPlayList(adapter.getMusicList().get(position-1));
+                        adapter.notifyDataSetChanged();
                     }else {
                         playOnlineMusicService.stop();
                         playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());

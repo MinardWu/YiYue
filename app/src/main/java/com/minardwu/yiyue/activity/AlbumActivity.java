@@ -168,6 +168,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 }else {
                     if(playOnlineMusicService.isPlayList()){
                         playOnlineMusicService.playOtherWhenPlayList(list.get(position-1));
+                        adapter.notifyDataSetChanged();
                     }else {
                         playOnlineMusicService.stop();
                         playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
