@@ -76,14 +76,14 @@
 
             <ImageView
                 android:id="@+id/iv_onlinemusic_download"
-                android:src="@drawable/ic_online_fragment_download"
+                android:src="@drawable/ic_online_fragment_love"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="30dp" />
 
             <ImageView
                 android:id="@+id/iv_onlinemusic_play"
-                android:src="@drawable/iv_online_music_playorpause"
+                android:src="@drawable/ic_online_music_play_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="32dp" />
