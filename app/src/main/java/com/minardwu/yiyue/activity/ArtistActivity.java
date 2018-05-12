@@ -18,7 +18,7 @@ import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
-import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.event.PlayNewOnlineMusicEvent;
 import com.minardwu.yiyue.executor.MoreOptionOfActArtistExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
 import com.minardwu.yiyue.http.result.FailResult;
@@ -39,7 +39,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +67,6 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     private ArtistBean artist;
 
     private Intent intent;
-    private int song_conut;
     private String artistId;
     private String artistName;
     private String artistPicUrl;
@@ -152,7 +150,6 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initListView(final ArtistBean artistBean){
-        song_conut = artistBean.getSongs().size();
         artistId = artistBean.getId();
         hotSongs = artistBean.getSongs();
         adapter = new OnlineMusicRecycleViewAdapter(this,hotSongs);
@@ -232,7 +229,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateOnlineMusicListPositionEvent(UpdateOnlineMusicListPositionEvent event){
+    public void onPlayNewOnlineMusicEvent(PlayNewOnlineMusicEvent event){
         adapter.notifyDataSetChanged();
     }
 

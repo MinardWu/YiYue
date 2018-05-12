@@ -21,10 +21,15 @@ import com.minardwu.yiyue.adapter.OnlineMusicListAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.enums.PlayModeEnum;
+import com.minardwu.yiyue.event.PlayNewOnlineMusicEvent;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,6 +50,7 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomDatePickerDialog);//要在onCreate这里设置
         if (getArguments()!=null){
             list.clear();
@@ -112,6 +118,11 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPlayNewOnlineMusicEvent(PlayNewOnlineMusicEvent event){
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onStart() {
@@ -166,5 +177,11 @@ public class OnlineMusicListDialogFragment extends DialogFragment implements Ada
 
     public void setOptionDialogFragmentClickListener(OptionDialogFragmentClickListener listener){
         this.listener = listener;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

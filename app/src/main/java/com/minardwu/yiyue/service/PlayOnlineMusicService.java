@@ -24,7 +24,7 @@ import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.enums.PlayModeEnum;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
-import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.event.PlayNewOnlineMusicEvent;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
@@ -192,10 +192,10 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     }
                     playMusicList(playPosition);
             }
-            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
+            EventBus.getDefault().post(new PlayNewOnlineMusicEvent());
         }else {
             play(random.nextInt(100000)+60000);
-            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
+            EventBus.getDefault().post(new PlayNewOnlineMusicEvent());
         }
         mediaSessionManager.release();//不release再重新创建的话更新不了ui
     }
@@ -354,7 +354,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     }
                     play((int)onlineMusicPlayList.get(playPosition).getId());
             }
-            EventBus.getDefault().post(new UpdateOnlineMusicListPositionEvent());
+            EventBus.getDefault().post(new PlayNewOnlineMusicEvent());
         }else {
             next();
         }

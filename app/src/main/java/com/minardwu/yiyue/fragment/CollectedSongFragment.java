@@ -9,12 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
-import com.minardwu.yiyue.event.UpdateOnlineMusicListPositionEvent;
+import com.minardwu.yiyue.event.PlayNewOnlineMusicEvent;
 import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.executor.MoreOptionOfCollectedSongExecutor;
 import com.minardwu.yiyue.model.MusicBean;
@@ -24,7 +23,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CollectedSongFragment extends CollectionBaseFragment implements IView{
 
@@ -99,7 +97,7 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateOnlineMusicListPositionEvent(UpdateOnlineMusicListPositionEvent event){
+    public void onUpdateOnlineMusicListPositionEvent(PlayNewOnlineMusicEvent event){
         adapter.notifyDataSetChanged();
     }
 

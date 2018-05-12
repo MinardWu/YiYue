@@ -25,6 +25,7 @@ import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.event.PlayNewOnlineMusicEvent;
 import com.minardwu.yiyue.executor.MoreOptionOfActAlbumExecutor;
 import com.minardwu.yiyue.fragment.AlbumInfoFragment;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
@@ -40,6 +41,10 @@ import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +113,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
         albumId = getIntent().getStringExtra(ALBUM_ID);
         albumName = getIntent().getStringExtra(ALBUM_NAME);
@@ -297,5 +303,16 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             default:
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPlayNewOnlineMusicEvent(PlayNewOnlineMusicEvent event){
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
