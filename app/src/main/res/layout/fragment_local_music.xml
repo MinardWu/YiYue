@@ -135,7 +135,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,40 +145,49 @@
             android:gravity="center_vertical|center_horizontal">
 
             <ImageView
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_local_music_player_pre"
                 android:id="@+id/iv_local_music_player_playmode"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginRight="20dp"
                 android:src="@drawable/play_mode_level_list" />
 
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/iv_local_music_player_pre"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="18dp"
+                android:layout_toLeftOf="@+id/iv_local_music_player_play"
                 android:src="@drawable/ic_local_music_play_pre" />
 
             <ImageView
+                android:layout_centerInParent="true"
                 android:id="@+id/iv_local_music_player_play"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginRight="16dp"
                 android:src="@drawable/ic_local_music_play_selector" />
 
             <ImageView
+                android:layout_toRightOf="@+id/iv_local_music_player_play"
+                android:layout_centerVertical="true"
                 android:id="@+id/iv_local_music_player_next"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginLeft="18dp"
                 android:src="@drawable/ic_local_music_play_next_selector" />
 
             <ImageView
+                android:layout_toRightOf="@+id/iv_local_music_player_next"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
                 android:id="@+id/iv_local_music_player_musiclist"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_local_music_play_list" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

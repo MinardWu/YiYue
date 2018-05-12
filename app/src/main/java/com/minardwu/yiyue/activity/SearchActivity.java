@@ -64,8 +64,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private static final String TAG = "SearchActivity";
 
     private List<String> searchHistoryList = new ArrayList<String>();
-    private MyDatabaseHelper databaseHelper;
-    private SQLiteDatabase sqLiteDatabase;
     private SearchResultAdapter adapter;
     private PlayOnlineMusicService playOnlineMusicService;
 
@@ -79,10 +77,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         playOnlineMusicService = AppCache.getPlayOnlineMusicService();
-        databaseHelper = new MyDatabaseHelper(SearchActivity.this,"QO.db",null,1);
-        sqLiteDatabase = databaseHelper.getWritableDatabase();
-        databaseHelper.setSQLiteDataBase(sqLiteDatabase);
-        searchHistoryList = databaseHelper.querySearchHistory();
+        searchHistoryList = MyDatabaseHelper.init(getContext()).querySearchHistory();
         empty_view.setVisibility(searchHistoryList.size()>0?View.GONE:View.VISIBLE);
         ll_search_history.setVisibility(searchHistoryList.size()>0?View.VISIBLE:View.GONE);
         headerView = LayoutInflater.from(SearchActivity.this).inflate(R.layout.list_search_result_header,null);
@@ -97,7 +92,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         iv_toolbar_back.setOnClickListener(this);
         tv_clear_history.setOnClickListener(this);
         button_layout.removeAllViews();
-        searchHistoryList = databaseHelper.querySearchHistory();
+        searchHistoryList = MyDatabaseHelper.init(getContext()).querySearchHistory();
         for (String history:searchHistoryList){
             Button button = new Button(this);
             button.setText(history);
@@ -116,7 +111,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         if(view.getId()==R.id.iv_toolbar_back){
             finish();
         }else if(view.getId()==R.id.tv_clear_history){
-            databaseHelper.clearSearchHistory();
+            MyDatabaseHelper.init(getContext()).clearSearchHistory();
             ll_search_history.setVisibility(View.GONE);
             empty_view.setVisibility(View.VISIBLE);
         }else {
@@ -124,7 +119,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             String content = btn.getText().toString();
             et_search.setText(content);
             executeSearch(content);
-            databaseHelper.updateSearchHistory(content);
+            MyDatabaseHelper.init(getContext()).updateSearchHistory(content);
         }
     }
 
@@ -136,7 +131,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 || event == null
                 || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
             String content = textView.getText().toString();
-            databaseHelper.insertSearchHistory(content);
+            MyDatabaseHelper.init(getContext()).insertSearchHistory(content);
             executeSearch(content);
             onResume();
             return true;
@@ -166,15 +161,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void onFail(FailResult result) {}
                 });
-//                GetOnlineArtist.getArtistPicById(artistBean.getId(), new HttpCallback<Bitmap>() {
-//                    @Override
-//                    public void onSuccess(final Bitmap bitmap) {
-//                        iv_artist.setImageBitmap(bitmap);
-//                    }
-//
-//                    @Override
-//                    public void onFail(FailResult e) { }
-//                });
                 headerView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

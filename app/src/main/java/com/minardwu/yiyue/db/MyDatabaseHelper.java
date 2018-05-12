@@ -22,14 +22,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static SQLiteDatabase sqLiteDatabase;
 
-    private static final String DATABASE_NAME = "T10.db";
-    private static final String TABLE_SEARCH_HISTORY = "search_history";
-    private static final String TABLE_FM_HISTORY = "fm_history";
-    private static final String TABLE_MY_ARTIST = "my_artist";
-    private static final String TABLE_MY_SONG = "my_song";
-    private static final String TABLE_MY_ALBUM = "my_album";
-    private static final String TABLE_ALARM_CLOCK_DATE = "alarm_clock_date";
-    private static final String TABLE_ONLINE_MUSIC_LIST = "online_music_list";
+    private static final String DATABASE_NAME = "T14.db";
+    private static final String TABLE_SEARCH_HISTORY = "tb_search_history";
+    private static final String TABLE_FM_HISTORY = "tb_fm_history";
+    private static final String TABLE_COLLECTED_ARTIST = "tb_collected_artist";
+    private static final String TABLE_COLLECTED_SONG = "tb_collected_song";
+    private static final String TABLE_COLLECTED_ALBUM = "tb_collected_album";
+    private static final String TABLE_ALARM_CLOCK_DATE = "tb_alarm_clock_date";
+    private static final String TABLE_ONLINE_MUSIC_LIST = "tb_online_music_list";
 
     private static final String CREATE_TABLE_SEARCH_HISTORY = "create table " + TABLE_SEARCH_HISTORY + "(" +
             "id integer primary key autoincrement," +
@@ -49,28 +49,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "time integer" +
             ")";
 
-    private static final String CREATE_TABLE_MY_SONG = "create table " + TABLE_MY_SONG + "(" +
+    private static final String CREATE_TABLE_COLLECTED_SONG = "create table " + TABLE_COLLECTED_SONG + "(" +
             "id integer primary key autoincrement," +
             "songId text," +
             "artistId text," +
-            "title text," +
-            "artist text," +
-            "album text," +
             "albumId text," +
+            "songTitle text," +
+            "artistName text," +
+            "albumName text," +
             "coverUrl text," +
             "time integer" +
             ")";
 
-    private static final String CREATE_TABLE_MY_ARTIST = "create table " + TABLE_MY_ARTIST + "(" +
+    private static final String CREATE_TABLE_COLLECTED_ARTIST = "create table " + TABLE_COLLECTED_ARTIST + "(" +
             "id integer primary key autoincrement," +
             "artistId text," +
-            "name text," +
+            "artistName text," +
             "picUrl text," +
-            "musicSize integer," +
-            "albumSize integer" +
+            "musicNum integer," +
+            "albumNum integer" +
             ")";
 
-    private static final String CREATE_TABLE_MY_ALBUM = "create table " + TABLE_MY_ALBUM + "(" +
+    private static final String CREATE_TABLE_COLLECTED_ALBUM = "create table " + TABLE_COLLECTED_ALBUM + "(" +
             "id integer primary key autoincrement," +
             "albumId text," +
             "albumName text," +
@@ -112,9 +112,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_SEARCH_HISTORY);
         sqLiteDatabase.execSQL(CREATE_TABLE_FM_HISTORY);
-        sqLiteDatabase.execSQL(CREATE_TABLE_MY_ARTIST);
-        sqLiteDatabase.execSQL(CREATE_TABLE_MY_SONG);
-        sqLiteDatabase.execSQL(CREATE_TABLE_MY_ALBUM);
+        sqLiteDatabase.execSQL(CREATE_TABLE_COLLECTED_ARTIST);
+        sqLiteDatabase.execSQL(CREATE_TABLE_COLLECTED_SONG);
+        sqLiteDatabase.execSQL(CREATE_TABLE_COLLECTED_ALBUM);
         sqLiteDatabase.execSQL(CREATE_TABLE_ALARM_CLOCK_DATE);
         sqLiteDatabase.execSQL(CREATE_TABLE_ONLINE_MUSIC_LIST);
     }
@@ -174,7 +174,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean isFollowArtist(String artistId) {
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_MY_ARTIST + " WHERE artistId = ?", new String[]{artistId});
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_COLLECTED_ARTIST + " WHERE artistId = ?", new String[]{artistId});
         cursor.moveToFirst();
         Long count = cursor.getLong(0);
         if (count > 0) {
@@ -187,33 +187,33 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void followArtist(ArtistBean artistBean) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("artistId", artistBean.getId());
-        contentValues.put("name", artistBean.getName());
+        contentValues.put("artistName", artistBean.getName());
         contentValues.put("picUrl", artistBean.getPicUrl());
-        contentValues.put("musicSize", artistBean.getMusicSize());
-        contentValues.put("albumSize", artistBean.getAlbumSize());
-        sqLiteDatabase.insert(TABLE_MY_ARTIST, null, contentValues);
+        contentValues.put("musicNum", artistBean.getMusicSize());
+        contentValues.put("albumNum", artistBean.getAlbumSize());
+        sqLiteDatabase.insert(TABLE_COLLECTED_ARTIST, null, contentValues);
     }
 
     public void unfollowArtist(String artistId) {
-        sqLiteDatabase.delete(TABLE_MY_ARTIST, "artistId = ?", new String[]{artistId});
+        sqLiteDatabase.delete(TABLE_COLLECTED_ARTIST, "artistId = ?", new String[]{artistId});
     }
 
     public void updateArtistPic(String artistId,String picUrl) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("picUrl", picUrl);
-        sqLiteDatabase.update(TABLE_MY_ARTIST,contentValues,"artistId = ?", new String[]{artistId});
+        sqLiteDatabase.update(TABLE_COLLECTED_ARTIST,contentValues,"artistId = ?", new String[]{artistId});
     }
 
     public List<ArtistBean> queryFollowedArtist(){
         List<ArtistBean> list = new ArrayList<ArtistBean>();
-        Cursor cursor = sqLiteDatabase.query(TABLE_MY_ARTIST,null,null,null,null,null,null,null);
+        Cursor cursor = sqLiteDatabase.query(TABLE_COLLECTED_ARTIST,null,null,null,null,null,null,null);
         while (cursor.moveToNext()){
             ArtistBean artistBean = new ArtistBean();
             artistBean.setId(cursor.getString(cursor.getColumnIndex("artistId")));
-            artistBean.setName(cursor.getString(cursor.getColumnIndex("name")));
+            artistBean.setName(cursor.getString(cursor.getColumnIndex("artistName")));
             artistBean.setPicUrl(cursor.getString(cursor.getColumnIndex("picUrl")));
-            artistBean.setMusicSize(cursor.getInt(cursor.getColumnIndex("musicSize")));
-            artistBean.setAlbumSize(cursor.getInt(cursor.getColumnIndex("albumSize")));
+            artistBean.setMusicSize(cursor.getInt(cursor.getColumnIndex("musicNum")));
+            artistBean.setAlbumSize(cursor.getInt(cursor.getColumnIndex("albumNum")));
             list.add(artistBean);
         }
         return list;
@@ -292,7 +292,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean isCollectedSong(MusicBean musicBean){
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_MY_SONG + " WHERE songId = ?", new String[]{musicBean.getId()+""});
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_COLLECTED_SONG + " WHERE songId = ?", new String[]{musicBean.getId()+""});
         cursor.moveToFirst();
         Long count = cursor.getLong(0);
         if (count > 0) {
@@ -306,31 +306,31 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("songId", musicBean.getId()+"");
         contentValues.put("artistId", musicBean.getArtistId());
-        contentValues.put("title", musicBean.getTitle());
-        contentValues.put("artist", musicBean.getArtistName());
-        contentValues.put("album", musicBean.getAlbum());
+        contentValues.put("songTitle", musicBean.getTitle());
+        contentValues.put("artistName", musicBean.getArtistName());
+        contentValues.put("albumName", musicBean.getAlbum());
         contentValues.put("albumId", musicBean.getAlbumId());
         contentValues.put("coverUrl", musicBean.getCoverPath());
         contentValues.put("time", System.currentTimeMillis());
-        sqLiteDatabase.insert(TABLE_MY_SONG,null,contentValues);
+        sqLiteDatabase.insert(TABLE_COLLECTED_SONG,null,contentValues);
     }
 
     public void deleteCollectedSong(MusicBean musicBean){
-        sqLiteDatabase.delete(TABLE_MY_SONG,"songId = ?",new String[]{musicBean.getId()+""});
+        sqLiteDatabase.delete(TABLE_COLLECTED_SONG,"songId = ?",new String[]{musicBean.getId()+""});
     }
 
     public ArrayList<MusicBean> queryCollectedSong(){
         ArrayList<MusicBean> list = new ArrayList<MusicBean>();
-        Cursor cursor = sqLiteDatabase.query(TABLE_MY_SONG,null,null,null,null,null,"time desc",null);
+        Cursor cursor = sqLiteDatabase.query(TABLE_COLLECTED_SONG,null,null,null,null,null,"time desc",null);
         while (cursor.moveToNext()){
             MusicBean musicBean = new MusicBean();
             musicBean.setType(MusicBean.Type.ONLINE);
             musicBean.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("songId"))));
             musicBean.setArtistId(cursor.getString(cursor.getColumnIndex("artistId")));
-            musicBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-            musicBean.setArtistName(cursor.getString(cursor.getColumnIndex("artist")));
-            musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("album")));
             musicBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
+            musicBean.setTitle(cursor.getString(cursor.getColumnIndex("songTitle")));
+            musicBean.setArtistName(cursor.getString(cursor.getColumnIndex("artistName")));
+            musicBean.setAlbum(cursor.getString(cursor.getColumnIndex("albumName")));
             musicBean.setCoverPath(cursor.getString(cursor.getColumnIndex("coverUrl")));
             list.add(musicBean);
         }
@@ -352,13 +352,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             contentValues.put("info", albumBean.getInfo());
             contentValues.put("subType", albumBean.getSubType());
             contentValues.put("size", albumBean.getSize());
-            sqLiteDatabase.insert(TABLE_MY_ALBUM,null,contentValues);
+            sqLiteDatabase.insert(TABLE_COLLECTED_ALBUM,null,contentValues);
         }
     }
 
     public List<AlbumBean> queryCollectedAlbum(){
         List<AlbumBean> list = new ArrayList<AlbumBean>();
-        Cursor cursor = sqLiteDatabase.query(TABLE_MY_ALBUM,null,null,null,null,null,null,null);
+        Cursor cursor = sqLiteDatabase.query(TABLE_COLLECTED_ALBUM,null,null,null,null,null,null,null);
         while (cursor.moveToNext()){
             AlbumBean albumBean = new AlbumBean();
             albumBean.setAlbumId(cursor.getString(cursor.getColumnIndex("albumId")));
@@ -381,11 +381,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteCollectedAlbum(AlbumBean albumBean){
-        sqLiteDatabase.delete(TABLE_MY_ALBUM,"albumId = ?",new String[]{albumBean.getAlbumId()});
+        sqLiteDatabase.delete(TABLE_COLLECTED_ALBUM,"albumId = ?",new String[]{albumBean.getAlbumId()});
     }
 
     public boolean isCollectedAlbum(String albumId) {
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_MY_ALBUM + " WHERE albumId = ?", new String[]{albumId});
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_COLLECTED_ALBUM + " WHERE albumId = ?", new String[]{albumId});
         cursor.moveToFirst();
         Long count = cursor.getLong(0);
         if (count > 0) {
