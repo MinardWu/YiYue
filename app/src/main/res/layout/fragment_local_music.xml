@@ -60,11 +60,11 @@
                 lrc:lrcAnimationDuration="1000"
                 lrc:lrcCurrentTextColor="@color/black"
                 lrc:lrcDividerHeight="24dp"
-                lrc:lrcNormalTextColor="@color/black_60"
+                lrc:lrcNormalTextColor="@color/black_30"
                 lrc:lrcPadding="40dp"
                 lrc:lrcTextSize="16sp"
                 lrc:lrcTimelineColor="#464646"
-                lrc:lrcTimelineTextColor="#131313" />
+                lrc:lrcTimelineTextColor="@color/black" />
 
             <RelativeLayout
                 android:id="@+id/rl_cover_and_single_lrc"

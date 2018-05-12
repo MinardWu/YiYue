@@ -33,8 +33,6 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_back_white" />
 
-                <!--android:drawableRight="@drawable/ic_search_cancel"-->
-                <!--android:drawablePadding="32dp"-->
             <EditText
                 android:textCursorDrawable="@null"
                 android:background="@drawable/et_search"
@@ -46,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:maxLength="16"
+                android:maxLength="24"
                 android:imeOptions="actionSearch"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
