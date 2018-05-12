@@ -52,7 +52,7 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
     public View getView(final int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view==null){
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_localmusic,null);
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_music_item,null);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }else {

@@ -47,6 +47,12 @@ public class SearchLocalMusicActivity extends BaseActivity implements TextWatche
         et_search.addTextChangedListener(this);
         rv_local_music_search_result.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_local_music_search_result.setAdapter(adapter);
+        iv_toolbar_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

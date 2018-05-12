@@ -3,6 +3,7 @@ package com.minardwu.yiyue.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,14 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.event.ChooseMusicCountEvent;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.SystemUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -61,15 +65,11 @@ public class MultipleChoseMusicAdapter extends RecyclerView.Adapter{
                 }else {
                     chosenList.remove(list.get(position));
                 }
+                EventBus.getDefault().post(new ChooseMusicCountEvent(chosenList.size(),
+                        chosenList.size()==list.size()));
             }
         });
 
-    }
-
-    public void updateList(ArrayList<MusicBean> list){
-        this.list.clear();
-        this.list.addAll(list);
-        notifyDataSetChanged();
     }
 
     public ArrayList<MusicBean> getChosenList(){

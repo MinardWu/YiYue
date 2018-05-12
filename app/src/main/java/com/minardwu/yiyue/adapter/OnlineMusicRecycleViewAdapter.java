@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,7 +60,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             PlayAllViewHolder playAllViewHolder = new PlayAllViewHolder(view);
             return playAllViewHolder;
         }else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_localmusic,parent,false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_music_item,parent,false);
             MyViewHolder myViewHolder = new MyViewHolder(view);
             return myViewHolder;
         }
@@ -72,7 +73,7 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             playAllViewHolder.tv_play_all.setText(UIUtils.getString(R.string.play_all));
             playAllViewHolder.tv_play_all_song_count.setText("(共"+ musicList.size()+"首)");
             playAllViewHolder.rl_play_all.setVisibility(View.VISIBLE);
-            playAllViewHolder.tv_multiple_choice.setOnClickListener(new View.OnClickListener() {
+            playAllViewHolder.ll_multiple_choose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, MultipleChoseMusicActivity.class);
@@ -168,6 +169,8 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         RelativeLayout rl_play_all;
         @BindView(R.id.tv_multiple_choice)
         TextView tv_multiple_choice;
+        @BindView(R.id.ll_multiple_choose)
+        LinearLayout ll_multiple_choose;
 
         public PlayAllViewHolder(View itemView) {
             super(itemView);

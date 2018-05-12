@@ -7,6 +7,7 @@
     tools:context="com.minardwu.yiyue.activity.MyFMHistoryActivity">
 
     <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
         android:id="@+id/rv_fm_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

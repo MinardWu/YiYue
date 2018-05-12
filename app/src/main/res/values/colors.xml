@@ -40,6 +40,7 @@
     <color name="grey_900_96p">#F5212121</color>
     <color name="toolbar_solid">#ffffff</color>
     <color name="toolbar_stroke">#dfdfdf</color>
+    <color name="ripple_color">#E0E0E0</color>
 
     <color name="lrc_normal_text_color">#9E9E9E</color>
     <color name="lrc_current_text_color">#FF4081</color>

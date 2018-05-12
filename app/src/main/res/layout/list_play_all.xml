@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
     android:visibility="gone"
     android:background="@drawable/bg_top_radius"
     android:id="@+id/rl_play_all"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:minHeight="@dimen/music_list_item_height"
     android:layout_height="@dimen/music_list_item_height">
@@ -45,6 +46,9 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
+        android:id="@+id/ll_multiple_choose"
+        android:clickable="true"
+        android:background="@drawable/bg_pressed"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_alignParentRight="true"
@@ -58,15 +62,15 @@
             android:layout_marginRight="4dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_multiple_choice"
-            android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
 
         <TextView
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:text="@string/multiple_choice"
             android:id="@+id/tv_multiple_choice"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />

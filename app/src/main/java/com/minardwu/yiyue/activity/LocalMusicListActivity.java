@@ -40,10 +40,10 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
     ImageView iv_back;
     @BindView(R.id.iv_search)
     ImageView iv_search;
-    @BindView(R.id.iv_more)
-    ImageView iv_more;
-    @BindView(R.id.lv_localmusic)
-    ListView lv_localmusic;
+    @BindView(R.id.iv_sort)
+    ImageView iv_sort;
+    @BindView(R.id.lv_local_music)
+    ListView lv_local_music;
     @BindView(R.id.tv_empty)
     TextView tv_empty;
     @BindView(R.id.tv_local_music_list_songnum)
@@ -55,7 +55,7 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
     @OnClick(R.id.iv_search) void search(){
         startActivity(new Intent(LocalMusicListActivity.this,SearchLocalMusicActivity.class));
     }
-    @OnClick(R.id.iv_more) void more(){
+    @OnClick(R.id.iv_sort) void more(){
 //        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(this)
 //                .setView(R.layout.popup_window)//显示的布局，还可以通过设置一个View
 //                .setOutsideTouchable(true)//是否PopupWindow 以外触摸dissmiss
@@ -132,9 +132,8 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
                 fragment.show(getSupportFragmentManager(), "OptionDialogFragment");
             }
         });
-        lv_localmusic.setAdapter(localMusicListItemAdapter);
-        lv_localmusic.setEmptyView(tv_empty);
-        //lv_localmusic.setOnItemClickListener(this);
+        lv_local_music.setAdapter(localMusicListItemAdapter);
+        lv_local_music.setEmptyView(tv_empty);
         updateView();
     }
 
@@ -171,16 +170,4 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * 音乐列表点击事件，如果点击正在播放的音乐则回到播放界面
-     */
-//    @Override
-//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//        if(i==getPlayLocalMusicService().getPlayingPosition()){
-//            finish();
-//        }else {
-//            getPlayLocalMusicService().play(i);
-//            updateView();
-//        }
-//    }
 }

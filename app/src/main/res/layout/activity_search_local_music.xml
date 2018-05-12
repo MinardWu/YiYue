@@ -28,7 +28,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="16dp"
-                android:background="@drawable/btn_action_bg_selector"
+                android:background="@drawable/bg_pressed"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_back_white" />
 

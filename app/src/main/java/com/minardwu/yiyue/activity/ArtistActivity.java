@@ -144,8 +144,8 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                 int offsetWhenCollapse = appBarLayout.getTotalScrollRange();
                 int alpha = (int)((float)Math.abs(verticalOffset)/(float)offsetWhenCollapse*255);
                 btn_follow_artist.setAlpha(1f-(float)Math.abs(verticalOffset)/(float)offsetWhenCollapse);
-                if(alpha<25){
-                    alpha = 25;
+                if(alpha<20){
+                    alpha = 20;
                 }
                 if (alpha>200){
                     alpha = 200;

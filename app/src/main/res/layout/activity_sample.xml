@@ -28,7 +28,7 @@
                 android:id="@+id/iv_toolbar_back"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@drawable/btn_action_bg_selector"
+                android:background="@drawable/bg_pressed"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_back_white" />

@@ -95,6 +95,8 @@
     <string name="online_music_list_artist">&#160;-&#160;%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="select_music_count">已选择%d项</string>
+
     <string name="album_company">发型公司:%s</string>
     <string name="album_type">专辑类型:%s</string>
 
