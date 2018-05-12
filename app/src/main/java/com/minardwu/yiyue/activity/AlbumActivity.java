@@ -92,11 +92,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
     private String albumId;
     private String albumName;
-    private int song_conut;
     private PlayOnlineMusicService playOnlineMusicService;
     private OnlineMusicRecycleViewAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private MyDatabaseHelper myDatabaseHelper;
     private Bitmap coverBitmap;
     private Bitmap blurBitmap;
     private AlbumBean albumBean;
@@ -154,7 +152,6 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 toolbar.setBackground(new BitmapDrawable(blurBitmap));
                 toolbar.getBackground().setAlpha(0);
                 //iv_bg.setImageBitmap(blurBitmap);
-                //root.setBackgroundColor(UIUtils.getColor(R.color.colorGreenLight));
                 root.setBackground(new BitmapDrawable(ImageUtils.getFullScreenBlurBitmap(bitmap)));
                 iv_album_cover.setImageBitmap(bitmap);
             }
