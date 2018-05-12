@@ -16,8 +16,8 @@
         <ImageView
             android:id="@+id/iv_album_collected"
             android:src="@drawable/ic_album_collected_selector"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
 
         <TextView
             android:text="收藏"
@@ -39,8 +39,8 @@
 
         <ImageView
             android:src="@drawable/ic_album_artist"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
 
         <TextView
             android:text="歌手"
@@ -61,8 +61,8 @@
 
         <ImageView
             android:src="@drawable/ic_album_info"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
 
         <TextView
             android:text="详情"
@@ -83,8 +83,8 @@
 
         <ImageView
             android:src="@drawable/ic_album_multiple_choose"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
 
         <TextView
             android:text="多选"

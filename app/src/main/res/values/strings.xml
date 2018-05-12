@@ -68,8 +68,6 @@
     <string name="weather_wind">%1$s风%2$s级&#160;&#160;湿度%3$s%%</string>
     <string name="timer_set">设置成功，将于%s分钟后关闭</string>
     <string name="timer_cancel">定时停止播放已取消</string>
-    <string name="share_app">青春，狂热，放纵，自由，当我们带上耳机以后做回自己，这是音乐的魅力。%s：http://fir.im/ponymusic</string>
-    <string name="copyright">Copyright © 2015&#045;%d SWUST</string>
     <string name="about_project_url">https://github.com/wangchenyan/PonyMusic</string>
     <string name="about_weibo">http://weibo.com/wangchenyan1993</string>
     <string name="about_jianshu">http://www.jianshu.com/users/3231579893ac</string>
@@ -96,17 +94,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="select_music_count">已选择%d项</string>
-
     <string name="album_company">发型公司:%s</string>
     <string name="album_type">专辑类型:%s</string>
-
     <string name="online_music_play_list_title">播放列表</string>
     <string name="online_music_play_list_song_count">(共%1$d首)</string>
-
     <string name="album">专辑</string>
-
     <string name="play_all">播放全部</string>
-
     <string name="feedback_empty">真的不打算写点什么吗？</string>
     <string name="feedback_quit">内容未提交，确定退出吗？</string>
 
@@ -116,9 +109,15 @@
     <string name="lrc_no_exist">尚无歌词</string>
 
     <string name="is_delete_fm_history">确定要删除此记录吗?</string>
-    <string name="is_delete_collected_song">确定要删除此歌曲吗?</string>
-    <string name="is_delete_collected_artist">确定要删除此歌手吗?</string>
-    <string name="is_delete_collected_album">确定要删除此专辑吗?</string>
+    <string name="is_delete_collected_song">确定不再收藏此歌曲吗?</string>
+    <string name="is_delete_collected_artist">确定不再关注此歌手吗?</string>
+    <string name="is_delete_collected_album">确定不再收藏此专辑吗?</string>
+    <string name="delete_collected_artist_success">已取消关注</string>
+    <string name="collected_artist_success">关注成功</string>
+    <string name="delete_collected_album_success">已取消收藏</string>
+    <string name="collected_album_success">收藏成功</string>
+    <string name="delete_collected_song_success">已取消收藏</string>
+    <string name="collected_song_success">收藏成功</string>
 
     <string name="drawer_item_night_mode">夜间模式</string>
     <string name="drawer_item_wifi">仅Wi-Fi播放</string>

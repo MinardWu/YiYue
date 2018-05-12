@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.AlbumActivity;
 import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.adapter.ImageAndTextAdapter;
 import com.minardwu.yiyue.adapter.OnlineMusicRecycleViewAdapter;
@@ -17,6 +18,7 @@ import com.minardwu.yiyue.event.PlayNewOnlineMusicEvent;
 import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.executor.MoreOptionOfCollectedSongExecutor;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.SystemUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,16 +55,16 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
             @Override
             public void onItemClick(View view, int position) {
                 if(position == 0){
-                    Intent intent = new Intent(getActivity(),MainActivity.class);
-                    intent.putExtra(MainActivity.INDEX,MainActivity.ONLINE);
-                    startActivity(intent);
                     playOnlineMusicService.playMusicList(list);
+                    getActivity().finish();
+                    SystemUtils.startMainActivity(getActivity(),MainActivity.ONLINE);
                 }else if(playOnlineMusicService.getPlayingMusicId()==list.get(position-1).getId()){
                     getActivity().finish();
+                    SystemUtils.startMainActivity(getActivity(),MainActivity.ONLINE);
                 }else {
                     playOnlineMusicService.stop();
-                    playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                    playOnlineMusicService.updatePlayingMusicPosition(position-1);
+                    playOnlineMusicService.play(adapter.getMusicList().get(position-1).getId());
+                    playOnlineMusicService.setPlayingMusic(adapter.getMusicList().get(position-1));
                     adapter.notifyDataSetChanged();
                 }
             }

@@ -60,7 +60,7 @@
                 android:layout_height="24dp"
                 android:background="@drawable/bg_pressed"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_chose" />
+                android:src="@drawable/ic_chosen_black" />
         </LinearLayout>
 
         <View

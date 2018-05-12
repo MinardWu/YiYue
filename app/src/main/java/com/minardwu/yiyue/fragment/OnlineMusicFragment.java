@@ -221,10 +221,12 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                     iv_onlinemusic_download.startAnimation(unloveAnimation);
                     iv_onlinemusic_download.setSelected(false);
                     MyDatabaseHelper.init(getContext()).deleteCollectedSong(playingMusic);
+                    ToastUtils.showShortToast(R.string.delete_collected_song_success);
                 }else {
                     iv_onlinemusic_download.startAnimation(loveAnimation);
                     iv_onlinemusic_download.setSelected(true);
                     MyDatabaseHelper.init(getContext()).addCollectedSong(playingMusic);
+                    ToastUtils.showShortToast(R.string.collected_song_success);
                 }
                 break;
             case R.id.iv_onlinemusic_play:

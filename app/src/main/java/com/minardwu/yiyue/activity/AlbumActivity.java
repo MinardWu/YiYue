@@ -38,9 +38,11 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.utils.ImageUtils;
 import com.minardwu.yiyue.utils.ParseUtils;
+import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
+import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -182,16 +184,18 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             public void onItemClick(View view, int position) {
                 if(position==0) {
                     playOnlineMusicService.playMusicList(list);
+                    finish();
+                    SystemUtils.startMainActivity(AlbumActivity.this,MainActivity.ONLINE);
                 }else if(playOnlineMusicService.getPlayingMusicId()==list.get(position-1).getId()){
                     finish();
+                    SystemUtils.startMainActivity(AlbumActivity.this,MainActivity.ONLINE);
                 }else {
                     if(playOnlineMusicService.isPlayList()){
                         playOnlineMusicService.playOtherWhenPlayList(list.get(position-1));
                         adapter.notifyDataSetChanged();
                     }else {
                         playOnlineMusicService.stop();
-                        playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                        playOnlineMusicService.updatePlayingMusicPosition(position-1);
+                        playOnlineMusicService.play(adapter.getMusicList().get(position-1).getId());
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -276,11 +280,32 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.ll_ic_album_collected:
                 if (MyDatabaseHelper.init(getContext()).isCollectedAlbum(albumBean.getAlbumId())){
-                    MyDatabaseHelper.init(getContext()).deleteCollectedAlbum(albumBean);
-                    setCollectedState(false);
+                    YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
+                            .context(getContext())
+                            .title(UIUtils.getString(R.string.is_delete_collected_album))
+                            .titleTextColor(UIUtils.getColor(R.color.grey))
+                            .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
+                                @Override
+                                public void OnClick(YesOrNoDialog dialog, View view) {
+                                    dialog.dismiss();
+                                    MyDatabaseHelper.init(getContext()).deleteCollectedAlbum(albumBean);
+                                    setCollectedState(false);
+                                    ToastUtils.showShortToast(R.string.delete_collected_album_success);
+                                }
+                            })
+                            .no(UIUtils.getString(R.string.cancel), new YesOrNoDialog.NegativeClickListener() {
+                                @Override
+                                public void OnClick(YesOrNoDialog dialog, View view) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                            .build();
+                    yesOrNoDialog.show();
                 }else {
                     MyDatabaseHelper.init(getContext()).addCollectedAlbum(albumBean);
                     setCollectedState(true);
+                    ToastUtils.showShortToast(R.string.collected_album_success);
                 }
                 break;
             case R.id.ll_ic_album_multiple_choose:

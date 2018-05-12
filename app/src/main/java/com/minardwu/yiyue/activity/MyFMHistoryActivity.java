@@ -70,8 +70,7 @@ public class MyFMHistoryActivity extends SampleActivity implements IView{
                         adapter.notifyDataSetChanged();
                     }else {
                         playOnlineMusicService.stop();
-                        playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                        playOnlineMusicService.updatePlayingMusicPosition(position-1);
+                        playOnlineMusicService.play(adapter.getMusicList().get(position-1).getId());
                         adapter.notifyDataSetChanged();
                     }
                 }

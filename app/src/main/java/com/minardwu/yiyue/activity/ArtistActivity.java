@@ -1,9 +1,7 @@
 package com.minardwu.yiyue.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
@@ -38,6 +36,7 @@ import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.LoadingView;
+import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -182,9 +181,6 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                     playOnlineMusicService.playMusicList(hotSongs);
                     finish();
                     SystemUtils.startMainActivity(ArtistActivity.this,MainActivity.ONLINE);
-//                    Intent intent = new Intent(ArtistActivity.this,MainActivity.class);
-//                    intent.putExtra(MainActivity.INDEX,MainActivity.ONLINE);
-//                    startActivity(intent);
                 }else if(playOnlineMusicService.getPlayingMusicId()==hotSongs.get(position-1).getId()){
                     finish();
                     SystemUtils.startMainActivity(ArtistActivity.this,MainActivity.ONLINE);
@@ -194,8 +190,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                         adapter.notifyDataSetChanged();
                     }else {
                         playOnlineMusicService.stop();
-                        playOnlineMusicService.play((int) adapter.getMusicList().get(position-1).getId());
-                        playOnlineMusicService.updatePlayingMusicPosition(position-1);
+                        playOnlineMusicService.play(adapter.getMusicList().get(position-1).getId());
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -261,10 +256,31 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()){
             case R.id.btn_follow_artist:
                 if(myDatabaseHelper.isFollowArtist(artistId)){
-                    myDatabaseHelper.unfollowArtist(artistId);
-                    setCollectedState();
+                    YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
+                            .context(getContext())
+                            .title(UIUtils.getString(R.string.is_delete_collected_artist))
+                            .titleTextColor(UIUtils.getColor(R.color.grey))
+                            .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
+                                @Override
+                                public void OnClick(YesOrNoDialog dialog, View view) {
+                                    dialog.dismiss();
+                                    myDatabaseHelper.unfollowArtist(artistId);
+                                    setCollectedState();
+                                    ToastUtils.showShortToast(R.string.delete_collected_artist_success);
+                                }
+                            })
+                            .no(UIUtils.getString(R.string.cancel), new YesOrNoDialog.NegativeClickListener() {
+                                @Override
+                                public void OnClick(YesOrNoDialog dialog, View view) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                            .build();
+                    yesOrNoDialog.show();
                 }else {
                     myDatabaseHelper.followArtist(artist);
+                    ToastUtils.showShortToast(R.string.collected_artist_success);
                     setCollectedState();
                 }
                 break;
