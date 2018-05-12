@@ -64,7 +64,7 @@
                 android:id="@+id/iv_more"
                 android:layout_marginRight="14dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_more_white"
+                android:src="@drawable/ic_sort"
                 android:layout_width="24dp"
                 android:layout_height="24dp" />
 

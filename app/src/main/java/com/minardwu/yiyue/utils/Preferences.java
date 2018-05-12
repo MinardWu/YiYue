@@ -33,10 +33,10 @@ public class Preferences {
     private static final String ALARM_MINUTE = "alarm_minute";
 
     private static final String LOCAL_MUSIC_ORDER_TYPE = "local_music_order_type";
-    public static final int ORDER_BY_TIME = 1;
-    public static final int ORDER_BY_TITLE = 2;
-    public static final int ORDER_BY_SINGER = 3;
-    public static final int ORDER_BY_ALBUM = 4;
+    public static final int ORDER_BY_TIME = 0;
+    public static final int ORDER_BY_TITLE = 1;
+    public static final int ORDER_BY_SINGER = 2;
+    public static final int ORDER_BY_ALBUM = 3;
 
     private static Context sContext;
 
@@ -84,7 +84,7 @@ public class Preferences {
 
     //对于具体数据调用基本数据的操作
     public static int getLocalMusicOrderType() {
-        return getInt(LOCAL_MUSIC_ORDER_TYPE, 1);
+        return getInt(LOCAL_MUSIC_ORDER_TYPE, 0);
     }
 
     public static void setLocalMusicOrderType(int position) {

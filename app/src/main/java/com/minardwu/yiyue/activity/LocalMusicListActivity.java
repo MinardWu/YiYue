@@ -16,12 +16,17 @@ import com.minardwu.yiyue.event.UpdateLocalMusicListEvent;
 import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.executor.MoreOptionOfLocalMusicListExecutor;
 import com.minardwu.yiyue.fragment.OptionDialogFragment;
+import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.widget.CustomPopWindow;
+import com.minardwu.yiyue.widget.dialog.ChooseOptionDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,11 +56,11 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
         startActivity(new Intent(LocalMusicListActivity.this,SearchLocalMusicActivity.class));
     }
     @OnClick(R.id.iv_more) void more(){
-        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(this)
-                .setView(R.layout.popup_window)//显示的布局，还可以通过设置一个View
-                .setOutsideTouchable(true)//是否PopupWindow 以外触摸dissmiss
-                .create()
-                .showAsDropDown(toolbar, SystemUtils.getScreenWidth(),0);
+//        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(this)
+//                .setView(R.layout.popup_window)//显示的布局，还可以通过设置一个View
+//                .setOutsideTouchable(true)//是否PopupWindow 以外触摸dissmiss
+//                .create()
+//                .showAsDropDown(toolbar, SystemUtils.getScreenWidth(),0);
 //        MoreDialog moreDialog = new MoreDialog(this,R.style.StopTimeDialog);
 //        moreDialog.setOnMoreDialogItemClickListener(new MoreDialog.OnMoreDialogItemClickListener() {
 //            @Override
@@ -68,6 +73,19 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
 //            }
 //        });
 //        moreDialog.showShortToast();
+        ChooseOptionDialog sortDialog = new ChooseOptionDialog(getContext(),R.style.StopTimeDialog);
+        sortDialog.setTitle("排序方式");
+        sortDialog.setItem(R.array.sort);
+        sortDialog.setShowImagePosition(Preferences.getLocalMusicOrderType());
+        sortDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Preferences.setLocalMusicOrderType(position);
+                Collections.sort(AppCache.getLocalMusicList(),new MusicUtils.MusicComparator());
+                EventBus.getDefault().post(new UpdateLocalMusicListEvent(1));
+            }
+        });
+        sortDialog.show();
     }
 
     LocalMusicListItemAdapter localMusicListItemAdapter = new LocalMusicListItemAdapter();
