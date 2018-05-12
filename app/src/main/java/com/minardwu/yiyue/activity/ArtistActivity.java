@@ -1,16 +1,21 @@
 package com.minardwu.yiyue.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
@@ -51,10 +56,11 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.tv_artist_name) TextView tv_artist_name;
     @BindView(R.id.iv_bg) ImageView iv_bg;
     @BindView(R.id.iv_back) ImageView iv_back;
-    @BindView(R.id.iv_artist) ImageView iv_artist;
-    @BindView(R.id.tv_artist_name_below_iv) TextView tv_artist_name_below_iv;
     @BindView(R.id.btn_follow_artist) Button btn_follow_artist;
     @BindView(R.id.loading_view) LoadingView loading_view;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.ll_black_cover)
+    LinearLayout ll_black_cover;
 
     public static final String ARTIST_ID = "artistId";
     public static final String ARTIST_NAME = "artistName";
@@ -83,6 +89,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         intent = getIntent();
         artistId = intent.getStringExtra(ARTIST_ID);
         artistName = intent.getStringExtra(ARTIST_NAME);
+        initToolBarView();
         initView();
         GetOnlineArtist.getArtistInfoById(artistId, new HttpCallback<ArtistBean>() {
             @Override
@@ -96,8 +103,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                         if (myDatabaseHelper.isFollowArtist(artistId)){
                             myDatabaseHelper.updateArtistPic(artistId,artistPicUrl);
                         }
-                        iv_artist.setImageBitmap(ImageUtils.createCircleImage(bitmap));
-                        iv_bg.setImageBitmap(ImageUtils.getBlurBitmap(bitmap));
+                        iv_bg.setImageBitmap(bitmap);
                     }
 
                     @Override
@@ -114,12 +120,19 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    private void initView(){
+    private void initToolBarView(){
+        int toolbarPadding = (int) getResources().getDimension(R.dimen.toolbar_paddingTop_top);
+        int toolbarOriginHeight = UIUtils.getToolbarHeight(this);
+        CollapsingToolbarLayout.LayoutParams toolbarLayoutParams = new CollapsingToolbarLayout.LayoutParams(CollapsingToolbarLayout.LayoutParams.MATCH_PARENT, toolbarPadding+toolbarOriginHeight);
+        toolbarLayoutParams.setCollapseMode(CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN);
+        toolbar.setLayoutParams(toolbarLayoutParams);
+        toolbar.setPadding(0,toolbarPadding,0,0);
         setTitleToCollapsingToolbarLayout();
+    }
+
+    private void initView(){
         tv_artist_name.setText(artistName);
-        tv_artist_name_below_iv.setText(artistName);
-        iv_artist.setImageBitmap(ImageUtils.createCircleImage(BitmapFactory.decodeResource(getResources(),R.drawable.default_cover)));
-        btn_follow_artist.setText(myDatabaseHelper.isFollowArtist(artistId) ? "已关注":"关注");
+        setCollectedState();
         btn_follow_artist.setOnClickListener(this);
         iv_back.setOnClickListener(this);
     }
@@ -129,22 +142,26 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int offsetWhenCollapse = appBarLayout.getTotalScrollRange();
-                if (Math.abs(verticalOffset) == offsetWhenCollapse) {
-                    btn_follow_artist.setVisibility(View.INVISIBLE);//解决快速上拉时button会与标题重叠的问题
-                    tv_artist_name_below_iv.setVisibility(View.INVISIBLE);//解决快速上拉时会与标题重叠的问题
-                    tv_artist_name.setVisibility(View.VISIBLE);
-                    //设置toolbar为自定义样式的时候，会覆盖掉collapsing_toolbar_layout的title，所以这时下面的方法不能用
+                int alpha = (int)((float)Math.abs(verticalOffset)/(float)offsetWhenCollapse*255);
+                btn_follow_artist.setAlpha(1f-(float)Math.abs(verticalOffset)/(float)offsetWhenCollapse);
+                if(alpha<25){
+                    alpha = 25;
+                }
+                if (alpha>200){
+                    alpha = 200;
+                }
+                ll_black_cover.setBackgroundColor(Color.argb(alpha,0,0,0));
+//                if (Math.abs(verticalOffset) == offsetWhenCollapse) {
+//                    //设置toolbar为自定义样式的时候，会覆盖掉collapsing_toolbar_layout的title，所以这时下面的方法不能用
 //                    collapsing_toolbar_layout.setTitle(artistName);
 //                    collapsing_toolbar_layout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorGreenLight));
 //                    collapsing_toolbar_layout.setCollapsedTitleGravity(Gravity.CENTER);
-                } else {
-                    btn_follow_artist.setVisibility(View.VISIBLE);
-                    tv_artist_name_below_iv.setVisibility(View.VISIBLE);
-                    tv_artist_name.setVisibility(View.INVISIBLE);
+//                } else {
+//                    btn_follow_artist.setVisibility(View.VISIBLE);
 //                    collapsing_toolbar_layout.setTitle("");
 //                    collapsing_toolbar_layout.setExpandedTitleGravity(Gravity.CENTER);
 //                    collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT);
-                }
+//                }
             }
         });
     }
@@ -245,16 +262,27 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
             case R.id.btn_follow_artist:
                 if(myDatabaseHelper.isFollowArtist(artistId)){
                     myDatabaseHelper.unfollowArtist(artistId);
-                    btn_follow_artist.setText("关注");
+                    setCollectedState();
                 }else {
                     myDatabaseHelper.followArtist(artist);
-                    btn_follow_artist.setText("已关注");
+                    setCollectedState();
                 }
                 break;
             case R.id.iv_back:
                 finish();
                 break;
         }
+    }
+
+    private void setCollectedState(){
+        Drawable drawable = UIUtils.getDrawable(myDatabaseHelper.isFollowArtist(artistId)
+                ? R.drawable.ic_chosen_white
+                : R.drawable.ic_add_white);
+        drawable.setBounds(0,0,UIUtils.dp2px(getContext(),14),UIUtils.dp2px(getContext(),14));  //width即为你需要设置的图片宽度，height即为你设置的图片的高度
+        btn_follow_artist.setCompoundDrawables(drawable,null,null,null);
+        btn_follow_artist.setCompoundDrawablePadding(10);
+        btn_follow_artist.setSelected(myDatabaseHelper.isFollowArtist(artistId));
+        btn_follow_artist.setText(myDatabaseHelper.isFollowArtist(artistId) ? "已关注":"关注");
     }
 
 }
