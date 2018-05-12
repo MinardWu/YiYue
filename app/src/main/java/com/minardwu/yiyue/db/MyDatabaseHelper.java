@@ -22,7 +22,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static SQLiteDatabase sqLiteDatabase;
 
-    private static final String DATABASE_NAME = "T9.db";
+    private static final String DATABASE_NAME = "T10.db";
     private static final String TABLE_SEARCH_HISTORY = "search_history";
     private static final String TABLE_FM_HISTORY = "fm_history";
     private static final String TABLE_MY_ARTIST = "my_artist";
@@ -339,19 +339,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
     public void addCollectedAlbum(AlbumBean albumBean){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("albumId", albumBean.getAlbumId());
-        contentValues.put("albumName", albumBean.getAlbumName());
-        contentValues.put("picUrl", albumBean.getPicUrl());
-        contentValues.put("artistId", albumBean.getArtist().getId());
-        contentValues.put("artistName", albumBean.getArtist().getName());
-        contentValues.put("artistPicUrl", albumBean.getArtist().getPicUrl());
-        contentValues.put("publishTime", albumBean.getPublishTime());
-        contentValues.put("company", albumBean.getCompany());
-        contentValues.put("info", albumBean.getInfo());
-        contentValues.put("subType", albumBean.getSubType());
-        contentValues.put("size", albumBean.getSize());
-        sqLiteDatabase.insert(TABLE_MY_ALBUM,null,contentValues);
+        if(!isCollectedAlbum(albumBean.getAlbumId())){
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("albumId", albumBean.getAlbumId());
+            contentValues.put("albumName", albumBean.getAlbumName());
+            contentValues.put("picUrl", albumBean.getPicUrl());
+            contentValues.put("artistId", albumBean.getArtist().getId());
+            contentValues.put("artistName", albumBean.getArtist().getName());
+            contentValues.put("artistPicUrl", albumBean.getArtist().getPicUrl());
+            contentValues.put("publishTime", albumBean.getPublishTime());
+            contentValues.put("company", albumBean.getCompany());
+            contentValues.put("info", albumBean.getInfo());
+            contentValues.put("subType", albumBean.getSubType());
+            contentValues.put("size", albumBean.getSize());
+            sqLiteDatabase.insert(TABLE_MY_ALBUM,null,contentValues);
+        }
     }
 
     public List<AlbumBean> queryCollectedAlbum(){

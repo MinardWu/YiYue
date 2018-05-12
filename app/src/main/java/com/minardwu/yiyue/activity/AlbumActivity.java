@@ -2,16 +2,20 @@ package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
@@ -69,10 +73,22 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     TextView tv_album_time;
     @BindView(R.id.iv_back)
     ImageView iv_back;
-    @BindView(R.id.iv_more)
-    ImageView iv_more;
     @BindView(R.id.loading_view)
     LoadingView loading_view;
+    @BindView(R.id.root)
+    CoordinatorLayout root;
+    @BindView(R.id.ll_ic_album_collected)
+    LinearLayout ll_ic_album_collected;
+    @BindView(R.id.ll_ic_album_artist)
+    LinearLayout ll_ic_album_artist;
+    @BindView(R.id.ll_ic_album_info)
+    LinearLayout ll_ic_album_info;
+    @BindView(R.id.ll_ic_album_multiple_choose)
+    LinearLayout ll_ic_album_multiple_choose;
+    @BindView(R.id.iv_album_collected)
+    ImageView iv_album_collected;
+    @BindView(R.id.tv_album_collected)
+    TextView tv_album_collected;
 
     private String albumId;
     private String albumName;
@@ -84,6 +100,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private Bitmap coverBitmap;
     private Bitmap blurBitmap;
     private AlbumBean albumBean;
+    private ArrayList<MusicBean> list;
 
     public static final String ALBUM_ID = "albumId";
     public static final String ALBUM_NAME = "albumName";
@@ -110,7 +127,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 handleError(result);
             }
         });
-
+        initClickAction();
     }
 
     private void initToolBarView(){
@@ -125,9 +142,6 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         albumCoverLayoutParams.setMargins(UIUtils.dp2px(this,18),toolbarPadding+toolbarOriginHeight+UIUtils.dp2px(this,8),0,0);
         iv_album_cover.setLayoutParams(albumCoverLayoutParams);
         setTitleToCollapsingToolbarLayout();
-        iv_back.setOnClickListener(this);
-        iv_more.setOnClickListener(this);
-        iv_album_cover.setOnClickListener(this);
     }
 
     private void initView(final AlbumBean albumBean){
@@ -139,7 +153,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 blurBitmap = ImageUtils.getBlurBitmap(bitmap);
                 toolbar.setBackground(new BitmapDrawable(blurBitmap));
                 toolbar.getBackground().setAlpha(0);
-                iv_bg.setImageBitmap(blurBitmap);
+                //iv_bg.setImageBitmap(blurBitmap);
+                //root.setBackgroundColor(UIUtils.getColor(R.color.colorGreenLight));
+                root.setBackground(new BitmapDrawable(ImageUtils.getFullScreenBlurBitmap(bitmap)));
                 iv_album_cover.setImageBitmap(bitmap);
             }
 
@@ -148,16 +164,16 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
             }
         });
-        final ArrayList<MusicBean> list = albumBean.getSongs();
+        list = albumBean.getSongs();
         adapter = new OnlineMusicRecycleViewAdapter(this,list);
         linearLayoutManager = new LinearLayoutManager(this);
         tv_album_name.setText(albumBean.getAlbumName());
         tv_album_artist.setText("歌手："+albumBean.getArtist().getName()+" >");
         tv_album_time.setText("发行时间："+ParseUtils.formatTimeOfPattern("yyyy-MM-dd",albumBean.getPublishTime()));
-        tv_album_artist.setOnClickListener(this);
         loading_view.setVisibility(View.GONE);
         rl_album_songs.setLayoutManager(linearLayoutManager);
         rl_album_songs.setAdapter(adapter);
+        setCollectedState(MyDatabaseHelper.init(getContext()).isCollectedAlbum(albumBean.getAlbumId()));
         adapter.setOnRecycleViewClickListener(new OnlineMusicRecycleViewAdapter.OnRecycleViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -200,6 +216,16 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
+    private void initClickAction(){
+        ll_ic_album_collected.setOnClickListener(this);
+        ll_ic_album_artist.setOnClickListener(this);
+        ll_ic_album_info.setOnClickListener(this);
+        ll_ic_album_multiple_choose.setOnClickListener(this);
+        iv_album_cover.setOnClickListener(this);
+        tv_album_artist.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
+    }
+
     private void setTitleToCollapsingToolbarLayout() {
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -215,6 +241,16 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
+    private void setCollectedState(boolean isCollected){
+        if (isCollected){
+            iv_album_collected.setSelected(true);
+            tv_album_collected.setText("已收藏");
+        }else {
+            iv_album_collected.setSelected(false);
+            tv_album_collected.setText("收藏");
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -222,18 +258,30 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.iv_album_cover:
+            case R.id.ll_ic_album_info:
                 AlbumInfoFragment albumInfoFragment = AlbumInfoFragment.newInstance(albumBean,coverBitmap);
                 albumInfoFragment.show(getFragmentManager(),"albumInfoFragment");
                 break;
             case R.id.tv_album_artist:
+            case R.id.ll_ic_album_artist:
                 Intent artistIntent = new Intent(this,ArtistActivity.class);
                 artistIntent.putExtra("artistName",albumBean.getArtist().getName());
                 artistIntent.putExtra("artistId",albumBean.getArtist().getId());
                 startActivity(artistIntent);
                 break;
-            case R.id.iv_more:
-                MyDatabaseHelper.init(AlbumActivity.this).addCollectedAlbum(albumBean);
-                ToastUtils.showShortToast("11");
+            case R.id.ll_ic_album_collected:
+                if (MyDatabaseHelper.init(getContext()).isCollectedAlbum(albumBean.getAlbumId())){
+                    MyDatabaseHelper.init(getContext()).deleteCollectedAlbum(albumBean);
+                    setCollectedState(false);
+                }else {
+                    MyDatabaseHelper.init(getContext()).addCollectedAlbum(albumBean);
+                    setCollectedState(true);
+                }
+                break;
+            case R.id.ll_ic_album_multiple_choose:
+                Intent intent = new Intent(AlbumActivity.this, MultipleChoseMusicActivity.class);
+                intent.putParcelableArrayListExtra("musicList",list);
+                startActivity(intent);
                 break;
         }
     }

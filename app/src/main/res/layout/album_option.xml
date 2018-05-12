@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_ic_album_collected"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_album_collected"
+            android:src="@drawable/ic_album_collected_selector"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:text="收藏"
+            android:id="@+id/tv_album_collected"
+            android:textColor="@color/white"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_ic_album_artist"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@drawable/ic_album_artist"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:text="歌手"
+            android:textColor="@color/white"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_ic_album_info"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@drawable/ic_album_info"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:text="详情"
+            android:textColor="@color/white"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_ic_album_multiple_choose"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@drawable/ic_album_multiple_choose"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:text="多选"
+            android:textColor="@color/white"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -108,10 +108,10 @@ public class MainActivity extends BaseActivity {
             SystemUtils.checkPermission(this,1);
         }
 //        startActivity(new Intent(this,AlarmActivity.class));
-//        Intent albumIntent = new Intent(this, AlbumActivity.class);
-//        albumIntent.putExtra("albumId","18905");
-//        albumIntent.putExtra("albumName","18905");
-//        startActivity(albumIntent);
+        Intent albumIntent = new Intent(this, AlbumActivity.class);
+        albumIntent.putExtra("albumId","18905");
+        albumIntent.putExtra("albumName","18905");
+        startActivity(albumIntent);
     }
 
     @Override

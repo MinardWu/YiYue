@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="transparent">#00FFFFFF</color>
+
     <color name="white">@android:color/white</color>
     <color name="white_90">#E6FFFFFF</color>
     <color name="white_80">#CCFFFFFF</color>
@@ -55,5 +57,4 @@
     <color name="tapeBlack">#292929</color>
     <color name="tapeInfoTextColor">#dd9283</color>
     <color name="tapeMusicInfoTextColor">#050505</color>
-    <color name="transparent">#00000000</color>
 </resources>
