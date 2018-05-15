@@ -64,7 +64,7 @@
                 <ImageView
                     android:background="@drawable/bg_pressed"
                     android:layout_marginRight="16dp"
-                    android:id="@+id/iv_top_left"
+                    android:id="@+id/iv_top_right"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:scaleType="centerInside"
@@ -131,8 +131,9 @@
                 android:layout_height="match_parent">
 
                 <RelativeLayout
+                    android:id="@+id/rl_setting"
                     android:clickable="true"
-                    android:background="@drawable/bg_pressed"
+                    android:background="@drawable/bg_pressed_mask"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
@@ -156,8 +157,9 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_exit"
                     android:clickable="true"
-                    android:background="@drawable/bg_pressed"
+                    android:background="@drawable/bg_pressed_mask"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">

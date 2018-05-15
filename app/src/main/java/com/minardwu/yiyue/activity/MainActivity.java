@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.os.Build;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     public static final String INDEX = "index";
@@ -63,23 +64,12 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.tv_toolbar) TextView tv_toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @BindView(R.id.iv_top_left) ImageView iv_top_left;
+    @BindView(R.id.iv_top_right) ImageView iv_top_right;
     @BindView(R.id.iv_menu) ImageView iv_menu;
     @BindView(R.id.lv_drawer) ListView listView;
     @BindView(R.id.vp) ViewPager viewPager;
-
-
-    @OnClick(R.id.iv_top_left) void startSearch(){
-        if(currentFragment==0){
-            startActivity(new Intent(this,TapeActivity.class));
-        }else if(currentFragment==1){
-            startActivity(new Intent(this,SearchActivity.class));
-        }
-    }
-
-    @OnClick(R.id.iv_menu) void openDrawer(){
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
+    @BindView(R.id.rl_setting) RelativeLayout rl_setting;
+    @BindView(R.id.rl_exit) RelativeLayout rl_exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +148,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView(){
-//        setStatusBarDarkModeForM(this.getWindow());
+        iv_top_right.setOnClickListener(this);
+        iv_menu.setOnClickListener(this);
+        rl_setting.setOnClickListener(this);
+        rl_exit.setOnClickListener(this);
         changeIcon(currentFragment);
         if(AppCache.getLocalMusicList().size()>0&&AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle()!= null){
             tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());
@@ -185,6 +178,8 @@ public class MainActivity extends BaseActivity {
                         }else {
                             Preferences.savePlayWhenOnlyHaveWifi(false);
                         }
+                        break;
+                    default:
                         break;
                 }
             }
@@ -229,6 +224,8 @@ public class MainActivity extends BaseActivity {
                         currentFragment = 1;
                         changeIcon(currentFragment);
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -241,9 +238,9 @@ public class MainActivity extends BaseActivity {
 
     private void changeIcon(int currentFragment){
         if(currentFragment==0){
-            iv_top_left.setImageResource(R.drawable.ic_tape);
+            iv_top_right.setImageResource(R.drawable.ic_tape);
         }else if(currentFragment==1){
-            iv_top_left.setImageResource(R.drawable.ic_search);
+            iv_top_right.setImageResource(R.drawable.ic_search);
         }
     }
 
@@ -299,6 +296,30 @@ public class MainActivity extends BaseActivity {
                     AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(getApplicationContext()));
                 }
             }
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.iv_menu:
+                drawerLayout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.iv_top_right:
+                if(currentFragment==0){
+                    startActivity(new Intent(this,TapeActivity.class));
+                }else if(currentFragment==1){
+                    startActivity(new Intent(this,SearchActivity.class));
+                }
+                break;
+            case R.id.rl_setting:
+
+                break;
+            case R.id.rl_exit:
+                System.exit(0);
+                break;
+            default:
+                break;
         }
     }
 }
