@@ -148,6 +148,7 @@
 
                     <TextView
                         android:text="设置"
+                        android:textColor="@color/drawer_title_text_color"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/iv_drawer_setting"
                         android:layout_marginLeft="8dp"
@@ -174,6 +175,7 @@
 
                     <TextView
                         android:id="@+id/tv_drawer_exit"
+                        android:textColor="@color/drawer_title_text_color"
                         android:layout_centerVertical="true"
                         android:text="退出应用"
                         android:layout_alignParentRight="true"

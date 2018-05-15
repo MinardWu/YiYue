@@ -28,6 +28,9 @@
     <color name="black_20">#33000000</color>
     <color name="black_10">#1A000000</color>
 
+
+    <color name="drawer_title_text_color">@color/black_90</color>
+    <color name="drawer_info_text_color">@color/black_30</color>
     <color name="red">#F44336</color>
     <color name="red_30p">#4CF44336</color>
     <color name="blue">#2196F3</color>

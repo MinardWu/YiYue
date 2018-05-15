@@ -18,6 +18,7 @@
 
     <TextView
         android:textSize="15sp"
+        android:textColor="@color/drawer_title_text_color"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_toRightOf="@+id/iv_list_drawer_normal"
@@ -27,7 +28,7 @@
 
     <TextView
         android:textSize="13sp"
-        android:textColor="@color/grey_50p"
+        android:textColor="@color/drawer_info_text_color"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:id="@+id/tv_list_drawer_normal_info"
