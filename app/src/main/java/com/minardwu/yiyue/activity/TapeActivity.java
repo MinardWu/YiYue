@@ -1,6 +1,9 @@
 package com.minardwu.yiyue.activity;
 
+import android.content.pm.ActivityInfo;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.OrientationEventListener;
 import android.view.WindowManager;
 
 import com.minardwu.yiyue.R;
@@ -59,6 +62,37 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkOrientation();
+    }
+
+    private void checkOrientation(){
+        OrientationEventListener mOrientationListener = new OrientationEventListener(this,
+                SensorManager.SENSOR_DELAY_NORMAL) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                //设置横屏、方向横屏
+                if (orientation > 225 && orientation < 315) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                } else if (orientation > 45 && orientation < 135) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+                }
+
+                if (orientation<45 || orientation>135&&orientation<225 || orientation>315){
+                    finish();
+                }
+            }
+        };
+
+        if (mOrientationListener.canDetectOrientation()) {
+            mOrientationListener.enable();
+        } else {
+            mOrientationListener.disable();
+        }
+    }
+
+    @Override
     public void onChangeMusic(MusicBean music) {
         tapeView.setTitle(music.getTitle());
         tapeView.setArtis(music.getArtistName());
@@ -81,6 +115,11 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
 
     @Override
     public void onMusicListUpdate() {
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 }

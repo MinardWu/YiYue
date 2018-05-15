@@ -2,6 +2,7 @@ package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.SensorManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
@@ -10,8 +11,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.OrientationEventListener;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.os.Build;
@@ -47,7 +48,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -61,6 +61,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private List<DrawerItemBean> drawerItemBeanList;
     private List<android.support.v4.app.Fragment> fragmentList;
     private DrawerItemExecutor drawerItemExecutor = new DrawerItemExecutor();
+    private boolean isFront;
 
     @BindView(R.id.tv_toolbar) TextView tv_toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -234,6 +235,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isFront = true;
+        checkOrientation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isFront = false;
+    }
+
+    private void checkOrientation(){
+        OrientationEventListener mOrientationListener = new OrientationEventListener(this,
+                SensorManager.SENSOR_DELAY_NORMAL) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                //横屏与方向横屏
+                if (orientation > 270 && orientation < 300 && isFront) {
+                    disable();
+                    startActivity(new Intent(MainActivity.this,TapeActivity.class));
+                } else if (orientation > 60 && orientation < 120 && isFront) {
+                    disable();
+                    startActivity(new Intent(MainActivity.this,TapeActivity.class));
+                }
+            }
+        };
+
+        if (mOrientationListener.canDetectOrientation()) {
+            mOrientationListener.enable();
+        } else {
+            mOrientationListener.disable();
+        }
     }
 
     private void changeIcon(int currentFragment){
