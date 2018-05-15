@@ -134,9 +134,6 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     String picUrl = albumInfo.getString("picUrl");
                     String albumName = albumInfo.getString("name");
                     String albumId = albumInfo.getString("id");
-                    Log.e(TAG,title);
-                    Log.e(TAG,artist);
-                    Log.e(TAG,picUrl);
                     musicBean.setId(id);
                     musicBean.setTitle(title);
                     musicBean.setArtistName(artist);
@@ -146,6 +143,10 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     musicBean.setAlbumId(albumId);
                     musicBean.setPath(musicUrl);
                     musicBean.setType(MusicBean.Type.ONLINE);
+                    Log.e(TAG,title);
+                    Log.e(TAG,artist);
+                    Log.e(TAG,picUrl);
+                    Log.e(TAG,musicUrl);
                     getSongLrcById(id,musicBean);
                     //onSuccess(musicBean);
                 } catch (final JSONException e) {

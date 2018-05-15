@@ -1,6 +1,6 @@
 package com.minardwu.yiyue.activity;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,19 +11,22 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class InfoActivity extends SampleActivity {
 
-    @BindView(R.id.tv_version)
-    TextView tv_version;
+    private TextView tv_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_version = findViewById(R.id.tv_version);
         tv_version.setText(SystemUtils.getLocalVersionName(this));
+        tv_version.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                startActivity(new Intent(InfoActivity.this,MockControllerActivity.class));
+                return false;
+            }
+        });
     }
 
     @Override

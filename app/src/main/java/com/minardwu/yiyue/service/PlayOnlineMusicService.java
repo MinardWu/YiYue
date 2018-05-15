@@ -25,6 +25,7 @@ import com.minardwu.yiyue.enums.PlayModeEnum;
 import com.minardwu.yiyue.event.StopPlayLocalMusicServiceEvent;
 import com.minardwu.yiyue.event.StopPlayOnlineMusicServiceEvent;
 import com.minardwu.yiyue.event.PlayNewOnlineMusicEvent;
+import com.minardwu.yiyue.http.mock.GetOnlineSongMockData;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.GetOnlineSong;
 import com.minardwu.yiyue.model.MusicBean;
@@ -140,6 +141,32 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             return;
         }
         mediaPlayer.reset();
+        if(Preferences.enableUseMockData()){
+            new GetOnlineSongMockData(){
+                @Override
+                public void onSuccess(MusicBean musicBean) {
+                    playOnlineMusicListener.onPrepareStop();
+                    playingMusic = musicBean;
+                    playOnlineMusicListener.onChangeMusic(musicBean);
+                    try {
+                        mediaPlayer.setDataSource(musicBean.getPath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mediaPlayer.setOnPreparedListener(preparedListener);
+                    mediaPlayer.prepareAsync();//在线播放音频，使用prepareAsync()
+                    setPlayState(STATE_PREPARING);
+                }
+
+                @Override
+                public void onFail(FailResult result) {
+                    playOnlineMusicListener.onPrepareStop();
+                    playOnlineMusicListener.onGetSongError(result.getResultCode());
+                    Log.e(TAG,result.getResultCode()+":"+result.getException());
+                }
+            }.execute(new Random().nextInt(5),false);
+            return;
+        }
         new GetOnlineSong() {
             @Override
             public void onSuccess(MusicBean musicBean) {
@@ -162,7 +189,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                 playOnlineMusicListener.onGetSongError(result.getResultCode());
                 Log.e(TAG,result.getResultCode()+":"+result.getException());
             }
-        }.execute(id,false);//114533
+        }.execute(id,false);
     }
 
     MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {

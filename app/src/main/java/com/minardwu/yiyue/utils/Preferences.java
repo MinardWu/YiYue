@@ -27,6 +27,7 @@ public class Preferences {
     private static final String FITLER_TIME_POSITION = "filter_time_position";
     private static final String FITLER_SIZE_POSITION = "filter_size_position";
     private static final String PLAY_ONLINE_LIST = "play_online_list";
+    private static final String USE_MOCK_DATA = "use_mock_data";
 
     private static final String ALARM_MUSIC_ID = "alarm_music_id";
     private static final String ALARM_HOUR = "alarm_hour";
@@ -185,6 +186,14 @@ public class Preferences {
 
     public static void savePlayWhenOnlyHaveWifi(boolean enable) {
         saveBoolean(sContext.getString(R.string.setting_key_mobile_network_play), enable);
+    }
+
+    public static boolean enableUseMockData() {
+        return getBoolean(USE_MOCK_DATA, false);
+    }
+
+    public static void saveUseMockData(boolean enable) {
+        saveBoolean(USE_MOCK_DATA, enable);
     }
 
     public static boolean enableAlarmClockRepeat() {
