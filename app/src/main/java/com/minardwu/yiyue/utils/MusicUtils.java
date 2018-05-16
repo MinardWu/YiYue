@@ -22,8 +22,11 @@ import java.util.List;
 
 public class MusicUtils {
 
-    //过滤条件
-    private static final String FILTER = MediaStore.Audio.AudioColumns.SIZE + " >= ? AND " + MediaStore.Audio.AudioColumns.DURATION + " >= ?";
+    /**
+     *音乐过滤条件
+     */
+    private static final String MUSIC_FILTER = MediaStore.Audio.AudioColumns.SIZE + " >= ? AND "
+            + MediaStore.Audio.AudioColumns.DURATION + " >= ?";
 
     /**
      * 扫描歌曲
@@ -48,7 +51,7 @@ public class MusicUtils {
                         MediaStore.Audio.AudioColumns.DURATION,
                         MediaStore.Audio.AudioColumns.DATE_ADDED
                 },
-                FILTER,
+                MUSIC_FILTER,
                 new String[]{
                         String.valueOf(filterSize),
                         String.valueOf(filterTime)
@@ -104,7 +107,6 @@ public class MusicUtils {
         return ContentUris.withAppendedId(artworkUri, albumId);
     }
 
-
     /**
      * 判断能否启动一个音频效果控制面板UI。
      */
@@ -130,7 +132,7 @@ public class MusicUtils {
                     result = (int)musicBean1.getTitle().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);
                     break;
                 case Preferences.ORDER_BY_SINGER:
-                    result = (int)musicBean1.getArtistName().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);
+                    result = (int)musicBean1.getArtistName().toLowerCase().charAt(0)-(int)musicBean2.getArtistName().toLowerCase().charAt(0);
                     break;
                 case Preferences.ORDER_BY_ALBUM:
                     result = (int)musicBean1.getAlbum().toLowerCase().charAt(0)-(int)musicBean2.getAlbum().toLowerCase().charAt(0);
@@ -167,7 +169,8 @@ public class MusicUtils {
     }
 
     public static ArrayList<MusicBean> searchLocalMusic(String content){
-        content = content.toLowerCase().replace(" ","");//1.转为小写 2.去掉空格
+        //1.转为小写 2.去掉空格
+        content = content.toLowerCase().replace(" ","");
         ArrayList<MusicBean> list = new ArrayList<MusicBean>();
         if(AppCache.getLocalMusicList().size()>0){
             for (MusicBean musicBean:AppCache.getLocalMusicList()){
