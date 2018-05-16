@@ -11,6 +11,7 @@ import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 
@@ -88,16 +89,9 @@ public class MusicUtils {
             musicBean.setFileName(fileName);
             musicBean.setFileSize(fileSize);
             musicBean.setAddTime(addTime);
-            if (++i <= 20) {
-                // 只加载前20首的缩略图
-//                CoverLoader.getInstance().loadThumbnail(musicBean);
-            }
             musicBeanList.add(musicBean);
         }
         cursor.close();
-//        Preferences.saveCurrentSongId(musicBeanList.get(0).getId());
-//        Preferences.saveCurrentSongTitle(musicBeanList.get(0).getTitle());
-//        Preferences.saveCurrentSongPosition(0);
         Collections.sort(musicBeanList,new MusicComparator());
         return musicBeanList;
     }
@@ -140,6 +134,8 @@ public class MusicUtils {
                     break;
                 case Preferences.ORDER_BY_ALBUM:
                     result = (int)musicBean1.getAlbum().toLowerCase().charAt(0)-(int)musicBean2.getAlbum().toLowerCase().charAt(0);
+                    break;
+                default:
                     break;
             }
             return result;
@@ -185,12 +181,39 @@ public class MusicUtils {
         return list;
     }
 
-    public static int getLocalMusicPosition(long id){
+
+
+    public static MusicBean getLocalMusicPlayingMusic(){
+        //返回播放的音乐
+        long id = Preferences.getCurrentSongId();
+        for (int i = 0;i<AppCache.getLocalMusicList().size();i++){
+            if (AppCache.getLocalMusicList().get(i).getId() == id){
+                return AppCache.getLocalMusicList().get(i);
+            }
+        }
+        //若找不到则返回列表第一个
+        if(AppCache.getLocalMusicList().size()>0){
+            return AppCache.getLocalMusicList().get(0);
+        }
+        return null;
+    }
+
+    public static int getLocalMusicPlayingPosition(){
+        long id = Preferences.getCurrentSongId();
         for (int i = 0;i<AppCache.getLocalMusicList().size();i++){
             if (AppCache.getLocalMusicList().get(i).getId() == id){
                 return i;
             }
         }
         return 0;
+    }
+
+    public static String getLocalMusicPlayingMusicTitle(){
+        //返回播放的音乐
+        if(getLocalMusicPlayingMusic()!=null){
+            return getLocalMusicPlayingMusic().getTitle();
+        }else {
+            return UIUtils.getString(R.string.slogan);
+        }
     }
 }

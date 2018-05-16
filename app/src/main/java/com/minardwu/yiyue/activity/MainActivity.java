@@ -31,6 +31,7 @@ import com.minardwu.yiyue.executor.DrawerItemExecutor;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
 import com.minardwu.yiyue.model.DrawerItemBean;
+import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.EventCallback;
 import com.minardwu.yiyue.service.QuitTimer;
 import com.minardwu.yiyue.utils.MusicUtils;
@@ -58,7 +59,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private int currentFragment = 0;
     private DrawerItemAdapter drawerItemAdapter;
     private FragmentPagerAdapter fragmentPagerAdapter;
-    private List<DrawerItemBean> drawerItemBeanList;
     private List<android.support.v4.app.Fragment> fragmentList;
     private DrawerItemExecutor drawerItemExecutor = new DrawerItemExecutor();
     private boolean isFront;
@@ -154,8 +154,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         rl_setting.setOnClickListener(this);
         rl_exit.setOnClickListener(this);
         changeIcon(currentFragment);
-        if(AppCache.getLocalMusicList().size()>0&&AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle()!= null){
-            tv_toolbar.setText(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()).getTitle());
+        MusicBean playingLocalMusic = MusicUtils.getLocalMusicPlayingMusic();
+        if(playingLocalMusic != null){
+            tv_toolbar.setText(playingLocalMusic.getTitle());
         }
         //4.4以上、5.0以下的需要为drawlayout设置沉浸式
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
@@ -216,7 +217,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        tv_toolbar.setText(Preferences.getCurrentSongTitle());
+                        tv_toolbar.setText(MusicUtils.getLocalMusicPlayingMusicTitle());
                         currentFragment = 0;
                         changeIcon(currentFragment);
                         break;

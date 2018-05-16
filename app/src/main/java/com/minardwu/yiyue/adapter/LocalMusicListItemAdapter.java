@@ -17,6 +17,7 @@ import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.UIUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +60,7 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
+        MusicBean music = AppCache.getLocalMusicList().get(position);
         if (view==null){
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_music_item,null);
             viewHolder = new ViewHolder(view);
@@ -66,21 +68,19 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        if (position == Preferences.getCurrentSongPosition()) {
+        if (music.getId() == Preferences.getCurrentSongId()) {
             viewHolder.tv_count.setVisibility(View.GONE);
             viewHolder.iv_playing.setVisibility(View.VISIBLE);
-            viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
-            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
-            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+            viewHolder.tv_count.setTextColor(UIUtils.getColor(R.color.colorGreenDeep));
+            viewHolder.tv_Title.setTextColor(UIUtils.getColor(R.color.colorGreenDeep));
+            viewHolder.tv_Artist.setTextColor(UIUtils.getColor(R.color.colorGreenDeep));
         } else {
-            //viewHolder.v_Playing.setVisibility(View.INVISIBLE);
             viewHolder.tv_count.setVisibility(View.VISIBLE);
             viewHolder.iv_playing.setVisibility(View.GONE);
-            viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
-            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_80));
-            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));
+            viewHolder.tv_count.setTextColor(UIUtils.getColor(R.color.grey));
+            viewHolder.tv_Title.setTextColor(UIUtils.getColor(R.color.black_80));
+            viewHolder.tv_Artist.setTextColor(UIUtils.getColor(R.color.grey));
         }
-        MusicBean music = AppCache.getLocalMusicList().get(position);
         Bitmap cover = CoverLoader.getInstance().loadThumbnail(music);
         viewHolder.tv_Title.setText(music.getTitle());
         viewHolder.tv_count.setText(position+1+"");

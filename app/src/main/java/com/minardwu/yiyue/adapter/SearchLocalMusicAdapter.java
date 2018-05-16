@@ -2,23 +2,18 @@ package com.minardwu.yiyue.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.MusicUtils;
-import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.SystemUtils;
 
 import java.util.ArrayList;
@@ -57,7 +52,7 @@ public class SearchLocalMusicAdapter extends RecyclerView.Adapter{
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int p = MusicUtils.getLocalMusicPosition(list.get(position).getId());
+                int p = MusicUtils.getLocalMusicPlayingPosition();
                 AppCache.getPlayLocalMusicService().play(p);
                 SystemUtils.startMainActivity((Activity) context, MainActivity.LOCAL);
             }

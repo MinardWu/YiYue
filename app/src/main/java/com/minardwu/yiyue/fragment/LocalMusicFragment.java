@@ -28,6 +28,7 @@ import com.minardwu.yiyue.service.OnPlayLocalMusicListener;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.utils.CoverLoader;
 import com.minardwu.yiyue.utils.FileUtils;
+import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
@@ -51,7 +52,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     private AlphaAnimation fade_out;
 
     @BindView(R.id.tv_local_music_artist) TextView tv_local_music_artist;
-
     @BindView(R.id.tv_local_music_current_time) TextView tv_current_time;
     @BindView(R.id.tv_local_music_total_time) TextView tv_total_time;
     @BindView(R.id.sb_local_music_progress)  SeekBar sb_progress;
@@ -60,7 +60,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     @BindView(R.id.iv_local_music_player_play) ImageView iv_local_music_player_play;
     @BindView(R.id.iv_local_music_player_next) ImageView iv_local_music_player_next;
     @BindView(R.id.iv_local_music_player_musiclist) ImageView iv_local_music_player_musiclist;
-
     @BindView(R.id.rl_lrc_and_cover) RelativeLayout rl_lrc_and_cover;
     @BindView(R.id.rl_cover_and_single_lrc)  RelativeLayout rl_cover_and_single_lrc;
     @BindView(R.id.ac_albumcover) LocalMusicCoverView ac_albumcover;
@@ -103,7 +102,6 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         lrc_localmusic.setOnLrcViewForOutsideUseClickListener(new LrcView.OnLrcViewForOutsideUseClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("djsgioasdhgua","outclick");
                 lrc_localmusic.startAnimation(fade_out);
                 lrc_localmusic.setVisibility(View.GONE);
                 rl_cover_and_single_lrc.startAnimation(fade_in);
@@ -114,24 +112,16 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
         rl_cover_and_single_lrc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("djsgioasdhgua","coverclick");
                 rl_cover_and_single_lrc.startAnimation(fade_out);
                 rl_cover_and_single_lrc.setVisibility(View.GONE);
                 lrc_localmusic.startAnimation(fade_in);
                 lrc_localmusic.setVisibility(View.VISIBLE);
             }
         });
-
-        MusicBean music = getPlayService().getPlayingMusic();
-        if (music==null){
-            if(AppCache.getLocalMusicList().size()>0){
-                onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
-            }
-        }else {
-            onChangeMusic(music);
+        if(MusicUtils.getLocalMusicPlayingMusic()!=null){
+            onChangeMusic(MusicUtils.getLocalMusicPlayingMusic());
         }
     }
-
 
     /**
      * 从TapeActivity返回重新设置
@@ -139,13 +129,8 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
     @Override
     public void onResume() {
         getPlayService().setOnPlayEventListener(this);
-        MusicBean music = getPlayService().getPlayingMusic();
-        if (music==null){
-            if(AppCache.getLocalMusicList().size()>0){
-                onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
-            }
-        }else {
-            onChangeMusic(music);
+        if(MusicUtils.getLocalMusicPlayingMusic()!=null){
+            onChangeMusic(MusicUtils.getLocalMusicPlayingMusic());
         }
         super.onResume();
     }
@@ -168,6 +153,8 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             case R.id.iv_local_music_player_musiclist:
                 getActivity().startActivity(new Intent(getContext(), LocalMusicListActivity.class));
                 getActivity().overridePendingTransition(R.anim.activity_open,0);
+                break;
+            default:
                 break;
         }
     }
@@ -275,6 +262,8 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             case SINGLE:
                 mode = PlayModeEnum.LOOP;
                 ToastUtils.showShortToast(R.string.mode_loop);
+                break;
+            default:
                 break;
         }
         Preferences.saveLocalPlayMode(mode.value());

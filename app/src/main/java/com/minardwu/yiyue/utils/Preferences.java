@@ -128,24 +128,8 @@ public class Preferences {
         return getInt(MUSIC_POSITION, 0);
     }
 
-    public static void saveCurrentSongPosition(int position) {
-        saveInt(MUSIC_POSITION, position);
-    }
-
-    public static int getOnlinePlayPosition() {
-        return getInt(ONLINE_PLAY_POSITION, 0);
-    }
-
     public static void saveOnlinePlayPosition(int position) {
         saveInt(ONLINE_PLAY_POSITION, position);
-    }
-
-    public static String getCurrentSongTitle() {
-        return getString(MUSIC_TITLE, "一乐");
-    }
-
-    public static void saveCurrentSongTitle(String value) {
-        saveString(MUSIC_TITLE, value);
     }
 
     public static int getLocalPlayMode() {

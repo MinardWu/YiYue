@@ -67,7 +67,8 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         audioFocusManager = new AudioFocusManager();
         mediaSessionManager = new MediaSessionManager();
         mediaPlayer.setOnCompletionListener(this);
-        playingPosition = Preferences.getCurrentSongPosition();//初始化时获取上次最后播放的位置
+        //初始化时获取上次最后播放的位置
+        playingPosition = MusicUtils.getLocalMusicPlayingPosition();
     }
 
     @Nullable
@@ -94,6 +95,8 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
                     break;
                 case Actions.ACTION_MEDIA_PREVIOUS:
                     prev();
+                    break;
+                default:
                     break;
             }
         }
@@ -125,7 +128,8 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
                 }
 
                 if (callback != null) {
-                    callback.onEvent(null);//扫描后执行后续操作，具体操作由执行函数式传入的EventCallback参数决定
+                    //扫描后执行后续操作，具体操作由执行函数式传入的EventCallback参数决定
+                    callback.onEvent(null);
                 }
             }
         }.execute();
@@ -179,9 +183,8 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
 
         playingPosition = position;
         MusicBean music = AppCache.getLocalMusicList().get(playingPosition);
-        Preferences.saveCurrentSongId(music.getId());//保存当前播放的音乐id和位置
-        Preferences.saveCurrentSongPosition(playingPosition);
-        Preferences.saveCurrentSongTitle(music.getTitle());
+        //保存当前播放的音乐id
+        Preferences.saveCurrentSongId(music.getId());
         play(music);
     }
 
@@ -213,6 +216,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         }
     };
 
+    @Override
     public void playOrPause() {
         if (isPreparing()) {
             stop();
@@ -249,6 +253,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         }
     }
 
+    @Override
     void pause() {
         if (!isPlaying()) {
             return;
@@ -279,6 +284,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         }
     }
 
+    @Override
     public void stop() {
         if (isIdle()) {
             return;
@@ -292,6 +298,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
      * 点击按钮切换下一首，与自动播放切换下一首有逻辑上的区别
      * 此处单曲循环模式应该与列表循环模式的处理逻辑一样，都是跳到下一首
      */
+    @Override
     public void next() {
         if (AppCache.getLocalMusicList().isEmpty()) {
             return;
@@ -311,6 +318,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         mediaSessionManager.release();//不release再重新创建的话更新不了ui
     }
 
+    @Override
     public void prev() {
         if (AppCache.getLocalMusicList().isEmpty()) {
             return;
@@ -340,6 +348,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
     /**
      * 跳转到指定的时间位置
      */
+    @Override
     public void seekTo(int msec) {
         if (isPlaying() || isPausing()) {
             mediaPlayer.seekTo(msec);
@@ -350,18 +359,22 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         }
     }
 
+    @Override
     public boolean isPlaying() {
         return playState == STATE_PLAYING;
     }
 
+    @Override
     public boolean isPausing() {
         return playState == STATE_PAUSE;
     }
 
+    @Override
     public boolean isPreparing() {
         return playState == STATE_PREPARING;
     }
 
+    @Override
     public boolean isIdle() {
         return playState == STATE_IDLE;
     }
@@ -409,6 +422,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         return mediaPlayer.getAudioSessionId();
     }
 
+    @Override
     public long getCurrentPosition() {
         if (isPlaying() || isPausing()) {
             return mediaPlayer.getCurrentPosition();

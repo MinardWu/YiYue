@@ -10,6 +10,7 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayLocalMusicListener;
+import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.widget.TapeView;
 
@@ -29,12 +30,8 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getPlayLocalMusicService().setOnPlayEventListener(this);
         MusicBean music = getPlayLocalMusicService().getPlayingMusic();
-        if (music==null){
-            if(AppCache.getLocalMusicList().size()>0){
-                onChangeMusic(AppCache.getLocalMusicList().get(Preferences.getCurrentSongPosition()));
-            }
-        }else {
-            onChangeMusic(music);
+        if(MusicUtils.getLocalMusicPlayingMusic()!=null){
+            onChangeMusic(MusicUtils.getLocalMusicPlayingMusic());
         }
         if(getPlayLocalMusicService().isPlaying()){
             tapeView.startRotate();
