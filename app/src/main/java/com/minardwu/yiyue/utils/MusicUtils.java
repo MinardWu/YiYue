@@ -126,7 +126,7 @@ public class MusicUtils {
             int result = 1;
             switch (type){
                 case Preferences.ORDER_BY_TIME:
-                    result =  (int) (musicBean1.getAddTime()-musicBean2.getAddTime());
+                    result =  (int) (musicBean2.getAddTime()-musicBean1.getAddTime());
                     break;
                 case Preferences.ORDER_BY_TITLE:
                     result = (int)musicBean1.getTitle().toLowerCase().charAt(0)-(int)musicBean2.getTitle().toLowerCase().charAt(0);

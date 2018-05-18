@@ -63,6 +63,8 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        hour = Preferences.getAlarmHour();
+        minute = Preferences.getAlarmMinute();
         rl_alarm_clock_time.setOnClickListener(this);
         rl_alarm_clock_song.setOnClickListener(this);
         sw_time.setOnClickListener(this);
@@ -78,7 +80,7 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
         if(alarmMusic != null){
             tv_alarm_clock_song.setText(alarmMusic.getTitle());
         }
-        setTimeData(Preferences.getAlarmHour(),Preferences.getAlarmMinute());
+        setTimeData(hour,minute);
     }
 
     @Override
@@ -132,6 +134,8 @@ public class AlarmClockActivity extends SampleActivity implements View.OnClickLi
                 isRepeatTurnOn = sw_repeat.isChecked();
                 Preferences.saveAlarmClockRepeat(isRepeatTurnOn);
                 showDate(isRepeatTurnOn);
+                break;
+            default:
                 break;
         }
     }

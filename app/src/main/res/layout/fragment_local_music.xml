@@ -81,7 +81,7 @@
                     android:layout_below="@id/ac_albumcover"
                     android:id="@+id/lrc_localmusic_single"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/single_line_lrc_height"
                     lrc:lrcAnimationDuration="1000"
                     lrc:lrcCurrentTextColor="@color/black"
                     lrc:lrcDividerHeight="10dp"
