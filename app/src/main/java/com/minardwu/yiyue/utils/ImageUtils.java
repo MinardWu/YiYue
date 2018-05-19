@@ -47,7 +47,7 @@ public class ImageUtils {
             return null;
         }
         try {
-            return getBlurBitmap(source, 0.01f,25);
+            return getBlurBitmap(source, 0.04f,25);
         } catch (Exception e) {
             e.printStackTrace();
             return source;

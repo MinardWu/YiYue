@@ -104,6 +104,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private LinearLayoutManager linearLayoutManager;
     private Bitmap coverBitmap;
     private Bitmap blurBitmap;
+    private Bitmap toolbarBitmap;
     private AlbumBean albumBean;
     private ArrayList<MusicBean> list;
 
@@ -156,12 +157,14 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(final Bitmap bitmap) {
                 coverBitmap = bitmap;
-                blurBitmap = ImageUtils.getBlurBitmap(bitmap);
-                toolbar.setBackground(new BitmapDrawable(blurBitmap));
+                blurBitmap = ImageUtils.getFullScreenBlurBitmap(bitmap);
+                toolbarBitmap = Bitmap.createBitmap(blurBitmap,0,0,blurBitmap.getWidth(),blurBitmap.getHeight()/2);
+
+                iv_album_cover.setImageBitmap(bitmap);
+                root.setBackground(new BitmapDrawable(blurBitmap));
+                toolbar.setBackground(new BitmapDrawable(toolbarBitmap));
                 toolbar.getBackground().setAlpha(0);
                 //iv_bg.setImageBitmap(blurBitmap);
-                root.setBackground(new BitmapDrawable(ImageUtils.getFullScreenBlurBitmap(bitmap)));
-                iv_album_cover.setImageBitmap(bitmap);
             }
 
             @Override
