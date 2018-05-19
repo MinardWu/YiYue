@@ -114,8 +114,8 @@ class LrcEntry implements Comparable<LrcEntry> {
         }
 
         line = line.trim();
-        Matcher lineMatcher = Pattern.compile("((\\[\\d\\d:\\d\\d\\.\\d{2,3}\\])+)(.+)").matcher(line);
         //((\[\d\d:\d\d\.\d{2,3}\])+)
+        Matcher lineMatcher = Pattern.compile("((\\[\\d\\d:\\d\\d\\.\\d{2,3}\\])+)(.+)").matcher(line);
         if (!lineMatcher.matches()) {
             return null;
         }
@@ -129,7 +129,14 @@ class LrcEntry implements Comparable<LrcEntry> {
             long min = Long.parseLong(timeMatcher.group(1));
             long sec = Long.parseLong(timeMatcher.group(2));
             long mil = Long.parseLong(timeMatcher.group(3));
-            long time = min * DateUtils.MINUTE_IN_MILLIS + sec * DateUtils.SECOND_IN_MILLIS + mil * 10;
+            long time;
+            if(Long.toString(mil).length()==3){
+                //3位数
+                time = min * DateUtils.MINUTE_IN_MILLIS + sec * DateUtils.SECOND_IN_MILLIS + mil;
+            }else {
+                //2位数
+                time = min * DateUtils.MINUTE_IN_MILLIS + sec * DateUtils.SECOND_IN_MILLIS + mil * 10;
+            }
             entryList.add(new LrcEntry(time, text));
         }
         return entryList;

@@ -25,6 +25,7 @@ import android.widget.Scroller;
 
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.utils.ParseUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,6 +74,7 @@ public class LrcView extends View {
     public interface OnPlayClickListener {
         /**
          * 播放按钮被点击，应该跳转到指定播放位置
+         * @param time 跳转的时间
          * @return 是否成功消费该事件，如果成功消费，则会更新UI
          */
         boolean onPlayClick(long time);
@@ -324,7 +326,7 @@ public class LrcView extends View {
             timeTextPaint.setColor(timelineColor);
             canvas.drawLine(timeTextWidth, centerY, getWidth() - timeTextWidth, centerY, timeTextPaint);
             timeTextPaint.setColor(timeTextColor);
-            String timeText = LrcUtils.formatTime(lrcEntries.get(centerLine).getTime());
+            String timeText = ParseUtils.formatTime(lrcEntries.get(centerLine).getTime());
             float timeX = getWidth() - timeTextWidth / 2;
             float timeY = centerY - (timeFontMetrics.descent + timeFontMetrics.ascent) / 2;
             canvas.drawText(timeText, timeX, timeY, timeTextPaint);
@@ -530,14 +532,12 @@ public class LrcView extends View {
         while (left <= right) {
             int middle = (left + right) / 2;
             long middleTime = lrcEntries.get(middle).getTime();
-
             if (time < middleTime) {
                 right = middle - 1;
             } else {
                 if (middle + 1 >= lrcEntries.size() || time < lrcEntries.get(middle + 1).getTime()) {
                     return middle;
                 }
-
                 left = middle + 1;
             }
         }
