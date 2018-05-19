@@ -22,13 +22,24 @@ import butterknife.ButterKnife;
 public class MockControllerActivity extends SampleActivity {
 
     private Switch sw_mock_data;
+    private Switch sw_mock_search_data;
+    private Switch sw_mock_artist_data;
+    private Switch sw_mock_album_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock_controler);
         sw_mock_data = findViewById(R.id.sw_mock_data);
+        sw_mock_search_data = findViewById(R.id.sw_mock_search_data);
+        sw_mock_artist_data = findViewById(R.id.sw_mock_artist_data);
+        sw_mock_album_data = findViewById(R.id.sw_mock_album_data);
+
         sw_mock_data.setChecked(Preferences.enableUseMockData());
+        sw_mock_search_data.setChecked(Preferences.enableUseMockSearchData());
+        sw_mock_artist_data.setChecked(Preferences.enableUseMockArtistData());
+        sw_mock_album_data.setChecked(Preferences.enableUseMockAlbumData());
+
         sw_mock_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,6 +49,45 @@ public class MockControllerActivity extends SampleActivity {
                 }else {
                     ToastUtils.showShortToast("取消使用模拟数据");
                     Preferences.saveUseMockData(false);
+                }
+            }
+        });
+
+        sw_mock_search_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sw_mock_search_data.isChecked()){
+                    ToastUtils.showShortToast("现在开始使用模拟搜索数据");
+                    Preferences.saveUseMockSearchData(true);
+                }else {
+                    ToastUtils.showShortToast("取消使用模拟搜索数据");
+                    Preferences.saveUseMockSearchData(false);
+                }
+            }
+        });
+
+        sw_mock_artist_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sw_mock_artist_data.isChecked()){
+                    ToastUtils.showShortToast("现在开始使用模拟歌手数据");
+                    Preferences.saveUseMockArtistData(true);
+                }else {
+                    ToastUtils.showShortToast("取消使用模拟歌手数据");
+                    Preferences.saveUseMockArtistData(false);
+                }
+            }
+        });
+
+        sw_mock_album_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sw_mock_album_data.isChecked()){
+                    ToastUtils.showShortToast("现在开始使用模拟专辑数据");
+                    Preferences.saveUseMockAlbumData(true);
+                }else {
+                    ToastUtils.showShortToast("取消使用模拟专辑数据");
+                    Preferences.saveUseMockAlbumData(false);
                 }
             }
         });

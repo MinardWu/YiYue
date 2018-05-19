@@ -8,10 +8,12 @@ import android.util.Log;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.YiYueApplication;
+import com.minardwu.yiyue.http.mock.MockData;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.UIUtils;
 
 import org.json.JSONArray;
@@ -57,6 +59,9 @@ public class GetOnlineArtist {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
+                if(Preferences.enableUseMockArtistData()){
+                    string = MockData.artistInfo;
+                }
                 Log.v(TAG,string);
                 try {
                     JSONObject root = new JSONObject(string);

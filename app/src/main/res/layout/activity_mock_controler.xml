@@ -14,4 +14,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Switch
+        android:id="@+id/sw_mock_search_data"
+        android:text="使用Mock搜索数据"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sw_mock_data"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:id="@+id/sw_mock_artist_data"
+        android:text="使用Mock歌手数据"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sw_mock_search_data"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:id="@+id/sw_mock_album_data"
+        android:text="使用Mock专辑数据"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sw_mock_artist_data"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

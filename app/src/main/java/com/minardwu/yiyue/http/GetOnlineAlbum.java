@@ -3,10 +3,12 @@ package com.minardwu.yiyue.http;
 import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.http.mock.MockData;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.model.AlbumBean;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.Preferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +44,9 @@ public class GetOnlineAlbum {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
+                if(Preferences.enableUseMockAlbumData()){
+                    res = MockData.albumInfo;
+                }
                 Log.e("GetOnlineAlbum",res);
                 try {
                     JSONObject root = new JSONObject(res);

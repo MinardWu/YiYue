@@ -28,6 +28,9 @@ public class Preferences {
     private static final String FITLER_SIZE_POSITION = "filter_size_position";
     private static final String PLAY_ONLINE_LIST = "play_online_list";
     private static final String USE_MOCK_DATA = "use_mock_data";
+    private static final String USE_MOCK_SEARCH_DATA = "use_mock_search_data";
+    private static final String USE_MOCK_ARTIST_DATA = "use_mock_artist_data";
+    private static final String USE_MOCK_ALBUM_DATA = "use_mock_album_data";
 
     private static final String ALARM_MUSIC_ID = "alarm_music_id";
     private static final String ALARM_HOUR = "alarm_hour";
@@ -178,6 +181,30 @@ public class Preferences {
 
     public static void saveUseMockData(boolean enable) {
         saveBoolean(USE_MOCK_DATA, enable);
+    }
+
+    public static boolean enableUseMockSearchData() {
+        return getBoolean(USE_MOCK_SEARCH_DATA, false);
+    }
+
+    public static void saveUseMockSearchData(boolean enable) {
+        saveBoolean(USE_MOCK_SEARCH_DATA, enable);
+    }
+
+    public static boolean enableUseMockArtistData() {
+        return getBoolean(USE_MOCK_ARTIST_DATA, false);
+    }
+
+    public static void saveUseMockArtistData(boolean enable) {
+        saveBoolean(USE_MOCK_ARTIST_DATA, enable);
+    }
+
+    public static boolean enableUseMockAlbumData() {
+        return getBoolean(USE_MOCK_ALBUM_DATA, false);
+    }
+
+    public static void saveUseMockAlbumData(boolean enable) {
+        saveBoolean(USE_MOCK_ALBUM_DATA, enable);
     }
 
     public static boolean enableAlarmClockRepeat() {

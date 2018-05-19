@@ -340,7 +340,7 @@ public class ImageUtils {
             public void run() {
                 super.run();
                 URL myFileUrl = null;
-                Bitmap bitmap = null;
+                Bitmap bitmap;
                 try {
                     myFileUrl = new URL(url);
                 } catch (MalformedURLException e) {
@@ -371,7 +371,6 @@ public class ImageUtils {
                 }
             }
         }.start();
-        return;
     }
 
     public static void startAlbum(Activity activity) {

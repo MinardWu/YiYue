@@ -4,10 +4,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.minardwu.yiyue.http.mock.MockData;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.Preferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +57,9 @@ public class Search {
             public void onResponse(Call call, Response response) throws IOException {
                 final List<MusicBean> musicBeanList = new ArrayList<MusicBean>();
                 String res = response.body().string();
+                if(Preferences.enableUseMockSearchData()){
+                    res = MockData.searchResult;
+                }
                 Log.e(TAG,res);
                 try {
                     JSONObject root = new JSONObject(res);
