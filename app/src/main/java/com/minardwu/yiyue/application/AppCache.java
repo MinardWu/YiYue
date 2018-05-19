@@ -18,7 +18,7 @@ public class AppCache {
     private static PlayService currentService;
     private PlayLocalMusicService playLocalMusicService;
     private PlayOnlineMusicService playOnlineMusicService;
-    public static int defaultMusicId = 108242;
+    public static final int defaultMusicId = 108242;
 
     private AppCache(){}
 

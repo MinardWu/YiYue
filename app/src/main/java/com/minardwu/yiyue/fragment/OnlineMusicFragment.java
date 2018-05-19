@@ -43,6 +43,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ */
 
 public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicListener, View.OnClickListener {
 
@@ -110,25 +113,20 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     public void changeMusicImp(final MusicBean music) {
         playingMusic = music;
         isLoveSong = MyDatabaseHelper.init(getContext()).isCollectedSong(playingMusic);
-        iv_onlinemusic_download.setSelected(isLoveSong ? true:false);
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                loadCoverByUrl(music.getCoverPath());
-                tv_online_music_title.setText(music.getTitle());
-                tv_online_music_artist.setText(music.getArtistName());
-                String lrc = music.getLrc();
-                if(lrc!=null){
-                    Log.v("lrc",lrc);
-                    if(lrc.equals(Lrc.LRC_NO_EXIST)){
-                        lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_no_exist));
-                    }else if(lrc.equals(Lrc.LRC_PURE_MUSIC)){
-                        lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_pure_music));
-                    }else{
-                        lrc_onlinelmusic.loadLrc(lrc);
-                    }
-                }
+        iv_onlinemusic_download.setSelected(isLoveSong);
+        tv_online_music_title.setText(music.getTitle());
+        tv_online_music_artist.setText(music.getArtistName());
+        String lrc = music.getLrc();
+        if(lrc!=null){
+            if(lrc.equals(Lrc.LRC_NO_EXIST)){
+                lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_no_exist));
+            }else if(lrc.equals(Lrc.LRC_PURE_MUSIC)){
+                lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_pure_music));
+            }else{
+                lrc_onlinelmusic.loadLrc(lrc);
             }
-        });
+        }
+        loadCoverByUrl(music.getCoverPath());
     }
 
     @Override
@@ -179,18 +177,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
 
     @Override
     public void onGetSongError(int resultCode) {
-        switch (resultCode){
-            case ResultCode.NETWORK_ERROR:
-                ToastUtils.showShortToast(UIUtils.getString(R.string.network_error));
-                break;
-            case ResultCode.GET_URL_ERROR:
-            case ResultCode.GET_DETAIL_ERROR:
-            case ResultCode.GET_LRC_ERROR:
-                ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
-            default:
-                ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
-                break;
-        }
+        handleError(resultCode);
     }
 
     @Override
@@ -243,6 +230,8 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 intent.putExtra(ArtistActivity.ARTIST_NAME,tv_online_music_artist.getText().toString());
                 startActivity(intent);
                 break;
+            default:
+                break;
         }
     }
 
@@ -279,29 +268,30 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                             Notifier.showPause(playingMusic);
                         }
                         //刷新播放界面封面
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                online_music_cover.loadCover(finalBitmap);
-                            }
-                        });
+                        if(getActivity()!=null){
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    online_music_cover.loadCover(finalBitmap);
+                                }
+                            });
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }.start();
-        return;
     }
 
     private void changeIconState(int state){
         if(state==0){
-            iv_onlinemusic_download.setSelected(isLoveSong?true:false);
+            iv_onlinemusic_download.setSelected(isLoveSong);
             iv_onlinemusic_download.setEnabled(false);
             iv_onlinemusic_play.setEnabled(false);
             iv_onlinemusic_next.setEnabled(false);
         }else if(state==1){
-            iv_onlinemusic_download.setSelected(isLoveSong?true:false);
+            iv_onlinemusic_download.setSelected(isLoveSong);
             iv_onlinemusic_download.setEnabled(true);
             iv_onlinemusic_play.setEnabled(true);
             iv_onlinemusic_next.setEnabled(true);
@@ -317,7 +307,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         super.onResume();
         if(playingMusic!=null){
             isLoveSong = MyDatabaseHelper.init(getContext()).isCollectedSong(playingMusic);
-            iv_onlinemusic_download.setSelected(isLoveSong?true:false);
+            iv_onlinemusic_download.setSelected(isLoveSong);
         }
     }
 
@@ -328,17 +318,32 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 playingMusic = musicBean;
                 changeMusicImp(playingMusic);
                 getPlayOnlineMusicService().setPlayingMusic(playingMusic);
+                MyDatabaseHelper.init(getContext()).addFMHistory(musicBean);
                 changeIconState(1);
                 Notifier.showPause(playingMusic);
             }
 
             @Override
             public void onFail(FailResult failResult) {
-                //Log.e(TAG,string);
-                changeIconState(1);
-                ToastUtils.showShortToast("服务器出小差了");
+                handleError(failResult.getResultCode());
             }
         }.execute(AppCache.defaultMusicId,false);
+    }
+
+    private void handleError(int resultCode){
+        changeIconState(1);
+        switch (resultCode){
+            case ResultCode.NETWORK_ERROR:
+                ToastUtils.showShortToast(UIUtils.getString(R.string.network_error));
+                break;
+            case ResultCode.GET_URL_ERROR:
+            case ResultCode.GET_DETAIL_ERROR:
+            case ResultCode.GET_LRC_ERROR:
+                ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
+            default:
+                ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
+                break;
+        }
     }
 
 }
