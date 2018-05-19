@@ -141,12 +141,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     musicBean.setAlbum(albumName);
                     musicBean.setAlbumId(albumId);
                     musicBean.setType(MusicBean.Type.ONLINE);
-                    Log.e(TAG,musicBean.getTitle());
-                    Log.e(TAG,musicBean.getArtistName());
-                    Log.e(TAG,musicBean.getCoverPath());
-                    Log.e(TAG,musicBean.getPath());
                     getSongLrcById(id,musicBean);
-                    //onSuccess(musicBean);
                 } catch (final JSONException e) {
                     e.printStackTrace();
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -192,6 +187,11 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                         String lyric = lrc.getString("lyric");
                         musicBean.setLrc(lyric);
                     }
+                    Log.e(TAG,musicBean.getTitle());
+                    Log.e(TAG,musicBean.getArtistName());
+                    Log.e(TAG,musicBean.getCoverPath());
+                    Log.e(TAG,musicBean.getPath());
+                    Log.e(TAG,musicBean.getLrc());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {

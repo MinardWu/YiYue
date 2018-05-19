@@ -112,6 +112,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         if (!isContainMusic){
             onlineMusicPlayList.add(0,musicBean);
             playMusicList(0);
+            MyDatabaseHelper.init(getApplicationContext()).replaceOnlineMusicList(onlineMusicPlayList);
             playOnlineMusicListener.onUpdateOnlineMusicList(onlineMusicPlayList);
         }
     }
@@ -199,6 +200,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     };
 
+    @Override
     public void next(){
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
@@ -250,6 +252,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
+    @Override
     public void pause() {
         if (!isPlaying()) {
             return;
@@ -280,6 +283,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
+    @Override
     public void stop(){
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {//在播放状态才可以停止播放
             pause();
@@ -297,18 +301,22 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         playState = i;
     }
 
+    @Override
     public boolean isPlaying() {
         return playState == STATE_PLAYING;
     }
 
+    @Override
     public boolean isPausing() {
         return playState == STATE_PAUSE;
     }
 
+    @Override
     public boolean isPreparing() {
         return playState == STATE_PREPARING;
     }
 
+    @Override
     public boolean isIdle() {
         return playState == STATE_IDLE;
     }
@@ -345,6 +353,8 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     break;
                 case Actions.ACTION_MEDIA_NEXT:
                     next();
+                    break;
+                default:
                     break;
             }
         }
