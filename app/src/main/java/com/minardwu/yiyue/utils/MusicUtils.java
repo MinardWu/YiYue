@@ -184,6 +184,18 @@ public class MusicUtils {
         return list;
     }
 
+    public static int getLocalMusicPosition(long id){
+        for (int i = 0;i<AppCache.getLocalMusicList().size();i++){
+            if (AppCache.getLocalMusicList().get(i).getId() == id){
+                return i;
+            }
+        }
+        //若找不到则返回列表第一个
+        if(AppCache.getLocalMusicList().size()>0){
+            return 0;
+        }
+        return -1;
+    }
 
 
     public static MusicBean getLocalMusicPlayingMusic(){
@@ -217,6 +229,15 @@ public class MusicUtils {
             return getLocalMusicPlayingMusic().getTitle();
         }else {
             return UIUtils.getString(R.string.slogan);
+        }
+    }
+
+    public static void removeMusic(long id){
+        //返回播放的音乐
+        for (int i=0;i<AppCache.getLocalMusicList().size();i++){
+            if(AppCache.getLocalMusicList().get(i).getId()==id){
+                AppCache.getLocalMusicList().remove(i);
+            }
         }
     }
 }

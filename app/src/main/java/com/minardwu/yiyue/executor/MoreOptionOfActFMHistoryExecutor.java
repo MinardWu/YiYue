@@ -60,6 +60,8 @@ public class MoreOptionOfActFMHistoryExecutor {
                         .build();
                 dialog.show();
                 break;
+            default:
+                break;
         }
     }
 }

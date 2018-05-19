@@ -60,6 +60,8 @@ public class MoreOptionOfCollectedSongExecutor {
                         .build();
                 dialog.show();
                 break;
+            default:
+                break;
         }
     }
 }

@@ -15,6 +15,7 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.FileUtils;
+import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
@@ -78,10 +79,19 @@ public class MoreOptionOfLocalMusicListExecutor {
                                 dialog1.dismiss();
                                 if(FileUtils.deleteFile(musicBean.getPath())){
                                     ToastUtils.showShortToast("删除成功");
-                                    for (int i=0;i<AppCache.getLocalMusicList().size();i++){
-                                        if(AppCache.getLocalMusicList().get(i).getId()==musicBean.getId()){
-                                            AppCache.getLocalMusicList().remove(i);
+                                    if(musicBean.getId() == MusicUtils.getLocalMusicPlayingMusic().getId()){
+                                        int tempPosition = MusicUtils.getLocalMusicPlayingPosition();
+                                        MusicUtils.removeMusic(musicBean.getId());
+                                        AppCache.getPlayLocalMusicService().setPlayingPosition(tempPosition);
+                                        if(AppCache.getPlayLocalMusicService().isPlaying()){
+                                            AppCache.getPlayLocalMusicService().play(tempPosition);
                                         }
+                                    }else if(MusicUtils.getLocalMusicPosition(musicBean.getId())<MusicUtils.getLocalMusicPlayingPosition()){
+                                        int position = MusicUtils.getLocalMusicPlayingPosition();
+                                        MusicUtils.removeMusic(musicBean.getId());
+                                        AppCache.getPlayLocalMusicService().setPlayingPosition(position-1);
+                                    }else {
+                                        MusicUtils.removeMusic(musicBean.getId());
                                     }
                                     iView.updateViewForExecutor();
                                 }else {
@@ -98,6 +108,8 @@ public class MoreOptionOfLocalMusicListExecutor {
                         .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
                         .build();
                 dialog.show();
+                break;
+            default:
                 break;
         }
     }

@@ -8,28 +8,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.activity.MainActivity;
 import com.minardwu.yiyue.application.YiYueApplication;
 
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Locale;
 
 
 public class SystemUtils {
 
-    public static int REQUEST_READ_EXTERNAL_STORAGE = 1;
     public static int REQUEST_WRITE_SETTING = 2;
 
     /**
@@ -113,27 +104,33 @@ public class SystemUtils {
         return localVersion;
     }
 
-    public static void checkPermission(Activity activity,int REQUEST_READ_EXTERNAL_STORAGE) {
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                Toast.makeText(activity, "请开通相关权限，否则无法正常使用本应用！", Toast.LENGTH_SHORT).show();
-            }
-            //申请权限
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_READ_EXTERNAL_STORAGE);
+    public static boolean checkReadPermission() {
+        if (ActivityCompat.checkSelfPermission(YiYueApplication.getAppContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
         } else {
-            Toast.makeText(activity, "授权成功！", Toast.LENGTH_SHORT).show();
+            return false;
         }
+    }
+
+    public static void requestReadPermission(Activity activity,int requestCode) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            //申请权限
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},requestCode);
+        }else {
+            ToastUtils.showLongToast("权限获取失败，若想正常使用请前往应用设置界面手动开启文件读取权限");
+        }
+
     }
 
     public static void checkWriteSettingPermission(Activity activity,int requestCode) {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_SETTINGS)) {
-                Toast.makeText(activity, "请开通相关权限，否则无法正常使用该功能！", Toast.LENGTH_SHORT).show();
+                ToastUtils.showLongToast("请开通文件写入权限，否则无法缓存文件！");
             }
             //申请权限
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_SETTINGS},requestCode);
         } else {
-            Toast.makeText(activity, "授权成功！", Toast.LENGTH_SHORT).show();
+            ToastUtils.showLongToast("授权成功！");
         }
     }
 

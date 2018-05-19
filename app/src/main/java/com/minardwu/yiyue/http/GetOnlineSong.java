@@ -31,8 +31,6 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
     private static final String GET_SONG_DETAIL_BY_ID="https://api.imjad.cn/cloudmusic/?type=detail&id=";
     private static final String GET_SONG_LRC_BY_ID="https://api.imjad.cn/cloudmusic/?type=lyric&id=";
 
-
-
     OkHttpClient okHttpClient = new OkHttpClient();
 
     /**
@@ -49,6 +47,7 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
      * @param id 歌曲id
      */
     public void getSongUrlById(final long id, final boolean isClick){
+        final MusicBean musicBean = new MusicBean();
         final long[] temp = new long[1];
         temp[0] = id;
         String url;
@@ -85,7 +84,8 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                             getSongUrlById(id+10,isClick);
                         }
                     }else {
-                        getSongDetailById(temp[0],url);
+                        musicBean.setPath(url);
+                        getSongDetailById(temp[0],musicBean);
                     }
                 } catch (final JSONException e) {
                     e.printStackTrace();
@@ -103,10 +103,9 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
     /**
      * 获取歌曲名字，歌手，封面信息
      * @param id 歌曲id
-     * @param musicUrl 这个主要是为了保存上一个函数中或得到的url，在本函数将其保存到musicbean中
+
      */
-    public void getSongDetailById(final long id, final String musicUrl){
-        final MusicBean musicBean = new MusicBean();
+    public void getSongDetailById(final long id, final MusicBean musicBean){
         Request request = new Request.Builder().url(GET_SONG_DETAIL_BY_ID+id).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -141,12 +140,11 @@ public abstract class GetOnlineSong implements GetOnlineSongListener {
                     musicBean.setCoverPath(picUrl);
                     musicBean.setAlbum(albumName);
                     musicBean.setAlbumId(albumId);
-                    musicBean.setPath(musicUrl);
                     musicBean.setType(MusicBean.Type.ONLINE);
-                    Log.e(TAG,title);
-                    Log.e(TAG,artist);
-                    Log.e(TAG,picUrl);
-                    Log.e(TAG,musicUrl);
+                    Log.e(TAG,musicBean.getTitle());
+                    Log.e(TAG,musicBean.getArtistName());
+                    Log.e(TAG,musicBean.getCoverPath());
+                    Log.e(TAG,musicBean.getPath());
                     getSongLrcById(id,musicBean);
                     //onSuccess(musicBean);
                 } catch (final JSONException e) {

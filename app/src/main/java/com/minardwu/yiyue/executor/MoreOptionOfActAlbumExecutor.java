@@ -26,6 +26,8 @@ public class MoreOptionOfActAlbumExecutor {
             case 2:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
                 break;
+            default:
+                break;
         }
     }
 }

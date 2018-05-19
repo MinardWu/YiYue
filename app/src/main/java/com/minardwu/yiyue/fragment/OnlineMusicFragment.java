@@ -178,16 +178,6 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
     }
 
     @Override
-    public void onTimer(long remain) {
-
-    }
-
-    @Override
-    public void onUpdatePosition(int position,String artistId) {
-
-    }
-
-    @Override
     public void onGetSongError(int resultCode) {
         switch (resultCode){
             case ResultCode.NETWORK_ERROR:
@@ -197,6 +187,9 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
             case ResultCode.GET_DETAIL_ERROR:
             case ResultCode.GET_LRC_ERROR:
                 ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
+            default:
+                ToastUtils.showShortToast(UIUtils.getString(R.string.server_error));
+                break;
         }
     }
 

@@ -28,6 +28,8 @@ public class MoreOptionOfActArtistExecutor {
             case 2:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
                 break;
+            default:
+                break;
         }
     }
 }

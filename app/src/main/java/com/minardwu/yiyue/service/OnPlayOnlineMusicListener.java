@@ -22,6 +22,7 @@ public interface OnPlayOnlineMusicListener {
 
     /**
      * 切换歌曲
+     * @param music 切换的歌曲
      */
     void onChangeMusic(MusicBean music);
 
@@ -37,27 +38,26 @@ public interface OnPlayOnlineMusicListener {
 
     /**
      * 更新进度
+     * @param progress 进度
      */
     void onPublish(float progress);
 
     /**
      * 缓冲百分比
+     * @param percent 百分比
      */
     void onBufferingUpdate(int percent);
 
     /**
-     * 更新定时停止播放时间
+     * 加载歌曲失败
+     * @param resultCode 错误码
      */
-    void onTimer(long remain);
-
-    /**
-     * 更新歌手歌曲列表播放歌曲，加上artistId是保证更新的是当前播放歌手的列表
-     */
-    void onUpdatePosition(int position,String artistId);
-
-
     void onGetSongError(int resultCode);
 
+    /**
+     * 更新在线歌曲列表
+     * @param list 音乐列表
+     */
     void onUpdateOnlineMusicList(List<MusicBean> list);
 
 }

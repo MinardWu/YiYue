@@ -51,13 +51,18 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
     private final Handler handler = new Handler();
 
     private MediaPlayer mediaPlayer = new MediaPlayer();
-    private AudioFocusManager audioFocusManager;//音乐焦点管理
-    private MediaSessionManager mediaSessionManager;//媒体播放时界面和服务通讯
+    //音乐焦点管理
+    private AudioFocusManager audioFocusManager;
+    //媒体播放时界面和服务通讯
+    private MediaSessionManager mediaSessionManager;
     private OnPlayLocalMusicListener onPlayerEventListener;
 
-    private MusicBean playingMusic;//正在播放的歌曲[本地|网络]
-    private int playingPosition = 0;//正在播放的本地歌曲的序号
-    private int playState = STATE_IDLE;//状态
+    //正在播放的歌曲[本地|网络]
+    private MusicBean playingMusic;
+    //正在播放的本地歌曲的序号
+    private int playingPosition = 0;
+    //状态
+    private int playState = STATE_IDLE;
 
     @Override
     public void onCreate() {
@@ -101,38 +106,6 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
             }
         }
         return START_NOT_STICKY;
-    }
-
-    /**
-     * 扫描音乐
-     */
-    public void updateMusicList(final EventCallback<Void> callback) {
-        new AsyncTask<Void, Void, List<MusicBean>>() {
-            @Override
-            protected List<MusicBean> doInBackground(Void... params) {
-                return MusicUtils.scanMusic(PlayLocalMusicService.this);
-            }
-
-            @Override
-            protected void onPostExecute(List<MusicBean> musicList) {
-                AppCache.getLocalMusicList().clear();
-                AppCache.getLocalMusicList().addAll(musicList);
-
-                if (!AppCache.getLocalMusicList().isEmpty()) {
-                    updatePlayingPosition();
-                    playingMusic = AppCache.getLocalMusicList().get(playingPosition);
-                }
-
-                if (onPlayerEventListener != null) {
-                    onPlayerEventListener.onMusicListUpdate();
-                }
-
-                if (callback != null) {
-                    //扫描后执行后续操作，具体操作由执行函数式传入的EventCallback参数决定
-                    callback.onEvent(null);
-                }
-            }
-        }.execute();
     }
 
     public void setOnPlayEventListener(OnPlayLocalMusicListener listener) {
@@ -246,7 +219,8 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
             mediaSessionManager = new MediaSessionManager();
             mediaSessionManager.updateMetaData(playingMusic);
             mediaSessionManager.updatePlaybackState();
-            registerReceiver(noisyReceiver, noisyFilter);//注册耳机拔出监听广播
+            //注册耳机插拔监听广播
+            registerReceiver(noisyReceiver, noisyFilter);
             if (onPlayerEventListener != null) {
                 onPlayerEventListener.onPlayerStart();
             }
@@ -264,7 +238,8 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         Notifier.showPause(playingMusic);
         audioFocusManager.abandonAudioFocus();
         mediaSessionManager.updatePlaybackState();
-        unregisterReceiver(noisyReceiver);//注销耳机拔出监听广播
+        //注销耳机拔出监听广播
+        unregisterReceiver(noisyReceiver);
         if (onPlayerEventListener != null) {
             onPlayerEventListener.onPlayerPause();
         }
@@ -278,7 +253,8 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
         playState = STATE_PAUSE;
         handler.removeCallbacks(publishRunnable);
         mediaSessionManager.updatePlaybackState();
-        unregisterReceiver(noisyReceiver);//注销耳机拔出监听广播
+        //注销耳机拔出监听广播
+        unregisterReceiver(noisyReceiver);
         if (onPlayerEventListener != null) {
             onPlayerEventListener.onPlayerPause();
         }

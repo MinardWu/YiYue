@@ -30,7 +30,6 @@ import com.minardwu.yiyue.event.ChageToolbarTextEvent;
 import com.minardwu.yiyue.executor.DrawerItemExecutor;
 import com.minardwu.yiyue.fragment.LocalMusicFragment;
 import com.minardwu.yiyue.fragment.OnlineMusicFragment;
-import com.minardwu.yiyue.model.DrawerItemBean;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.EventCallback;
 import com.minardwu.yiyue.service.QuitTimer;
@@ -39,6 +38,7 @@ import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ParseUtils;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.SystemUtils;
+import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,6 +53,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
+    private static final int REQUEST_READ_EXTERNAL_STORAGE = 1;
     public static final String INDEX = "index";
     public static final String LOCAL = "local";
     public static final String ONLINE = "online";
@@ -92,17 +93,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Log.e(TAG, ParseUtils.formatTime("(mm:ss)",aLong));
             }
         });
+        if(!SystemUtils.checkReadPermission()){
+            SystemUtils.requestReadPermission(this,REQUEST_READ_EXTERNAL_STORAGE);
+        }
         parseIntent();
         initData();
         initView();
-        if(YiYueApplication.isNeedQequestReadExteranlStorage){
-            SystemUtils.checkPermission(this,1);
-        }
-//        startActivity(new Intent(this,AlarmActivity.class));
-//        Intent albumIntent = new Intent(this, AlbumActivity.class);
-//        albumIntent.putExtra("albumId","18905");
-//        albumIntent.putExtra("albumName","18905");
-//        startActivity(albumIntent);
     }
 
     @Override
@@ -317,19 +313,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
      public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
+        if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    // 判断用户是否 点击了不再提醒。(检测该权限是否还可以申请)
+                    //shouldShowRequestPermissionRationale方法：1.用户拒绝返回true。2.若点击不再提醒返回false
                     boolean b = shouldShowRequestPermissionRationale(permissions[0]);
-//                    if (!b) {
-//                         // 用户还是想用我的APP的提示用户去应用设置界面手动开启权限
-//                    } else {
-//                        finish();
-//                    }
-                    Toast.makeText(this, "权限获取失败，若想正常使用请开通权限", Toast.LENGTH_SHORT).show();
+                    if (b) {
+                        ToastUtils.showLongToast("权限获取失败，若想正常使用请开通文件权限");
+                    } else {
+                        ToastUtils.showLongToast("权限获取失败，若想正常使用请前往应用设置界面手动开启权限");
+                    }
                 } else {
-                    Toast.makeText(this, "权限获取成功", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showLongToast("授权成功");
                     AppCache.getLocalMusicList().clear();
                     AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(getApplicationContext()));
                 }

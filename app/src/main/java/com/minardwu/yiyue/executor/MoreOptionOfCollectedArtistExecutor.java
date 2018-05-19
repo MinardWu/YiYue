@@ -54,6 +54,8 @@ public class MoreOptionOfCollectedArtistExecutor {
             case 3:
 
                 break;
+            default:
+                break;
         }
     }
 }

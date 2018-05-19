@@ -8,19 +8,19 @@ import android.app.Service;
 
 public abstract class PlayService extends Service{
 
-    void playOrPause(){}
+    public void playOrPause(){}
 
-    void next(){}
+    public void next(){}
 
-    void prev(){}
+    public void prev(){}
 
-    void stop(){}
+    public void stop(){}
 
     void pause(){}
 
-    void seekTo(int pos){}
+    public void seekTo(int pos){}
 
-    long getCurrentPosition(){
+    public long getCurrentPosition(){
         return 0;
     }
 
