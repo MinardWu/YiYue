@@ -96,6 +96,19 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
+    @Override
+    public void playOrPause() {
+        if (isPreparing()) {
+            stop();
+        } else if (isPlaying()) {
+            pause();
+        } else if (isPausing()) {
+            start();
+        } else {
+            play(playingMusicId);
+        }
+    }
+
     /**
      * 当在线列表存在时，若在其他界面点击播放歌曲则在播放列表中加入该歌曲
      * @param musicBean 加入歌曲
@@ -257,12 +270,12 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         if (!isPlaying()) {
             return;
         }
-        mediaSessionManager.updatePlaybackState();
         mediaPlayer.pause();
         setPlayState(STATE_PAUSE);
         handler.removeCallbacks(updateProgressRunable);
         audioFocusManager.abandonAudioFocus();
         Notifier.showPause(playingMusic);
+        mediaSessionManager.updatePlaybackState();
         unregisterReceiver(noisyReceiver);
         if (playOnlineMusicListener != null) {
             playOnlineMusicListener.onPlayerPause();
