@@ -17,6 +17,11 @@ import com.minardwu.yiyue.utils.Preferences;
 
 import butterknife.BindView;
 
+/**
+ * @author MinardWu
+ * @date : 2018/5/1
+ */
+
 public class AlarmMusicChoseActivity extends SampleActivity {
 
     @BindView(R.id.rv_alarm_music)

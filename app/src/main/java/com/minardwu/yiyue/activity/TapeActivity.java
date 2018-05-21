@@ -15,6 +15,11 @@ import com.minardwu.yiyue.widget.TapeView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/2/22
+ */
+
 public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListener {
 
     @BindView(R.id.tape)

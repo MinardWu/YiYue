@@ -22,6 +22,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/5/2
+ */
+
 public class SearchLocalMusicActivity extends BaseActivity implements TextWatcher {
 
     @BindView(R.id.iv_toolbar_back)

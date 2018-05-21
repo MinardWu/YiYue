@@ -23,6 +23,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/5/3
+ */
+
 public class MultipleChoseMusicActivity extends SampleActivity {
 
     @BindView(R.id.rv_multiple_chose_music)

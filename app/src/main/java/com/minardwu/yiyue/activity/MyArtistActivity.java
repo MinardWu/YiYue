@@ -7,6 +7,11 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 
+/**
+ * @author MinardWu
+ * @date : 2018/2/12
+ */
+
 public class MyArtistActivity extends SampleActivity {
 
     @Override

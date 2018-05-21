@@ -1,10 +1,14 @@
 package com.minardwu.yiyue.fragment;
 
-
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import com.minardwu.yiyue.R;
+
+/**
+ * @author MinardWu
+ * @date : 2018/5/22
+ */
 
 public class SettingFragment extends PreferenceFragment {
 

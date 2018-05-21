@@ -19,6 +19,11 @@ import com.minardwu.yiyue.utils.UIUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/5/15
+ */
+
 public class MockControllerActivity extends SampleActivity {
 
     private Switch sw_mock_data;

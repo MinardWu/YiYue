@@ -24,6 +24,11 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/1/1
+ */
+
 public class SplashActivity extends AppCompatActivity implements ServiceConnection {
 
     @BindView(R.id.app_name)

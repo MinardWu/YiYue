@@ -47,6 +47,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/1/31
+ */
+
 public class ArtistActivity extends BaseActivity implements View.OnClickListener{
 
     @BindView(R.id.rl_artist_hot_songs) RecyclerView rl_artist_hot_songs;

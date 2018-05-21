@@ -18,6 +18,11 @@ import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
 import butterknife.BindView;
 
+/**
+ * @author MinardWu
+ * @date : 2018/1/29
+ */
+
 public class FeedbackActivity extends SampleActivity {
 
     @BindView(R.id.et_feedback)

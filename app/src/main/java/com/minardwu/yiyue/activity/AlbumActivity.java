@@ -54,6 +54,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/3/23
+ */
+
 public class AlbumActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.app_bar_layout)

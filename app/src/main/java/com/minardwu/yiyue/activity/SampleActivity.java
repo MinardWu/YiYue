@@ -14,6 +14,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * @author MinardWu
+ * @date : 2018/1/27
+ */
+
 public abstract class SampleActivity extends BaseActivity {
 
     @BindView(R.id.toolbar_sample) android.support.v7.widget.Toolbar toolbar;

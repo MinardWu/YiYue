@@ -25,6 +25,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+/**
+ * @author MinardWu
+ * @date : 2018/2/14
+ */
+
 public class MySongActivity extends SampleActivity implements IView{
 
     private RecyclerView rv_fm_history;

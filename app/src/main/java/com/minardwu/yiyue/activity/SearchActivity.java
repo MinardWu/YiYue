@@ -42,6 +42,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/2/9
+ */
+
 public class SearchActivity extends BaseActivity implements View.OnClickListener, TextView.OnEditorActionListener {
 
     @BindView(R.id.iv_toolbar_back)

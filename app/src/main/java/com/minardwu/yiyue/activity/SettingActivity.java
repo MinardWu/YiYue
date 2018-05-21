@@ -7,6 +7,11 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.fragment.SettingFragment;
 
+/**
+ * @author MinardWu
+ * @date : 2018/5/22
+ */
+
 public class SettingActivity extends SampleActivity {
 
     @Override

@@ -11,6 +11,11 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 
+/**
+ * @author MinardWu
+ * @date : 2018/1/27
+ */
+
 public class InfoActivity extends SampleActivity {
 
     private TextView tv_version;

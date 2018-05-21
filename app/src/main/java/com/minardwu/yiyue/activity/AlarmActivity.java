@@ -26,6 +26,11 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author MinardWu
+ * @date : 2018/5/1
+ */
+
 public class AlarmActivity extends BaseActivity implements MediaPlayer.OnPreparedListener {
 
     @BindView(R.id.tv_title)

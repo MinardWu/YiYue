@@ -32,6 +32,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * @author MinardWu
+ * @date : 2017/12/30
+ */
+
 public class LocalMusicListActivity extends BaseActivity implements IView{
 
     @BindView(R.id.toolbar)

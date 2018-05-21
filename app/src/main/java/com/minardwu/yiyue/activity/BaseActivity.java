@@ -16,6 +16,11 @@ import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 
+/**
+ * @author MinardWu
+ * @date : 2017/12/30
+ */
+
 public class BaseActivity extends AppCompatActivity {
 
     @Override

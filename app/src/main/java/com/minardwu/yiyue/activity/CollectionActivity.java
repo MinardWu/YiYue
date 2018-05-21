@@ -1,18 +1,14 @@
 package com.minardwu.yiyue.activity;
 
-import android.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.fragment.CollectedAlbumFragment;
 import com.minardwu.yiyue.fragment.CollectedArtistFragment;
 import com.minardwu.yiyue.fragment.CollectedSongFragment;
@@ -21,6 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+/**
+ * @author MinardWu
+ * @date : 2018/4/6
+ */
 
 public class CollectionActivity extends SampleActivity{
 

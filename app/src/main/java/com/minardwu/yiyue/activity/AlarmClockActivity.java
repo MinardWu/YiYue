@@ -29,6 +29,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
+/**
+ * @author MinardWu
+ * @date : 2018/3/31
+ */
+
 public class AlarmClockActivity extends SampleActivity implements View.OnClickListener {
 
     @BindView(R.id.rl_alarm_clock_time)
