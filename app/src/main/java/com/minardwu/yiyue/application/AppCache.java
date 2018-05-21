@@ -15,7 +15,7 @@ import java.util.List;
 public class AppCache {
 
     private List<MusicBean> LocalMusicList = new ArrayList<MusicBean>();
-    private static PlayService currentService;
+    private static PlayService currentService = new PlayLocalMusicService();//初始化为本地的
     private PlayLocalMusicService playLocalMusicService;
     private PlayOnlineMusicService playOnlineMusicService;
     public static final int defaultMusicId = 108242;

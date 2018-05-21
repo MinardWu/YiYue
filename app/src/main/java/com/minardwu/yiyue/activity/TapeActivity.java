@@ -7,11 +7,9 @@ import android.view.OrientationEventListener;
 import android.view.WindowManager;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayLocalMusicListener;
 import com.minardwu.yiyue.utils.MusicUtils;
-import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.widget.TapeView;
 
 import butterknife.BindView;
@@ -92,7 +90,7 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
     @Override
     public void onChangeMusic(MusicBean music) {
         tapeView.setTitle(music.getTitle());
-        tapeView.setArtis(music.getArtistName());
+        tapeView.setArtist(music.getArtistName());
     }
 
     @Override

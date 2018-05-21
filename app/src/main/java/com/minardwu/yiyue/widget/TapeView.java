@@ -16,6 +16,7 @@ import android.os.Handler;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.utils.SystemUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,8 @@ public class TapeView extends View {
     private static final String TAG = "TapeView";
     private int screenWidth = SystemUtils.getScreenWidth();
     private int screenHeight = SystemUtils.getScreenHeight();
-    private String title = "歌曲";
-    private String artist = "艺术家";
+    private String title = UIUtils.getString(R.string.tape_view_title);
+    private String artist = UIUtils.getString(R.string.tape_view_artist);
     private boolean isRunning = false;
     private float rotationDegree = 0;
     private Handler handler = new Handler();
@@ -274,23 +275,12 @@ public class TapeView extends View {
         paint.setColor(getResources().getColor(R.color.tapeInfoTextColor));
         paint.setTextAlign(Paint.Align.RIGHT);
         paint.setTextSize(60);
-        canvas.drawText("Side",leftGearCenterPoint.x-gearRadius-sideATextMargin,leftGearCenterPoint.y-20,paint);
+        canvas.drawText(UIUtils.getString(R.string.tape_view_side),leftGearCenterPoint.x-gearRadius-sideATextMargin,leftGearCenterPoint.y-20,paint);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(80);
-        canvas.drawText("A",leftGearCenterPoint.x-gearRadius-sideATextMargin-60,leftGearCenterPoint.y+80,paint);
+        canvas.drawText(UIUtils.getString(R.string.tape_view_side_vaule),leftGearCenterPoint.x-gearRadius-sideATextMargin-60,leftGearCenterPoint.y+80,paint);
         paint.setTextSize(40);
-        canvas.drawText("一乐 Copyright ©2018 MinardWu",screenWidth/2,leftGearCenterPoint.y+gearRadius+120,paint);
-
-//        canvas.save();
-//        TextPaint textPaint = new TextPaint();
-//        textPaint.setColor(Color.parseColor("#ffffff"));
-//        textPaint.setTextSize(50.0F);
-//        textPaint.setAntiAlias(true);
-//        //StaticLayout layout = new StaticLayout("Side B", textPaint, 160, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
-//        StaticLayout layout = new StaticLayout("Side B", 0,2,textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
-//        canvas.translate(leftGearCenterPoint.x-gearRadius-sideATextMargin,leftGearCenterPoint.y+100);
-//        layout.draw(canvas);
-//        canvas.restore();
+        canvas.drawText(UIUtils.getString(R.string.tape_view_copyright),screenWidth/2,leftGearCenterPoint.y+gearRadius+120,paint);
 
         //四个钉子
         float nailRadius = 1.f/50.f*screenWidth;
@@ -401,14 +391,25 @@ public class TapeView extends View {
         invalidate();
     }
 
-    public void setArtis(String artist){
+    public void setArtist(String artist){
         this.artist = artist;
         invalidate();
     }
 
     public interface OnGearClickListener{
+        /**
+         * 左边齿轮点击事件
+         */
         void leftGearClick();
+
+        /**
+         * 右边齿轮点击事件
+         */
         void rightGearClick();
+
+        /**
+         * 其他区域点击事件
+         */
         void otherAreaClick();
     }
 

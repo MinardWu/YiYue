@@ -90,7 +90,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }else {
                     drawerItemAdapter.setDrawerItemBeanInfo(3,ParseUtils.formatTime("(mm:ss)",aLong));
                 }
-                Log.e(TAG, ParseUtils.formatTime("(mm:ss)",aLong));
             }
         });
         if(!SystemUtils.checkReadPermission()){
@@ -252,13 +251,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
             public void onOrientationChanged(int orientation) {
-                //横屏与方向横屏
-                if (orientation > 270 && orientation < 300 && isFront) {
-                    disable();
-                    startActivity(new Intent(MainActivity.this,TapeActivity.class));
-                } else if (orientation > 60 && orientation < 120 && isFront) {
-                    disable();
-                    startActivity(new Intent(MainActivity.this,TapeActivity.class));
+                if(currentFragment==0 && !getPlayOnlineMusicService().isPlaying()){
+                    //横屏与方向横屏
+                    if (orientation > 270 && orientation < 300 && isFront) {
+                        disable();
+                        startActivity(new Intent(MainActivity.this,TapeActivity.class));
+                    } else if (orientation > 60 && orientation < 120 && isFront) {
+                        disable();
+                        startActivity(new Intent(MainActivity.this,TapeActivity.class));
+                    }
                 }
             }
         };

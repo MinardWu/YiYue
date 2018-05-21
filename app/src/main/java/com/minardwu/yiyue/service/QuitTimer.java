@@ -56,20 +56,21 @@ public class QuitTimer {
             remainTime -= DateUtils.SECOND_IN_MILLIS;
             if (remainTime > 0) {
                 timerCallback.onEvent(remainTime);
-                handler.postDelayed(this, DateUtils.SECOND_IN_MILLIS);//下一秒继续计时
+                //下一秒继续计时
+                handler.postDelayed(this, DateUtils.SECOND_IN_MILLIS);
             } else {
                 //如果开启播完关闭则需要修改drawer定时ui
                 if(Preferences.getQuitTillSongEnd()){
                     timerCallback.onEvent(StopTimeAction.UNTIL_SONG_END);
                 }
                 //更改播放状态
-                if(playLocalMusicService.isPlaying()){
+                if(AppCache.getCurrentService() instanceof PlayLocalMusicService){
                     if(Preferences.getQuitTillSongEnd()){
                         playLocalMusicService.quitWhenSongEnd();
                     }else {
                         playLocalMusicService.quit();
                     }
-                }else if(playOnlineMusicService.isPlaying()){
+                }else if(AppCache.getCurrentService() instanceof PlayOnlineMusicService){
                     if(Preferences.getQuitTillSongEnd()){
                         playOnlineMusicService.quitWhenSongEnd();
                     }else {
