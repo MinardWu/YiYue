@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.minardwu.yiyue.R;
 
 /**
- * Created by MinardWu on 2018/1/8.
+ * @author MinardWu
+ * @date : 2018/1/8
  */
 
 public class ChooseOptionAdapter extends BaseAdapter {

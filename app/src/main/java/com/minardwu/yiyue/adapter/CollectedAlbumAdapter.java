@@ -20,7 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by wumingyuan on 2018/4/2.
+ * @author MinardWu
+ * @date : 2018/4/2
  */
 
 public class CollectedAlbumAdapter extends RecyclerView.Adapter {

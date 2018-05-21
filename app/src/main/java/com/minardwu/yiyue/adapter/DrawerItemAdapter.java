@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by MinardWu on 2017/12/29.
+ * @author MinardWu
+ * @date : 2017/12/29
  */
 
 public class DrawerItemAdapter extends BaseAdapter {

@@ -23,7 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by wumingyuan on 2018/4/13.
+ * @author MinardWu
+ * @date : 2018/4/13
  */
 
 public class OnlineMusicListAdapter extends RecyclerView.Adapter {

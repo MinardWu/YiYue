@@ -22,7 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by wumingyuan on 2018/5/2.
+ * @author MinardWu
+ * @date : 2018/5/2
  */
 
 public class SearchLocalMusicAdapter extends RecyclerView.Adapter{

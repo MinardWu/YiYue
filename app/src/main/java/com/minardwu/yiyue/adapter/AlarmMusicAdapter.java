@@ -20,7 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by MinardWu on 2018/5/1.
+ * @author MinardWu
+ * @date : 2018/5/1
  */
 
 public class AlarmMusicAdapter extends RecyclerView.Adapter {

@@ -15,7 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by MinardWu on 2018/3/4.
+ * @author MinardWu
+ * @date : 2018/3/4
  */
 
 public class ImageAndTextAdapter extends BaseAdapter {

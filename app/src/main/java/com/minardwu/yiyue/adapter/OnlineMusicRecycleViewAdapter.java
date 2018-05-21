@@ -27,7 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by MinardWu on 2018/2/1.
+ * @author MinardWu
+ * @date : 2018/2/1
  */
 
 public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

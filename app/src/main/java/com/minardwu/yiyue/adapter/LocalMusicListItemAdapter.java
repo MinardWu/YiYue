@@ -23,7 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by MinardWu on 2017/12/30.
+ * @author MinardWu
+ * @date : 2017/12/30
  */
 
 public class LocalMusicListItemAdapter extends BaseAdapter {
