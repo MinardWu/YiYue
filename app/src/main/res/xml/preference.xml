@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="功能与服务">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="auto_reversal"
+            android:title="横屏自动进入磁带模式" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

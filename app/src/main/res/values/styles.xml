@@ -20,7 +20,7 @@
     <dimen name="toolbar_paddingTop_top">0dp</dimen>
 
     <style name="SwitchStyle" parent="Theme.AppCompat.Light">
-        <!-- switch 打开时的按钮的颜色 轨迹颜色默认为30%（看效果就明白30%是怎么回事了）这个颜色 -->
+        <!-- switch 打开时的按钮的颜色 轨迹颜色默认为30%这个颜色 -->
         <item name="colorControlActivated">@color/black</item>
         <!--  switch关闭时的按钮的颜色 -->
         <item name="colorSwitchThumbNormal">@color/white</item>

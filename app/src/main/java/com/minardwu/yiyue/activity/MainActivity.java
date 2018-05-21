@@ -18,12 +18,10 @@ import android.widget.ListView;
 import android.os.Build;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.adapter.DrawerItemAdapter;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.Extras;
 import com.minardwu.yiyue.constants.StopTimeAction;
 import com.minardwu.yiyue.event.ChageToolbarTextEvent;
@@ -251,7 +249,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
             public void onOrientationChanged(int orientation) {
-                if(currentFragment==0 && !getPlayOnlineMusicService().isPlaying()){
+                if(currentFragment==0 && !getPlayOnlineMusicService().isPlaying()
+                        && Preferences.enableAutoReversal()){
                     //横屏与方向横屏
                     if (orientation > 270 && orientation < 300 && isFront) {
                         disable();
@@ -347,7 +346,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.rl_setting:
-
+                startActivity(new Intent(MainActivity.this,SettingActivity.class));
                 break;
             case R.id.rl_exit:
                 System.exit(0);

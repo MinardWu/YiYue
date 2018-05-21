@@ -27,6 +27,9 @@ public class Preferences {
     private static final String FITLER_TIME_POSITION = "filter_time_position";
     private static final String FITLER_SIZE_POSITION = "filter_size_position";
     private static final String PLAY_ONLINE_LIST = "play_online_list";
+    private static final String AUTO_REVERSAL = "auto_reversal";
+
+
     private static final String USE_MOCK_DATA = "use_mock_data";
     private static final String USE_MOCK_SEARCH_DATA = "use_mock_search_data";
     private static final String USE_MOCK_ARTIST_DATA = "use_mock_artist_data";
@@ -205,6 +208,14 @@ public class Preferences {
 
     public static void saveUseMockAlbumData(boolean enable) {
         saveBoolean(USE_MOCK_ALBUM_DATA, enable);
+    }
+
+    public static boolean enableAutoReversal() {
+        return getBoolean(AUTO_REVERSAL, false);
+    }
+
+    public static void saveAutoReversal(boolean enable) {
+        saveBoolean(AUTO_REVERSAL, enable);
     }
 
     public static boolean enableAlarmClockRepeat() {
