@@ -6,6 +6,8 @@ import android.content.Intent;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.http.DownloadSong;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.ToastUtils;
 
@@ -26,6 +28,19 @@ public class MoreOptionOfActAlbumExecutor {
                 activity.startActivity(artistIntent);
                 break;
             case 2:
+                DownloadSong.execute(activity, musicBean, new DownloadSong.DownloadSongCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        ToastUtils.showShortToast(R.string.download_begin);
+                    }
+
+                    @Override
+                    public void onFail(FailResult failResult) {
+                        ToastUtils.showShortToast(R.string.download_fail);
+                    }
+                });
+                break;
+            case 3:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
                 ToastUtils.showShortToast(R.string.append_online_music_list_success);
                 break;

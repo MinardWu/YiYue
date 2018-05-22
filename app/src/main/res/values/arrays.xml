@@ -146,24 +146,28 @@
     <integer-array name="activity_artist_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_download</item>
         <item>@drawable/ic_option_add</item>
     </integer-array>
 
     <string-array name="activity_artist_more_text">
         <item>播放</item>
         <item>专辑</item>
+        <item>下载</item>
         <item>添加到播放列表</item>
     </string-array>
 
     <integer-array name="activity_album_more_img">
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
+        <item>@drawable/ic_option_download</item>
         <item>@drawable/ic_option_add</item>
     </integer-array>
 
     <string-array name="activity_album_more_text">
         <item>播放</item>
         <item>歌手</item>
+        <item>下载</item>
         <item>添加到播放列表</item>
     </string-array>
 
@@ -171,6 +175,7 @@
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
         <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_download</item>
         <item>@drawable/ic_option_add</item>
     </integer-array>
 
@@ -178,6 +183,7 @@
         <item>播放</item>
         <item>歌手</item>
         <item>专辑</item>
+        <item>下载</item>
         <item>添加到播放列表</item>
     </string-array>
 
@@ -185,6 +191,7 @@
         <item>@drawable/ic_option_play</item>
         <item>@drawable/ic_option_singer</item>
         <item>@drawable/ic_option_album</item>
+        <item>@drawable/ic_option_download</item>
         <item>@drawable/ic_option_add</item>
         <item>@drawable/ic_option_delete</item>
     </integer-array>
@@ -193,6 +200,7 @@
         <item>播放</item>
         <item>歌手</item>
         <item>专辑</item>
+        <item>下载</item>
         <item>添加到播放列表</item>
         <item>删除</item>
     </string-array>
