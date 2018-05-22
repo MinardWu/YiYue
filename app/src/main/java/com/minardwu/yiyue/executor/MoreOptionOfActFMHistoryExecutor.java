@@ -9,7 +9,10 @@ import com.minardwu.yiyue.activity.AlbumActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
+import com.minardwu.yiyue.http.DownloadSong;
+import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
@@ -36,9 +39,22 @@ public class MoreOptionOfActFMHistoryExecutor {
                 activity.startActivity(albumIntent);
                 break;
             case 3:
-                AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
+                DownloadSong.execute(activity, musicBean, new DownloadSong.DownloadSongCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        ToastUtils.showShortToast("开始下载");
+                    }
+
+                    @Override
+                    public void onFail(FailResult failResult) {
+                        ToastUtils.showShortToast("下载出错了");
+                    }
+                });
                 break;
             case 4:
+                AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
+                break;
+            case 5:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
                         .title(UIUtils.getString(R.string.is_delete_fm_history))

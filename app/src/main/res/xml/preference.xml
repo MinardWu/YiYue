@@ -6,6 +6,10 @@
             android:defaultValue="false"
             android:key="auto_reversal"
             android:title="横屏自动进入磁带模式" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="allow_mobile_download"
+            android:title="使用2G/3G/4G网络下载" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -89,6 +89,10 @@ public class FileUtils {
         return file.exists();
     }
 
+    public static String getFileName(MusicBean musicBean){
+        return getFileName(musicBean.getArtistName(),musicBean.getTitle());
+    }
+
     public static String getFileName(String artist, String title) {
         artist = stringFilter(artist);
         title = stringFilter(title);

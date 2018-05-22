@@ -28,6 +28,7 @@ public class Preferences {
     private static final String FITLER_SIZE_POSITION = "filter_size_position";
     private static final String PLAY_ONLINE_LIST = "play_online_list";
     private static final String AUTO_REVERSAL = "auto_reversal";
+    private static final String ALLOW_MOBILE_DOWNLOAD = "allow_mobile_download";
 
 
     private static final String USE_MOCK_DATA = "use_mock_data";
@@ -216,6 +217,14 @@ public class Preferences {
 
     public static void saveAutoReversal(boolean enable) {
         saveBoolean(AUTO_REVERSAL, enable);
+    }
+
+    public static boolean enableAllowMobileDownload() {
+        return getBoolean(ALLOW_MOBILE_DOWNLOAD, false);
+    }
+
+    public static void saveAllowMobileDownload(boolean enable) {
+        saveBoolean(ALLOW_MOBILE_DOWNLOAD, enable);
     }
 
     public static boolean enableAlarmClockRepeat() {
