@@ -38,7 +38,7 @@ public class MoreOptionOfCollectedSongExecutor {
                 break;
             case 3:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
-                ToastUtils.showShortToast(UIUtils.getString(R.string.append_online_music_list_success));
+                ToastUtils.showShortToast(R.string.append_online_music_list_success);
                 break;
             case 4:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()

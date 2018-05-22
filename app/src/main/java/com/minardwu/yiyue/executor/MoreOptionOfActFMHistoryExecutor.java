@@ -42,18 +42,18 @@ public class MoreOptionOfActFMHistoryExecutor {
                 DownloadSong.execute(activity, musicBean, new DownloadSong.DownloadSongCallBack() {
                     @Override
                     public void onSuccess() {
-                        ToastUtils.showShortToast("开始下载");
+                        ToastUtils.showShortToast(R.string.download_begin);
                     }
 
                     @Override
                     public void onFail(FailResult failResult) {
-                        ToastUtils.showShortToast("下载出错了");
+                        ToastUtils.showShortToast(R.string.download_fail);
                     }
                 });
                 break;
             case 4:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
-                ToastUtils.showShortToast(UIUtils.getString(R.string.append_online_music_list_success));
+                ToastUtils.showShortToast(R.string.append_online_music_list_success);
                 break;
             case 5:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()

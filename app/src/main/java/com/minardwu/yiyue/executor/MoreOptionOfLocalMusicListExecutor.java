@@ -34,10 +34,7 @@ public class MoreOptionOfLocalMusicListExecutor {
                 //position==0逻辑放在外面执行，不会跳到这里
                 break;
             case 1:
-//                Intent intent = new Intent(activity, ArtistActivity.class);
-//                intent.putExtra("artistName",musicBean.getArtist());
-//                intent.putExtra("artistId",musicBean.getArtistId());
-//                activity.startActivity(intent);
+
                 break;
             case 2:
 
