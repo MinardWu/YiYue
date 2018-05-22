@@ -13,6 +13,8 @@ import com.minardwu.yiyue.adapter.MultipleChoseMusicAdapter;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.event.ChooseMusicCountEvent;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -71,6 +73,7 @@ public class MultipleChoseMusicActivity extends SampleActivity {
             @Override
             public void onClick(View view) {
                 AppCache.getPlayOnlineMusicService().appendMusicList(adapter.getChosenList());
+                ToastUtils.showShortToast(UIUtils.getString(R.string.append_online_music_list_success));
                 finish();
             }
         });

@@ -93,6 +93,7 @@
     <string name="collection_album_music_size">歌曲:%1$d&#160;&#160;</string>
     <string name="online_music_list_artist">&#160;-&#160;%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="append_online_music_list_success">已添加到播放列表</string>
 
     <string name="tape_view_title">歌曲</string>
     <string name="tape_view_artist">艺术家</string>

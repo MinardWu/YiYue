@@ -3,11 +3,13 @@ package com.minardwu.yiyue.executor;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.AlbumActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 
 /**
  * Created by MinardWu on 2018/3/15.
@@ -33,6 +35,7 @@ public class MoreOptionOfActSearchExecutor {
                 break;
             case 3:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
+                ToastUtils.showShortToast(UIUtils.getString(R.string.append_online_music_list_success));
                 break;
             default:
                 break;

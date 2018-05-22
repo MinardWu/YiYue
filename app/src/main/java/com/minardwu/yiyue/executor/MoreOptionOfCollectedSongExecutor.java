@@ -10,6 +10,7 @@ import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.MusicBean;
+import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
@@ -37,6 +38,7 @@ public class MoreOptionOfCollectedSongExecutor {
                 break;
             case 3:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
+                ToastUtils.showShortToast(UIUtils.getString(R.string.append_online_music_list_success));
                 break;
             case 4:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()

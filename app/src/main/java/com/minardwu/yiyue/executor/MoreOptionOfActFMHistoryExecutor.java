@@ -53,6 +53,7 @@ public class MoreOptionOfActFMHistoryExecutor {
                 break;
             case 4:
                 AppCache.getPlayOnlineMusicService().appendMusicList(musicBean);
+                ToastUtils.showShortToast(UIUtils.getString(R.string.append_online_music_list_success));
                 break;
             case 5:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
