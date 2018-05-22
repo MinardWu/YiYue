@@ -37,12 +37,10 @@ public class AlarmManagerReceiver extends BroadcastReceiver {
                 AlarmManagerUtil.setAlarm(context,hour,minute, AlarmClockActivity.ALARM_ID);
             }
         }else {
-            if(MyDatabaseHelper.init(context).queryAlarmClockDate().contains(day)){
-                Intent newIntent = new Intent();
-                newIntent.setClass(context, AlarmActivity.class);
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(newIntent);
-            }
+            Intent newIntent = new Intent();
+            newIntent.setClass(context, AlarmActivity.class);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(newIntent);
         }
 
     }
