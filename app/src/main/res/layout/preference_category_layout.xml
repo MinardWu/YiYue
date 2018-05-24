@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/preference_category_height"
+    android:minHeight="@dimen/preference_category_height"
+    android:background="@color/preference_category_bg" >
+
+    <TextView
+        android:textSize="10sp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:id="@+android:id/title" />
+
+</RelativeLayout>

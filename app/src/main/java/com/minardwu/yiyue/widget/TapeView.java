@@ -278,7 +278,7 @@ public class TapeView extends View {
         canvas.drawText(UIUtils.getString(R.string.tape_view_side),leftGearCenterPoint.x-gearRadius-sideATextMargin,leftGearCenterPoint.y-20,paint);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(80);
-        canvas.drawText(UIUtils.getString(R.string.tape_view_side_vaule),leftGearCenterPoint.x-gearRadius-sideATextMargin-60,leftGearCenterPoint.y+80,paint);
+        canvas.drawText(UIUtils.getString(R.string.tape_view_side_value),leftGearCenterPoint.x-gearRadius-sideATextMargin-60,leftGearCenterPoint.y+80,paint);
         paint.setTextSize(40);
         canvas.drawText(UIUtils.getString(R.string.tape_view_copyright),screenWidth/2,leftGearCenterPoint.y+gearRadius+120,paint);
 

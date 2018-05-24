@@ -28,12 +28,9 @@
     <color name="black_20">#33000000</color>
     <color name="black_10">#1A000000</color>
 
-
     <color name="drawer_title_text_color">@color/black_90</color>
     <color name="drawer_info_text_color">@color/black_30</color>
-    <color name="red">#F44336</color>
-    <color name="red_30p">#4CF44336</color>
-    <color name="blue">#2196F3</color>
+
     <color name="grey">#9E9E9E</color>
     <color name="grey_50p">#809E9E9E</color>
     <color name="grey_300">#E0E0E0</color>
@@ -41,9 +38,11 @@
     <color name="grey_300_96p">#F5E0E0E0</color>
     <color name="grey_900">#212121</color>
     <color name="grey_900_96p">#F5212121</color>
+
     <color name="toolbar_solid">#ffffff</color>
     <color name="toolbar_stroke">#dfdfdf</color>
     <color name="ripple_color">#E0E0E0</color>
+    <color name="preference_category_bg">#f5f4f4f4</color>
 
     <color name="lrc_normal_text_color">#9E9E9E</color>
     <color name="lrc_current_text_color">#FF4081</color>

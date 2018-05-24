@@ -13,4 +13,6 @@
     <dimen name="music_list_item_more_list_height">45dp</dimen>
     <dimen name="online_music_list_item_height">48dp</dimen>
     <dimen name="btn_alarm_clock_date_margin">5dp</dimen>
+    <dimen name="preference_item_height">60dp</dimen>
+    <dimen name="preference_category_height">30dp</dimen>
 </resources>

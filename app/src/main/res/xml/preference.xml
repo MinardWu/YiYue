@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="功能与服务">
+        android:title="@string/function"
+        android:layout="@layout/preference_category_layout">
         <SwitchPreference
             android:defaultValue="false"
             android:key="auto_reversal"
-            android:title="横屏自动进入磁带模式" />
+            android:title="@string/auto_reversal"
+            android:layout="@layout/preference_switch_layout"/>
         <SwitchPreference
             android:defaultValue="false"
             android:key="allow_mobile_download"
-            android:title="使用2G/3G/4G网络下载" />
+            android:title="@string/allow_mobile_download"
+            android:layout="@layout/preference_switch_layout"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/cache"
+        android:layout="@layout/preference_category_layout">
+        <Preference
+            android:key="clear_lrc_cache"
+            android:title="@string/clear_cache"
+            android:layout="@layout/preference_normal_layout"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
