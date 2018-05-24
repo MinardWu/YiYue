@@ -102,10 +102,12 @@ public class MusicUtils {
 
     public static void deleteFromMediaStore(String filePath){
         String[] retCol = {MediaStore.Audio.Media._ID};
+        //将单引号转化为两个单引号，避免sql执行时出错
+        String handleFilePath = filePath.replace("'","''");
         Cursor cur = YiYueApplication.getAppContext().getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 retCol,
-                MediaStore.MediaColumns.DATA + "='" + filePath + "'", null, null);
+                MediaStore.MediaColumns.DATA + "='" + handleFilePath + "'", null, null);
         if (cur.getCount() == 0) {
             return;
         }
