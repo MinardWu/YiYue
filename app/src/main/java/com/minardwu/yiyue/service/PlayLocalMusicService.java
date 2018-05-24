@@ -144,7 +144,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
      * 确定要播放的Music
      */
     public void play(int position) {
-        if (AppCache.getLocalMusicList().isEmpty()) {
+        if (AppCache.getLocalMusicList().isEmpty() || position>AppCache.getLocalMusicList().size()){
             return;
         }
         //到尽头时重新播放列表尾或者列表头
@@ -469,6 +469,21 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
                 onCompletionImpl(mediaPlayer);
             }
         });
+    }
+
+    /**
+     * 用来更新LocalMusicFragment界面ui，但是不播放歌曲
+     */
+    public void updateLocalMusicFragment(int position){
+        if(AppCache.getLocalMusicList().isEmpty() || position>AppCache.getLocalMusicList().size()){
+
+        }else {
+            MusicBean musicBean = AppCache.getLocalMusicList().get(position);
+            Preferences.saveCurrentSongId(musicBean.getId());
+            handler.removeCallbacks(publishRunnable);
+            onPlayerEventListener.onChangeMusic(musicBean);
+            onPlayerEventListener.onPublish(0);
+        }
     }
 
     public class PlayBinder extends Binder {

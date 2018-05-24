@@ -143,13 +143,13 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
             playOnlineMusicListener.onChangeMusic(onlineMusicPlayList.get(playPosition));
         }
         if(Preferences.enablePlayWhenOnlyHaveWifi()){
-            if(NetWorkUtils.getNetWorkType(this) != NetWorkType.WIFI){
+            if(NetWorkUtils.getNetWorkType() != NetWorkType.WIFI){
                 ToastUtils.showShortToast(UIUtils.getString(R.string.wifi_tips));
                 playOnlineMusicListener.onPrepareStop();
                 return;
             }
         }
-        if(NetWorkUtils.getNetWorkType(this) == NetWorkType.NO_NET){
+        if(NetWorkUtils.getNetWorkType() == NetWorkType.NO_NET){
             ToastUtils.showShortToast(UIUtils.getString(R.string.network_error));
             playOnlineMusicListener.onPrepareStop();
             return;

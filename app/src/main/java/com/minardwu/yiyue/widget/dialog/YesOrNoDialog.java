@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.utils.SystemUtils;
+import com.minardwu.yiyue.utils.UIUtils;
 
 /**
  * Created by wumingyuan on 2018/4/11.
@@ -66,8 +67,18 @@ public class YesOrNoDialog extends Dialog {
             return this;
         }
 
+        public Builder title(int id){
+            title = UIUtils.getString(id);
+            return this;
+        }
+
         public Builder content(String s){
             content = s;
+            return this;
+        }
+
+        public Builder content(int id){
+            content = UIUtils.getString(id);
             return this;
         }
 
@@ -77,8 +88,20 @@ public class YesOrNoDialog extends Dialog {
             return this;
         }
 
+        public Builder yes(int id,PositiveClickListener listener){
+            yes = UIUtils.getString(id);
+            positiveClickListener = listener;
+            return this;
+        }
+
         public Builder no(String s,NegativeClickListener listener){
             no = s;
+            negativeClickListener = listener;
+            return this;
+        }
+
+        public Builder no(int id,NegativeClickListener listener){
+            no = UIUtils.getString(id);
             negativeClickListener = listener;
             return this;
         }

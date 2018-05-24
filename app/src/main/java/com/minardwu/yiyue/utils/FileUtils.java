@@ -1,10 +1,15 @@
 package com.minardwu.yiyue.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Environment;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
 
@@ -159,6 +164,7 @@ public class FileUtils {
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
+                MusicUtils.deleteFromMediaStore(filePath);
                 return true;
             } else {
                 return false;
@@ -166,5 +172,54 @@ public class FileUtils {
         } else {
             return false;
         }
+    }
+
+    public static void scanAll() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            String[] paths = new String[]{Environment.getExternalStorageDirectory().toString()};
+            MediaScannerConnection.scanFile(YiYueApplication.getAppContext(), paths, null, new MediaScannerConnection.OnScanCompletedListener() {
+                @Override
+                public void onScanCompleted(String s, Uri uri) {
+                    MusicUtils.scanMusic(YiYueApplication.getAppContext());
+                }
+            });
+        } else {
+            final Intent intent;
+            intent = new Intent(Intent.ACTION_MEDIA_MOUNTED);
+            intent.setClassName("com.android.providers.media", "com.android.providers.media.MediaScannerReceiver");
+            intent.setData(Uri.fromFile(Environment.getExternalStorageDirectory()));
+            YiYueApplication.getAppContext().sendBroadcast(intent);
+        }
+    }
+
+    public static void scanDir(String dirPath){
+        File file = new File(dirPath);
+        if(file.isDirectory()){
+            File[] array = file.listFiles();
+            for(int i=0;i<array.length;i++){
+                File f = array[i];
+                if(f.isFile()){
+                    String name = f.getName();
+                    if(name.contains(".mp3")){
+                        scanFile(f.getAbsolutePath());
+                    }
+                } else {
+                    scanDir(f.getAbsolutePath());
+                }
+            }
+        }
+    }
+
+    public static void scanFile(String filePath){
+//        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//        scanIntent.setData(Uri.fromFile(new File(filePath)));
+//        YiYueApplication.getAppContext().sendBroadcast(scanIntent);
+        String[] paths = new String[]{filePath};
+        MediaScannerConnection.scanFile(YiYueApplication.getAppContext(), paths, null, new MediaScannerConnection.OnScanCompletedListener() {
+            @Override
+            public void onScanCompleted(String s, Uri uri) {
+                AppCache.updateLocalMusicList();
+            }
+        });
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.constants.NetWorkType;
 
 /**
@@ -12,9 +13,9 @@ import com.minardwu.yiyue.constants.NetWorkType;
 
 public class NetWorkUtils {
 
-    public static int getNetWorkType(Context context) {
+    public static int getNetWorkType() {
         int netWorkType = NetWorkType.NO_NET;
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) YiYueApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo==null){
             netWorkType = NetWorkType.NO_NET;

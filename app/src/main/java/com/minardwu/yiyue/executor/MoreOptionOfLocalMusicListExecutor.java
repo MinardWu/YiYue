@@ -82,6 +82,9 @@ public class MoreOptionOfLocalMusicListExecutor {
                                         AppCache.getPlayLocalMusicService().setPlayingPosition(tempPosition);
                                         if(AppCache.getPlayLocalMusicService().isPlaying()){
                                             AppCache.getPlayLocalMusicService().play(tempPosition);
+                                        }else {
+                                            AppCache.getPlayLocalMusicService().stop();
+                                            AppCache.getPlayLocalMusicService().updateLocalMusicFragment(tempPosition);
                                         }
                                     }else if(MusicUtils.getLocalMusicPosition(musicBean.getId())<MusicUtils.getLocalMusicPlayingPosition()){
                                         int position = MusicUtils.getLocalMusicPlayingPosition();

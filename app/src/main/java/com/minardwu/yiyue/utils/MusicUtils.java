@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
 
 import java.util.ArrayList;
@@ -97,6 +98,32 @@ public class MusicUtils {
         cursor.close();
         Collections.sort(musicBeanList,new MusicComparator());
         return musicBeanList;
+    }
+
+    public static void deleteFromMediaStore(String filePath){
+        String[] retCol = {MediaStore.Audio.Media._ID};
+        Cursor cur = YiYueApplication.getAppContext().getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                retCol,
+                MediaStore.MediaColumns.DATA + "='" + filePath + "'", null, null);
+        if (cur.getCount() == 0) {
+            return;
+        }
+        cur.moveToFirst();
+        int id = cur.getInt(cur.getColumnIndex(MediaStore.MediaColumns._ID));
+        cur.close();
+        try {
+            Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+            YiYueApplication.getAppContext().getContentResolver().delete(uri, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            scanMusic(YiYueApplication.getAppContext());
+        }
+    }
+
+    public static void addToMediaStore(String filePath){
+        FileUtils.scanFile(filePath);
     }
 
     /**

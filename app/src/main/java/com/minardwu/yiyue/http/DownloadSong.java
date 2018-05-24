@@ -1,17 +1,30 @@
 package com.minardwu.yiyue.http;
 
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.view.View;
 
+import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.application.YiYueApplication;
+import com.minardwu.yiyue.constants.NetWorkType;
 import com.minardwu.yiyue.http.result.FailResult;
 import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.FileUtils;
+import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.NetWorkUtils;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.ToastUtils;
+import com.minardwu.yiyue.utils.UIUtils;
+import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +49,35 @@ public class DownloadSong {
     private static final String GET_SONG_URL_BY_ID="https://api.imjad.cn/cloudmusic/?type=song&id=";
 
     public static void execute(final Context context, final MusicBean musicBean, final DownloadSongCallBack callBack){
+        if(!Preferences.enableAllowMobileDownload()
+                && NetWorkUtils.getNetWorkType()== NetWorkType.MOBILE){
+            final YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
+                    .context(context)
+                    .title(R.string.is_open_mobile_download)
+                    .yes(R.string.sure, new YesOrNoDialog.PositiveClickListener() {
+                        @Override
+                        public void OnClick(YesOrNoDialog dialog, View view) {
+                            dialog.dismiss();
+                            Preferences.saveAllowMobileDownload(true);
+                            start(musicBean,callBack);
+                        }
+                    })
+                    .yesTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                    .no(R.string.cancel, new YesOrNoDialog.NegativeClickListener() {
+                        @Override
+                        public void OnClick(YesOrNoDialog dialog, View view) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                    .build();
+            yesOrNoDialog.show();
+        }else {
+            start(musicBean,callBack);
+        }
+    }
+
+    private static void start(final MusicBean musicBean, final DownloadSongCallBack callBack){
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(GET_SONG_URL_BY_ID+musicBean.getId()).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -70,7 +112,7 @@ public class DownloadSong {
                                 callBack.onSuccess();
                             }
                         });
-                        download(context,musicBean,url);
+                        download(musicBean,url);
                     }
                 } catch (final JSONException e) {
                     e.printStackTrace();
@@ -85,8 +127,8 @@ public class DownloadSong {
         });
     }
 
-    private static void download(Context context, MusicBean musicBean, String url){
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+    private static void download( MusicBean musicBean, String url){
+        final DownloadManager downloadManager = (DownloadManager) YiYueApplication.getAppContext().getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setDestinationInExternalPublicDir("/YiYue/Music/",
                 FileUtils.getFileName(musicBean)+".mp3");
@@ -97,8 +139,45 @@ public class DownloadSong {
                 : DownloadManager.Request.NETWORK_WIFI);
         request.setAllowedOverRoaming(Preferences.enableAllowMobileDownload());
         request.allowScanningByMediaScanner();
-        long downloadId = downloadManager.enqueue(request);
+        final long downloadId = downloadManager.enqueue(request);
+        final String filePath = FileUtils.getMusicDir()+FileUtils.getFileName(musicBean)+".mp3";
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                checkDownloadStatus(context,downloadManager,downloadId,filePath);
+            }
+        };
+        YiYueApplication.getAppContext().registerReceiver(receiver,
+                new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
+
+    private static void checkDownloadStatus(Context context,DownloadManager downloadManager,long id,String filepath) {
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterById(id);
+        Cursor c = downloadManager.query(query);
+        if (c.moveToFirst()) {
+            int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+            switch (status) {
+                case DownloadManager.STATUS_PAUSED:
+                    break;
+                case DownloadManager.STATUS_PENDING:
+                    break;
+                case DownloadManager.STATUS_RUNNING:
+                    break;
+                case DownloadManager.STATUS_SUCCESSFUL:
+                    ToastUtils.showShortToast(R.string.download_success);
+                    MusicUtils.addToMediaStore(filepath);
+                    break;
+                case DownloadManager.STATUS_FAILED:
+                    ToastUtils.showShortToast(R.string.download_fail);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
 
     public interface DownloadSongCallBack{
         /**
@@ -112,6 +191,5 @@ public class DownloadSong {
          */
         void onFail(FailResult failResult);
     }
-
 
 }

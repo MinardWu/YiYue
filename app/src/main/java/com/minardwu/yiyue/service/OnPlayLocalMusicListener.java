@@ -10,6 +10,7 @@ public interface OnPlayLocalMusicListener {
 
     /**
      * 切换歌曲
+     * @param music
      */
     void onChangeMusic(MusicBean music);
 

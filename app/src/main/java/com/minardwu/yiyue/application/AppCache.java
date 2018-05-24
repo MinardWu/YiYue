@@ -4,6 +4,8 @@ import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.service.PlayService;
+import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.SystemUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,13 @@ public class AppCache {
 
     public static List<MusicBean> getLocalMusicList() {
         return getInstance().LocalMusicList;
+    }
+
+    public static void updateLocalMusicList(){
+        AppCache.getLocalMusicList().clear();
+        if (SystemUtils.checkReadPermission()) {
+            AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(YiYueApplication.getAppContext()));
+        }
     }
 
     public static PlayLocalMusicService getPlayLocalMusicService() {
