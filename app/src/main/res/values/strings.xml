@@ -93,6 +93,8 @@
     <string name="online_music_list_artist">&#160;-&#160;%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="local_music_no_exit">该文件不存在，自动播放下一首</string>
+
     <string name="is_open_mobile_download">是否打开2G/3G/4G网络下载开关?</string>
     <string name="is_open_mobile_play">是否打开2G/3G/4G网络播放开关?</string>
     <string name="append_online_music_list_success">已添加到播放列表</string>

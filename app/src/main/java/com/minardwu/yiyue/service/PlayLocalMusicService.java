@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 
+import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.constants.Actions;
 import com.minardwu.yiyue.enums.PlayModeEnum;
@@ -27,6 +28,7 @@ import com.minardwu.yiyue.receiver.NoisyAudioStreamReceiver;
 import com.minardwu.yiyue.utils.MusicUtils;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -177,6 +179,7 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
             }
         } catch (IOException e) {
             e.printStackTrace();
+            handleError(e.toString());
         }
     }
 
@@ -489,6 +492,13 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
     public class PlayBinder extends Binder {
         public PlayLocalMusicService getService() {
             return PlayLocalMusicService.this;
+        }
+    }
+
+    private void handleError(String e){
+        if("java.io.IOException: setDataSource failed.".equals(e)){
+            next();
+            ToastUtils.showShortToast(R.string.local_music_no_exit);
         }
     }
 }

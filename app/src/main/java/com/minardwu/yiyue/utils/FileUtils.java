@@ -175,21 +175,26 @@ public class FileUtils {
     }
 
     public static void scanAll() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            String[] paths = new String[]{Environment.getExternalStorageDirectory().toString()};
-            MediaScannerConnection.scanFile(YiYueApplication.getAppContext(), paths, null, new MediaScannerConnection.OnScanCompletedListener() {
-                @Override
-                public void onScanCompleted(String s, Uri uri) {
-                    MusicUtils.scanMusic(YiYueApplication.getAppContext());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    String[] paths = new String[]{Environment.getExternalStorageDirectory().toString()};
+                    MediaScannerConnection.scanFile(YiYueApplication.getAppContext(), paths, null, new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String s, Uri uri) {
+                            AppCache.updateLocalMusicList();
+                        }
+                    });
+                } else {
+                    final Intent intent;
+                    intent = new Intent(Intent.ACTION_MEDIA_MOUNTED);
+                    intent.setClassName("com.android.providers.media", "com.android.providers.media.MediaScannerReceiver");
+                    intent.setData(Uri.fromFile(Environment.getExternalStorageDirectory()));
+                    YiYueApplication.getAppContext().sendBroadcast(intent);
                 }
-            });
-        } else {
-            final Intent intent;
-            intent = new Intent(Intent.ACTION_MEDIA_MOUNTED);
-            intent.setClassName("com.android.providers.media", "com.android.providers.media.MediaScannerReceiver");
-            intent.setData(Uri.fromFile(Environment.getExternalStorageDirectory()));
-            YiYueApplication.getAppContext().sendBroadcast(intent);
-        }
+            }
+        }).start();
     }
 
     public static void scanDir(String dirPath){

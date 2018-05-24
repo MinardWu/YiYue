@@ -7,9 +7,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.minardwu.yiyue.utils.CoverLoader;
-import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.Preferences;
-import com.minardwu.yiyue.utils.SystemUtils;
 import com.minardwu.yiyue.utils.ToastUtils;
 
 import okhttp3.OkHttpClient;
@@ -31,10 +30,10 @@ public class YiYueApplication extends Application{
         ToastUtils.init(getApplicationContext());
         CoverLoader.getInstance().init(getApplicationContext());
         Stetho.initializeWithDefaults(this);
-        AppCache.getLocalMusicList().clear();
-        if (SystemUtils.checkReadPermission()) {
-            AppCache.getLocalMusicList().addAll(MusicUtils.scanMusic(getApplicationContext()));
-        }
+        //获取MediaStore中的音乐信息，但MediaStore有可能没有更新到最新的状态
+        AppCache.updateLocalMusicList();
+        //开启一个新线程，更新MediaStore，并获取最新信息
+        FileUtils.scanAll();
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
