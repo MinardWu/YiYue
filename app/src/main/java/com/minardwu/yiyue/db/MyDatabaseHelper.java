@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 
 import com.minardwu.yiyue.model.AlbumBean;
 import com.minardwu.yiyue.model.ArtistBean;
@@ -174,6 +175,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean isFollowArtist(String artistId) {
+        if(TextUtils.isEmpty(artistId)){
+            return false;
+        }
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM " + TABLE_COLLECTED_ARTIST + " WHERE artistId = ?", new String[]{artistId});
         cursor.moveToFirst();
         Long count = cursor.getLong(0);
