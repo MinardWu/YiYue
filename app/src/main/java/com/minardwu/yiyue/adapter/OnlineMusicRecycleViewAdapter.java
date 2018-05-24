@@ -97,9 +97,9 @@ public class OnlineMusicRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             if ((playOnlineMusicService.getPlayingMusicId()==musicList.get(position-1).getId())) {
                 viewHolder.tv_count.setVisibility(View.GONE);
                 viewHolder.iv_playing.setVisibility(View.VISIBLE);
-                viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
-                viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
-                viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+                viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
+                viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
+                viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
             } else {
                 viewHolder.tv_count.setVisibility(View.VISIBLE);
                 viewHolder.iv_playing.setVisibility(View.GONE);

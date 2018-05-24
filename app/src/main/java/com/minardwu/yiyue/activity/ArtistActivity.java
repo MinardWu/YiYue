@@ -280,7 +280,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                                     dialog.dismiss();
                                 }
                             })
-                            .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                            .noTextColor(UIUtils.getColor(R.color.green_main))
                             .build();
                     yesOrNoDialog.show();
                 }else {

@@ -64,9 +64,9 @@ public class OnlineMusicListItemAdapter extends BaseAdapter {
         //而当点击歌曲时更新UI就不能再使用歌曲id了，因为有时网络加载播放较慢，不能及时获取到你点击的歌曲的id，所以这时用position速度较快
         if (position==playingMusicPosition) {
             viewHolder.v_Playing.setVisibility(View.VISIBLE);
-            viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
-            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
-            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+            viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
+            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
         } else {
             viewHolder.v_Playing.setVisibility(View.INVISIBLE);
             viewHolder.tv_count.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));

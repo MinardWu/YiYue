@@ -2,11 +2,9 @@ package com.minardwu.yiyue.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
@@ -49,7 +47,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -260,7 +257,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         if (isCollected){
             iv_album_collected.setSelected(true);
             tv_album_collected.setText("已收藏");
-            tv_album_collected.setTextColor(UIUtils.getColor(R.color.colorGreenLight));
+            tv_album_collected.setTextColor(UIUtils.getColor(R.color.green_main));
         }else {
             iv_album_collected.setSelected(false);
             tv_album_collected.setText("收藏");
@@ -307,7 +304,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                                     dialog.dismiss();
                                 }
                             })
-                            .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                            .noTextColor(UIUtils.getColor(R.color.green_main))
                             .build();
                     yesOrNoDialog.show();
                 }else {

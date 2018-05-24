@@ -3,5 +3,5 @@
     android:color="@color/ripple_color" >
     <item
         android:id="@android:id/mask"
-        android:drawable="@color/colorGreenLight"/>
+        android:drawable="@color/green_main"/>
 </ripple>

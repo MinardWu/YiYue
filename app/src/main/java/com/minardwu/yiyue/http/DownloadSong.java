@@ -62,14 +62,14 @@ public class DownloadSong {
                             start(musicBean,callBack);
                         }
                     })
-                    .yesTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                    .yesTextColor(UIUtils.getColor(R.color.green_main))
                     .no(R.string.cancel, new YesOrNoDialog.NegativeClickListener() {
                         @Override
                         public void OnClick(YesOrNoDialog dialog, View view) {
                             dialog.dismiss();
                         }
                     })
-                    .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                    .noTextColor(UIUtils.getColor(R.color.green_main))
                     .build();
             yesOrNoDialog.show();
         }else {

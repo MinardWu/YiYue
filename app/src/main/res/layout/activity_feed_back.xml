@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="有什么建议给我..."
-        android:textColorHint="@color/grey_50p"
+        android:textColorHint="@color/black_20"
         android:textCursorDrawable="@null"
         android:gravity="top"
         android:minLines="30"

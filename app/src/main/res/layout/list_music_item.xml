@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_width="3dp"
             android:layout_height="50dp"
-            android:background="@color/colorGreenDeep" />
+            android:background="@color/green_deep" />
 
         <ImageView
             android:visibility="gone"

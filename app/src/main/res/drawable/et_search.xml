@@ -9,7 +9,7 @@
 
     <item android:bottom="1dp">
         <shape>
-            <solid android:color="@color/colorGreenLight"/>
+            <solid android:color="@color/green_main"/>
         </shape>
     </item>
 

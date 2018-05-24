@@ -6,7 +6,7 @@
         android:height="18dp">
     </size>
     <solid
-        android:color="@color/colorGreenLight">
+        android:color="@color/green_main">
     </solid>
 
 </shape>

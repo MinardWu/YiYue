@@ -32,12 +32,6 @@
     <color name="drawer_info_text_color">@color/black_30</color>
 
     <color name="grey">#9E9E9E</color>
-    <color name="grey_50p">#809E9E9E</color>
-    <color name="grey_300">#E0E0E0</color>
-    <color name="grey_700_96p">#F5616161</color>
-    <color name="grey_300_96p">#F5E0E0E0</color>
-    <color name="grey_900">#212121</color>
-    <color name="grey_900_96p">#F5212121</color>
 
     <color name="toolbar_solid">#ffffff</color>
     <color name="toolbar_stroke">#dfdfdf</color>
@@ -50,11 +44,9 @@
     <color name="lrc_timeline_color">#809E9E9E</color>
     <color name="lrc_time_text_color">#809E9E9E</color>
 
-    <color name="colorGreen">#d5f2df</color>
-    <color name="colorGreenDeep">#5fb881</color>
-    <color name="colorGreenLight">#30c37c</color>
-    <color name="green_2">#4d9e6c</color>
-    <color name="text">#fe4660</color>
+    <color name="green_main">#30c37c</color>
+    <color name="green_light">#d5f2df</color>
+    <color name="green_deep">#5fb881</color>
 
     <color name="tapeRed">#dd3216</color>
     <color name="tapeBlack">#292929</color>

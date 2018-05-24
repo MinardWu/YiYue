@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.application.YiYueApplication;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayLocalMusicService;
 import com.minardwu.yiyue.utils.CoverLoader;
@@ -72,9 +71,9 @@ public class LocalMusicListItemAdapter extends BaseAdapter {
         if (music.getId() == Preferences.getCurrentSongId()) {
             viewHolder.tv_count.setVisibility(View.GONE);
             viewHolder.iv_playing.setVisibility(View.VISIBLE);
-            viewHolder.tv_count.setTextColor(UIUtils.getColor(R.color.colorGreenDeep));
-            viewHolder.tv_Title.setTextColor(UIUtils.getColor(R.color.colorGreenDeep));
-            viewHolder.tv_Artist.setTextColor(UIUtils.getColor(R.color.colorGreenDeep));
+            viewHolder.tv_count.setTextColor(UIUtils.getColor(R.color.green_deep));
+            viewHolder.tv_Title.setTextColor(UIUtils.getColor(R.color.green_deep));
+            viewHolder.tv_Artist.setTextColor(UIUtils.getColor(R.color.green_deep));
         } else {
             viewHolder.tv_count.setVisibility(View.VISIBLE);
             viewHolder.iv_playing.setVisibility(View.GONE);

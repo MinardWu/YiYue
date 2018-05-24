@@ -69,8 +69,8 @@ public class SearchResultAdapter extends BaseAdapter {
         viewHolder.tv_Artist.setText(artist);
         viewHolder.v_Divider.setVisibility(position != musicList.size() ? View.VISIBLE : View.GONE);
         if ((playOnlineMusicService.getPlayingMusicId()==musicList.get(position).getId())) {
-            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
-            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.colorGreenDeep));
+            viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
+            viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.green_deep));
         } else {
             viewHolder.tv_Title.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.black_80));
             viewHolder.tv_Artist.setTextColor(YiYueApplication.getAppContext().getResources().getColor(R.color.grey));

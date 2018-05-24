@@ -105,7 +105,7 @@ public class MoreOptionOfLocalMusicListExecutor {
                                 dialog1.dismiss();
                             }
                         })
-                        .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                        .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
                 break;

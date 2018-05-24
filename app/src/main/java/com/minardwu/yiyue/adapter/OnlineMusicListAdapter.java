@@ -2,7 +2,6 @@ package com.minardwu.yiyue.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
-import com.minardwu.yiyue.executor.IView;
 import com.minardwu.yiyue.fragment.OnlineMusicListDialogFragment;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
@@ -55,8 +53,8 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter {
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.tv_title.setText(musicBean.getTitle());
         viewHolder.tv_artist.setText(context.getResources().getString(R.string.online_music_list_artist,musicBean.getArtistName()));
-        viewHolder.tv_title.setTextColor(isPlayingMusic ? UIUtils.getColor(R.color.colorGreenLight) : UIUtils.getColor(R.color.black));
-        viewHolder.tv_artist.setTextColor(isPlayingMusic ? UIUtils.getColor(R.color.colorGreenLight) : UIUtils.getColor(R.color.grey));
+        viewHolder.tv_title.setTextColor(isPlayingMusic ? UIUtils.getColor(R.color.green_main) : UIUtils.getColor(R.color.black));
+        viewHolder.tv_artist.setTextColor(isPlayingMusic ? UIUtils.getColor(R.color.green_main) : UIUtils.getColor(R.color.grey));
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

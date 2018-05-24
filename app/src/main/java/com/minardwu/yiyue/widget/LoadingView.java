@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.os.Handler;
 
@@ -52,7 +51,7 @@ public class LoadingView extends View {
         if(loadindText==null){
             loadindText = "正在加载中...";
         }
-        loadindTextColor = typedArray.getColor(R.styleable.LoadingView_loading_text_color,getResources().getColor(R.color.colorGreenLight));
+        loadindTextColor = typedArray.getColor(R.styleable.LoadingView_loading_text_color,getResources().getColor(R.color.green_main));
         loadindTextSize = typedArray.getDimension(R.styleable.LoadingView_loading_text_size,25);
         loadindiconWidth = typedArray.getDimension(R.styleable.LoadingView_ic_loading_width,25);
     }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
@@ -54,7 +53,7 @@ public class AlarmClockDateAdapter extends RecyclerView.Adapter {
         if(checkDates!=null){
             viewHolder.button.setSelected(checkDates.contains(position+1) ? true : false);
             viewHolder.button.setTextColor(checkDates.contains(position+1)
-                    ? UIUtils.getColor(R.color.colorGreenLight)
+                    ? UIUtils.getColor(R.color.green_main)
                     : UIUtils.getColor(R.color.grey));
         }
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +61,7 @@ public class AlarmClockDateAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 viewHolder.button.setSelected(viewHolder.button.isSelected() ? false : true);
                 viewHolder.button.setTextColor(viewHolder.button.isSelected()
-                        ? UIUtils.getColor(R.color.colorGreenLight)
+                        ? UIUtils.getColor(R.color.green_main)
                         : UIUtils.getColor(R.color.grey));
                 if (viewHolder.button.isSelected()){
                     MyDatabaseHelper.init(context).addAlarmClockDate(count[position]);

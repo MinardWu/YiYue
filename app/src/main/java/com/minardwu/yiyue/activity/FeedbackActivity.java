@@ -117,7 +117,7 @@ public class FeedbackActivity extends SampleActivity {
                             dialog.dismiss();
                         }
                     })
-                    .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                    .noTextColor(UIUtils.getColor(R.color.green_main))
                     .build();
             yesOrNoDialog.show();
         }else{

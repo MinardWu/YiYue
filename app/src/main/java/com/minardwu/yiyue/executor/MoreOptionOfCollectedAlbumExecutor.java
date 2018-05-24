@@ -8,7 +8,6 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.AlbumBean;
-import com.minardwu.yiyue.model.ArtistBean;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
@@ -37,7 +36,7 @@ public class MoreOptionOfCollectedAlbumExecutor {
                                 dialog1.dismiss();
                             }
                         })
-                        .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                        .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
                 break;

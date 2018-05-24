@@ -4,7 +4,7 @@
     <item android:state_checked="true">
         <layer-list>
             <item>
-                <color android:color="@color/colorGreenLight"/>
+                <color android:color="@color/green_main"/>
             </item>
             <item android:bottom="2dp">
                 <color android:color="@color/white"/>

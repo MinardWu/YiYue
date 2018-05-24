@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.view.View;
 
 import com.minardwu.yiyue.R;
-import com.minardwu.yiyue.activity.AlbumActivity;
 import com.minardwu.yiyue.activity.ArtistActivity;
 import com.minardwu.yiyue.db.MyDatabaseHelper;
 import com.minardwu.yiyue.model.ArtistBean;
-import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.UIUtils;
 import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
@@ -38,7 +36,7 @@ public class MoreOptionOfCollectedArtistExecutor {
                                 dialog1.dismiss();
                             }
                         })
-                        .noTextColor(UIUtils.getColor(R.color.colorGreenLight))
+                        .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
                 break;

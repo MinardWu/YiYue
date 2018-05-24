@@ -46,8 +46,8 @@ public class OnlineMusicCoverView extends View{
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.OnlineCoverView);
         progressCircleWidth = typedArray.getDimension(R.styleable.OnlineCoverView_progressCircleWidth,25);
-        progressCircleColor = typedArray.getColor(R.styleable.OnlineCoverView_progressCircleColor,getResources().getColor(R.color.colorGreenDeep));
-        progressCircleBackgroundColor = typedArray.getColor(R.styleable.OnlineCoverView_progressCircleBackgroudColor,getResources().getColor(R.color.colorGreen));
+        progressCircleColor = typedArray.getColor(R.styleable.OnlineCoverView_progressCircleColor,getResources().getColor(R.color.green_deep));
+        progressCircleBackgroundColor = typedArray.getColor(R.styleable.OnlineCoverView_progressCircleBackgroudColor,getResources().getColor(R.color.green_light));
         typedArray.recycle();
     }
 
