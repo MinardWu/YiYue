@@ -10,6 +10,7 @@ import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayLocalMusicListener;
 import com.minardwu.yiyue.utils.MusicUtils;
+import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.widget.TapeView;
 
 import butterknife.BindView;
@@ -79,7 +80,8 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
                 }
 
-                if (orientation<45 || orientation>135&&orientation<225 || orientation>315){
+                if (Preferences.enableAutoReversal() &&
+                        (orientation<45 || (orientation>135&&orientation<225) || orientation>315)){
                     finish();
                 }
             }
@@ -120,6 +122,9 @@ public class TapeActivity extends BaseActivity implements OnPlayLocalMusicListen
 
     @Override
     public void onBackPressed() {
-
+        //如果不是横屏自动进入磁带模式，则需要按返回才能finish
+        if(!Preferences.enableAutoReversal()){
+            finish();
+        }
     }
 }

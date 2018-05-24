@@ -75,9 +75,11 @@
     <string name="allow_mobile_download">使用2G/3G/4G网络下载</string>
     <string name="open_now">立即开启</string>
 
+    <string name="clear">清除</string>
     <string name="cache">缓存</string>
     <string name="clear_cache">清除缓存</string>
     <string name="is_clear_cache">是否清除缓存？</string>
+    <string name="clear_cache_success">清除完毕</string>
 
     <string name="local_music_no_exit">该文件不存在，自动播放下一首</string>
 

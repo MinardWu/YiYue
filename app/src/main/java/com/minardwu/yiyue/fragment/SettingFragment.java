@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.widget.dialog.YesOrNoDialog;
 
 /**
@@ -29,10 +30,11 @@ public class SettingFragment extends PreferenceFragment {
                 YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
                         .context(getActivity())
                         .subtitle(R.string.is_clear_cache)
-                        .yes(R.string.sure, new YesOrNoDialog.PositiveClickListener() {
+                        .yes(R.string.clear, new YesOrNoDialog.PositiveClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog, View view) {
                                 dialog.dismiss();
+                                ToastUtils.showShortToast(R.string.clear_cache_success);
                             }
                         })
                         .no(R.string.cancel, new YesOrNoDialog.NegativeClickListener() {
