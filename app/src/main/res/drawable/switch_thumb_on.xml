@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <size
-        android:width="18dp"
-        android:height="18dp">
-    </size>
-    <solid
-        android:color="@color/green_main">
-    </solid>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-</shape>
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <size
+                android:width="18dp"
+                android:height="18dp">
+            </size>
+            <gradient
+                android:type="radial"
+                android:centerX="0.5"
+                android:centerY="0.5"
+                android:startColor="@color/green_main"
+                android:endColor="@color/green_light"
+                android:gradientRadius="18">
+            </gradient>
+        </shape>
+    </item>
+
+    <item android:bottom="1.5dp">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <size
+                android:width="18dp"
+                android:height="18dp">
+            </size>
+            <solid
+                android:color="@color/green_main">
+            </solid>
+
+        </shape>
+    </item>
+
+</layer-list>
