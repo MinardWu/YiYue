@@ -281,25 +281,31 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
             new DownloadLrc(music.getArtistName(),music.getTitle()){
                 @Override
                 public void downloadLrcPrepare() {
-                    iv_local_music_player_play.setTag(music);//设置tag防止歌词下载完成后已切换歌曲
+                    //设置tag防止歌词下载完成后已切换歌曲
+                    iv_local_music_player_play.setTag(music);
                 }
 
                 @Override
                 public void downloadLrcSuccess() {
-                    if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
+                    //若已经切歌则不需要后续操作
+                    if(iv_local_music_player_play.getTag()!=music){
                         return;
                     }
-                    iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
-                    String lrc = FileUtils.getLrcFilePath(music);//下载成功后重新获取路径
+                    //成功或失败后清除Tag
+                    iv_local_music_player_play.setTag(null);
+                    //下载成功后重新获取路径
+                    String lrc = FileUtils.getLrcFilePath(music);
                     loadLrc(lrc);
                 }
 
                 @Override
                 public void downloadLrcFail(FailResult result) {
-                    if(iv_local_music_player_play.getTag()!=music){//若已经切歌则不需要后续操作
+                    //若已经切歌则不需要后续操作
+                    if(iv_local_music_player_play.getTag()!=music){
                         return;
                     }
-                    iv_local_music_player_play.setTag(null);//成功或失败后清除Tag
+                    //成功或失败后清除Tag
+                    iv_local_music_player_play.setTag(null);
                     lrc_localmusic.setLabel(UIUtils.getString(R.string.lrc_can_not_find));
                     lrc_localmusic_single.setLabel(UIUtils.getString(R.string.lrc_can_not_find));
                 }

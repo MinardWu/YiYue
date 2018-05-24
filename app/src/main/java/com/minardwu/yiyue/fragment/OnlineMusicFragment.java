@@ -26,6 +26,7 @@ import com.minardwu.yiyue.http.result.ResultCode;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.service.OnPlayOnlineMusicListener;
 import com.minardwu.yiyue.service.PlayOnlineMusicService;
+import com.minardwu.yiyue.utils.FileUtils;
 import com.minardwu.yiyue.utils.Notifier;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
@@ -124,6 +125,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
                 lrc_onlinelmusic.setLabel(UIUtils.getString(R.string.lrc_pure_music));
             }else{
                 lrc_onlinelmusic.loadLrc(lrc);
+                FileUtils.saveLrc(lrc,music);
             }
         }
         loadCoverByUrl(music.getCoverPath());

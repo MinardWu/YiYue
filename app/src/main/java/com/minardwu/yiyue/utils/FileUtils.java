@@ -15,6 +15,8 @@ import com.minardwu.yiyue.model.MusicBean;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -226,5 +228,26 @@ public class FileUtils {
                 AppCache.updateLocalMusicList();
             }
         });
+    }
+
+    public static void saveLrc(String lrc,MusicBean musicBean){
+        File file = new File(getLrcDir(),
+                musicBean.getArtistName() + " - " + musicBean.getTitle() + ".lrc");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file.getAbsolutePath());
+            fos.write(lrc.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
