@@ -53,8 +53,8 @@ public class DownloadSong {
                 && NetWorkUtils.getNetWorkType()== NetWorkType.MOBILE){
             final YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
                     .context(context)
-                    .title(R.string.is_open_mobile_download)
-                    .yes(R.string.sure, new YesOrNoDialog.PositiveClickListener() {
+                    .subtitle(R.string.is_open_mobile_download)
+                    .yes(R.string.open_now, new YesOrNoDialog.PositiveClickListener() {
                         @Override
                         public void OnClick(YesOrNoDialog dialog, View view) {
                             dialog.dismiss();

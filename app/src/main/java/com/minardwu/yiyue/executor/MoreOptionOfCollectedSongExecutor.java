@@ -58,7 +58,7 @@ public class MoreOptionOfCollectedSongExecutor {
             case 5:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
-                        .title(UIUtils.getString(R.string.is_delete_collected_song))
+                        .subtitle(UIUtils.getString(R.string.is_delete_collected_song))
                         .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog1,View view) {
@@ -73,7 +73,6 @@ public class MoreOptionOfCollectedSongExecutor {
                                 dialog1.dismiss();
                             }
                         })
-                        .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
                 break;

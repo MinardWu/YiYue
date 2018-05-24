@@ -292,6 +292,8 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
             case R.id.iv_back:
                 finish();
                 break;
+            default:
+                break;
         }
     }
 

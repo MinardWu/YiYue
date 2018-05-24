@@ -69,13 +69,13 @@ public class MoreOptionOfLocalMusicListExecutor {
             case 4:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
-                        .title("确定删除该歌曲？")
+                        .subtitle(R.string.is_delete_local_music)
                         .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog1,View view) {
                                 dialog1.dismiss();
                                 if(FileUtils.deleteFile(musicBean.getPath())){
-                                    ToastUtils.showShortToast("删除成功");
+                                    ToastUtils.showShortToast(R.string.delete_success);
                                     if(musicBean.getId() == MusicUtils.getLocalMusicPlayingMusic().getId()){
                                         int tempPosition = MusicUtils.getLocalMusicPlayingPosition();
                                         MusicUtils.removeMusic(musicBean.getId());
@@ -95,7 +95,7 @@ public class MoreOptionOfLocalMusicListExecutor {
                                     }
                                     iView.updateViewForExecutor();
                                 }else {
-                                    ToastUtils.showShortToast("删除失败");
+                                    ToastUtils.showShortToast(R.string.delete_fail);
                                 }
                             }
                         })
@@ -105,7 +105,6 @@ public class MoreOptionOfLocalMusicListExecutor {
                                 dialog1.dismiss();
                             }
                         })
-                        .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
                 break;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +23,17 @@ import com.minardwu.yiyue.utils.UIUtils;
 public class YesOrNoDialog extends Dialog {
 
     TextView tv_title;
-    TextView tv_content;
+    TextView tv_subtitle;
     TextView tv_yes;
     TextView tv_no;
 
     private static Context context;
     private static String title;
-    private static String content;
+    private static String subtitle;
     private static String yes;
     private static String no;
     private static int titleTextColor = 0;
-    private static int contentTextColor = 0;
+    private static int subtitleTextColor = 0;
     private static int yesTextColor = 0;
     private static int noTextColor = 0;
     private static PositiveClickListener positiveClickListener;
@@ -57,6 +58,12 @@ public class YesOrNoDialog extends Dialog {
 
     public static class Builder{
 
+        public Builder(){
+            context = null;
+            title = null;
+            subtitle = null;
+        }
+
         public Builder context(Context c){
             context = c;
             return this;
@@ -72,13 +79,13 @@ public class YesOrNoDialog extends Dialog {
             return this;
         }
 
-        public Builder content(String s){
-            content = s;
+        public Builder subtitle(String s){
+            subtitle = s;
             return this;
         }
 
-        public Builder content(int id){
-            content = UIUtils.getString(id);
+        public Builder subtitle(int id){
+            subtitle = UIUtils.getString(id);
             return this;
         }
 
@@ -112,7 +119,7 @@ public class YesOrNoDialog extends Dialog {
         }
 
         public Builder contentTextColor(int color){
-            contentTextColor = color;
+            subtitleTextColor = color;
             return this;
         }
 
@@ -131,12 +138,13 @@ public class YesOrNoDialog extends Dialog {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_yes_or_no,null);
             dialog.addContentView(view,new ConstraintLayout.LayoutParams(SystemUtils.getScreenWidth()*3/4, ViewGroup.LayoutParams.WRAP_CONTENT));
             dialog.tv_title = view.findViewById(R.id.tv_title);
-            dialog.tv_content = view.findViewById(R.id.tv_content);
+            dialog.tv_subtitle = view.findViewById(R.id.tv_content);
             dialog.tv_yes = view.findViewById(R.id.tv_yes);
             dialog.tv_no = view.findViewById(R.id.tv_no);
 
             dialog.tv_title.setText(title);
-            dialog.tv_content.setText(content);
+            dialog.tv_title.setVisibility(TextUtils.isEmpty(title) ? View.GONE:View.VISIBLE);
+            dialog.tv_subtitle.setText(subtitle);
             dialog.tv_yes.setText(yes);
             dialog.tv_no.setText(no);
 
@@ -162,8 +170,8 @@ public class YesOrNoDialog extends Dialog {
                 dialog.tv_title.setTextColor(titleTextColor);
             }
 
-            if (contentTextColor !=0){
-                dialog.tv_content.setTextColor(contentTextColor);
+            if (subtitleTextColor !=0){
+                dialog.tv_subtitle.setTextColor(subtitleTextColor);
             }
 
             if (yesTextColor !=0){

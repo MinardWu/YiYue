@@ -21,8 +21,8 @@ public class MoreOptionOfCollectedArtistExecutor {
             case 0:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
-                        .title(UIUtils.getString(R.string.is_delete_collected_artist))
-                        .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
+                        .subtitle(R.string.is_delete_collected_artist)
+                        .yes(R.string.sure, new YesOrNoDialog.PositiveClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog1,View view) {
                                 MyDatabaseHelper.init(activity).unfollowArtist(artistBean.getId());
@@ -30,13 +30,12 @@ public class MoreOptionOfCollectedArtistExecutor {
                                 dialog1.dismiss();
                             }
                         })
-                        .no(UIUtils.getString(R.string.cancel), new YesOrNoDialog.NegativeClickListener() {
+                        .no(R.string.cancel, new YesOrNoDialog.NegativeClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog1,View view) {
                                 dialog1.dismiss();
                             }
                         })
-                        .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
                 break;

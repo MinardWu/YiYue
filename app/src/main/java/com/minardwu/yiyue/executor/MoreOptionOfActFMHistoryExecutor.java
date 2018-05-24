@@ -58,8 +58,8 @@ public class MoreOptionOfActFMHistoryExecutor {
             case 5:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
-                        .title(UIUtils.getString(R.string.is_delete_fm_history))
-                        .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
+                        .subtitle(R.string.is_delete_fm_history)
+                        .yes(R.string.sure, new YesOrNoDialog.PositiveClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog1,View view) {
                                 MyDatabaseHelper.init(activity).deleteFMHistory(musicBean);
@@ -67,13 +67,12 @@ public class MoreOptionOfActFMHistoryExecutor {
                                 dialog1.dismiss();
                             }
                         })
-                        .no(UIUtils.getString(R.string.cancel), new YesOrNoDialog.NegativeClickListener() {
+                        .no(R.string.cancel, new YesOrNoDialog.NegativeClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog1,View view) {
                                 dialog1.dismiss();
                             }
                         })
-                        .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
                 break;

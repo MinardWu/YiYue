@@ -28,7 +28,7 @@ public class SettingFragment extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
                         .context(getActivity())
-                        .title(R.string.is_clear_cache)
+                        .subtitle(R.string.is_clear_cache)
                         .yes(R.string.sure, new YesOrNoDialog.PositiveClickListener() {
                             @Override
                             public void OnClick(YesOrNoDialog dialog, View view) {

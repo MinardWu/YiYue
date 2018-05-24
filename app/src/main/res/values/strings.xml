@@ -66,9 +66,14 @@
     <string name="online_music_list_artist">&#160;-&#160;%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="is_delete_local_music">确定删除该歌曲？</string>
+    <string name="delete_success">删除成功</string>
+    <string name="delete_fail">删除失败</string>
+
     <string name="function">功能与服务</string>
     <string name="auto_reversal">横屏自动进入磁带模式</string>
     <string name="allow_mobile_download">使用2G/3G/4G网络下载</string>
+    <string name="open_now">立即开启</string>
 
     <string name="cache">缓存</string>
     <string name="clear_cache">清除缓存</string>
@@ -81,7 +86,7 @@
     <string name="append_online_music_list_success">已添加到播放列表</string>
     <string name="download_begin">开始下载</string>
     <string name="download_success">下载完成</string>
-    <string name="download_fail">下载出错了~</string>
+    <string name="download_fail">下载出错了(Ｔ▽Ｔ)</string>
 
     <string name="tape_view_title">歌曲</string>
     <string name="tape_view_artist">艺术家</string>
