@@ -93,11 +93,6 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
         return adapter;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateOnlineMusicListPositionEvent(PlayNewOnlineMusicEvent event){
         adapter.notifyDataSetChanged();
@@ -111,6 +106,16 @@ public class CollectedSongFragment extends CollectionBaseFragment implements IVi
 
     @Override
     public void updateViewForExecutor() {
+        updateView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateView();
+    }
+
+    private void updateView(){
         list.clear();
         list.addAll(MyDatabaseHelper.init(getActivity()).queryCollectedSong());
         recyclerView.setVisibility(list.size()>0?View.VISIBLE:View.GONE);

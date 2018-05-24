@@ -19,6 +19,12 @@ public class MoreOptionOfCollectedAlbumExecutor {
     public static void execute(final Activity activity, int position, final AlbumBean albumBean, final IView iView){
         switch (position){
             case 0:
+                Intent artistIntent = new Intent(activity, ArtistActivity.class);
+                artistIntent.putExtra(ArtistActivity.ARTIST_ID,albumBean.getArtist().getId());
+                artistIntent.putExtra(ArtistActivity.ARTIST_NAME,albumBean.getArtist().getName());
+                activity.startActivity(artistIntent);
+                break;
+            case 1:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
                         .subtitle(R.string.is_delete_collected_album)
@@ -39,12 +45,6 @@ public class MoreOptionOfCollectedAlbumExecutor {
                         .noTextColor(UIUtils.getColor(R.color.green_main))
                         .build();
                 dialog.show();
-                break;
-            case 1:
-                Intent artistIntent = new Intent(activity, ArtistActivity.class);
-                artistIntent.putExtra(ArtistActivity.ARTIST_ID,albumBean.getArtist().getId());
-                artistIntent.putExtra(ArtistActivity.ARTIST_NAME,albumBean.getArtist().getName());
-                activity.startActivity(artistIntent);
                 break;
             default:
                 break;

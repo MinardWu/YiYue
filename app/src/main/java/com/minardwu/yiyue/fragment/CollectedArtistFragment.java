@@ -74,6 +74,16 @@ public class CollectedArtistFragment extends CollectionBaseFragment implements I
 
     @Override
     public void updateViewForExecutor() {
+        updateView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateView();
+    }
+
+    private void updateView(){
         list.clear();
         list.addAll(MyDatabaseHelper.init(getActivity()).queryFollowedArtist());
         recyclerView.setVisibility(list.size()>0?View.VISIBLE:View.GONE);

@@ -263,7 +263,7 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                 if(myDatabaseHelper.isFollowArtist(artistId)){
                     YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
                             .context(getContext())
-                            .title(UIUtils.getString(R.string.is_delete_collected_artist))
+                            .subtitle(UIUtils.getString(R.string.is_delete_collected_artist))
                             .titleTextColor(UIUtils.getColor(R.color.grey))
                             .yes(UIUtils.getString(R.string.sure), new YesOrNoDialog.PositiveClickListener() {
                                 @Override
@@ -280,7 +280,6 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
                                     dialog.dismiss();
                                 }
                             })
-                            .noTextColor(UIUtils.getColor(R.color.green_main))
                             .build();
                     yesOrNoDialog.show();
                 }else {

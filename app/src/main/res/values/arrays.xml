@@ -206,23 +206,23 @@
     </string-array>
 
     <integer-array name="collected_artist_more_img">
-        <item>@drawable/ic_option_delete</item>
         <item>@drawable/ic_option_singer</item>
+        <item>@drawable/ic_option_delete</item>
     </integer-array>
 
     <string-array name="collected_artist_more_text">
-        <item>删除</item>
         <item>歌手</item>
+        <item>删除</item>
     </string-array>
 
     <integer-array name="collected_album_more_img">
-        <item>@drawable/ic_option_delete</item>
         <item>@drawable/ic_option_singer</item>
+        <item>@drawable/ic_option_delete</item>
     </integer-array>
 
     <string-array name="collected_album_more_text">
-        <item>删除</item>
         <item>歌手</item>
+        <item>删除</item>
     </string-array>
 
 </resources>

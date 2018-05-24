@@ -19,6 +19,12 @@ public class MoreOptionOfCollectedArtistExecutor {
     public static void execute(final Activity activity, int position, final ArtistBean artistBean, final IView iView){
         switch (position){
             case 0:
+                Intent artistIntent = new Intent(activity, ArtistActivity.class);
+                artistIntent.putExtra(ArtistActivity.ARTIST_ID,artistBean.getId());
+                artistIntent.putExtra(ArtistActivity.ARTIST_NAME,artistBean.getName());
+                activity.startActivity(artistIntent);
+                break;
+            case 1:
                 YesOrNoDialog dialog = new YesOrNoDialog.Builder()
                         .context(activity)
                         .subtitle(R.string.is_delete_collected_artist)
@@ -38,18 +44,6 @@ public class MoreOptionOfCollectedArtistExecutor {
                         })
                         .build();
                 dialog.show();
-                break;
-            case 1:
-                Intent artistIntent = new Intent(activity, ArtistActivity.class);
-                artistIntent.putExtra(ArtistActivity.ARTIST_ID,artistBean.getId());
-                artistIntent.putExtra(ArtistActivity.ARTIST_NAME,artistBean.getName());
-                activity.startActivity(artistIntent);
-                break;
-            case 2:
-
-                break;
-            case 3:
-
                 break;
             default:
                 break;

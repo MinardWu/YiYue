@@ -75,6 +75,16 @@ public class CollectedAlbumFragment extends CollectionBaseFragment implements IV
 
     @Override
     public void updateViewForExecutor() {
+        updateView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateView();
+    }
+
+    private void updateView(){
         albumBeanList.clear();
         albumBeanList.addAll(MyDatabaseHelper.init(getActivity()).queryCollectedAlbum());
         recyclerView.setVisibility(albumBeanList.size()>0?View.VISIBLE:View.GONE);
