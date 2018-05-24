@@ -128,6 +128,7 @@ public class GetOnlineArtist {
                             String songAlbumId = hotSong.getJSONObject("al").getString("id");
                             MusicBean musicBean = new MusicBean();
                             musicBean.setType(MusicBean.Type.ONLINE);
+                            musicBean.setArtistId(id);
                             musicBean.setArtistName(name);
                             musicBean.setId(Long.parseLong(songId));
                             musicBean.setTitle(songName);
