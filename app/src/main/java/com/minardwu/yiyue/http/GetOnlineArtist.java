@@ -59,10 +59,7 @@ public class GetOnlineArtist {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
-                if(Preferences.enableUseMockArtistData()){
-                    string = MockData.artistInfo;
-                }
-                Log.v(TAG,string);
+                Log.e(TAG,string);
                 try {
                     JSONObject root = new JSONObject(string);
                     JSONObject result = root.getJSONObject("result");
@@ -104,6 +101,9 @@ public class GetOnlineArtist {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
+                if(Preferences.enableUseMockArtistData()){
+                    string = MockData.artistInfo;
+                }
                 Log.e(TAG,string);
                 try {
                     JSONObject root = new JSONObject(string);

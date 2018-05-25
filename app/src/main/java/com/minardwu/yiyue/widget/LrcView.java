@@ -70,6 +70,7 @@ public class LrcView extends View {
     private boolean isShowTimeline;
     private boolean isTouching;
     private boolean isFling;
+    private boolean canTouch = true;
 
     public interface OnPlayClickListener {
         /**
@@ -361,8 +362,15 @@ public class LrcView extends View {
         canvas.restore();
     }
 
+    public void setCanTouch(boolean b){
+        this.canTouch = b;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!canTouch){
+            return true;
+        }
         if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
             isTouching = false;
             if (hasLrc() && !isFling) {

@@ -56,13 +56,9 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 lrc:lrcAnimationDuration="1000"
-                lrc:lrcCurrentTextColor="@color/black"
                 lrc:lrcDividerHeight="24dp"
-                lrc:lrcNormalTextColor="@color/black_30"
                 lrc:lrcPadding="40dp"
-                lrc:lrcTextSize="16sp"
-                lrc:lrcTimelineColor="#464646"
-                lrc:lrcTimelineTextColor="@color/black" />
+                lrc:lrcTextSize="16sp"/>
 
             <RelativeLayout
                 android:id="@+id/rl_cover_and_single_lrc"
@@ -83,9 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/single_line_lrc_height"
                     lrc:lrcAnimationDuration="1000"
-                    lrc:lrcCurrentTextColor="@color/black"
                     lrc:lrcDividerHeight="10dp"
-                    lrc:lrcNormalTextColor="@color/black_60"
                     lrc:lrcPadding="40dp"
                     lrc:lrcTextSize="16sp" />
 

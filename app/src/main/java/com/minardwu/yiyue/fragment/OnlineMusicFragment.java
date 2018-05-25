@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +83,7 @@ public class OnlineMusicFragment extends Fragment implements OnPlayOnlineMusicLi
         super.onActivityCreated(savedInstanceState);
         ButterKnife.bind(this,getView());
         AppCache.getPlayOnlineMusicService().setPlayOnlineMusicListener(this);
+        lrc_onlinelmusic.setCanTouch(false);
         iv_onlinemusic_download.setOnClickListener(this);
         iv_onlinemusic_play.setOnClickListener(this);
         iv_onlinemusic_next.setOnClickListener(this);

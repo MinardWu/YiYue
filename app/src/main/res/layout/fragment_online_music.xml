@@ -60,12 +60,10 @@
             android:layout_height="@dimen/single_line_lrc_height"
             lrc:lrcAnimationDuration="1000"
             lrc:lrcCurrentTextColor="@color/grey"
+            lrc:lrcNormalTextColor="@color/grey"
             lrc:lrcDividerHeight="24dp"
-            lrc:lrcNormalTextColor="@color/black_60"
             lrc:lrcPadding="40dp"
-            lrc:lrcTextSize="16sp"
-            lrc:lrcTimelineColor="#464646"
-            lrc:lrcTimelineTextColor="#131313" />
+            lrc:lrcTextSize="16sp" />
 
         <LinearLayout
             android:id="@+id/ll_control"

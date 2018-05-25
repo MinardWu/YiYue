@@ -242,7 +242,6 @@ public class ArtistActivity extends BaseActivity implements View.OnClickListener
             default:
                 break;
         }
-        ToastUtils.showShortToast(result.getException());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

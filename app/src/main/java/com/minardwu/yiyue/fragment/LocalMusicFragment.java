@@ -92,6 +92,7 @@ public class LocalMusicFragment extends Fragment implements View.OnClickListener
 
         sb_progress.setOnSeekBarChangeListener(this);
         lrc_localmusic.setOnPlayClickListener(this);
+        lrc_localmusic_single.setCanTouch(false);
 
         iv_local_music_player_playmode.setImageLevel(Preferences.getLocalPlayMode());
         lrc_localmusic.setVisibility(View.GONE);
