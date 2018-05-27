@@ -12,6 +12,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.application.AppCache;
+import com.minardwu.yiyue.http.mock.MockData;
 import com.minardwu.yiyue.utils.Preferences;
 import com.minardwu.yiyue.utils.ToastUtils;
 import com.minardwu.yiyue.utils.UIUtils;
@@ -49,10 +51,11 @@ public class MockControllerActivity extends SampleActivity {
             @Override
             public void onClick(View view) {
                 if (sw_mock_data.isChecked()){
-                    ToastUtils.showShortToast("现在开始使用模拟数据");
+                    AppCache.getPlayOnlineMusicService().replaceMusicList(MockData.musicList);
+                    ToastUtils.showShortToast("现在开始使用模拟歌曲数据");
                     Preferences.saveUseMockData(true);
                 }else {
-                    ToastUtils.showShortToast("取消使用模拟数据");
+                    ToastUtils.showShortToast("取消使用模拟歌曲数据");
                     Preferences.saveUseMockData(false);
                 }
             }

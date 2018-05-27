@@ -23,10 +23,14 @@ public abstract class GetOnlineSongMockData implements GetOnlineSongListener {
      */
     @Override
     public void execute(long id, boolean isClick) {
-        getSongUrlById(index,isClick);
-        index++;
-        if(index==4){
-            index = 0;
+        if (isClick){
+            getSongUrlById(id,isClick);
+        }else {
+            getSongUrlById(index,isClick);
+            index++;
+            if(index==4){
+                index = 0;
+            }
         }
     }
 
@@ -35,16 +39,7 @@ public abstract class GetOnlineSongMockData implements GetOnlineSongListener {
      * @param id 歌曲id
      */
     public void getSongUrlById(final long id, final boolean isClick){
-//        JSONObject root = null;
-//        try {
-//            root = new JSONObject(MockData.songUrlList.get((int)id));
-//            JSONObject data = root.getJSONArray("data").getJSONObject(0);
-//            String url = data.getString("url");
-//            getSongDetailById(id,url);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-        getSongDetailById(id,MockData.songUrlList.get((int)id));
+        getSongDetailById(id,MockData.songUrlList.get(MockData.getIndex(id)));
     }
 
     /**
@@ -55,7 +50,7 @@ public abstract class GetOnlineSongMockData implements GetOnlineSongListener {
     public void getSongDetailById(final long id, final String musicUrl){
         final MusicBean musicBean = new MusicBean();
         try {
-            String i = MockData.songDetailList.get((int)id);
+            String i = MockData.songDetailList.get(MockData.getIndex(id));
             JSONObject root = new JSONObject(i);
             JSONObject detail = root.getJSONArray("songs").getJSONObject(0);
             JSONObject artistInfo = detail.getJSONArray("ar").getJSONObject(0);
@@ -92,7 +87,7 @@ public abstract class GetOnlineSongMockData implements GetOnlineSongListener {
      */
     public void getSongLrcById(final long id,final MusicBean musicBean){
         try {
-            JSONObject root = new JSONObject(MockData.songLrcList.get((int)id));
+            JSONObject root = new JSONObject(MockData.songLrcList.get(MockData.getIndex(id)));
             JSONObject lrc = root.getJSONObject("lrc");
             String lyric = lrc.getString("lyric");
             musicBean.setLrc(lyric);

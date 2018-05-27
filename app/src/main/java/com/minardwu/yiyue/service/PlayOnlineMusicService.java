@@ -178,7 +178,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     playOnlineMusicListener.onGetSongError(result.getResultCode());
                     Log.e(TAG,result.getResultCode()+":"+result.getException());
                 }
-            }.execute(new Random().nextInt(5),false);
+            }.execute(id,true);
             return;
         }
         new GetOnlineSong() {
