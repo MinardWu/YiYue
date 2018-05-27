@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.activity.SearchActivity;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.model.MusicBean;
 import com.minardwu.yiyue.utils.FileUtils;
@@ -34,10 +35,14 @@ public class MoreOptionOfLocalMusicListExecutor {
                 //position==0逻辑放在外面执行，不会跳到这里
                 break;
             case 1:
-
+                Intent searchArtistIntent = new Intent(activity, SearchActivity.class);
+                searchArtistIntent.putExtra(SearchActivity.SEARCH_VALUE,musicBean.getArtistName());
+                activity.startActivity(searchArtistIntent);
                 break;
             case 2:
-
+                Intent searchAlbumIntent = new Intent(activity, SearchActivity.class);
+                searchAlbumIntent.putExtra(SearchActivity.SEARCH_VALUE,musicBean.getAlbum());
+                activity.startActivity(searchAlbumIntent);
                 break;
             case 3:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -63,7 +68,7 @@ public class MoreOptionOfLocalMusicListExecutor {
                         Toast.makeText(activity,"设置来电铃声成功！", Toast.LENGTH_SHORT ).show();
                     }
                 } else {
-                    //dosomething();
+
                 }
                 break;
             case 4:

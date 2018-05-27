@@ -3,6 +3,7 @@ package com.minardwu.yiyue.activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -67,6 +68,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     LinearLayout empty_view;
 
     private static final String TAG = "SearchActivity";
+    public static final String SEARCH_VALUE = "search_value";
 
     private List<String> searchHistoryList = new ArrayList<String>();
     private SearchResultAdapter adapter;
@@ -88,11 +90,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         headerView = LayoutInflater.from(SearchActivity.this).inflate(R.layout.list_search_result_header,null);
         iv_artist = headerView.findViewById(R.id.iv_search_artist);
         tv_artist = headerView.findViewById(R.id.tv_search_artist);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         et_search.setOnEditorActionListener(this);
         iv_toolbar_back.setOnClickListener(this);
         tv_clear_history.setOnClickListener(this);
@@ -103,13 +100,22 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             button.setText(history);
             button.setMinHeight(0);
             button.setMinWidth(0);
-            button.setMinimumHeight(0);//View中的方法 改变View中的mMinHeight
-            button.setMinimumWidth(0);//View中的方法  改变View中的mMinWidth
+            //View中的方法 改变View中的mMinHeight
+            button.setMinimumHeight(0);
+            button.setMinimumWidth(0);
             button.setBackgroundResource(R.drawable.btn_search_history);
             button.setOnClickListener(this);
             button_layout.addView(button);
         }
+        if (getIntent()!=null){
+            String value = getIntent().getStringExtra(SEARCH_VALUE);
+            if (!TextUtils.isEmpty(value)){
+                executeSearch(value);
+                et_search.setText(value);
+            }
+        }
     }
+
 
     @Override
     public void onClick(View view) {
@@ -124,7 +130,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             String content = btn.getText().toString();
             et_search.setText(content);
             executeSearch(content);
-            MyDatabaseHelper.init(getContext()).updateSearchHistory(content);
         }
     }
 
@@ -136,16 +141,14 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 || event == null
                 || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
             String content = textView.getText().toString();
-            MyDatabaseHelper.init(getContext()).insertSearchHistory(content);
             executeSearch(content);
-            onResume();
             return true;
         }
-
         return false;
     }
 
     private void executeSearch(final String content){
+        MyDatabaseHelper.init(getContext()).insertSearchHistory(content);
         empty_view.setVisibility(View.GONE);
         ll_search_history.setVisibility(View.GONE);
         lv_search_result.setVisibility(View.GONE);
