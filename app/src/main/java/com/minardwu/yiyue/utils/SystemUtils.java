@@ -101,7 +101,7 @@ public class SystemUtils {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return localVersion;
+        return "v"+localVersion;
     }
 
     public static boolean checkReadPermission() {

@@ -171,8 +171,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onClick(int position,boolean isCheck) {
                 switch (position){
                     case 0:
-                        break;
-                    case 1:
                         if(isCheck){
                             Preferences.savePlayWhenOnlyHaveWifi(true);
                         }else {
