@@ -51,7 +51,7 @@ public class ChooseOptionAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if(view==null){
             viewHolder = new ViewHolder();
-            view = LayoutInflater.from(mcontext).inflate(R.layout.list_stoptime,null);
+            view = LayoutInflater.from(mcontext).inflate(R.layout.list_choose_option,null);
             viewHolder.textView = view.findViewById(R.id.tv_stop_time);
             viewHolder.imageView = view.findViewById(R.id.iv_stop_time);
             view.setTag(viewHolder);
