@@ -41,7 +41,7 @@
     <color name="lrc_normal_text_color">@color/black_30</color>
     <color name="lrc_current_text_color">@color/black</color>
     <color name="lrc_timeline_text_color">@color/black</color>
-    <color name="lrc_timeline_color">@color/black</color>
+    <color name="lrc_timeline_color">@color/black_30</color>
     <color name="lrc_time_text_color">@color/black</color>
 
     <color name="green_main">#30c37c</color>
