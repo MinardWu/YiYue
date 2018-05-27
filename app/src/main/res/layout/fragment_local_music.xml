@@ -21,8 +21,7 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/line_left_gradient"
                 android:layout_width="80dp"
-                android:layout_height="1dp"
-                />
+                android:layout_height="1dp" />
 
             <TextView
                 android:gravity="center_vertical"
@@ -40,6 +39,7 @@
                 android:background="@drawable/line_right_gradient"
                 android:layout_width="80dp"
                 android:layout_height="1dp"/>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -78,6 +78,7 @@
                     android:id="@+id/lrc_localmusic_single"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/single_line_lrc_height"
+                    lrc:lrcNormalTextColor="@color/black"
                     lrc:lrcAnimationDuration="1000"
                     lrc:lrcDividerHeight="10dp"
                     lrc:lrcPadding="40dp"
