@@ -61,7 +61,7 @@ public class DrawerItemExecutor {
                     public void onClick(View view, int position) {
                         Preferences.saveFilterTimePosition(position);
                         Preferences.saveFilterTime(second[position]);
-                        ToastUtils.showShortToast(second[position]+"");
+                        AppCache.updateLocalMusicList();
                     }
                 });
                 timeFilterDialog.show();
@@ -77,7 +77,7 @@ public class DrawerItemExecutor {
                     public void onClick(View view, int position) {
                         Preferences.saveFilterSizePosition(position);
                         Preferences.saveFilterSize(size[position]);
-                        ToastUtils.showShortToast(size[position]+"");
+                        AppCache.updateLocalMusicList();
                     }
                 });
                 sizeFilterDialog.show();
@@ -99,6 +99,8 @@ public class DrawerItemExecutor {
                 break;
             case "音乐闹钟":
                 activity.startActivity(new Intent(activity, AlarmClockActivity.class));
+                break;
+            default:
                 break;
         }
     }
