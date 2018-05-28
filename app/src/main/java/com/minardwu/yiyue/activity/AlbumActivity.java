@@ -70,8 +70,6 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     RecyclerView rl_album_songs;
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout collapsing_toolbar_layout;
-    @BindView(R.id.iv_bg)
-    ImageView iv_bg;
     @BindView(R.id.iv_album_cover)
     ImageView iv_album_cover;
     @BindView(R.id.tv_album_name)
@@ -86,6 +84,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     LoadingView loading_view;
     @BindView(R.id.root)
     CoordinatorLayout root;
+    @BindView(R.id.collected_layout)
+    LinearLayout collected_layout;
     @BindView(R.id.ll_ic_album_collected)
     LinearLayout ll_ic_album_collected;
     @BindView(R.id.ll_ic_album_artist)
@@ -146,10 +146,10 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         toolbarLayoutParams.setCollapseMode(CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN);
         toolbar.setLayoutParams(toolbarLayoutParams);
         toolbar.setPadding(0,toolbarPadding,0,0);
-        RelativeLayout.LayoutParams albumCoverLayoutParams = new RelativeLayout.LayoutParams(UIUtils.dp2px(this,120),UIUtils.dp2px(this,120));
         tv_toolbar_album_name.setText("专辑");
-        albumCoverLayoutParams.setMargins(UIUtils.dp2px(this,18),toolbarPadding+toolbarOriginHeight+UIUtils.dp2px(this,8),0,0);
-        iv_album_cover.setLayoutParams(albumCoverLayoutParams);
+//        RelativeLayout.LayoutParams albumCoverLayoutParams = new RelativeLayout.LayoutParams(UIUtils.dp2px(this,120),UIUtils.dp2px(this,120));
+//        albumCoverLayoutParams.setMargins(UIUtils.dp2px(this,18),toolbarPadding+toolbarOriginHeight+UIUtils.dp2px(this,8),0,0);
+//        iv_album_cover.setLayoutParams(albumCoverLayoutParams);
         setTitleToCollapsingToolbarLayout();
     }
 
@@ -164,9 +164,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
                 iv_album_cover.setImageBitmap(bitmap);
                 root.setBackground(new BitmapDrawable(blurBitmap));
-                toolbar.setBackground(new BitmapDrawable(toolbarBitmap));
-                toolbar.getBackground().setAlpha(0);
-                //iv_bg.setImageBitmap(blurBitmap);
+//                toolbar.setBackground(new BitmapDrawable(toolbarBitmap));
+//                toolbar.getBackground().setAlpha(0);
             }
 
             @Override
@@ -243,7 +242,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int offsetWhenCollapse = appBarLayout.getTotalScrollRange();
-                toolbar.getBackground().setAlpha((int)((float)Math.abs(verticalOffset)/(float)offsetWhenCollapse*255));
+                collected_layout.setAlpha(1f-(float)Math.abs(verticalOffset)/(float)offsetWhenCollapse);
                 if (Math.abs(verticalOffset) == offsetWhenCollapse) {
                     tv_toolbar_album_name.setText(albumName);
                 } else {
@@ -317,6 +316,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                 Intent intent = new Intent(AlbumActivity.this, MultipleChoseMusicActivity.class);
                 intent.putParcelableArrayListExtra("musicList",list);
                 startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

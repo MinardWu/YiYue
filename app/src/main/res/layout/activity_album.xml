@@ -1,102 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.minardwu.yiyue.activity.AlbumActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:background="@color/transparent"
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="300dp"
+        android:background="@color/transparent"
+        android:theme="@style/AppBarStyle">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:background="@color/transparent"
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/transparent"
+            app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
-                android:background="@color/transparent"
                 android:id="@+id/rl_top"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/iv_bg"
-                    android:background="#fff"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.7" />
+                android:layout_height="match_parent"
+                android:background="@color/transparent">
 
                 <ImageView
                     android:id="@+id/iv_album_cover"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginLeft="18dp"
-                    android:src="@drawable/default_cover"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="100dp"
+                    android:src="@drawable/default_cover"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.7" />
 
                 <TextView
                     android:id="@+id/tv_album_name"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@id/iv_album_cover"
-                    android:layout_alignTop="@+id/iv_album_cover"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/iv_album_cover"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/iv_album_cover"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_album_artist"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp"
-                    android:layout_alignLeft="@+id/tv_album_name"
-                    android:layout_above="@+id/tv_album_time"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tv_album_time"
+                    android:layout_alignLeft="@+id/tv_album_name"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
                     android:id="@+id/tv_album_time"
-                    android:layout_marginBottom="8dp"
-                    android:layout_alignLeft="@+id/tv_album_name"
-                    android:layout_alignBottom="@+id/iv_album_cover"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/iv_album_cover"
+                    android:layout_alignLeft="@+id/tv_album_name"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
-                <include layout="@layout/album_option"
-                    android:layout_marginTop="30dp"
-                    android:layout_below="@id/iv_album_cover"
+                <include
+                    android:id="@+id/collected_layout"
+                    layout="@layout/album_option"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@id/iv_album_cover"
+                    android:layout_marginTop="30dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"/>
+                    android:paddingRight="8dp" />
 
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
-                android:background="@color/transparent"
-                android:layout_marginTop="@dimen/toolbar_paddingTop_top"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/toolbar_paddingTop_top"
+                android:background="@color/transparent"
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin">
@@ -107,22 +99,22 @@
 
                     <ImageView
                         android:id="@+id/iv_back"
-                        android:layout_marginLeft="16dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_back_white"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp" />
+                        android:layout_marginLeft="16dp"
+                        android:src="@drawable/ic_back_white" />
 
                     <TextView
-                        android:textColor="@color/white"
                         android:id="@+id/tv_toolbar_album_name"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/iv_back"
-                        android:layout_marginLeft="16dp"
-                        android:textSize="18sp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toRightOf="@id/iv_back"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                 </RelativeLayout>
 
@@ -133,31 +125,29 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:background="@drawable/bg_radius"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_radius"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.minardwu.yiyue.widget.LoadingView
             android:id="@+id/loading_view"
-            android:layout_marginTop="80dp"
-            android:layout_gravity="center_horizontal"
-            app:loading_text_size="14sp"
-            app:loading_text_color="#393a3b"
-            app:ic_loading_width="24dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            app:ic_loading_width="24dp"
+            app:loading_text_color="#393a3b"
+            app:loading_text_size="14sp" />
 
         <android.support.v7.widget.RecyclerView
-            android:background="@drawable/bg_radius"
             android:id="@+id/rl_album_songs"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_radius" />
 
     </LinearLayout>
-
 
 
 </android.support.design.widget.CoordinatorLayout>
