@@ -66,6 +66,8 @@
     <string name="online_music_list_artist">&#160;-&#160;%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="local_search_no_result">未找到与\"%s\"相关的内容</string>
+
     <string name="is_delete_local_music">确定删除该歌曲？</string>
     <string name="delete_success">删除成功</string>
     <string name="delete_fail">删除失败</string>

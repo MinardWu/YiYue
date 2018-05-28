@@ -53,7 +53,7 @@ public class SearchLocalMusicAdapter extends RecyclerView.Adapter{
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int p = MusicUtils.getLocalMusicPlayingPosition();
+                int p = MusicUtils.getLocalMusicPosition(music.getId());
                 AppCache.getPlayLocalMusicService().play(p);
                 SystemUtils.startMainActivity((Activity) context, MainActivity.LOCAL);
             }

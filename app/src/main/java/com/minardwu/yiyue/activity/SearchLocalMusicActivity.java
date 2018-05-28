@@ -84,6 +84,7 @@ public class SearchLocalMusicActivity extends BaseActivity implements TextWatche
                 tv_empty.setVisibility(View.GONE);
             }else {
                 rv_local_music_search_result.setVisibility(View.GONE);
+                tv_empty.setText(getContext().getString(R.string.local_search_no_result,content));
                 tv_empty.setVisibility(View.VISIBLE);
             }
         }
