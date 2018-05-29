@@ -39,12 +39,12 @@
         android:layout_height="wrap_content" />
 
     <ImageView
-        fresco:layout_constraintRight_toRightOf="parent"
         android:id="@+id/iv_more"
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_pressed"
+        android:background="@drawable/bg_pressed_mask"
         android:scaleType="center"
+        fresco:layout_constraintRight_toRightOf="parent"
         android:src="@drawable/ic_music_list_icon_more" />
 
     <View
