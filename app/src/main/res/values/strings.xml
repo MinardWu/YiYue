@@ -83,6 +83,9 @@
     <string name="is_clear_cache">是否清除缓存？</string>
     <string name="clear_cache_success">清除完毕</string>
 
+    <string name="other">其他</string>
+    <string name="about_author">关于作者</string>
+
     <string name="local_music_no_exit">该文件不存在，自动播放下一首</string>
 
     <string name="is_open_mobile_download">是否打开2G/3G/4G网络下载开关?</string>

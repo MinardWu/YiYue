@@ -23,8 +23,8 @@ public class SettingFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         this.addPreferencesFromResource(R.xml.preference);
 
-        Preference preference = findPreference("clear_lrc_cache");
-        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference clear_lrc_cache = findPreference("clear_lrc_cache");
+        clear_lrc_cache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
@@ -45,6 +45,15 @@ public class SettingFragment extends PreferenceFragment {
                         })
                         .build();
                 yesOrNoDialog.show();
+                return false;
+            }
+        });
+
+        Preference about_author = findPreference("about_author");
+        about_author.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ToastUtils.showShortToast("MinardWu");
                 return false;
             }
         });

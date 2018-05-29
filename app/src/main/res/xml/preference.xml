@@ -24,4 +24,13 @@
             android:layout="@layout/preference_normal_layout"/>
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/other"
+        android:layout="@layout/preference_category_layout">
+        <Preference
+            android:key="about_author"
+            android:title="@string/about_author"
+            android:layout="@layout/preference_normal_layout"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>
