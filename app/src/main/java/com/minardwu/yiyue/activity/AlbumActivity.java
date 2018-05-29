@@ -256,11 +256,11 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         if (isCollected){
             iv_album_collected.setSelected(true);
             tv_album_collected.setText("已收藏");
-            tv_album_collected.setTextColor(UIUtils.getColor(R.color.green_main));
+            //tv_album_collected.setTextColor(UIUtils.getColor(R.color.green_main));
         }else {
             iv_album_collected.setSelected(false);
             tv_album_collected.setText("收藏");
-            tv_album_collected.setTextColor(UIUtils.getColor(R.color.white));
+            //tv_album_collected.setTextColor(UIUtils.getColor(R.color.white));
         }
     }
 
