@@ -63,7 +63,7 @@ public class StopTimeDialog extends Dialog {
                     QuitTimer.getInstance().stop();
                     ToastUtils.showShortToast("定时停止播放已停止");
                 }else {
-                    QuitTimer.getInstance().start(i*10*1000);
+                    QuitTimer.getInstance().start(i*10*60*1000);
                     ToastUtils.showShortToast("将在"+i*10+"分钟后停止播放");
                 }
             }

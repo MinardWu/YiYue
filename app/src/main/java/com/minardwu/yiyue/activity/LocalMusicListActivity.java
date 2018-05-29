@@ -88,6 +88,7 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
                 Preferences.setLocalMusicOrderType(position);
                 Collections.sort(AppCache.getLocalMusicList(),new MusicUtils.MusicComparator());
                 EventBus.getDefault().post(new UpdateLocalMusicListEvent(1));
+                getPlayLocalMusicService().updatePlayingPosition();
             }
         });
         sortDialog.show();
@@ -104,7 +105,7 @@ public class LocalMusicListActivity extends BaseActivity implements IView{
         localMusicListItemAdapter.setLocalMusicListItemAdapterLinster(new LocalMusicListItemAdapter.LocalMusicListItemAdapterLinster() {
             @Override
             public void onItemClick(int position) {
-                if(position== getPlayLocalMusicService().getPlayingPosition()){
+                if(AppCache.getLocalMusicList().get(position).getId() == MusicUtils.getLocalMusicPlayingMusic().getId()){
                     if(getPlayLocalMusicService().isPlaying()){
                         finish();
                     }else {
