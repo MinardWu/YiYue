@@ -51,8 +51,8 @@ public class AlarmClockDateAdapter extends RecyclerView.Adapter {
         viewHolder.button.setText(dates[position]);
         checkDates = MyDatabaseHelper.init(context).queryAlarmClockDate();
         if(checkDates!=null){
-            viewHolder.button.setSelected(checkDates.contains(position+1) ? true : false);
-            viewHolder.button.setTextColor(checkDates.contains(position+1)
+            viewHolder.button.setSelected(checkDates.contains(count[position]) ? true : false);
+            viewHolder.button.setTextColor(checkDates.contains(count[position])
                     ? UIUtils.getColor(R.color.green_main)
                     : UIUtils.getColor(R.color.grey));
         }
