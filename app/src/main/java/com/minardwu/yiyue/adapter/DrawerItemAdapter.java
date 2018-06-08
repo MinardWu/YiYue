@@ -32,15 +32,16 @@ public class DrawerItemAdapter extends BaseAdapter {
 
     public DrawerItemAdapter(Context context){
         this.mContext = context;
+
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_love,R.string.drawer_item_collection,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_foot,R.string.drawer_item_fm_history,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(2, 0,0,null,false));
+
         drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_balancer,R.string.drawer_item_sound_effect,null,false));
         drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_clock,R.string.drawer_item_stop_time,null,false));
         drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_filter,R.string.drawer_item_filter_time,null,false));
         drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_filter,R.string.drawer_item_filter_size,null,false));
         drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_alarm_clock,R.string.drawer_item_alarm_clock,null,false));
-        drawerItemBeanList.add(new DrawerItemBean(2, 0,0,null,false));
-
-        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_love,R.string.drawer_item_collection,null,false));
-        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_foot,R.string.drawer_item_fm_history,null,false));
         drawerItemBeanList.add(new DrawerItemBean(2, 0,0,null,false));
 
         drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_feedback,R.string.drawer_item_feedback,"帮助我们",false));
