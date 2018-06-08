@@ -24,10 +24,11 @@ public class Preferences {
     private static final String ALARM_CLOCK_REPEAT = "alarm_clock_repeat";
     private static final String STOP_TIME = "stop_time";
     private static final String QUIT_TILL_SONG_END = "quit_till_song_end";
-    private static final String FITLER_TIME_POSITION = "filter_time_position";
-    private static final String FITLER_SIZE_POSITION = "filter_size_position";
+    private static final String FILTER_TIME_POSITION = "filter_time_position";
+    private static final String FILTER_SIZE_POSITION = "filter_size_position";
     private static final String PLAY_ONLINE_LIST = "play_online_list";
     private static final String AUTO_REVERSAL = "auto_reversal";
+    private static final String ALLOW_MOBILE_PLAY = "allow_mobile_play";
     private static final String ALLOW_MOBILE_DOWNLOAD = "allow_mobile_download";
 
 
@@ -171,14 +172,6 @@ public class Preferences {
         saveString(SPLASH_URL, url);
     }
 
-    public static boolean enablePlayWhenOnlyHaveWifi() {
-        return getBoolean(sContext.getString(R.string.setting_key_mobile_network_play), false);
-    }
-
-    public static void savePlayWhenOnlyHaveWifi(boolean enable) {
-        saveBoolean(sContext.getString(R.string.setting_key_mobile_network_play), enable);
-    }
-
     public static boolean enableUseMockData() {
         return getBoolean(USE_MOCK_DATA, false);
     }
@@ -217,6 +210,14 @@ public class Preferences {
 
     public static void saveAutoReversal(boolean enable) {
         saveBoolean(AUTO_REVERSAL, enable);
+    }
+
+    public static boolean enableAllowMobilePlay() {
+        return getBoolean(ALLOW_MOBILE_PLAY, false);
+    }
+
+    public static void saveAllowMobilePlay(boolean enable) {
+        saveBoolean(ALLOW_MOBILE_PLAY, enable);
     }
 
     public static boolean enableAllowMobileDownload() {
@@ -280,11 +281,11 @@ public class Preferences {
     }
 
     public static int getFilterSizePosition() {
-        return getInt(FITLER_SIZE_POSITION, 0);
+        return getInt(FILTER_SIZE_POSITION, 0);
     }
 
     public static void saveFilterSizePosition(int value) {
-        saveInt(FITLER_SIZE_POSITION, value);
+        saveInt(FILTER_SIZE_POSITION, value);
     }
 
     public static long getFilterTime() {
@@ -296,11 +297,11 @@ public class Preferences {
     }
 
     public static int getFilterTimePosition() {
-        return getInt(FITLER_TIME_POSITION, 0);
+        return getInt(FILTER_TIME_POSITION, 0);
     }
 
     public static void saveFilterTimePosition(int value) {
-        saveInt(FITLER_TIME_POSITION, value);
+        saveInt(FILTER_TIME_POSITION, value);
     }
 
 }

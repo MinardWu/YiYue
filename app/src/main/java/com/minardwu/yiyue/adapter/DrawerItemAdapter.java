@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.model.DrawerItemBean;
-import com.minardwu.yiyue.utils.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,24 +30,37 @@ public class DrawerItemAdapter extends BaseAdapter {
     Context mContext;
     List<DrawerItemBean> drawerItemBeanList = new ArrayList<DrawerItemBean>();
 
-    public DrawerItemAdapter(Context context,int imgIdArray,int stringArray,int typeArray){
+    public DrawerItemAdapter(Context context){
         this.mContext = context;
-        initData(imgIdArray,stringArray,typeArray);
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_balancer,R.string.drawer_item_sound_effect,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_clock,R.string.drawer_item_stop_time,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_filter,R.string.drawer_item_filter_time,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_filter,R.string.drawer_item_filter_size,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_alarm_clock,R.string.drawer_item_alarm_clock,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(2, 0,0,null,false));
+
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_love,R.string.drawer_item_collection,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_foot,R.string.drawer_item_fm_history,null,false));
+        drawerItemBeanList.add(new DrawerItemBean(2, 0,0,null,false));
+
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_feedback,R.string.drawer_item_feedback,"帮助我们",false));
+        drawerItemBeanList.add(new DrawerItemBean(0, R.drawable.ic_info,R.string.drawer_item_info,null,false));
     }
 
-    void initData(int imgIdArray,int stringArray,int typeArray){
-        TypedArray typedArray = mContext.getResources().obtainTypedArray(imgIdArray);
-        int[] resIds = new int[typedArray.length()];
-        for (int i = 0; i < typedArray.length(); i++)
-            resIds[i] = typedArray.getResourceId(i, 0);
-        int[] types = mContext.getResources().getIntArray(typeArray);
-        String[] titles = mContext.getResources().getStringArray(stringArray);
-        for(int i=0;i<titles.length;i++){
-            drawerItemBeanList.add(new DrawerItemBean(types[i],resIds[i],titles[i],"",false));
-        }
-        setDrawerItemBeanState(0, Preferences.enablePlayWhenOnlyHaveWifi());
-        setDrawerItemBeanInfo(11,"帮助我们");
-    }
+//    void initData(int imgIdArray,int stringArray,int typeArray){
+//        TypedArray typedArray = mContext.getResources().obtainTypedArray(imgIdArray);
+//        int[] resIds = new int[typedArray.length()];
+//        for (int i = 0; i < typedArray.length(); i++){
+//            resIds[i] = typedArray.getResourceId(i, 0);
+//        }
+//        int[] types = mContext.getResources().getIntArray(typeArray);
+//        String[] titles = mContext.getResources().getStringArray(stringArray);
+//        for(int i=0;i<titles.length;i++){
+//            drawerItemBeanList.add(new DrawerItemBean(types[i],resIds[i],titles[i],"",false));
+//        }
+//        setDrawerItemBeanState(0, Preferences.enablePlayWhenOnlyHaveWifi());
+//        setDrawerItemBeanInfo(11,"帮助我们");
+//    }
 
     public void setDrawerItemBeanInfo(int position,String info){
         drawerItemBeanList.get(position).setInfo(info);
@@ -145,6 +157,8 @@ public class DrawerItemAdapter extends BaseAdapter {
                 }else {
                     emptyViewHolder = (EmptyViewHolder) convertView.getTag();
                 }
+                break;
+            default:
                 break;
         }
         return convertView;

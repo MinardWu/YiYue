@@ -55,7 +55,7 @@
     <string name="network_error">网络连接失败，请检查你的网络设置</string>
     <string name="server_error">服务端开小差了~</string>
     <string name="artist_no_found">找不到该歌手~</string>
-    <string name="wifi_tips">当前处于使用流量状态下，若要播放请关闭\"仅WIFI播放\"开关~</string>
+    <string name="wifi_tips">当前处于使用流量状态下，若要播放请打开2G/3G/4G播放开关~</string>
     <string name="lrc_label">暂无歌词</string>
     <string name="multiple_choice">多选</string>
     <string name="collection_song">歌曲</string>
@@ -74,6 +74,7 @@
 
     <string name="function">功能与服务</string>
     <string name="auto_reversal">横屏自动进入磁带模式</string>
+    <string name="allow_mobile_play">使用2G/3G/4G网络播放</string>
     <string name="allow_mobile_download">使用2G/3G/4G网络下载</string>
     <string name="open_now">立即开启</string>
 

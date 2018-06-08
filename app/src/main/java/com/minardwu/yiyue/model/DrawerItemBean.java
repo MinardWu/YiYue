@@ -1,21 +1,28 @@
 package com.minardwu.yiyue.model;
 
+import com.minardwu.yiyue.utils.UIUtils;
+
 /**
  * Created by MinardWu on 2017/12/29.
  */
 
 public class DrawerItemBean {
 
+    /**
+     * 0 普通
+     * 1 开关
+     * 2 间隔
+     */
     private int type;
     private int imgId;
-    private String title;
+    private int titleId;
     private String info;
     private boolean state;
 
-    public DrawerItemBean(int type, int imgId, String title, String info, boolean state) {
+    public DrawerItemBean(int type, int imgId, int titleId, String info, boolean state) {
         this.type = type;
         this.imgId = imgId;
-        this.title = title;
+        this.titleId = titleId;
         this.info = info;
         this.state = state;
     }
@@ -36,12 +43,16 @@ public class DrawerItemBean {
         this.imgId = imgId;
     }
 
-    public String getTitle() {
-        return title;
+    public int getTitleId() {
+        return titleId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleId(int titleId) {
+        this.titleId = titleId;
+    }
+
+    public String getTitle() {
+        return UIUtils.getString(titleId);
     }
 
     public String getInfo() {

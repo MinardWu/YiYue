@@ -164,18 +164,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             drawerLayout.setClipToPadding(false);
         }
         //初始化侧边栏
-        drawerItemAdapter = new DrawerItemAdapter(this,R.array.drawer_img,R.array.drawer_title,R.array.drawer_type);
-
+        drawerItemAdapter = new DrawerItemAdapter(this);
         drawerItemAdapter.setSwitchClickListener(new DrawerItemAdapter.OnSwitchClickListener() {
             @Override
             public void onClick(int position,boolean isCheck) {
                 switch (position){
                     case 0:
-                        if(isCheck){
-                            Preferences.savePlayWhenOnlyHaveWifi(true);
-                        }else {
-                            Preferences.savePlayWhenOnlyHaveWifi(false);
-                        }
                         break;
                     default:
                         break;
