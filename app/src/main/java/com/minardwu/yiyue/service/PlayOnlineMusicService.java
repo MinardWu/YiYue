@@ -193,7 +193,7 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
                     e.printStackTrace();
                 }
                 mediaPlayer.setOnPreparedListener(preparedListener);
-                mediaPlayer.prepareAsync();//在线播放音频，使用prepareAsync()
+                mediaPlayer.prepareAsync();//异步加载资源
                 setPlayState(STATE_PREPARING);
             }
 
