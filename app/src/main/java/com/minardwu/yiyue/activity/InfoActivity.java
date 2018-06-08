@@ -19,13 +19,15 @@ import com.minardwu.yiyue.utils.UIUtils;
 public class InfoActivity extends SampleActivity {
 
     private TextView tv_version;
+    private ImageView iv_info_logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_version = findViewById(R.id.tv_version);
+        iv_info_logo = findViewById(R.id.iv_info_logo);
         tv_version.setText(SystemUtils.getLocalVersionName(this));
-        tv_version.setOnLongClickListener(new View.OnLongClickListener() {
+        iv_info_logo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 startActivity(new Intent(InfoActivity.this,MockControllerActivity.class));

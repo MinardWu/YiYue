@@ -394,7 +394,9 @@ public class PlayLocalMusicService extends PlayService implements MediaPlayer.On
             }
         }
         playingPosition = position;
-        Preferences.saveCurrentSongId(AppCache.getLocalMusicList().get(playingPosition).getId());
+        if(AppCache.getLocalMusicList().size()>0){
+            Preferences.saveCurrentSongId(AppCache.getLocalMusicList().get(playingPosition).getId());
+        }
     }
 
     public int getAudioSessionId() {
