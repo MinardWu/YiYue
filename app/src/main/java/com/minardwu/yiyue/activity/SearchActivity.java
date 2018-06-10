@@ -97,6 +97,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         searchHistoryList = MyDatabaseHelper.init(getContext()).querySearchHistory();
         for (String history:searchHistoryList){
             Button button = new Button(this);
+            button.setAllCaps(false);
             button.setText(history);
             button.setMinHeight(0);
             button.setMinWidth(0);
