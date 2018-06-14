@@ -10,14 +10,16 @@
 
 ## 截图
 <div style="display:inline">
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/本地模块.png" width="360" height="600" alt="本地模块"/>
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/歌词.png" width="360" height="600" alt="歌词"/>
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/在线模块.png" width="360" height="600" alt="在线模块"/>
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/在线列表.png" width="360" height="600" alt="在线列表"/>
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/搜索.png" width="360" height="600" alt="搜索"/>
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/收藏.png" width="360" height="600" alt="收藏"/>
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/歌手.png" width="360" height="600" alt="歌手"/>
- <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/专辑.png" width="360" height="600" alt="专辑"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/本地模块.png" width="360" height="700" alt="本地模块"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/歌词.png" width="360" height="700" alt="歌词"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/在线模块.png" width="360" height="700" alt="在线模块"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/在线列表.png" width="360" height="700" alt="在线列表"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/搜索.png" width="360" height="700" alt="搜索"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/搜索结果.png" width="360" height="700" alt="搜索结果"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/收藏.png" width="360" height="700" alt="收藏"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/闹钟.png" width="360" height="700" alt="闹钟"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/歌手.png" width="360" height="700" alt="歌手"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/专辑.png" width="360" height="700" alt="专辑"/>
 </div>
 
 ## TODO
