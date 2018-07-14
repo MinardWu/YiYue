@@ -43,6 +43,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference("settings_clear_lrc_cache").setOnPreferenceClickListener(this);
         findPreference("settings_mock_data").setOnPreferenceClickListener(this);
         findPreference("settings_about_author").setOnPreferenceClickListener(this);
+        findPreference("settings_scan_filter").setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -72,6 +73,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                 break;
             case "settings_about_author":
                 ToastUtils.showShortToast("MinardWu");
+                break;
+            case "settings_scan_filter":
+                listener.onNestedScreenClick("settings_scan_filter");
                 break;
             default:
                 break;

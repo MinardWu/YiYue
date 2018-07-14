@@ -31,6 +31,10 @@
             android:key="settings_clear_lrc_cache"
             android:title="@string/clear_cache"
             android:layout="@layout/preference_normal_layout"/>
+        <Preference
+            android:key="settings_scan_filter"
+            android:title="扫描设置"
+            android:layout="@layout/preference_normal_layout"/>
     </PreferenceCategory>
 
     <PreferenceCategory

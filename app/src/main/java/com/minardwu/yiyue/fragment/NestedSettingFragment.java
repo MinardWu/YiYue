@@ -5,6 +5,8 @@ import android.preference.PreferenceFragment;
 import com.minardwu.yiyue.R;
 import com.minardwu.yiyue.application.AppCache;
 import com.minardwu.yiyue.http.mock.MockData;
+import com.minardwu.yiyue.utils.Preferences;
+import com.minardwu.yiyue.widget.dialog.ChooseOptionDialog;
 
 import android.os.Bundle;
 import android.preference.SwitchPreference;
@@ -50,6 +52,43 @@ public class NestedSettingFragment extends PreferenceFragment{
                     if (switchPreference.isChecked()){
                         AppCache.getPlayOnlineMusicService().replaceMusicList(MockData.musicList);
                     }
+                    return false;
+                });
+                break;
+            case "settings_scan_filter":
+                addPreferencesFromResource(R.xml.preference_file_filter);
+                findPreference("settings_scan_filter_time").setOnPreferenceClickListener((preference) -> {
+                    final int second[]= getActivity().getResources().getIntArray(R.array.filter_time_num);
+                    ChooseOptionDialog timeFilterDialog = new ChooseOptionDialog(getActivity(),R.style.StopTimeDialog);
+                    timeFilterDialog.setTitle("按时长过滤");
+                    timeFilterDialog.setItem(R.array.filter_time_title);
+                    timeFilterDialog.setShowImagePosition(Preferences.getFilterTimePosition());
+                    timeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            Preferences.saveFilterTimePosition(position);
+                            Preferences.saveFilterTime(second[position]);
+                            AppCache.updateLocalMusicList();
+                        }
+                    });
+                    timeFilterDialog.show();
+                    return false;
+                });
+                findPreference("settings_scan_filter_size").setOnPreferenceClickListener((preference) -> {
+                    final int size[]= getActivity().getResources().getIntArray(R.array.filter_size_num);
+                    ChooseOptionDialog sizeFilterDialog = new ChooseOptionDialog(getActivity(),R.style.StopTimeDialog);
+                    sizeFilterDialog.setTitle("按大小过滤");
+                    sizeFilterDialog.setItem(R.array.filter_size_title);
+                    sizeFilterDialog.setShowImagePosition(Preferences.getFilterSizePosition());
+                    sizeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            Preferences.saveFilterSizePosition(position);
+                            Preferences.saveFilterSize(size[position]);
+                            AppCache.updateLocalMusicList();
+                        }
+                    });
+                    sizeFilterDialog.show();
                     return false;
                 });
                 break;

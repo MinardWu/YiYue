@@ -50,38 +50,6 @@ public class DrawerItemExecutor {
                 StopTimeDialog stopTimeDialog = new StopTimeDialog(activity, R.style.StopTimeDialog);
                 stopTimeDialog.show();
                 break;
-            case "文件时间过滤":
-                final int second[]= activity.getResources().getIntArray(R.array.filter_time_num);
-                ChooseOptionDialog timeFilterDialog = new ChooseOptionDialog(activity,R.style.StopTimeDialog);
-                timeFilterDialog.setTitle("按时长过滤");
-                timeFilterDialog.setItem(R.array.filter_time_title);
-                timeFilterDialog.setShowImagePosition(Preferences.getFilterTimePosition());
-                timeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
-                        Preferences.saveFilterTimePosition(position);
-                        Preferences.saveFilterTime(second[position]);
-                        AppCache.updateLocalMusicList();
-                    }
-                });
-                timeFilterDialog.show();
-                break;
-            case "文件大小过滤":
-                final int size[]= activity.getResources().getIntArray(R.array.filter_size_num);
-                ChooseOptionDialog sizeFilterDialog = new ChooseOptionDialog(activity,R.style.StopTimeDialog);
-                sizeFilterDialog.setTitle("按大小过滤");
-                sizeFilterDialog.setItem(R.array.filter_size_title);
-                sizeFilterDialog.setShowImagePosition(Preferences.getFilterSizePosition());
-                sizeFilterDialog.setOnDialogItemClickListener(new ChooseOptionDialog.onDialogItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
-                        Preferences.saveFilterSizePosition(position);
-                        Preferences.saveFilterSize(size[position]);
-                        AppCache.updateLocalMusicList();
-                    }
-                });
-                sizeFilterDialog.show();
-                break;
             case "我的收藏":
                 activity.startActivity(new Intent(activity, CollectionActivity.class));
                 break;

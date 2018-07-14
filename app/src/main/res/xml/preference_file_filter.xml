@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="文件过滤"
+        android:layout="@layout/preference_category_layout"/>
+    <Preference
+        android:title="文件时长过滤"
+        android:key="settings_scan_filter_time"
+        android:layout="@layout/preference_normal_layout"/>
+    <Preference
+        android:title="文件大小过滤"
+        android:key="settings_scan_filter_size"
+        android:layout="@layout/preference_normal_layout"/>
+
+</PreferenceScreen>
