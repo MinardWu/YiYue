@@ -56,6 +56,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     @Override
     public boolean onPreferenceClick(Preference preference) {
         switch (preference.getKey()){
+            //todo 清除缓存
             case "settings_clear_lrc_cache":
                 YesOrNoDialog yesOrNoDialog = new YesOrNoDialog.Builder()
                 .context(getActivity())

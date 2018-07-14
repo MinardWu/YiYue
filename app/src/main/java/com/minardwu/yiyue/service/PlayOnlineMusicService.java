@@ -130,8 +130,8 @@ public class PlayOnlineMusicService extends PlayService implements MediaPlayer.O
         }
     }
 
-    // todo 版权提示
     public void play(long id){
+        // todo 版权提示
         handler.removeCallbacks(updateProgressRunable);
         playOnlineMusicListener.onPublish(0);
         playingMusicId = id;
