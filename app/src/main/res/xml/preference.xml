@@ -18,6 +18,10 @@
             android:key="allow_mobile_download"
             android:title="@string/allow_mobile_download"
             android:layout="@layout/preference_switch_layout"/>
+        <Preference
+            android:key="mock_data"
+            android:title="@string/use_mock_data"
+            android:layout="@layout/preference_normal_layout"/>
     </PreferenceCategory>
 
     <PreferenceCategory

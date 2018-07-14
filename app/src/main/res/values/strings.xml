@@ -76,6 +76,7 @@
     <string name="auto_reversal">横屏自动进入磁带模式</string>
     <string name="allow_mobile_play">使用2G/3G/4G网络播放</string>
     <string name="allow_mobile_download">使用2G/3G/4G网络下载</string>
+    <string name="use_mock_data">使用模拟数据</string>
     <string name="open_now">立即开启</string>
 
     <string name="clear">清除</string>
