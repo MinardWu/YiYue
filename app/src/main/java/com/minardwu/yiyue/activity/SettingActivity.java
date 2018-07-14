@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.minardwu.yiyue.R;
+import com.minardwu.yiyue.fragment.NestedSettingFragment;
 import com.minardwu.yiyue.fragment.SettingFragment;
 
 /**
@@ -12,7 +13,9 @@ import com.minardwu.yiyue.fragment.SettingFragment;
  * @date : 2018/5/22
  */
 
-public class SettingActivity extends SampleActivity {
+public class SettingActivity extends SampleActivity implements SettingFragment.NestedScreenClickListener {
+
+    private static final String TAG_NESTED = "TAG_NESTED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +36,11 @@ public class SettingActivity extends SampleActivity {
         left.setText("设置");
         mid.setVisibility(View.GONE);
         right.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onNestedScreenClick(String key) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content, NestedSettingFragment.newInstance(key),TAG_NESTED).addToBackStack(TAG_NESTED).commit();
     }
 }

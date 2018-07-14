@@ -32,10 +32,10 @@ public class Preferences {
     private static final String ALLOW_MOBILE_DOWNLOAD = "allow_mobile_download";
 
 
-    private static final String USE_MOCK_DATA = "use_mock_data";
-    private static final String USE_MOCK_SEARCH_DATA = "use_mock_search_data";
-    private static final String USE_MOCK_ARTIST_DATA = "use_mock_artist_data";
-    private static final String USE_MOCK_ALBUM_DATA = "use_mock_album_data";
+    private static final String USE_MOCK_DATA = "settings_use_mock_song_data";
+    private static final String USE_MOCK_SEARCH_DATA = "settings_use_mock_search_data";
+    private static final String USE_MOCK_ARTIST_DATA = "settings_use_mock_artist_data";
+    private static final String USE_MOCK_ALBUM_DATA = "settings_use_mock_album_data";
 
     private static final String ALARM_MUSIC_ID = "alarm_music_id";
     private static final String ALARM_HOUR = "alarm_hour";

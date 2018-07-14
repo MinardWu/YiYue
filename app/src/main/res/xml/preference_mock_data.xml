@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="模拟数据"
+        android:layout="@layout/preference_category_layout"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="settings_use_mock_song_data"
+        android:title="使用Mock歌曲数据"
+        android:layout="@layout/preference_switch_layout"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="settings_use_mock_artist_data"
+        android:title="使用Mock歌手数据"
+        android:layout="@layout/preference_switch_layout"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="settings_use_mock_album_data"
+        android:title="使用Mock专辑数据"
+        android:layout="@layout/preference_switch_layout"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="settings_use_mock_search_data"
+        android:title="使用Mock搜索数据"
+        android:layout="@layout/preference_switch_layout"/>
+
+</PreferenceScreen>
