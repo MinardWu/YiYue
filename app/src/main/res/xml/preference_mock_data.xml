@@ -8,6 +8,7 @@
         android:defaultValue="false"
         android:key="settings_use_mock_song_data"
         android:title="使用Mock歌曲数据"
+        android:summary="只有几首歌而已哦(T＿T)"
         android:layout="@layout/preference_switch_layout"/>
     <SwitchPreference
         android:defaultValue="false"
