@@ -50,6 +50,7 @@ public class NestedSettingFragment extends PreferenceFragment{
                 SwitchPreference switchPreference = (SwitchPreference) findPreference("settings_use_mock_song_data");
                 switchPreference.setOnPreferenceClickListener(preference -> {
                     if (switchPreference.isChecked()){
+                        //fixme 替换失败
                         AppCache.getPlayOnlineMusicService().replaceMusicList(MockData.musicList);
                     }
                     return false;
