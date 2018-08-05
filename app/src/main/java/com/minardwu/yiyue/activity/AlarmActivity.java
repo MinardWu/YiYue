@@ -55,12 +55,7 @@ public class AlarmActivity extends BaseActivity implements MediaPlayer.OnPrepare
         SimpleDateFormat formatter =  new SimpleDateFormat("HH:mm");
         String str = formatter.format(new Date(System.currentTimeMillis()));
         tv_time.setText(str);
-        rippleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        rippleView.setOnClickListener(v -> finish());
         if(getIntent() != null){
             MusicBean alarmMusic = MusicUtils.getAlarmMusic(Preferences.getAlarmMusicId());
             if (alarmMusic == null){
