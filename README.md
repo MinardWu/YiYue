@@ -2,10 +2,10 @@
 一乐，简约而不简单
 
 ## 简介
-一乐是一款开源Android在线音乐播放器，支持但不仅限于以下功能：
+一乐是一款开源Android在线音乐播放器，目前支持以下功能：
 * 播放本地音乐与在线音乐
-* 歌词显示，自动搜索歌词
-* 多种自定义view，如黑胶唱片封面，磁带界面等
+* 歌词显示，自动搜取歌词
+* 磁带模式
 * 定时停播、音效调节、闹钟、音效调节等辅助功能
 
 ## 截图
@@ -14,6 +14,7 @@
  <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/歌词.png" width="360" height="700" alt="歌词"/>
  <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/在线模块.png" width="360" height="700" alt="在线模块"/>
  <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/在线列表.png" width="360" height="700" alt="在线列表"/>
+ <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/磁带模式.png" width="720" height="430" alt="磁带模式"/>
  <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/搜索.png" width="360" height="700" alt="搜索"/>
  <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/搜索结果.png" width="360" height="700" alt="搜索结果"/>
  <img src="https://github.com/MinardWu/YiYue/blob/master/screenshot/收藏.png" width="360" height="700" alt="收藏"/>
